@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import bankList from '@/components/data/bank/bankList.vue'
+import bankList from '@/components/data/finance/bank/bankList.vue'
 
 export default {
   name: 'supply',

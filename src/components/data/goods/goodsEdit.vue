@@ -54,9 +54,9 @@
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="品牌" prop="brandKey">
-              <el-select size="middle" v-model="ruleForm.brandKey" placeholder="品牌" style="width:405px;" >
-                <el-option v-for="item in options1" :key="item.brandKey" :label="item.brandName" :value="item.brandKey">
+            <el-form-item label="所属品牌" prop="brandCode">
+              <el-select size="middle" v-model="ruleForm.brandCode" placeholder="品牌" style="width:405px;" >
+                <el-option v-for="item in options1" :key="item.brandKey" :label="item.brandName" :value="item.brandCode">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -187,7 +187,6 @@ export default {
         modelCode: "", //型号
         state: "", //0下架 1上架
         supplierKey: "", //供应商
-
         goodsUnit: "", //商品单位
         unitType: "", //单位类型：BASIC：基本单位， SUPPORT：辅助单位
         unitDescription: "", //换算关系
@@ -200,6 +199,7 @@ export default {
         priceCostAverage: "", //成本均价
         priceCostPreset: "", //预设进价
         priceCostReference: "", //参考成本
+        brandCode:""
       },
       list: [],
       options: [],
@@ -241,7 +241,7 @@ export default {
       this.ruleForm.goodsKey = this.rowData.goodsKey;
       this.ruleForm.inventoryKey = this.rowData.inventoryKey;
       this.ruleForm.goodsName = this.rowData.goodsName;
-      this.ruleForm.brandKey = this.rowData.brandKey;
+      this.ruleForm.brandCode = this.rowData.brandCode;
       this.ruleForm.modelCode = this.rowData.modelCode;
       this.ruleForm.state = this.rowData.state;
       this.ruleForm.supplierKey = this.rowData.supplierKey;
@@ -381,7 +381,7 @@ export default {
         modelCode: "", //型号
         state: "", //0下架 1上架
         supplierKey: "", //供应商
-
+        brandCode:"",
         goodsUnit: "", //商品单位
         unitType: "", //单位类型：BASIC：基本单位， SUPPORT：辅助单位
         unitDescription: "", //换算关系

@@ -14,7 +14,7 @@
         <!-- 库存预警 -->
         <div style="margin:10px;">
             <el-card shadow="always" body-style="padding:30px;display: inline-flex;height:300px;width:830px;">
-                <div><img :src="welcomemsg" alt="" style="width:200px;margin:5px;"/></div>
+                <div><img :src="alertMsg1" alt="" style="width:200px;margin:5px;"/></div>
                 <div style="">
                     <span> <el-tag type="success" style="font-size:24px;">库存预警</el-tag></span>
                 </div>
@@ -25,7 +25,7 @@
         <!-- 连续未动销预警 -->
         <div style="margin:10px;">
             <el-card shadow="always" body-style="padding:30px;display: inline-flex;height:300px;width:830px;">
-                <div><img :src="welcomemsg" alt="" style="width:200px;margin:5px;"/></div>
+                <div><img :src="alertMsg2" alt="" style="width:200px;margin:5px;"/></div>
                 <div style="">
                     <span> <el-tag type="success" style="font-size:24px;">连续未动销预警</el-tag></span>
                 </div>
@@ -49,6 +49,8 @@
 import DateUtils from "./DateUtils.vue"
 import welcomePic from '@/assets/svg/welcome-pic.svg'
 import welcomemsg from '@/assets/svg/welcome-msg.svg'
+import alertMsg1 from '@/assets/svg/alertMsg1.svg'
+import alertMsg2 from '@/assets/svg/alertMsg2.svg'
 
 export default {
     data() {
@@ -56,6 +58,8 @@ export default {
             userInfo: "",
             welcomePic:welcomePic,
             welcomemsg:welcomemsg,
+            alertMsg1:alertMsg1,
+            alertMsg2:alertMsg2
         }
     },
     components:{

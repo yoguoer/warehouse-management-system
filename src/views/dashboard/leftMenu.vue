@@ -76,7 +76,7 @@
         </el-menu-item-group>
       </el-submenu>
 
-      <el-menu-item index="userManage">
+      <el-menu-item index="userManage" v-if="role==0">
         <i class="el-icon-s-home"></i>
         <span slot="title">用户管理</span>
       </el-menu-item>
@@ -91,7 +91,11 @@ export default {
       return {
         drawer: false,
         direction: 'ltr',
+        role:""
       };
+  },
+  created(){
+    this.role=this.$parent.role
   },
   methods: {
     goTo(index){

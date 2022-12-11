@@ -507,6 +507,51 @@ export function goodsDeleteList(data) {
   });
 }
 
+//查询业务主体（分页)
+export function entityListPage(data) {
+  return request({
+    url: baseUrl + "/entity/list-page",
+    method: "get",
+    params: data,
+  });
+}
+
+//添加业务主体
+export function entityAdd(data) {
+  return request({
+    url: baseUrl + "/entity/add",
+    method: "POST",
+    data: data,
+  });
+}
+
+//更新业务主体
+export function entityUpdate(data) {
+  return request({
+    url: baseUrl + "/entity/update",
+    method: "POST",
+    data: data,
+  });
+}
+
+//删除业务主体
+export function entityDelete(data) {
+  return request({
+    url: baseUrl + "/entity/delete",
+    method: "POST",
+    data: data,
+  });
+}
+
+//删除业务主体(列表)
+export function entityDeleteList(data) {
+  return request({
+    url: baseUrl + "/entity/delete-list",
+    method: "POST",
+    data: data,
+  });
+}
+
 // ==============================================一些不分页的数据================================================
 //查询客户--不分页
 export function CustomerList(data) {
@@ -548,6 +593,15 @@ export function brandlist(data) {
 export function Supplierlist(data) {
   return request({
     url: baseUrl + "/supplier/list",
+    method: "get",
+    params: data,
+  });
+}
+
+//查询业务主体（不分页)
+export function entityList(data) {
+  return request({
+    url: baseUrl + "/entity/list",
     method: "get",
     params: data,
   });

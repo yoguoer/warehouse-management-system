@@ -202,6 +202,12 @@ const routes = [
             redirect: { name: "brand" },
             component: () => import('@/views/data/business/Index.vue'),
             children:[
+              //资料-业务实体-业务主体
+              {
+                path: '/data/business/entity',
+                name: 'entity',
+                component: () => import('@/views/data/business/entity/Index.vue'),
+              },
               //资料-业务实体-品牌
               {
                 path: '/data/business/brand',
@@ -375,20 +381,26 @@ const routes = [
       {
         path: '/store/suppliers',
         name: 'suppliers',
-        redirect: { name: "management" },
+        redirect: { name: "warehouseConfig" },
         component: () => import('@/views/store/suppliers/Index.vue')
       },  
       //库存-供应商库存-供应商库存管理
       {
-        path: '/store/suppliers/management',
-        name: 'management',
-        component: () => import('@/views/store/suppliers/management/Index.vue')
+        path: '/store/suppliers/stockManagement',
+        name: 'stockManagement',
+        component: () => import('@/views/store/suppliers/stockManagement/Index.vue')
       },      
       //库存-供应商库存-供应商库存流水
       {
         path: '/store/suppliers/records',
-        name: 'records',
-        component: () => import('@/views/store/suppliers/records/Index.vue')
+        name: 'stockFlow',
+        component: () => import('@/views/store/suppliers/stockFlow/Index.vue')
+      },   
+      //库存-供应商库存-供应商仓库配置
+      {
+        path: '/store/suppliers/warehouseConfig',
+        name: 'warehouseConfig',
+        component: () => import('@/views/store/suppliers/warehouseConfig/Index.vue')
       },   
       //库存-零售商库存    
       {

@@ -122,15 +122,20 @@
                 "level": 2,
                 "componentName": "suppliers",
                 "children": [{
+                    "name": "供应商库存配置",
+                    "icon": "",
+                    "level": 3,
+                    "componentName": "warehouseConfig"
+                }, {
                     "name": "供应商库存管理",
                     "icon": "",
                     "level": 3,
-                    "componentName": "management"
+                    "componentName": "stockManagement"
                 }, {
                     "name": "供应商库存流水",
                     "icon": "",
                     "level": 3,
-                    "componentName": "records"
+                    "componentName": "stockFlow"
                 }]
             }, {
                 "name": "零售商库存",
@@ -219,6 +224,11 @@
                 "level": 1,
                 "componentName": "business",
                 "children": [{
+                    "name": "业务主体",
+                    "icon": "",
+                    "level": 3,
+                    "componentName": "entity"
+                }, {
                     "name": "车辆",
                     "icon": "",
                     "level": 3,

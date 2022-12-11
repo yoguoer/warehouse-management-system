@@ -19,31 +19,31 @@
       <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="goodsList" tooltip-effect="dark" @selection-change="handleSelectionDelete"
         style="width: auto; margin-top: 20px" :header-cell-style="{background:'#F2F6FC',color:'#606266'}">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column align="center" prop="goodsKey" label="商品ID">
+        <el-table-column prop="goodsKey" label="商品ID">
         </el-table-column>
-        <el-table-column align="center" prop="goodsName" label="商品名">
+        <el-table-column prop="goodsName" label="商品名">
         </el-table-column>
-        <el-table-column align="center" prop="goodsCode" label="商品货号">
+        <el-table-column prop="goodsCode" label="商品货号">
         </el-table-column>
-        <el-table-column align="center" prop="modelCode" label="型号">
+        <el-table-column prop="modelCode" label="型号">
         </el-table-column>
-        <el-table-column align="center" prop="goodsBarcode" label="商品条码">
+        <el-table-column prop="goodsBarcode" label="商品条码">
         </el-table-column>
-        <el-table-column align="center" prop="inventoryKey" label="默认仓库">
+        <el-table-column prop="inventoryKey" label="默认仓库">
         </el-table-column>
-        <el-table-column align="center" prop="state" label="状态">
+        <el-table-column prop="state" label="状态">
           <template slot-scope="scope">{{ scope.row.state == 1 ? '上架' : '下架' }}</template>
         </el-table-column>
-        <el-table-column align="center" prop="supplierKey" label="供应商">
+        <el-table-column prop="supplierKey" label="供应商">
         </el-table-column>
-        <el-table-column align="center" prop="brandKey" label="品牌">
+        <el-table-column prop="brandCode" label="所属品牌">
         </el-table-column>
-        <!-- <el-table-column align="center" prop="goodsHeadPic" label="商品头图">
+        <!-- <el-table-column prop="goodsHeadPic" label="商品头图">
         </el-table-column> -->
-        <el-table-column align="center" prop="createTime" label="添加时间" :show-overflow-tooltip="true">
+        <el-table-column prop="createTime" label="添加时间" :show-overflow-tooltip="true">
           <template slot-scope="scope">{{ scope.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</template>
         </el-table-column>
-        <el-table-column align="center" fixed="right" width="200px" label="操作">
+        <el-table-column fixed="right" width="200px" label="操作">
           <template slot-scope="scope">
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
             <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small" icon="el-icon-delete">删除</el-button>
@@ -173,7 +173,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
       }).then(() => {
-        goodsDeleteList(goodsKeys).then(response => {
+        goodsDeleteList(goodsKeys).then(() => {
             this.getGoodslistPage();
             this.$message({
                 type: 'success',

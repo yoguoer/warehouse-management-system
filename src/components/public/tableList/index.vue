@@ -1,42 +1,81 @@
 <template>
-  <div>
+  <div class="list-model">
     <el-table
       :data="tableData"
-      :header-cell-style="{ background: '#fafafa' }"
+      :cell-style="{ padding: '5px' }"
+      :header-cell-style="{background:'#F2F6FC',color:'#606266'}"
       v-loading="loading"
       tooltip-effect="dark"
-      size="small"
-      style="width: 100%"
+      :height="height"
+      style=" width: auto;margin-top: 20px"
+      @selection-change="handleSelectionChange"
       border
     >
-      <template v-for="(rowItem, rowIdx) of tableColumn">
-        <el-table-column
-          v-if="rowItem.slots"
-          :key="rowIdx"
-          :label="rowItem.label"
-          :width="rowItem.width"
-          :align="rowItem.align"
-          show-overflow-tooltip
-        >
-          <template slot-scope="scope">
-            <slot :name="rowItem.slots.name" v-bind="scope"></slot>
-          </template>
-        </el-table-column>
-        <el-table-column
-          v-else
-          :key="rowIdx"
-          :prop="rowItem.prop"
-          :label="rowItem.label"
-          :width="rowItem.width"
-          :align="rowItem.align"
-          show-overflow-tooltip
-        ></el-table-column>
+      <template v-for="(rowItem, rowIdx) in tableColumn">
+        <template><el-table-column :key="rowIdx" type="selection" width="55"></el-table-column></template>
+        <template v-if="rowItem.children">
+          <el-table-column :label="rowItem.label" :key="(rowItem.label + rowIdx)" :align="rowItem.align ? rowItem.align : 'center'">
+            <template v-for="(rowItem1, rowIdx1) in rowItem.children">
+              <el-table-column
+                v-if="rowItem1.slots"
+                :key="rowItem1.slots.name"
+                :label="rowItem1.label"
+                :width="rowItem1.width"
+                :align="rowItem1.align"
+                show-overflow-tooltip
+                :fixed="rowItem.fixed"
+              >
+                <template slot-scope="scope">
+                  <slot :name="rowItem1.slots.name" v-bind="scope"></slot>
+                </template>
+              </el-table-column>
+              <el-table-column
+                v-else
+                :key="(rowItem1.label + rowIdx1)"
+                :prop="rowItem1.prop"
+                :label="rowItem1.label"
+                :width="rowItem1.width"
+                :align="rowItem1.align"
+                :type="rowItem1.type"
+                show-overflow-tooltip
+                :fixed="rowItem.fixed"
+              ></el-table-column>
+            </template>
+          </el-table-column>
+        </template>
+        <template v-else>
+          <el-table-column
+            v-if="rowItem.slots"
+            :key="rowItem.slots.name"
+            :label="rowItem.label"
+            :width="rowItem.width"
+            :align="rowItem.align"
+            show-overflow-tooltip
+            :fixed="rowItem.fixed"
+          >
+            <template slot-scope="scope">
+              <slot :name="rowItem.slots.name" v-bind="scope"></slot>
+            </template>
+          </el-table-column>
+          <el-table-column
+            v-else
+            :key="rowItem.label + rowIdx"
+            :prop="rowItem.prop"
+            :label="rowItem.label"
+            :width="rowItem.width"
+            :align="rowItem.align"
+            :type="rowItem.type"
+            show-overflow-tooltip
+            :fixed="rowItem.fixed"
+          ></el-table-column>
+        </template>
       </template>
     </el-table>
 
     <el-pagination
       v-if="query && query.pageNo"
       @current-change="handleCurrentChange"
+      @size-change="handleSizeChange"
       :current-page="query.pageNo"
       :page-size="query.pageSize"
       :page-sizes="[10, 20, 30]"
@@ -66,7 +105,7 @@ export default {
     searchMethod: Function, // 表格查询方法
     resetMethod: Function, // 表单重置方法
     loading: Boolean, // 查询loading
-
+    height: { type: String, default: () => "600px" },
   },
   data() {
     return {
@@ -79,6 +118,7 @@ export default {
       this.query.pageNo = 1;
       this.query.pageSize = size;
       console.log(this.query,'this.query');
+      console.log(size);
       this.searchMethod && this.searchMethod();
     },
     // 点击切页
@@ -86,33 +126,21 @@ export default {
       console.log(val);
       this.pageMethod && this.pageMethod(val);
     },
+    // 表格选择
+    handleSelectionChange(val) {
+      this.multipleSelection = val
+      console.log(this.multipleSelection)
+      this.$parent.multipleSelection=this.multipleSelection
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.tree-menu {
-  height: calc(100% - 50px);
-}
-/deep/.ans-table .table-header-row {
-  background: none;
-}
-.menu /deep/.el-table .el-table__cell {
-  padding: 4px 0;
-}
-.menu /deep/.el-table th.el-table__cell > .cell {
-  font-size: 12px;
-  color: #555;
-  border-top: 1px solid #ebeef5;
-  padding-top: 10px;
-}
-.menu /deep/.el-table td.el-table__cell > .cell {
-  font-size: 12px;
-  color: #666;
-}
 // 分页样式
 /deep/.el-pagination {
   margin: 16px 0;
   text-align: right;
 }
+
 </style>
