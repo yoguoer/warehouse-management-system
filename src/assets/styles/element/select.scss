@@ -1,0 +1,18 @@
+.el-select {
+    height: $inputHeight;
+    line-height: $inputHeight;
+    .el-input__inner {
+        height: $inputHeight;
+        line-height: $inputHeight;
+    }
+    .el-input__suffix {
+        top: 0px;
+    }
+    
+}
+.el-select-dropdown__wrap {
+    .selected {
+        font-size:  $inputfont;
+        font-weight: 400;
+    }
+}

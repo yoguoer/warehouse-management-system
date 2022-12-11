@@ -1,0 +1,54 @@
+.el-table__header {
+    .el-table__cell {
+        background: $bgInfo !important;
+        color: $txtDefault;
+        border-bottom: 1px solid $borderDefault;
+        font-weight: 500;
+        font-size: 14px;
+    }
+}
+
+.el-table__body-wrapper {
+    .el-table__row {
+        .cell {
+            color: $txtInfo;
+            line-height: 1.5;
+            list-style: none;
+        }
+    }
+}
+
+.el-table__body-wrapper::-webkit-scrollbar,
+.scroll-bar::-webkit-scrollbar {
+    width: 5px;
+    height: 7px;
+}
+
+.el-table__body-wrapper::-webkit-scrollbar-thumb,
+.scroll-bar::-webkit-scrollbar-thumb {
+    // border-radius: $radiusSamll;
+    background-color: $txtLink;
+}
+
+.el-table__body-wrapper::-webkit-scrollbar-track,
+.scroll-bar::-webkit-scrollbar-track {
+    background: $bgDefault;
+    // border-radius: $radiusSamll;
+}
+
+.el-tabs__header  {
+    margin-top: 0px !important;
+}
+
+// 表格单元内容的字体大小
+.el-table--small {
+    .el-table__body-wrapper .el-table__row .cell {
+        font-size: 14px;
+    }
+}
+
+.el-table--mini {
+    .el-table__body-wrapper .el-table__row .cell {
+        font-size: 12px;
+    }
+}

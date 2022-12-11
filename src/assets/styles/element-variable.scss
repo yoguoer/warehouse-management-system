@@ -1,0 +1,23 @@
+// styles/element/index.scss
+/* just override what you need */
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      // "base": #1baeae,
+    ),
+  ),
+);
+
+// 颜色
+$bgDefault: #fff;
+$bgInfo: #f8f8f8;
+$borderDefault: #eeeeee;
+$txtDefault: #000;
+$txtInfo: #666;
+$txtMute: #999;
+$txtLink: #999;
+$txtError: #e12121;
+$hoverFontColor: #2d8bf0;
+
+$inputHeight: 36px;
+$inputfont: 14px;
