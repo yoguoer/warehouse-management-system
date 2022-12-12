@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.PositionMapper">
+
+    <resultMap type="com.example.api_project.pojo.Position" id="PositionMap">
+        <result property="inventoryDistrictkey" column="inventory_districtKey" jdbcType="VARCHAR"/>
+        <result property="inventoryKey" column="inventory_key" jdbcType="VARCHAR"/>
+        <result property="positionCode" column="position_code" jdbcType="VARCHAR"/>
+        <result property="positionType" column="position_type" jdbcType="VARCHAR"/>
+        <result property="maxWeight" column="maxWeight" jdbcType="VARCHAR"/>
+        <result property="maxCapacity" column="max_capacity" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="positionKey" column="position_key" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="getListPage" resultMap="PositionMap">
+        select inventory_districtKey,
+               inventory_key,
+               position_code,
+               position_type,
+               maxWeight,
+               max_capacity,
+               description,
+               position_key
+        from position
+        order by position_key desc
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="PositionMap">
+        select inventory_districtKey,
+               inventory_key,
+               position_code,
+               position_type,
+               maxWeight,
+               max_capacity,
+               description,
+               position_key
+        from position
+        where position_key = #{positionKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="PositionMap">
+        select
+        inventory_districtKey, inventory_key, position_code, position_type, maxWeight, max_capacity, description,
+        position_key
+        from position
+        <where>
+            <if test="inventoryDistrictkey != null and inventoryDistrictkey != ''">
+                and inventoryDistrictkey = #{inventoryDistrictkey}
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                and inventory_key = #{inventoryKey}
+            </if>
+            <if test="positionCode != null and positionCode != ''">
+                and position_code like concat('%', #{positionCode}, '%')
+            </if>
+            <if test="positionType != null and positionType != ''">
+                and position_type = #{positionType}
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from position
+        <where>
+            <if test="inventoryDistrictkey != null and inventoryDistrictkey != ''">
+                and inventory_districtKey = #{inventoryDistrictkey,jdbcType=VARCHAR}
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                and inventory_key = #{inventoryKey,jdbcType=VARCHAR}
+            </if>
+            <if test="positionCode != null and positionCode != ''">
+                and position_code = #{positionCode,jdbcType=VARCHAR}
+            </if>
+            <if test="positionType != null and positionType != ''">
+                and position_type = #{positionType,jdbcType=VARCHAR}
+            </if>
+            <if test="maxWeight != null and maxWeight != ''">
+                and maxWeight = #{maxWeight,jdbcType=VARCHAR}
+            </if>
+            <if test="maxCapacity != null and maxCapacity != ''">
+                and columax_capacity = #{maxCapacity,jdbcType=VARCHAR}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description,jdbcType=VARCHAR}
+            </if>
+            <if test="positionKey != null and positionKey != ''">
+                and position_key = #{positionKey,jdbcType=VARCHAR}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="positionKey" useGeneratedKeys="true">
+        insert into `position`(position_key, inventory_districtKey, inventory_key, position_code, position_type, maxWeight, max_capacity, description)
+        values (#{positionKey}, #{inventoryDistrictkey}, #{inventoryKey}, #{positionCode}, #{positionType}, #{maxWeight}, #{maxCapacity}, #{description})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="positionKey" useGeneratedKeys="true">
+        insert into position(inventory_districtKey, inventory_key, position_code, position_type, maxWeight,
+        max_capacity, description)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.inventoryDistrictkey}, #{entity.inventoryKey}, #{entity.positionCode}, #{entity.positionType},
+            #{entity.maxWeight}, #{entity.maxCapacity}, #{entity.description})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="positionKey" useGeneratedKeys="true">
+        insert into position(inventory_districtKey, inventory_key, position_code, position_type, maxWeight,
+        max_capacity, description)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.inventoryDistrictkey}, #{entity.inventoryKey}, #{entity.positionCode}, #{entity.positionType},
+            #{entity.maxWeight}, #{entity.maxCapacity}, #{entity.description})
+        </foreach>
+        on duplicate key update
+        inventory_districtKey = values(inventory_districtKey),
+        inventory_key = values(inventory_key),
+        position_code = values(position_code),
+        position_type = values(position_type),
+        maxWeight = values(maxWeight),
+        max_capacity = values(max_capacity),
+        description = values(description)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update position
+        <set>
+            <if test="inventoryDistrictkey != null and inventoryDistrictkey != ''">
+                inventory_districtKey = #{inventoryDistrictkey},
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                inventory_key = #{inventoryKey},
+            </if>
+            <if test="positionCode != null and positionCode != ''">
+                position_code = #{positionCode},
+            </if>
+            <if test="positionType != null and positionType != ''">
+                position_type = #{positionType},
+            </if>
+            <if test="maxWeight != null and maxWeight != ''">
+                maxWeight = #{maxWeight},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="maxCapacity != null and maxCapacity != ''">
+                max_capacity = #{maxCapacity},
+            </if>
+        </set>
+        where position_key = #{positionKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from position
+        where position_key = #{positionKey,jdbcType=VARCHAR}
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.api_project.mapper.UserMapper" >
+
+  <resultMap id="BaseResultMap" type="com.example.api_project.pojo.User" >
+    <id property="userId" column="user_id" jdbcType="VARCHAR" /><!--用户id-->
+    <result property="userName" column="user_name" jdbcType="VARCHAR" /><!--用户姓名-->
+    <result property="userSex" column="user_sex" jdbcType="VARCHAR" /><!--用户性别-->
+    <result property="userEmail" column="user_email" jdbcType="VARCHAR" /><!--邮箱-->
+    <result property="passWord" column="user_pwd" jdbcType="VARCHAR" /><!--密码-->
+    <result property="userPhone" column="user_phone" jdbcType="VARCHAR" /><!--手机号码-->
+    <result property="userType" column="user_type" jdbcType="VARCHAR" /><!--户类型(1管理员、0普通用户)-->
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    user_id, user_name, user_sex, user_email, user_pwd, user_phone, user_type
+  </sql>
+
+<!--  根据id查找用户-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+
+<!--  根据id删除用户-->
+  <delete id="deleteByPrimaryKey">
+    delete from user
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+
+<!--  插入新用户-->
+  <insert id="insert" parameterType="com.example.api_project.pojo.User" >
+    insert into user (user_id, user_name, user_sex, user_phone, user_email, user_type,user_pwd)
+    values (#{userId,jdbcType=VARCHAR},
+            #{userName,jdbcType=VARCHAR},
+            #{userSex,jdbcType=VARCHAR},
+            #{userPhone,jdbcType=VARCHAR},
+            #{userEmail,jdbcType=VARCHAR},
+            #{userType,jdbcType=VARCHAR},
+            #{passWord,jdbcType=VARCHAR})
+  </insert>
+
+<!--  有选择性地插入新用户-->
+  <insert id="insertSelective" parameterType="com.example.api_project.pojo.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userName != null" >
+        user_Name,
+      </if>
+      <if test="userSex != null" >
+        user_sex,
+      </if>
+      <if test="userPhone != null" >
+        user_phone,
+      </if>
+      <if test="userEmail != null" >
+        user_email,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null" >
+        #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null" >
+        #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <!--  按照id有选择性地更新用户-->
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.api_project.pojo.User" >
+    update user
+    <set >
+      <if test="userName != null and userName !=''" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userSex != null and userSex !=''" >
+        user_sex = #{userSex,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null and userPhone !=''" >
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="userEmail != null and userEmail !=''" >
+        user_email = #{userEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="userType!= null and userType !=''" >
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="passWord!= null and passWord !=''" >
+        user_pwd = #{passWord,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+
+<!--  按照id更新用户-->
+  <update id="updateByPrimaryKey" parameterType="com.example.api_project.pojo.User" >
+    update user
+    set user_name = #{userName,jdbcType=VARCHAR},
+      user_email = #{userEmail,jdbcType=VARCHAR},
+      user_sex = #{userSex,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+
+
+  <!--按条件查询用户-->
+  <select id="selectUserPage" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    <where>
+      <if test="userName != null and userName !=''">
+        and user_name like concat('%', #{userName}, '%')
+      </if>
+      <if test="userType != null and userType !=''">
+        and user_type = #{userType}
+      </if>
+    </where>
+    order by user_id desc
+    limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+  </select>
+
+  <!--查询用户个数-->
+  <select id="getRowCount" resultType="java.lang.Integer">
+    select count(*) from user
+    <where>
+      <if test="userName != null and userName !=''">
+        and user_name like concat('%', #{userName}, '%')
+      </if>
+      <if test="userType != null and userType !=''">
+        and user_type = #{userType}
+      </if>
+    </where>
+  </select>
+
+  <!--根据 user_id 批量删除用户-->
+  <delete id="deleteUserByIdList" parameterType="java.util.List">
+    delete from user where user_id in <foreach collection="list" item="item" index="index" open="(" close=")" separator=",">#{item,jdbcType=VARCHAR}</foreach>
+  </delete>
+
+  <!--用户登录-->
+  <select id="selectForLogin" resultMap="BaseResultMap" parameterType="com.example.api_project.pojo.User">
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_phone = #{userPhone,jdbcType=VARCHAR} and user_pwd = #{passWord,jdbcType=VARCHAR}
+  </select>
+</mapper>

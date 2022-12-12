@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.DistrictMapper">
+
+    <resultMap type="com.example.api_project.pojo.District" id="DistrictMap">
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="districtCode" column="district_code" jdbcType="VARCHAR"/>
+        <result property="inventoryDistrictkey" column="inventory_districtKey" jdbcType="VARCHAR"/>
+        <result property="inventoryKey" column="inventory_key" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DistrictMap">
+        select
+          description, district_code, inventory_districtKey, inventory_key, sort
+        from district
+        where inventory_districtKey = #{inventoryDistrictkey}
+    </select>
+
+    <!--查询所有（不分页）-->
+    <select id="getList" resultMap="DistrictMap">
+        select
+            description, district_code, inventory_districtKey, inventory_key, sort
+        from district
+        where inventory_key = #{inventoryKey}
+        order by inventory_districtKey desc
+    </select>
+
+    <!--分页查询所有-->
+    <select id="getListPage" resultMap="DistrictMap">
+        select
+            description, district_code, inventory_districtKey, inventory_key, sort
+        from district
+        order by inventory_districtKey desc
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DistrictMap">
+        select
+          description, district_code, inventory_districtKey, inventory_key, sort
+        from district
+        <where>
+            <if test="districtCode != null and districtCode != ''">
+                and district_code like concat('%', #{districtCode}, '%')
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                and inventory_key = #{inventoryKey}
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from district
+        <where>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="districtCode != null and districtCode != ''">
+                and district_code = #{districtCode}
+            </if>
+            <if test="inventoryDistrictkey != null and inventoryDistrictkey != ''">
+                and inventory_districtKey = #{inventoryDistrictkey}
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                and inventory_key = #{inventoryKey}
+            </if>
+            <if test="sort != null and sort != ''">
+                and sort = #{sort}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="inventoryDistrictkey" useGeneratedKeys="true">
+        insert into district(inventory_districtKey,description, district_code, inventory_key, sort)
+        values (#{inventoryDistrictkey},#{description}, #{districtCode}, #{inventoryKey}, #{sort})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="inventoryDistrictkey" useGeneratedKeys="true">
+        insert into district(description, district_code, inventory_key, sort)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.description}, #{entity.districtCode}, #{entity.inventoryKey}, #{entity.sort})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="inventoryDistrictkey" useGeneratedKeys="true">
+        insert into district(description, district_code, inventory_key, sort)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.description}, #{entity.districtCode}, #{entity.inventoryKey}, #{entity.sort})
+        </foreach>
+        on duplicate key update
+        description = values(description),
+        district_code = values(district_code),
+        inventory_key = values(inventory_key),
+        sort = values(sort)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update district
+        <set>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="districtCode != null and districtCode != ''">
+                district_code = #{districtCode},
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                inventory_key = #{inventoryKey},
+            </if>
+            <if test="sort != null and sort != ''">
+                sort = #{sort},
+            </if>
+        </set>
+        where inventory_districtKey = #{inventoryDistrictkey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from district where inventory_districtKey = #{inventoryDistrictkey}
+    </delete>
+
+</mapper>
+

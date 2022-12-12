@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.CategoryMapper">
+
+    <resultMap type="com.example.api_project.pojo.Category" id="CategoryMap">
+        <result property="categoryKey" column="category_key" jdbcType="VARCHAR"/>
+        <result property="categoryType" column="category_type" jdbcType="VARCHAR"/>
+        <result property="level" column="level" jdbcType="INTEGER"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="parentCategoryKey" column="parent_category_key" jdbcType="VARCHAR"/>
+        <result property="categoryName" column="category_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="getList" resultMap="CategoryMap">
+        select
+            category_key, category_type, level, sort, create_time, parent_category_key, category_name
+        from category
+        where category_type = #{categoryType}
+        order by category_key desc
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CategoryMap">
+        select
+          category_key, category_type, level, sort, create_time, parent_category_key, category_name
+        from category
+        where category_key = #{categoryKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CategoryMap">
+        select
+          category_key, category_type, level, sort, create_time, parent_category_key, category_name
+        from category
+        <where>
+            <if test="categoryKey != null and categoryKey != ''">
+                and category_key = #{categoryKey}
+            </if>
+            <if test="categoryType != null and categoryType != ''">
+                and category_type = #{categoryType}
+            </if>
+            <if test="level != null">
+                and level = #{level}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+            <if test="parentCategoryKey != null and parentCategoryKey != ''">
+                and parent_category_key = #{parentCategoryKey}
+            </if>
+            <if test="categoryName != null and categoryName != ''">
+                and category_name = #{categoryName}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from category
+        <where>
+            <if test="categoryKey != null and categoryKey != ''">
+                and category_key = #{categoryKey}
+            </if>
+            <if test="categoryType != null and categoryType != ''">
+                and category_type = #{categoryType}
+            </if>
+            <if test="level != null">
+                and level = #{level}
+            </if>
+            <if test="sort != null">
+                and sort = #{sort}
+            </if>
+            <if test="createTime != null and createTime != ''">
+                and create_time = #{createTime}
+            </if>
+            <if test="parentCategoryKey != null and parentCategoryKey != ''">
+                and parent_category_key = #{parentCategoryKey}
+            </if>
+            <if test="categoryName != null and categoryName != ''">
+                and category_name = #{categoryName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="categoryKey" useGeneratedKeys="true">
+        insert into category
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="categoryKey != null and categoryKey != ''">
+                category_key,
+            </if>
+            <if test="categoryType != null and categoryType != ''">
+                category_type,
+            </if>
+            <if test="level != null">
+                level,
+            </if>
+            <if test="sort != null">
+                sort,
+            </if>
+            <if test="createTime != null and createTime != ''">
+                create_time,
+            </if>
+            <if test="parentCategoryKey != null and parentCategoryKey != ''">
+               parent_category_key,
+            </if>
+            <if test="categoryName != null and categoryName != ''">
+                category_name,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="categoryKey != null and categoryKey != ''">
+                #{categoryKey},
+            </if>
+            <if test="categoryType != null and categoryType != ''">
+                #{categoryType},
+            </if>
+            <if test="level != null">
+                #{level},
+            </if>
+            <if test="sort != null">
+                #{sort},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                #{createTime},
+            </if>
+            <if test="parentCategoryKey != null and parentCategoryKey != ''">
+                #{parentCategoryKey},
+            </if>
+            <if test="categoryName != null and categoryName != ''">
+                #{categoryName},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" keyProperty="categoryKey" useGeneratedKeys="true">
+        insert into category(category_type, level, sort, create_time, parent_category_key, category_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.categoryType}, #{entity.level}, #{entity.sort}, #{entity.createTime}, #{entity.parentCategoryKey}, #{entity.categoryName})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="categoryKey" useGeneratedKeys="true">
+        insert into category(category_type, level, sort, create_time, parent_category_key, category_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.categoryType}, #{entity.level}, #{entity.sort}, #{entity.createTime}, #{entity.parentCategoryKey}, #{entity.categoryName})
+        </foreach>
+        on duplicate key update
+        category_type = values(category_type),
+        level = values(level),
+        sort = values(sort),
+        create_time = values(create_time),
+        parent_category_key = values(parent_category_key),
+        category_name = values(category_name)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update category
+        <set>
+            <if test="categoryType != null and categoryType != ''">
+                category_type = #{categoryType},
+            </if>
+            <if test="level != null">
+                level = #{level},
+            </if>
+            <if test="sort != null">
+                sort = #{sort},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                create_time = #{createTime},
+            </if>
+            <if test="parentCategoryKey != null and parentCategoryKey != ''">
+                parent_category_key = #{parentCategoryKey},
+            </if>
+            <if test="categoryName != null and categoryName != ''">
+                category_name = #{categoryName},
+            </if>
+        </set>
+        where category_key = #{categoryKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from category where category_key = #{categoryKey}
+    </delete>
+
+</mapper>
+

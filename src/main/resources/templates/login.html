@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <style type="text/css">
+        .p{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <form th:action="@{/check}" method="post">
+        username: <input type="text" name="username"/><br>
+        password: <input type="password" name="password"/><br><br>
+        <input type="submit" name="提交"/>
+    </form>
+    <p th:text="${error}" class="p"></p>
+    <div><input name="remember-me" type="checkbox">记住我</div>
+</body>
+</html>

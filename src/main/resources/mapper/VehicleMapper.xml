@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.VehicleMapper">
+
+    <resultMap type="com.example.api_project.pojo.Vehicle" id="VehicleMap">
+        <result property="maxWeight" column="max_weight" jdbcType="INTEGER"/>
+        <result property="maxCapacity" column="max_capacity" jdbcType="INTEGER"/>
+        <result property="detail" column="detail" jdbcType="VARCHAR"/>
+        <result property="vehicleKey" column="vehicle_key" jdbcType="VARCHAR"/>
+        <result property="vehicleType" column="vehicle_type" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="vehicleCode" column="vehicle_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="getListPage" resultMap="VehicleMap">
+        select max_weight,
+               max_capacity,
+               detail,
+               vehicle_key,
+               vehicle_type,
+               description,
+               vehicle_code
+        from vehicle
+        order by vehicle_key desc
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="VehicleMap">
+        select max_weight,
+               max_capacity,
+               detail,
+               vehicle_key,
+               vehicle_type,
+               description,
+               vehicle_code
+        from vehicle
+        where vehicle_key = #{vehicleKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="VehicleMap">
+        select
+        max_weight, max_capacity, detail, vehicle_key, vehicle_type, description, vehicle_code
+        from vehicle
+        <where>
+            <if test="vehicleType != null and vehicleType != ''">
+                and vehicle_type like concat('%', #{vehicleType}, '%')
+            </if>
+            <if test="vehicleCode != null and vehicleCode != ''">
+                and vehicle_code like concat('%', #{vehicleCode}, '%')
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from vehicle
+        <where>
+            <if test="maxWeight != null">
+                and max_weight = #{maxWeight}
+            </if>
+            <if test="maxCapacity != null">
+                and max_capacity = #{maxCapacity}
+            </if>
+            <if test="detail != null and detail != ''">
+                and detail = #{detail}
+            </if>
+            <if test="vehicleKey != null and vehicleKey != ''">
+                and vehicle_key = #{vehicleKey}
+            </if>
+            <if test="vehicleType != null and vehicleType != ''">
+                and vehicle_type = #{vehicleType}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="vehicleCode != null and vehicleCode != ''">
+                and vehicle_code = #{vehicleCode}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="vehicleKey" useGeneratedKeys="true">
+        insert into vehicle(vehicle_key,max_weight, max_capacity, detail, vehicle_type, description, vehicle_code)
+        values (#{vehicleKey},#{maxWeight}, #{maxCapacity}, #{detail}, #{vehicleType}, #{description}, #{vehicleCode})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="vehicleKey" useGeneratedKeys="true">
+        insert into vehicle(max_weight, max_capacity, detail, vehicle_type, description, vehicle_code)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.maxWeight}, #{entity.maxCapacity}, #{entity.detail}, #{entity.vehicleType}, #{entity.description},
+            #{entity.vehicleCode})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="vehicleKey" useGeneratedKeys="true">
+        insert into vehicle(max_weight, max_capacity, detail, vehicle_type, description, vehicle_code)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.maxWeight}, #{entity.maxCapacity}, #{entity.detail}, #{entity.vehicleType}, #{entity.description},
+            #{entity.vehicleCode})
+        </foreach>
+        on duplicate key update
+        max_weight = values(max_weight),
+        max_capacity = values(max_capacity),
+        detail = values(detail),
+        vehicle_type = values(vehicle_type),
+        description = values(description),
+        vehicle_code = values(vehicle_code)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update vehicle
+        <set>
+            <if test="maxWeight != null">
+                max_weight = #{maxWeight},
+            </if>
+            <if test="maxCapacity != null">
+                max_capacity = #{maxCapacity},
+            </if>
+            <if test="detail != null and detail != ''">
+                detail = #{detail},
+            </if>
+            <if test="vehicleType != null and vehicleType != ''">
+                vehicle_type = #{vehicleType},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="vehicleCode != null and vehicleCode != ''">
+                vehicle_code = #{vehicleCode},
+            </if>
+        </set>
+        where vehicle_key = #{vehicleKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from vehicle
+        where vehicle_key = #{vehicleKey}
+    </delete>
+
+</mapper>
+

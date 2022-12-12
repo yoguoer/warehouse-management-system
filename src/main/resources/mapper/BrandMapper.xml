@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.BrandMapper">
+
+    <resultMap type="com.example.api_project.pojo.Brand" id="BrandMap">
+        <result property="brandName" column="brand_name" jdbcType="VARCHAR"/>
+        <result property="brandKey" column="brand_key" jdbcType="VARCHAR"/>
+        <result property="brandCode" column="brand_code" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BrandMap">
+        select brand_name,
+               brand_key,
+               brand_code
+        from brand
+        where brand_key = #{brandKey}
+    </select>
+
+    <!--查询所有（不分页）-->
+    <select id="getList" resultMap="BrandMap">
+        select brand_name,
+               brand_key,
+               brand_code
+        from brand
+        order by brand_key desc
+    </select>
+
+    <!--分页查询所有-->
+    <select id="getListPage" resultMap="BrandMap">
+        select brand_name,
+               brand_key,
+               brand_code
+        from brand
+        order by brand_key desc
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BrandMap">
+        select brand_name, brand_key, brand_code
+        from brand
+        <where>
+            <if test="brandName != null and brandName != ''">
+                and brand_name like concat('%', #{brandName}, '%')
+            </if>
+            <if test="brandCode != null">
+                and brand_code like concat('%', #{brandCode}, '%')
+            </if>
+        </where>
+        order by brand_key desc
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(*)
+        from brand
+        <where>
+            <if test="brandName != null and brandName != ''">
+                and brand_name = #{brandName}
+            </if>
+            <if test="brandKey != null and brandKey != ''">
+                and brand_key = #{brandKey}
+            </if>
+            <if test="brandCode != null">
+                and brand_code = #{brandCode}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" parameterType="com.example.api_project.pojo.Brand">
+        insert into brand(brand_key,brand_name, brand_code)
+        values (#{brandKey,jdbcType=VARCHAR}, #{brandName,jdbcType=VARCHAR}, #{brandCode,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="brandKey" useGeneratedKeys="true">
+        insert into brand(brand_name, brand_code)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{pojo.brandName}, #{entity.brandCode})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="brandKey" useGeneratedKeys="true">
+        insert into brand(brand_name, brand_code)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{pojo.brandName}, #{entity.brandCode})
+        </foreach>
+        on duplicate key update
+        brand_name = values(brand_name),
+        brand_code = values(brand_code)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update brand
+        <set>
+            <if test="brandName != null and brandName != ''">
+                brand_name = #{brandName},
+            </if>
+            <if test="brandCode != null">
+                brand_code = #{brandCode},
+            </if>
+        </set>
+        where brand_key = #{brandKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from brand
+        where brand_key = #{brandKey,jdbcType=VARCHAR}
+    </delete>
+
+</mapper>
+
