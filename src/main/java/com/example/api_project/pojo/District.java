@@ -6,6 +6,15 @@ public class District {
     private String inventoryDistrictkey;//区域key
     private String inventoryKey;//所属仓库
     private String sort;//排序
+    private Integer status;//状态
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public String getDescription() {
         return description;

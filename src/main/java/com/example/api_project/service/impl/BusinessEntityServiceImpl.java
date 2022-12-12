@@ -3,6 +3,7 @@ package com.example.api_project.service.impl;
 import com.example.api_project.pojo.BusinessEntity;
 import com.example.api_project.mapper.BusinessEntityMapper;
 import com.example.api_project.service.BusinessEntityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,7 +17,7 @@ import java.util.Map;
  */
 @Service("businessEntityService")
 public class BusinessEntityServiceImpl implements BusinessEntityService {
-    @Resource
+    @Autowired
     private BusinessEntityMapper businessEntityMapper;
 
     /**

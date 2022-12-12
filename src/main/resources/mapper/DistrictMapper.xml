@@ -8,6 +8,7 @@
         <result property="inventoryDistrictkey" column="inventory_districtKey" jdbcType="VARCHAR"/>
         <result property="inventoryKey" column="inventory_key" jdbcType="VARCHAR"/>
         <result property="sort" column="sort" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
@@ -21,7 +22,7 @@
     <!--查询所有（不分页）-->
     <select id="getList" resultMap="DistrictMap">
         select
-            description, district_code, inventory_districtKey, inventory_key, sort
+            description, district_code, inventory_districtKey, inventory_key, sort,status
         from district
         where inventory_key = #{inventoryKey}
         order by inventory_districtKey desc
@@ -30,7 +31,7 @@
     <!--分页查询所有-->
     <select id="getListPage" resultMap="DistrictMap">
         select
-            description, district_code, inventory_districtKey, inventory_key, sort
+            description, district_code, inventory_districtKey, inventory_key, sort,status
         from district
         order by inventory_districtKey desc
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -39,7 +40,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="DistrictMap">
         select
-          description, district_code, inventory_districtKey, inventory_key, sort
+          description, district_code, inventory_districtKey, inventory_key, sort,status
         from district
         <where>
             <if test="districtCode != null and districtCode != ''">
@@ -72,34 +73,38 @@
             <if test="sort != null and sort != ''">
                 and sort = #{sort}
             </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="inventoryDistrictkey" useGeneratedKeys="true">
-        insert into district(inventory_districtKey,description, district_code, inventory_key, sort)
-        values (#{inventoryDistrictkey},#{description}, #{districtCode}, #{inventoryKey}, #{sort})
+        insert into district(inventory_districtKey,description, district_code, inventory_key, sort,status)
+        values (#{inventoryDistrictkey},#{description}, #{districtCode}, #{inventoryKey}, #{sort},#{status})
     </insert>
 
     <insert id="insertBatch" keyProperty="inventoryDistrictkey" useGeneratedKeys="true">
-        insert into district(description, district_code, inventory_key, sort)
+        insert into district(description, district_code, inventory_key, sort,status)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.description}, #{entity.districtCode}, #{entity.inventoryKey}, #{entity.sort})
+        (#{entity.description}, #{entity.districtCode}, #{entity.inventoryKey}, #{entity.sort},#{entity.status})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="inventoryDistrictkey" useGeneratedKeys="true">
-        insert into district(description, district_code, inventory_key, sort)
+        insert into district(description, district_code, inventory_key, sort,status)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.description}, #{entity.districtCode}, #{entity.inventoryKey}, #{entity.sort})
+            (#{entity.description}, #{entity.districtCode}, #{entity.inventoryKey}, #{entity.sort},#{entity.status})
         </foreach>
         on duplicate key update
         description = values(description),
         district_code = values(district_code),
         inventory_key = values(inventory_key),
         sort = values(sort)
+        status = values(status)
     </insert>
 
     <!--通过主键修改数据-->
@@ -117,6 +122,9 @@
             </if>
             <if test="sort != null and sort != ''">
                 sort = #{sort},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
             </if>
         </set>
         where inventory_districtKey = #{inventoryDistrictkey}

@@ -5,8 +5,6 @@ import java.io.Serializable;
 /**
  * 业务主体(BusinessEntity)实体类
  *
- * @author makejava
- * @since 2022-12-11 22:08:24
  */
 public class BusinessEntity implements Serializable {
     private static final long serialVersionUID = -74513736341616305L;

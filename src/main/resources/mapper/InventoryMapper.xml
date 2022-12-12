@@ -8,7 +8,7 @@
         <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
         <result property="inventoryKey" column="inventory_key" jdbcType="VARCHAR"/>
         <result property="inventoryName" column="inventory_name" jdbcType="VARCHAR"/>
-        <result property="inventoryType" column="inventory_type" jdbcType="VARCHAR"/>
+        <result property="inventoryType" column="inventory_type" jdbcType="INTEGER"/>
         <result property="tel" column="tel" jdbcType="VARCHAR"/>
         <result property="zipCode" column="zip_code" jdbcType="VARCHAR"/>
         <result property="province" column="province" jdbcType="VARCHAR"/>
@@ -16,6 +16,7 @@
         <result property="district" column="district" jdbcType="VARCHAR"/>
         <result property="detail" column="detail" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询所有（不分页）-->
@@ -32,7 +33,8 @@
                city,
                district,
                detail,
-               description
+               description,
+               status
         from inventory
         order by inventory_key desc
     </select>
@@ -51,7 +53,8 @@
                city,
                district,
                detail,
-               description
+               description,
+               status
         from inventory
         order by inventory_key desc
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -71,7 +74,8 @@
                city,
                district,
                detail,
-               description
+               description,
+               status
         from inventory
         where inventory_key = #{inventoryKey}
     </select>
@@ -80,7 +84,7 @@
     <select id="queryAllByLimit" resultMap="InventoryMap">
         select
         category_key, contact_name, inventory_code, inventory_key, inventory_name, inventory_type, tel, zip_code,
-        province, city, district, detail, description
+        province, city, district, detail, description,status
         from inventory
         <where>
             <if test="categoryKey != null and categoryKey != ''">
@@ -113,7 +117,7 @@
             <if test="inventoryName != null and inventoryName != ''">
                 and inventory_name = #{inventoryName}
             </if>
-            <if test="inventoryType != null and inventoryType != ''">
+            <if test="inventoryType != null and inventoryType!=''">
                 and inventory_type = #{inventoryType}
             </if>
             <if test="tel != null and tel != ''">
@@ -137,36 +141,39 @@
             <if test="description != null and description != ''">
                 and description = #{description}
             </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="inventoryKey" useGeneratedKeys="true">
         insert into inventory(inventory_key,category_key, contact_name, inventory_code, inventory_name, inventory_type, tel, zip_code,
-                              province, city, district, detail, description)
+                              province, city, district, detail, description,status)
         values (#{inventoryKey},#{categoryKey}, #{contactName}, #{inventoryCode}, #{inventoryName}, #{inventoryType}, #{tel},
-                #{zipCode}, #{province}, #{city}, #{district}, #{detail}, #{description})
+                #{zipCode}, #{province}, #{city}, #{district}, #{detail}, #{description},#{status})
     </insert>
 
     <insert id="insertBatch" keyProperty="inventoryKey" useGeneratedKeys="true">
         insert into inventory(category_key, contact_name, inventory_code, inventory_name, inventory_type, tel, zip_code,
-        province, city, district, detail, description)
+        province, city, district, detail, description,status)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.categoryKey}, #{entity.contactName}, #{entity.inventoryCode}, #{entity.inventoryName},
             #{entity.inventoryType}, #{entity.tel}, #{entity.zipCode}, #{entity.province}, #{entity.city},
-            #{entity.district}, #{entity.detail}, #{entity.description})
+            #{entity.district}, #{entity.detail}, #{entity.description},#{status})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="inventoryKey" useGeneratedKeys="true">
         insert into inventory(category_key, contact_name, inventory_code, inventory_name, inventory_type, tel, zip_code,
-        province, city, district, detail, description)
+        province, city, district, detail, description,status)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.categoryKey}, #{entity.contactName}, #{entity.inventoryCode}, #{entity.inventoryName},
             #{entity.inventoryType}, #{entity.tel}, #{entity.zipCode}, #{entity.province}, #{entity.city},
-            #{entity.district}, #{entity.detail}, #{entity.description})
+            #{entity.district}, #{entity.detail}, #{entity.description}#{entity.status})
         </foreach>
         on duplicate key update
         category_key = values(category_key),
@@ -181,6 +188,7 @@
         district = values(district),
         detail = values(detail),
         description = values(description)
+        status = values(status)
     </insert>
 
     <!--通过主键修改数据-->
@@ -199,7 +207,7 @@
             <if test="inventoryName != null and inventoryName != ''">
                 inventory_name = #{inventoryName},
             </if>
-            <if test="inventoryType != null and inventoryType != ''">
+            <if test="inventoryType != null and inventoryType!=''">
                 inventory_type = #{inventoryType},
             </if>
             <if test="tel != null and tel != ''">
@@ -222,6 +230,9 @@
             </if>
             <if test="description != null and description != ''">
                 description = #{description},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
             </if>
         </set>
         where inventory_key = #{inventoryKey}

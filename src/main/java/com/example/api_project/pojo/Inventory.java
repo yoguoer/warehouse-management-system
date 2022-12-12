@@ -6,7 +6,7 @@ public class Inventory {
     private String inventoryCode; //仓库编号
     private String inventoryKey;
     private String inventoryName; //仓库名
-    private String inventoryType; //仓库类型：WAREHOUSE：仓库，CAR：车辆
+    private Integer inventoryType; //仓库类型：WAREHOUSE：仓库，CAR：车辆
     private String tel; //电话
     private String zipCode; //邮编
     private String province;//省
@@ -14,6 +14,7 @@ public class Inventory {
     private String district;//区
     private String detail;//具体地址
     private String description; //备注
+    private Integer status; //状态
 
     public String getCategoryKey() {
         return categoryKey;
@@ -55,11 +56,11 @@ public class Inventory {
         this.inventoryName = inventoryName;
     }
 
-    public String getInventoryType() {
+    public Integer getInventoryType() {
         return inventoryType;
     }
 
-    public void setInventoryType(String inventoryType) {
+    public void setInventoryType(Integer inventoryType) {
         this.inventoryType = inventoryType;
     }
 
@@ -117,5 +118,13 @@ public class Inventory {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

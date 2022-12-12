@@ -5,6 +5,7 @@ import com.example.api_project.pojo.SupplierAddress;
 import com.example.api_project.pojo.SupplierBilling;
 import com.example.api_project.mapper.SupplierBillingMapper;
 import com.example.api_project.service.SupplierBillingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,7 +19,7 @@ import java.util.Map;
  */
 @Service("supplierBillingService")
 public class SupplierBillingServiceImpl implements SupplierBillingService {
-    @Resource
+    @Autowired
     private SupplierBillingMapper supplierBillingMapper;
 
     /**

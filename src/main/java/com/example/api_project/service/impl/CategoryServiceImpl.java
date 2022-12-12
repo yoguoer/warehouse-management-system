@@ -3,6 +3,7 @@ package com.example.api_project.service.impl;
 import com.example.api_project.mapper.CategoryMapper;
 import com.example.api_project.pojo.Category;
 import com.example.api_project.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,7 +15,7 @@ import java.util.List;
  */
 @Service("categoryService")
 public class CategoryServiceImpl implements CategoryService {
-    @Resource
+    @Autowired
     private CategoryMapper categoryMapper;
 
     /**
