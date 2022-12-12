@@ -23,7 +23,7 @@
       <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="supplyList" tooltip-effect="dark" @selection-change="handleSelectionDelete"
         style="width: auto;margin-top: 20px;" :header-cell-style="{background:'#F2F6FC',color:'#606266'}">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="supplierNumber" sortable label="供应商编号">
+        <el-table-column prop="supplierCode" sortable label="供应商编号">
         </el-table-column>
         <el-table-column prop="supplierName" label="供应商名称">
         </el-table-column>
@@ -77,6 +77,7 @@ export default {
       isShow: false,
       rowData: {},
       supplyList: [],
+      multipleSelection:[],
       activeItem:""
     };
   },
@@ -92,7 +93,7 @@ export default {
   },
   methods: {
     search() {
-      SupplierlistPage({ supplierNumber:this.supplyId, supplierName: this.supplyName,categoryKey:this.inputCategory, page: this.pageNo,  page: 1, size: 20 }).then(res => {
+      SupplierlistPage({ supplierCode:this.supplyId, supplierName: this.supplyName,categoryKey:this.inputCategory, page: this.pageNo,  page: 1, size: 20 }).then(res => {
         this.supplyList = res.data.data.records;
         this.total = res.data.data.total
       });
@@ -133,7 +134,7 @@ export default {
       this.drawer = true
     },
     getSupplierlistPage() {
-      SupplierlistPage({ supplierNumber:"", supplierName: "",categoryKey:"", page: this.pageNo, size: this.pageSize }).then((res) => {
+      SupplierlistPage({ supplierCode:"", supplierName: "",categoryKey:"", page: this.pageNo, size: this.pageSize }).then((res) => {
         this.supplyList = res.data.data.records;
         this.total = res.data.data.total
         console.log(this.total, this.supplyList);
@@ -183,31 +184,39 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      let supplierkeys = [];
-      this.multipleSelection.forEach(item => {
-        supplierkeys.push({supplierKey:item.supplierKey})
-      })
-      console.log(supplierkeys);
-      this.$confirm('删除操作, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-      }).then(() => {
-        SupplierDeleteList(supplierkeys).then(response => {
-            this.getSupplierlistPage();
-            this.$message({
-                type: 'success',
-                message: '删除成功!'
-            });
-        }).catch(error => {
-            console.log(error);
-        });
-      }).catch(() => {
-          this.$message({
-              type: 'info',
-              message: '已取消删除'
+      if(this.multipleSelection.length>0){
+        let supplierkeys = [];
+        this.multipleSelection.forEach(item => {
+          supplierkeys.push({supplierKey:item.supplierKey})
+        })
+        console.log(supplierkeys);
+        this.$confirm('删除操作, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(() => {
+          SupplierDeleteList(supplierkeys).then(response => {
+              this.getSupplierlistPage();
+              this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+              });
+          }).catch(error => {
+              console.log(error);
           });
-      });
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            });
+            this.multipleSelection=[]
+        });
+      }else{
+        this.$message({
+            type: 'error',
+            message: '至少选择一项'
+        });
+      }
     },
   },
 };

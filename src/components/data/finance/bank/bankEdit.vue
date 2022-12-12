@@ -33,10 +33,10 @@
           </el-form-item>
         </el-col>
         <el-col :span="5">
-        <el-form-item label="所属供应商" prop="supplierBillingKey">
-            <el-select size="middle" v-model="ruleForm.supplierBillingKey" placeholder="所属供应商" style="width:270px;">
-              <el-option v-for="item in options" :key="item.supplierKey" :label="item.supplierName"
-                :value="item.supplierKey">
+        <el-form-item label="所属供应商" prop="supplierBillingCode">
+            <el-select size="middle" v-model="ruleForm.supplierBillingCode" placeholder="所属供应商" style="width:270px;">
+              <el-option v-for="item in options" :key="item.supplierCode" :label="item.supplierName"
+                :value="item.supplierCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -72,7 +72,7 @@ export default {
         taxNumber: "",
         accountTel: "",
         billingKey:"",
-        supplierBillingKey:""
+        supplierBillingCode:""
       },
       rules: {
         bankName: [
@@ -111,7 +111,7 @@ export default {
       this.ruleForm.accountNumber = this.rowData.accountNumber
       this.ruleForm.taxNumber = this.rowData.taxNumber
       this.ruleForm.accountTel = this.rowData.accountTel
-      this.ruleForm.supplierBillingKey= this.rowData.supplierBillingKey
+      this.ruleForm.supplierBillingCode= this.rowData.supplierBillingCode
       this.ruleForm.billingKey= this.rowData.billingKey
     } else {
       this.ifCreate = true
@@ -175,7 +175,7 @@ export default {
         taxNumber: "",
         accountTel: "",
         billingKey:"",
-        supplierBillingKey:""
+        supplierBillingCode:""
       }
     }
   },

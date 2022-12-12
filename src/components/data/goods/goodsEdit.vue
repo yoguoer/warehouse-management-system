@@ -23,15 +23,22 @@
         </el-row>
         <el-row>
           <el-col :span="7">
-            <el-form-item label="供应商" prop="supplierKey">
-              <el-input v-model="ruleForm.supplierKey"></el-input>
+            <!-- <el-form-item label="供应商" prop="supplierCode">
+              <el-input v-model="ruleForm.supplierCode"></el-input>
+            </el-form-item> -->
+            <el-form-item label="所属供应商" prop="supplierCode">
+              <el-select size="middle" v-model="ruleForm.supplierCode" placeholder="所属供应商" style="width:405px;">
+                <el-option v-for="item in suplyOptions" :key="item.supplierKey" :label="item.supplierName"
+                  :value="item.supplierCode">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="7">
-            <el-form-item label="默认仓库" prop="inventoryKey">
-              <el-select size="middle" v-model="ruleForm.inventoryKey" placeholder="默认仓库" style="width:405px;" >
-                <el-option v-for="item in options" :key="item.inventoryKey" :label="item.inventoryName"
-                  :value="item.inventoryKey">
+            <el-form-item label="默认仓库" prop="inventoryCode">
+              <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="默认仓库" style="width:405px;" >
+                <el-option v-for="item in options" :key="item.inventoryCode" :label="item.inventoryName"
+                  :value="item.inventoryCode">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -159,7 +166,7 @@
 <script>
 import listBoxF from "@/components/public/listBoxF/listBoxF.vue";
 import moment from 'moment'
-import {goodsAdd,getCategoryTree, inventorylist,  goodsUpdate, brandlist} from "@/api/data";
+import {goodsAdd,getCategoryTree, inventorylist,  goodsUpdate, brandlist,Supplierlist} from "@/api/data";
 /**
  * 树形组件 用于选择框
  */
@@ -183,10 +190,10 @@ export default {
         goodsHeadPic: "", //商品头图
         goodsKey: "", //商品ID
         goodsName: "", //商品名
-        inventoryKey: "", //默认仓库
+        inventoryCode: "", //默认仓库
         modelCode: "", //型号
         state: "", //0下架 1上架
-        supplierKey: "", //供应商
+        supplierCode: "", //供应商
         goodsUnit: "", //商品单位
         unitType: "", //单位类型：BASIC：基本单位， SUPPORT：辅助单位
         unitDescription: "", //换算关系
@@ -204,6 +211,7 @@ export default {
       list: [],
       options: [],
       options1: [],
+      suplyOptions:[],
       rules: {
         goodsBarcode: [
           { required: true, message: '请输入商品条码', trigger: 'blur' },
@@ -214,10 +222,10 @@ export default {
         goodsName: [
           { required: true, message: '请输入商品名', trigger: 'blur' },
         ],
-        inventoryKey: [
+        inventoryCode: [
           { required: true, message: '请选择默认仓库', trigger: 'blur' },
         ],
-        supplierKey: [
+        supplierCode: [
           { required: true, message: '请选择供应商', trigger: 'blur' },
         ],
         goodsUnit: [
@@ -295,6 +303,7 @@ export default {
     this.getTree();
     this.getinventorylist();
     this.getbrandlist();
+    this.getSupplierlist()
     if (this.rowData.goodsKey) {
       this.ifCreate = false;
       this.ruleForm.categoryKey = this.rowData.categoryKey;
@@ -303,12 +312,12 @@ export default {
       this.ruleForm.goodsCode = this.rowData.goodsCode;
       this.ruleForm.goodsHeadPic = this.rowData.goodsHeadPic;
       this.ruleForm.goodsKey = this.rowData.goodsKey;
-      this.ruleForm.inventoryKey = this.rowData.inventoryKey;
+      this.ruleForm.inventoryCode = this.rowData.inventoryCode;
       this.ruleForm.goodsName = this.rowData.goodsName;
       this.ruleForm.brandCode = this.rowData.brandCode;
       this.ruleForm.modelCode = this.rowData.modelCode;
       this.ruleForm.state = this.rowData.state;
-      this.ruleForm.supplierKey = this.rowData.supplierKey;
+      this.ruleForm.supplierCode = this.rowData.supplierCode;
       this.ruleForm.goodsUnit= this.rowData.goodsUnit
       this.ruleForm.unitType= this.rowData.unitType
       this.ruleForm.unitDescription= this.rowData.unitDescription
@@ -360,6 +369,15 @@ export default {
         })
         .catch((e) => {
           console.log(e);
+      });
+    },
+    getSupplierlist(){
+      Supplierlist().then(res => {
+        if (res.data.code == 200) {
+          this.suplyOptions=res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
       });
     },
     getinventorylist() {
@@ -455,10 +473,10 @@ export default {
         goodsHeadPic: "", //商品头图
         goodsKey: "", //商品ID
         goodsName: "", //商品名
-        inventoryKey: "", //默认仓库
+        inventoryCode: "", //默认仓库
         modelCode: "", //型号
         state: "", //0下架 1上架
-        supplierKey: "", //供应商
+        supplierCode: "", //供应商
         brandCode:"",
         goodsUnit: "", //商品单位
         unitType: "", //单位类型：BASIC：基本单位， SUPPORT：辅助单位

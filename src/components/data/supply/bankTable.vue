@@ -72,7 +72,7 @@ export default {
       multipleSelection:[],
       title:"编辑开票信息",
       bankForm:{
-        supplierBillingKey:"",
+        supplierBillingCode:"",
         billingKey:"",
         bankName:"",
         accountNumber:"",
@@ -128,7 +128,7 @@ export default {
     },
     //编辑
     editRow(row) {
-      this.bankForm.supplierBillingKey= row.supplierBillingKey
+      this.bankForm.supplierBillingCode= row.supplierBillingCode
       this.bankForm.billingKey= row.billingKey
       this.bankForm.bankName= row.bankName
       this.bankForm.accountNumber= row.accountNumber
@@ -140,7 +140,7 @@ export default {
     //添加
     add(){
       this.title="新增开票信息"
-      this.bankForm.supplierBillingKey=this.$parent.$parent.$parent.$parent.$parent.row.supplierKey
+      this.bankForm.supplierBillingCode=this.$parent.$parent.$parent.$parent.$parent.row.supplierKey
       this.dialogVisible=true
       this.ifCreate=true
     },
@@ -169,7 +169,7 @@ export default {
     //新增
     create(formName) {
       let data={
-        supplierBillingKey:this.bankForm.supplierBillingKey,
+        supplierBillingCode:this.bankForm.supplierBillingCode,
         // billingKey:this.bankForm.billingKey,
         bankName:this.bankForm.bankName,
         accountNumber:this.bankForm.accountNumber,
@@ -201,7 +201,7 @@ export default {
     //更新
     save(formName) {
       let data={
-        supplierBillingKey:this.bankForm.supplierBillingKey,
+        supplierBillingCode:this.bankForm.supplierBillingCode,
         billingKey:this.bankForm.billingKey,
         bankName:this.bankForm.bankName,
         accountNumber:this.bankForm.accountNumber,
@@ -232,7 +232,7 @@ export default {
     },
     reset(){
       this.bankForm={
-        supplierBillingKey:"",
+        supplierBillingCode:"",
         billingKey:"",
         bankName:"",
         accountNumber:"",
@@ -247,32 +247,40 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      let billingKeys = [];
-      this.multipleSelection.forEach(item => {
-        billingKeys.push({billingKey:item.billingKey})
-      })
-      console.log(billingKeys);
-      this.$confirm('删除操作, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-      }).then(() => {
-        supplierBillingDeleteList(billingKeys).then(() => {
-            this.getTableData();
-            this.$message({
-                type: 'success',
-                message: '删除成功!'
-            });
-            this._handleFresh()
-        }).catch(error => {
-            console.log(error);
-        });
-      }).catch(() => {
-          this.$message({
-              type: 'info',
-              message: '已取消删除'
+      if(this.multipleSelection.length>0){
+        let billingKeys = [];
+        this.multipleSelection.forEach(item => {
+          billingKeys.push({billingKey:item.billingKey})
+        })
+        console.log(billingKeys);
+        this.$confirm('删除操作, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(() => {
+          supplierBillingDeleteList(billingKeys).then(() => {
+              this.getTableData();
+              this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+              });
+              this._handleFresh()
+          }).catch(error => {
+              console.log(error);
           });
-      });
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            });
+            this.multipleSelection=[]
+        });
+      }else{
+        this.$message({
+            type: 'error',
+            message: '至少选择一项'
+        });
+      }
     },
   },
 }

@@ -93,6 +93,7 @@ export default {
       list: [],
       options1: [],
       options2: [],
+      multipleSelection:[],
       query: {
         partitionKey:"",
         inventoryKey:""
@@ -240,31 +241,39 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      let positionkeys = [];
-      this.multipleSelection.forEach(item => {
-        positionkeys.push({positionKey:item.positionKey})
-      })
-      console.log(positionkeys);
-      this.$confirm('删除操作, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-      }).then(() => {
-        positionDeleteList(positionkeys).then(response => {
-            this.getPositionlistPage();
-            this.$message({
-                type: 'success',
-                message: '删除成功!'
-            });
-        }).catch(error => {
-            console.log(error);
-        });
-      }).catch(() => {
-          this.$message({
-              type: 'info',
-              message: '已取消删除'
+      if(this.multipleSelection.length>0){
+        let positionkeys = [];
+        this.multipleSelection.forEach(item => {
+          positionkeys.push({positionKey:item.positionKey})
+        })
+        console.log(positionkeys);
+        this.$confirm('删除操作, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(() => {
+          positionDeleteList(positionkeys).then(response => {
+              this.getPositionlistPage();
+              this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+              });
+          }).catch(error => {
+              console.log(error);
           });
-      });
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            });
+            this.multipleSelection=[]
+        });
+      }else{
+        this.$message({
+            type: 'error',
+            message: '至少选择一项'
+        });
+      }
     },
   },
 };

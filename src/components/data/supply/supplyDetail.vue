@@ -4,7 +4,7 @@
     <div style="padding:0 20px;">
       <el-row style="margin-bottom: 20px;">
         <el-col :span="5">
-          <span>供应商编号:  {{row.supplierNumber}}</span>
+          <span>供应商编号:  {{row.supplierCode}}</span>
         </el-col>
         <el-col :span="5">
           <span>供应商名称:  {{row.supplierName }}</span>

@@ -6,8 +6,8 @@
       <h4 class="msg-title">基础信息</h4>
       <el-row>
         <el-col :span="6">
-          <el-form-item label="供应商编号" prop="supplierNumber">
-            <el-input v-model="ruleForm.supplierNumber"></el-input>
+          <el-form-item label="供应商编号" prop="supplierCode">
+            <el-input v-model="ruleForm.supplierCode"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="6">
@@ -246,7 +246,7 @@ export default {
         supplierName: "",
         categoryKey: "",
         superlierDescription: "",
-        supplierNumber: "",
+        supplierCode: "",
         supplierBillingList: [],
         supplierAddressList: [],
         supplierContactList: []
@@ -256,7 +256,7 @@ export default {
         supplierName: [
           { required: true, message: '请输入供应商名称', trigger: 'blur' },
         ],
-        supplierNumber: [
+        supplierCode: [
           { required: true, message: '请输入供应商编号', trigger: 'blur' },
         ],
         categoryKey: [
@@ -327,7 +327,7 @@ export default {
       this.ruleForm.categoryKey = this.rowData.categoryKey
       this.ruleForm.supplierName = this.rowData.supplierName
       this.ruleForm.superlierDescription = this.rowData.superlierDescription
-      this.ruleForm.supplierNumber = this.rowData.supplierNumber
+      this.ruleForm.supplierCode = this.rowData.supplierCode
       this.ruleForm.supplierKey = this.rowData.supplierKey
 
       //常用联系人非空-需要遍历处理
@@ -626,7 +626,7 @@ export default {
           supplierName: "",
           categoryKey: "",
           superlierDescription: "",
-          supplierNumber: "",
+          supplierCode: "",
           supplierBillingList: [],
           supplierAddressList: [],
           supplierContactList: []

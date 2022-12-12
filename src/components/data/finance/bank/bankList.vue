@@ -31,7 +31,7 @@
         </el-table-column>
         <el-table-column prop="accountTel" label="联系电话">
         </el-table-column>
-        <el-table-column prop="supplierBillingKey" label="所属供应商">
+        <el-table-column prop="supplierBillingCode" label="所属供应商">
         </el-table-column>
         <el-table-column align="center" fixed="right" width="200px" label="操作">
           <template slot-scope="scope">
@@ -66,6 +66,7 @@ export default {
       drawer: false,
       rowData: {},
       bankList: [],
+      multipleSelection:[],
     };
   },
   created() {
@@ -135,31 +136,39 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      let billingKeys = [];
-      this.multipleSelection.forEach(item => {
-        billingKeys.push({billingKey:item.billingKey})
-      })
-      console.log(billingKeys);
-      this.$confirm('删除操作, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-      }).then(() => {
-        bankDeleteList(billingKeys).then(response => {
-            this.getBanklistPage();
-            this.$message({
-                type: 'success',
-                message: '删除成功!'
-            });
-        }).catch(error => {
-            console.log(error);
-        });
-      }).catch(() => {
-          this.$message({
-              type: 'info',
-              message: '已取消删除'
+      if(this.multipleSelection.length>0){
+        let billingKeys = [];
+        this.multipleSelection.forEach(item => {
+          billingKeys.push({billingKey:item.billingKey})
+        })
+        console.log(billingKeys);
+        this.$confirm('删除操作, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(() => {
+          bankDeleteList(billingKeys).then(response => {
+              this.getBanklistPage();
+              this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+              });
+          }).catch(error => {
+              console.log(error);
           });
-      });
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            });
+            this.multipleSelection=[]
+        });
+      }else{
+        this.$message({
+            type: 'error',
+            message: '至少选择一项'
+        });
+      }
     },
   },
   props: {

@@ -60,6 +60,7 @@ export default {
       drawer: false,
       rowData: {},
       brandList: [],
+      multipleSelection:[],
     };
   },
   created() {
@@ -135,31 +136,39 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      let brandKeys = [];
-      this.multipleSelection.forEach(item => {
-        brandKeys.push({brandKey:item.brandKey})
-      })
-      console.log(brandKeys);
-      this.$confirm('删除操作, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-      }).then(() => {
-        brandDeleteList(brandKeys).then(response => {
-            this.getBrandlistPage();
-            this.$message({
-                type: 'success',
-                message: '删除成功!'
-            });
-        }).catch(error => {
-            console.log(error);
-        });
-      }).catch(() => {
-          this.$message({
-              type: 'info',
-              message: '已取消删除'
+      if(this.multipleSelection.length>0){
+        let brandKeys = [];
+        this.multipleSelection.forEach(item => {
+          brandKeys.push({brandKey:item.brandKey})
+        })
+        console.log(brandKeys);
+        this.$confirm('删除操作, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(() => {
+          brandDeleteList(brandKeys).then(response => {
+              this.getBrandlistPage();
+              this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+              });
+          }).catch(error => {
+              console.log(error);
           });
-      });
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            });
+            this.multipleSelection=[]
+        });
+      }else{
+        this.$message({
+            type: 'error',
+            message: '至少选择一项'
+        });
+      }
     },
   },
   props: {

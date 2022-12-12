@@ -19,24 +19,24 @@
       <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="goodsList" tooltip-effect="dark" @selection-change="handleSelectionDelete"
         style="width: auto; margin-top: 20px" :header-cell-style="{background:'#F2F6FC',color:'#606266'}">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="goodsKey" label="商品ID">
-        </el-table-column>
-        <el-table-column prop="goodsName" label="商品名">
-        </el-table-column>
-        <el-table-column prop="goodsCode" label="商品货号">
-        </el-table-column>
-        <el-table-column prop="modelCode" label="型号">
+        <el-table-column prop="goodsKey" label="商品ID" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column prop="goodsBarcode" label="商品条码">
         </el-table-column>
-        <el-table-column prop="inventoryKey" label="默认仓库">
+        <el-table-column prop="goodsName" label="商品名">
+        </el-table-column>
+        <el-table-column prop="modelCode" label="型号">
+        </el-table-column>
+        <el-table-column prop="goodsCode" label="商品货号">
+        </el-table-column>
+        <el-table-column prop="inventoryCode" label="默认仓库" :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column prop="supplierCode" label="供应商">
+        </el-table-column>
+        <el-table-column prop="brandCode" label="所属品牌">
         </el-table-column>
         <el-table-column prop="state" label="状态">
           <template slot-scope="scope">{{ scope.row.state == 1 ? '上架' : '下架' }}</template>
-        </el-table-column>
-        <el-table-column prop="supplierKey" label="供应商">
-        </el-table-column>
-        <el-table-column prop="brandCode" label="所属品牌">
         </el-table-column>
         <!-- <el-table-column prop="goodsHeadPic" label="商品头图">
         </el-table-column> -->
@@ -80,6 +80,7 @@ export default {
       goodsList: [],
       title: "商品分类",
       categoryType: 'GOODS',
+      multipleSelection:[],
     };
   },
   created() {
@@ -163,31 +164,39 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      let goodsKeys = [];
-      this.multipleSelection.forEach(item => {
-        goodsKeys.push({goodsKey:item.goodsKey})
-      })
-      console.log(goodsKeys);
-      this.$confirm('删除操作, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-      }).then(() => {
-        goodsDeleteList(goodsKeys).then(() => {
-            this.getGoodslistPage();
-            this.$message({
-                type: 'success',
-                message: '删除成功!'
-            });
-        }).catch(error => {
-            console.log(error);
-        });
-      }).catch(() => {
-          this.$message({
-              type: 'info',
-              message: '已取消删除'
+      if(this.multipleSelection.length>0){
+        let goodsKeys = [];
+        this.multipleSelection.forEach(item => {
+          goodsKeys.push({goodsKey:item.goodsKey})
+        })
+        console.log(goodsKeys);
+        this.$confirm('删除操作, 是否继续?', '提示', {
+            confirmButtonText: '确定',
+            cancelButtonText: '取消',
+            type: 'warning'
+        }).then(() => {
+          goodsDeleteList(goodsKeys).then(() => {
+              this.getGoodslistPage();
+              this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+              });
+          }).catch(error => {
+              console.log(error);
           });
-      });
+        }).catch(() => {
+            this.$message({
+                type: 'info',
+                message: '已取消删除'
+            });
+            this.multipleSelection=[]
+        });
+      }else{
+        this.$message({
+            type: 'error',
+            message: '至少选择一项'
+        });
+      }
     },
   },
   props: {},
