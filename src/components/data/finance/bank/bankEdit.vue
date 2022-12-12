@@ -89,6 +89,9 @@ export default {
         ],
         accountTel: [
           { required: true, message: '请输入联系电话', trigger: 'blur' },
+        ],
+        supplierBillingCode: [
+          { required: true, message: '请输入选择所属供应商', trigger: 'blur' },
         ]
       }
     }

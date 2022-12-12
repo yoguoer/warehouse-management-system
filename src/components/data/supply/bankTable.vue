@@ -81,6 +81,9 @@ export default {
         taxNumber:""
       },
       rules3:{
+        accountTel: [
+          { required: true, message: '请输入联系电话', trigger: 'blur' },
+        ],
         bankName: [
           { required: true, message: '请输入开户银行', trigger: 'blur' },
         ],
@@ -89,9 +92,6 @@ export default {
         ],
         accountName: [
           { required: true, message: '请输入账户名', trigger: 'blur' },
-        ],
-        accountTel: [
-          { required: true, message: '请输入联系电话', trigger: 'blur' },
         ],
         taxNumber: [
           { required: true, message: '请输入税号', trigger: 'blur' },

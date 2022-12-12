@@ -294,7 +294,10 @@ export default {
         ],
         taxNumber: [
           { required: true, message: '请输入税号', trigger: 'blur' },
-        ]
+        ],
+        accountTel: [
+          { required: true, message: '请输入联系电话', trigger: 'blur' },
+        ],
       },
     }
   },
