@@ -4,16 +4,16 @@
       <div style="padding:0 20px;">
         <el-row style="margin-bottom: 20px;">
           <el-col :span="5"> 
-            <span>分区号:  {{row.partitionCode}}</span>
+            <span>分区号:  {{row.districtCode}}</span>
           </el-col>
           <el-col :span="5">
-            <span>分区名称:  {{row.partitionName}}</span>
-          </el-col>
-          <el-col :span="5">
-            <span>所属事业群:  {{row.businessGroupCode}}</span>
+            <span>排序:  {{row.sort}}</span>
           </el-col>
           <el-col :span="5">
             <span>所属仓库:  {{row.inventoryKey}}</span>
+          </el-col>
+          <el-col :span="5">
+            <span>备注:  {{row.description}}</span>
           </el-col>
         </el-row>
         <el-row>
