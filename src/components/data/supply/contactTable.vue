@@ -91,7 +91,23 @@ export default {
           detail:""
         }
       },
-      rules2:{}
+      rules2:{
+        contactNumber: [
+          { required: true, message: '请输入联系人编号', trigger: 'blur' },
+        ],
+        contactName: [
+          { required: true, message: '请输入联系人姓名', trigger: 'blur' },
+        ],
+        contactEmail: [
+          { required: true, message: '请输入联系邮箱', trigger: 'blur' },
+        ],
+        contactTel: [
+          { required: true, message: '请输入联系电话', trigger: 'blur' },
+        ],
+        address: [
+          { required: true, message: '请输入联系地址', trigger: 'blur' },
+        ],
+      }
    }
   },
   props: {

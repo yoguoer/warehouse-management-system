@@ -80,7 +80,23 @@ export default {
         accountTel:"",
         taxNumber:""
       },
-      rules3:{}
+      rules3:{
+        bankName: [
+          { required: true, message: '请输入开户银行', trigger: 'blur' },
+        ],
+        accountNumber: [
+          { required: true, message: '请输入银行账号', trigger: 'blur' },
+        ],
+        accountName: [
+          { required: true, message: '请输入账户名', trigger: 'blur' },
+        ],
+        accountTel: [
+          { required: true, message: '请输入联系电话', trigger: 'blur' },
+        ],
+        taxNumber: [
+          { required: true, message: '请输入税号', trigger: 'blur' },
+        ],
+      }
    }
   },
   props: {

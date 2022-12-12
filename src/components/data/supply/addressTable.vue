@@ -71,7 +71,14 @@ export default {
           detail:""
         }
       },
-      rules:{}
+      rules:{
+        addressType: [
+          { required: true, message: '请输入地址类型', trigger: 'blur' },
+        ],
+        address: [
+          { required: true, message: '请输入联系地址', trigger: 'blur' },
+        ]
+      }
    }
   },
   props: {
