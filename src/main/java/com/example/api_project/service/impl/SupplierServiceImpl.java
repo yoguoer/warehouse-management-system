@@ -46,7 +46,30 @@ public class SupplierServiceImpl implements SupplierService {
      * 不分页查询
      */
     public List<Supplier> querylist() {
-        return supplierMapper.getList();
+        List<Supplier> records=supplierMapper.getList();
+//        String categoryKey=supplier.getCategoryKey();
+//        List<Supplier> records = this.supplierMapper.queryAllByLimit(supplierName,supplierNumber,categoryKey,startRows, pageSize);
+        for (Supplier item : records) {
+            //获取联系人列表
+            String contactSupplierKey= item.getSupplierKey();
+            List<Contact> supplierContactList=this.contactMapper.queryBySupplierKey(contactSupplierKey);
+            if(null!=supplierContactList) {
+                item.setSupplierContactList(supplierContactList);
+            }
+            //获取地址列表
+            String supplierAddressKey= item.getSupplierKey();
+            List<SupplierAddress> supplierAddressList=this.supplierAddressMapper.queryBySupplierKey(supplierAddressKey);
+            if(null!=supplierAddressList) {
+                item.setSupplierAddressList(supplierAddressList);
+            }
+            //获取开票信息列表
+            String supplierBillingKey= item.getSupplierKey();
+            List<SupplierBilling> supplierBillingList=this.supplierBillingMapper.queryBySupplierKey(supplierBillingKey);
+            if(null!=supplierBillingList) {
+                item.setSupplierBillingList(supplierBillingList);
+            }
+        }
+        return records;
     }
 
     /**
