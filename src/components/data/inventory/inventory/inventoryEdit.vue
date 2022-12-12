@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-dialog :title="ifCreate ? '新增仓库信息' : '编辑'" :visible.sync="dialogVisible" width="800px" :before-close="close"
-      top="25vh" :modal-append-to-body="false">
+      top="25vh" :modal-append-to-body="false" :close-on-click-modal="false">
       <div class="dialog_body">
-        <el-form size="middle" :model="form" :rules="rules" :inline="true" label-width="100px">
+        <el-form size="middle" :model="form" :rules="rules" ref="form" :inline="true" label-width="100px">
           <el-row>
             <el-form-item prop="inventoryName" label="仓库名">
               <el-input v-model="form.inventoryName" placeholder="仓库名" class="form_text"></el-input>
@@ -60,8 +60,8 @@
         </el-form>
         <div class="dialog_footer">
           <el-button type="" size="middle" @click="close()">取消</el-button>
-          <el-button type="primary" size="middle" @click="save()" v-if="ifCreate">创建</el-button>
-          <el-button type="primary" size="middle" @click="update()" v-if="!ifCreate">确定</el-button>
+          <el-button type="primary" size="middle" @click="save('form')" v-if="ifCreate">创建</el-button>
+          <el-button type="primary" size="middle" @click="update('form')" v-if="!ifCreate">确定</el-button>
         </div>
       </div>
     </el-dialog>
@@ -222,66 +222,80 @@ export default {
     },
 
     //更新
-    update() {
-      let data = {
-        categoryKey: this.value,
-        contactName: this.form.contactName,
-        inventoryCode: this.form.inventoryCode,
-        inventoryKey: this.form.inventoryKey,
-        inventoryName: this.form.inventoryName,
-        inventoryType: this.form.inventoryType,
-        tel: this.form.tel,
-        zipCode: this.form.zipCode,
-        province: this.form.address.province,
-        city: this.form.address.city,
-        district: this.form.address.district,
-        detail: this.form.address.detail,
-        description: this.form.description,
-      };
-      inventoryUpdate(data)
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.$message.success("修改成功!");
-            this.$parent.success();
+    update(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let data = {
+            categoryKey: this.value,
+            contactName: this.form.contactName,
+            inventoryCode: this.form.inventoryCode,
+            inventoryKey: this.form.inventoryKey,
+            inventoryName: this.form.inventoryName,
+            inventoryType: this.form.inventoryType,
+            tel: this.form.tel,
+            zipCode: this.form.zipCode,
+            province: this.form.address.province,
+            city: this.form.address.city,
+            district: this.form.address.district,
+            detail: this.form.address.detail,
+            description: this.form.description,
+          };
+          inventoryUpdate(data)
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.$message.success("修改成功!");
+                this.$parent.success();
+              } else {
+                this.$message.error(res.msg);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
           } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+          console.log('error submit!!');
+          return false;
+        }
+      })
     },
 
     //新建
-    save() {
-      let data = {
-        categoryKey: this.form.categoryKey,
-        contactName: this.form.contactName,
-        inventoryCode: this.form.inventoryCode,
-        inventoryKey: this.form.inventoryKey,
-        inventoryName: this.form.inventoryName,
-        inventoryType: this.form.inventoryType,
-        tel: this.form.tel,
-        zipCode: this.form.zipCode,
-        province: this.form.address.province,
-        city: this.form.address.city,
-        district: this.form.address.district,
-        detail: this.form.address.detail,
-        description: this.form.description,
-      };
-      console.log(data);
-      inventoryAdd(data)
-        .then((res) => {
-          if (res.data.code == 200) {
-            this.$message.success("创建成功!");
-            this.$parent.success();
+    save(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let data = {
+            categoryKey: this.form.categoryKey,
+            contactName: this.form.contactName,
+            inventoryCode: this.form.inventoryCode,
+            inventoryKey: this.form.inventoryKey,
+            inventoryName: this.form.inventoryName,
+            inventoryType: this.form.inventoryType,
+            tel: this.form.tel,
+            zipCode: this.form.zipCode,
+            province: this.form.address.province,
+            city: this.form.address.city,
+            district: this.form.address.district,
+            detail: this.form.address.detail,
+            description: this.form.description,
+          };
+          console.log(data);
+          inventoryAdd(data)
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.$message.success("创建成功!");
+                this.$parent.success();
+              } else {
+                this.$message.error(res.msg);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
           } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+          console.log('error submit!!');
+          return false;
+        }
+      })
     },
 
     reset() {

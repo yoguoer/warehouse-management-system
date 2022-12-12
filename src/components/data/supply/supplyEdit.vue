@@ -272,6 +272,9 @@ export default {
         ]
       },
       rules2: {
+        contactNumber: [
+          { required: true, message: '请输入联系人编号', trigger: 'blur' },
+        ],
         contactName: [
           { required: true, message: '请输入联系人姓名', trigger: 'blur' },
         ],
@@ -282,6 +285,9 @@ export default {
       rules3: {
         accountNumber: [
           { required: true, message: '请输入账号', trigger: 'blur' },
+        ],
+        accountName: [
+          { required: true, message: '请输入名', trigger: 'blur' },
         ],
         bankName: [
           { required: true, message: '请输入开户银行', trigger: 'blur' },
@@ -314,6 +320,7 @@ export default {
   },
   created() {
     this.getTree()
+    console.log("编辑rowData", this.rowData)
     //初始化
     if (!!this.rowData.supplierKey) {
       this.ifCreate = false
@@ -322,7 +329,6 @@ export default {
       this.ruleForm.superlierDescription = this.rowData.superlierDescription
       this.ruleForm.supplierNumber = this.rowData.supplierNumber
       this.ruleForm.supplierKey = this.rowData.supplierKey
-      console.log("this.ruleForm", this.ruleForm)
 
       //常用联系人非空-需要遍历处理
       if (this.rowData.supplierContactList.length > 0) {
@@ -405,7 +411,7 @@ export default {
     selectNode(node) {
       this.ruleForm.categoryKey = node.categoryKey || ''
       this.value = node.categoryKey
-      console.log("selectNode(node)：", this.ruleForm)
+      // console.log("selectNode(node)：", this.ruleForm)
     },
 
     getTree() {
@@ -480,7 +486,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = this.ruleForm
-          console.log("#this.ruleForm#", data)
+          // console.log("#this.ruleForm#", data)
 
           Supplierupdate(data)
             .then((res) => {
@@ -542,7 +548,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = this.ruleForm
-          console.log("#this.ruleForm#", data)
+          // console.log("#this.ruleForm#", data)
 
           Supplieradd(data)
             .then((res) => {
@@ -657,7 +663,7 @@ export default {
           detail: ""
         },//联系地址
       })
-      console.log(this.contactList, this.ruleForm)
+      // console.log(this.contactList, this.ruleForm)
     },
     addressAdd() {
       //每次增加，都要添加一个空的数组来存放新输入的数据
@@ -675,7 +681,7 @@ export default {
         },//联系地址
         // supplierAddressKey:""
       })
-      console.log(this.addressList, this.ruleForm)
+      // console.log(this.addressList, this.ruleForm)
     },
     bankAdd() {
       //每次增加，都要添加一个空的数组来存放新输入的数据
@@ -687,7 +693,7 @@ export default {
         billingKey:"",
         taxNumber: ""
       })
-      console.log(this.bankList, this.ruleForm)
+      // console.log(this.bankList, this.ruleForm)
     },
   },
 }

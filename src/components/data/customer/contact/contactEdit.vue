@@ -91,15 +91,21 @@ export default {
 
       rules: {
         contactCustomerKey: [
-          { required: true, message: '请输入客户', trigger: 'blur' },
+          { required: true, message: '请选择客户', trigger: 'blur' },
         ],
         contactName: [
           { required: true, message: '请输入联系人姓名', trigger: 'blur' },
         ],
+        contactNumber: [
+          { required: true, message: '请输入联系人编号', trigger: 'blur' },
+        ],
         address: [
           { required: true, message: '请输入联系地址', trigger: 'blur' }
         ],
-        tel: [
+        contactTel: [
+          { required: true, message: '请输入联系电话', trigger: 'blur' }
+        ],
+        contactEmail: [
           { required: true, message: '请输入联系电话', trigger: 'blur' }
         ]
       }

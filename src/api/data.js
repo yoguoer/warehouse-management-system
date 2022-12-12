@@ -552,6 +552,78 @@ export function entityDeleteList(data) {
   });
 }
 
+//添加供应商-地址信息
+export function supplierAddressAdd(data) {
+  return request({
+    url: baseUrl + "/supplierAddress/add",
+    method: "POST",
+    data: data,
+  });
+}
+
+//更新供应商-地址信息
+export function supplierAddressUpdate(data) {
+  return request({
+    url: baseUrl + "/supplierAddress/update",
+    method: "POST",
+    data: data,
+  });
+}
+
+//删除供应商-地址信息
+export function supplierAddressDelete(data) {
+  return request({
+    url: baseUrl + "/supplierAddress/delete",
+    method: "POST",
+    data: data,
+  });
+}
+
+//删除供应商-地址信息(列表)
+export function addressDeleteList(data) {
+  return request({
+    url: baseUrl + "/supplierAddress/delete-list",
+    method: "POST",
+    data: data,
+  });
+}
+
+//添加供应商-开票信息
+export function supplierBillingAdd(data) {
+  return request({
+    url: baseUrl + "/supplierBilling/add",
+    method: "POST",
+    data: data,
+  });
+}
+
+//更新供应商-开票信息
+export function supplierBillingUpdate(data) {
+  return request({
+    url: baseUrl + "/supplierBilling/update",
+    method: "POST",
+    data: data,
+  });
+}
+
+//删除供应商-开票信息
+export function supplierBillingDelete(data) {
+  return request({
+    url: baseUrl + "/supplierBilling/delete",
+    method: "POST",
+    data: data,
+  });
+}
+
+//删除供应商-开票信息(列表)
+export function supplierBillingDeleteList(data) {
+  return request({
+    url: baseUrl + "/supplierBilling/delete-list",
+    method: "POST",
+    data: data,
+  });
+}
+
 // ==============================================一些不分页的数据================================================
 //查询客户--不分页
 export function CustomerList(data) {

@@ -1,5 +1,5 @@
 <template>
-  <el-drawer size="50%" :title="ifCreate ? '新增银行' : '联系人编辑'" :visible.sync="drawer" :direction="direction"
+  <el-drawer size="30%" :title="ifCreate ? '新增银行' : '联系人编辑'" :visible.sync="drawer" :direction="direction"
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -127,31 +127,45 @@ export default {
         if (res.data.code == 200) {
           this.options=res.data.data
         } else {
-          this.$message.error("编辑失败!");
+          this.$message.error("获取失败!");
         }
       });
     },
-    save() {
-      bankUpdate(this.ruleForm).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("编辑成功!");
-          this.$parent.success()
-          this.$forceUpdate()
+    save(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          bankUpdate(this.ruleForm).then(res => {
+            if (res.data.code == 200) {
+              this.$message.success("编辑成功!");
+              this.$parent.success()
+              this.$forceUpdate()
+            } else {
+              this.$message.error("编辑失败!");
+            }
+          });
         } else {
-          this.$message.error("编辑失败!");
+          console.log('error submit!!');
+          return false;
         }
-      });
+      })
     },
-    create() {
-      bankAdd(this.ruleForm).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("新增成功!");
-          this.$parent.success()
-          this.$forceUpdate()
+    create(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          bankAdd(this.ruleForm).then(res => {
+            if (res.data.code == 200) {
+              this.$message.success("新增成功!");
+              this.$parent.success()
+              this.$forceUpdate()
+            } else {
+              this.$message.error("新增失败!");
+            }
+          });
         } else {
-          this.$message.error("新增失败!");
+          console.log('error submit!!');
+          return false;
         }
-      });
+      })
     },
     reset() {
       this.ruleForm = {

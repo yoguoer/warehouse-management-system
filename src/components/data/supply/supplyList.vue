@@ -29,7 +29,7 @@
         </el-table-column>
         <el-table-column label="联系人列表">
           <template slot-scope="scope">
-            <span v-for="item in scope.row.supplierContactList" :key="item.contactSupplierKey" :label="item">
+            <span v-for="(item,index) in scope.row.supplierContactList" :key="index" :label="item">
               <span>
                 {{ item.contactName }};
               </span>
@@ -38,6 +38,7 @@
         </el-table-column>
         <el-table-column fixed="right" width="200px" label="操作">
           <template slot-scope="scope">
+            <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
             <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small" icon="el-icon-delete">删除</el-button>
           </template>
@@ -48,14 +49,16 @@
           :current="parseInt(pageNo)" :total="total" :page-size.sync="pageSize" :page-no.sync="pageNo"
           @current-change="_page" @size-change="_pageSize"></el-pagination>
       </div>
-      <supplyEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
+      <supplyEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" ref="edit"/>
+      <supplyDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" ref="detail"/>
     </div>
   </div>
 </template>
 
 <script>
 import supplyEdit from "./supplyEdit";
-import { SupplierlistPage,SupplierDelete,SupplierDeleteList} from "@/api/data";
+import supplyDetail from "./supplyDetail";
+import { SupplierlistPage,SupplierDelete,SupplierDeleteList,Supplierlist} from "@/api/data";
 import leftCard from "@/components/public/leftCard.vue";
 
 export default {
@@ -71,9 +74,18 @@ export default {
       pageNo: 1,
       total: null,
       drawer: false,
+      isShow: false,
       rowData: {},
       supplyList: [],
+      activeItem:""
     };
+  },
+  props: {
+  },
+  components: {
+    supplyEdit,
+    leftCard,
+    supplyDetail
   },
   created() {
     this.getSupplierlistPage();
@@ -108,6 +120,13 @@ export default {
         }
       });
     },
+    //详情
+    openDetail(row) {
+        this.rowData = row;
+        this.activeItem = row.supplierKey
+        this.isShow=true//详情
+        console.log(this.activeItem)
+    },
     //编辑
     editRow(row) {
       this.rowData = row
@@ -119,6 +138,24 @@ export default {
         this.total = res.data.data.total
         console.log(this.total, this.supplyList);
       });
+      this.$forceUpdate();
+    },
+    getData(){
+      Supplierlist().then(res => {
+        if (res.data.code == 200) {
+          console.log(res.data.data)
+          res.data.data.forEach(item=>{
+            if(item.supplierKey==this.activeItem){
+              this.rowData = item
+              console.log(this.rowData,"this.rowData");
+            }
+            this.$refs.detail.reload()
+          })
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+      this.getSupplierlistPage()
       this.$forceUpdate();
     },
     success() {
@@ -172,12 +209,6 @@ export default {
           });
       });
     },
-  },
-  props: {
-  },
-  components: {
-    supplyEdit,
-    leftCard
   },
 };
 </script>

@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-dialog :title="ifCreate ? '新增区域信息' : '编辑'" :visible.sync="dialogVisible" width="600px" :before-close="close"
-      top="25vh" :modal-append-to-body="false">
+      top="25vh" :modal-append-to-body="false" :close-on-click-modal="false">
       <div class="dialog_body">
-        <el-form size="middle" :model="form" :rules="rules" :inline="true" label-width="100px">
+        <el-form size="middle" :model="form" :rules="rules" :inline="true" ref="form" label-width="100px">
           <el-form-item label="区域号:" prop="districtCode">
             <el-input v-model="form.districtCode" class="form_text" placeholder="区域号"></el-input>
           </el-form-item>
@@ -23,8 +23,8 @@
         </el-form>
         <div class="dialog_footer">
           <el-button type="" size="middle" @click="close()">取消</el-button>
-          <el-button type="primary" size="middle" @click="save()" v-if="ifCreate">创建</el-button>
-          <el-button type="primary" size="middle" @click="update()" v-if="!ifCreate">确定</el-button>
+          <el-button type="primary" size="middle" @click="save('form')" v-if="ifCreate">创建</el-button>
+          <el-button type="primary" size="middle" @click="update('form')" v-if="!ifCreate">确定</el-button>
         </div>
       </div>
     </el-dialog>
@@ -102,34 +102,48 @@ export default {
       this.$emit("close");
     },
     //更新
-    update() {
-      districtUpdate(this.form)
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.$message.success("修改成功!");
-            this.$parent.success();
+    update(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          districtUpdate(this.form)
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.$message.success("修改成功!");
+                this.$parent.success();
+              } else {
+                this.$message.error(res.msg);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
           } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+          console.log('error submit!!');
+          return false;
+        }
+      })
     },
     //创建
-    save() {
-      districtAdd(this.form)
-        .then((res) => {
-          if (res.data.code == 200) {
-            this.$message.success("创建成功!");
-            this.$parent.success();
+    save(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          districtAdd(this.form)
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.$message.success("创建成功!");
+                this.$parent.success();
+              } else {
+                this.$message.error(res.msg);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
           } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+          console.log('error submit!!');
+          return false;
+        }
+      })
     },
     reset() {
       this.form = {

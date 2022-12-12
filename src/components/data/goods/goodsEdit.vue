@@ -145,8 +145,8 @@
 
         <el-row style="width: 1200px">
           <el-form-item style="float: right; margin-top: 5%">
-            <el-button type="primary" @click="update()" v-if="ifCreate == false">保存</el-button>
-            <el-button type="primary" @click="save()" v-else>立即创建</el-button>
+            <el-button type="primary" @click="update('ruleForm')" v-if="ifCreate == false">保存</el-button>
+            <el-button type="primary" @click="save('ruleForm')" v-else>立即创建</el-button>
             <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
             <el-button @click="close()">关闭</el-button>
           </el-form-item>
@@ -199,12 +199,76 @@ export default {
         priceCostAverage: "", //成本均价
         priceCostPreset: "", //预设进价
         priceCostReference: "", //参考成本
-        brandCode:""
+        brandCode:""//品牌
       },
       list: [],
       options: [],
       options1: [],
-      rules: {},
+      rules: {
+        goodsBarcode: [
+          { required: true, message: '请输入商品条码', trigger: 'blur' },
+        ],
+        goodsCode: [
+          { required: true, message: '请输入商品货号', trigger: 'blur' },
+        ],
+        goodsName: [
+          { required: true, message: '请输入商品名', trigger: 'blur' },
+        ],
+        inventoryKey: [
+          { required: true, message: '请选择默认仓库', trigger: 'blur' },
+        ],
+        supplierKey: [
+          { required: true, message: '请选择供应商', trigger: 'blur' },
+        ],
+        goodsUnit: [
+          { required: true, message: '请输入商品单位', trigger: 'blur' },
+        ],
+        unitType: [
+          { required: true, message: '请输入单位类型', trigger: 'blur' },
+        ],
+        unitDescription: [
+          { required: true, message: '请输入换算关系', trigger: 'blur' },
+        ],
+        state: [
+          { required: true, message: '请选择状态', trigger: 'blur' },
+        ],
+        modelCode: [
+          { required: true, message: '请输入型号', trigger: 'blur' },
+        ],
+        categoryKey: [
+          { required: true, message: '请选择所属分类', trigger: 'blur' },
+        ],
+        weight: [
+          { required: true, message: '请输入重量', trigger: 'blur' },
+        ],
+        volume: [
+          { required: true, message: '请输入体积', trigger: 'blur' },
+        ],
+        inventoryBook: [
+          { required: true, message: '请输入账面库存', trigger: 'blur' },
+        ],
+        priceWholesaler: [
+          { required: true, message: '请输入批发价', trigger: 'blur' },
+        ],
+        priceRetail: [
+          { required: true, message: '请输入零售价', trigger: 'blur' },
+        ],
+        priceLatestPurchase: [
+          { required: true, message: '请输入最近进价', trigger: 'blur' },
+        ],
+        priceCostAverage: [
+          { required: true, message: '请输入成本均价', trigger: 'blur' },
+        ],
+        priceCostPreset: [
+          { required: true, message: '请输入预设进价', trigger: 'blur' },
+        ],
+        priceCostReference: [
+          { required: true, message: '请输入参考成本', trigger: 'blur' },
+        ],
+        brandCode: [
+          { required: true, message: '选择品牌', trigger: 'blur' },
+        ]
+      },
     };
   },
   props: {
@@ -335,38 +399,52 @@ export default {
       });
     },
     //更新
-    update() {
-      console.log("this.ruleForm", this.ruleForm);
-      goodsUpdate(this.ruleForm)
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.$message.success("修改成功!");
-            this.$parent.success();
+    update(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // console.log("this.ruleForm", this.ruleForm);
+          goodsUpdate(this.ruleForm)
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.$message.success("修改成功!");
+                this.$parent.success();
+              } else {
+                this.$message.error(res.msg);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
           } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+          console.log('error submit!!');
+          return false;
+        }
+      })
     },
     //创建
-    save() {
+    save(formName) {
       this.ruleForm.createTime = moment().format("YYYY-MM-DD HH:mm:ss");
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
       // console.log(moment().format("YYYY-MM-DD HH:mm:ss")); //当前时间 （24小时制）
-      console.log("this.ruleForm", this.ruleForm);
-      goodsAdd(this.ruleForm)
-        .then((res) => {
-          if (res.data.code == 200) {
-            this.$message.success("创建成功!");
-            this.$parent.success();
+      // console.log("this.ruleForm", this.ruleForm);
+          goodsAdd(this.ruleForm)
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.$message.success("创建成功!");
+                this.$parent.success();
+              } else {
+                this.$message.error(res.msg);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
           } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+          console.log('error submit!!');
+          return false;
+        }
+      })
     },
     reset() {
       this.ruleForm = {

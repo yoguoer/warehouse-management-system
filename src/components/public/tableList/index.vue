@@ -11,8 +11,8 @@
       @selection-change="handleSelectionChange"
       border
     >
+      <template><el-table-column type="selection" width="55" v-if="multiCheck"></el-table-column></template>
       <template v-for="(rowItem, rowIdx) in tableColumn">
-        <template><el-table-column :key="rowIdx" type="selection" width="55"></el-table-column></template>
         <template v-if="rowItem.children">
           <el-table-column :label="rowItem.label" :key="(rowItem.label + rowIdx)" :align="rowItem.align ? rowItem.align : 'center'">
             <template v-for="(rowItem1, rowIdx1) in rowItem.children">
@@ -105,6 +105,7 @@ export default {
     searchMethod: Function, // 表格查询方法
     resetMethod: Function, // 表单重置方法
     loading: Boolean, // 查询loading
+    multiCheck:{type:Boolean,default:true},//是否显示多选框
     height: { type: String, default: () => "600px" },
   },
   data() {

@@ -17,11 +17,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="5">
-          <el-form-item label="详细说明" prop="detail">
-            <el-input v-model="ruleForm.detail"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
           <el-form-item label="载重" prop="maxWeight">
             <el-input v-model="ruleForm.maxWeight" type="Number"></el-input>
           </el-form-item>
@@ -36,6 +31,11 @@
         <el-col :span="5">
           <el-form-item label="装货体积" prop="maxCapacity">
             <el-input v-model="ruleForm.maxCapacity" type="Number"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="5">
+          <el-form-item label="详细说明" prop="detail">
+            <el-input v-model="ruleForm.detail"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="5">
@@ -118,27 +118,41 @@ export default {
         this.$parent.drawer=false
         this.reset()
       },
-      save(){
-        vehicleUpdate(this.ruleForm).then(res=> {
-          if(res.data.code==200){
-            this.$message.success("编辑成功!");
-            this.$parent.success()
-            this.$forceUpdate()
-          }else{
-            this.$message.error("编辑失败!");
-          }
-        });
+      save(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+            vehicleUpdate(this.ruleForm).then(res=> {
+              if(res.data.code==200){
+                this.$message.success("编辑成功!");
+                this.$parent.success()
+                this.$forceUpdate()
+              }else{
+                this.$message.error("编辑失败!");
+              }
+            });
+          } else {
+          console.log('error submit!!');
+          return false;
+        }
+      })
       },
-      create(){
-        vehicleAdd(this.ruleForm).then(res=> {
-          if(res.data.code==200){
-            this.$message.success("新增成功!");
-            this.$parent.success()
-            this.$forceUpdate()
-          }else{
-            this.$message.error("新增失败!");
-          }
-        });  
+      create(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+            vehicleAdd(this.ruleForm).then(res=> {
+              if(res.data.code==200){
+                this.$message.success("新增成功!");
+                this.$parent.success()
+                this.$forceUpdate()
+              }else{
+                this.$message.error("新增失败!");
+              }
+            });  
+          } else {
+          console.log('error submit!!');
+          return false;
+        }
+      })
       },
       reset(){
         this.ruleForm={

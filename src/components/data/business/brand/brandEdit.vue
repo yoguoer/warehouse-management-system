@@ -81,27 +81,41 @@ export default {
         this.$parent.drawer=false
         this.reset()
       },
-      save(){
-        brandUpdate(this.ruleForm).then(res=> {
-          if(res.data.code==200){
-            this.$message.success("编辑成功!");
-            this.$parent.success()
-            this.$forceUpdate()
-          }else{
-            this.$message.error("编辑失败!");
-          }
-        });
+      save(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+            brandUpdate(this.ruleForm).then(res=> {
+              if(res.data.code==200){
+                this.$message.success("编辑成功!");
+                this.$parent.success()
+                this.$forceUpdate()
+              }else{
+                this.$message.error("编辑失败!");
+              }
+            });
+          } else {
+          console.log('error submit!!');
+          return false;
+        }
+      })
       },
-      create(){
-        brandAdd(this.ruleForm).then(res=> {
-          if(res.data.code==200){
-            this.$message.success("新增成功!");
-            this.$parent.success()
-            this.$forceUpdate()
-          }else{
-            this.$message.error("新增失败!");
-          }
-        });  
+      create(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+            brandAdd(this.ruleForm).then(res=> {
+              if(res.data.code==200){
+                this.$message.success("新增成功!");
+                this.$parent.success()
+                this.$forceUpdate()
+              }else{
+                this.$message.error("新增失败!");
+              }
+            });  
+          } else {
+          console.log('error submit!!');
+          return false;
+        }
+      })
       },
       reset(){
         this.ruleForm={

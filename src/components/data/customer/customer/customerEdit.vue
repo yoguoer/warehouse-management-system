@@ -198,7 +198,6 @@ export default {
         customerName: [
           { required: true, message: '请输入客户名称', trigger: 'blur' }
         ],
-
         contactName: [
           { required: true, message: '请输入联系人姓名', trigger: 'blur' },
         ],
