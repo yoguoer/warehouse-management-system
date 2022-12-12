@@ -42,12 +42,12 @@ public class SupplierBillingServiceImpl implements SupplierBillingService {
 
     /**
      *
-     * @param supplierBillingKey
+     * @param supplierBillingCode
      * @return 实例对象
      */
     @Override
-    public List<SupplierBilling> queryBySupplierKey(String supplierBillingKey) {
-        return supplierBillingMapper.queryBySupplierKey(supplierBillingKey);
+    public List<SupplierBilling> queryBySupplierKey(String supplierBillingCode) {
+        return supplierBillingMapper.queryBySupplierKey(supplierBillingCode);
     }
 
     /**

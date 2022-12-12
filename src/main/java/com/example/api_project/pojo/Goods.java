@@ -8,10 +8,10 @@ public class Goods {
     private String goodsKey;//商品ID
     private String modelCode;//型号
     private String state;//0下架 1上架
-    private String supplierKey;//供应商
+    private String supplierCode;//供应商
     private String categoryKey;//所属分类
     private String brandCode;//品牌
-    private String inventoryKey;//默认仓库
+    private String inventoryCode;//默认仓库
     //商品头图？
     private String goodsUnit;//商品单位
     private String unitType; //单位类型：BASIC：基本单位， SUPPORT：辅助单位
@@ -90,12 +90,12 @@ public class Goods {
         this.state = state;
     }
 
-    public String getSupplierKey() {
-        return supplierKey;
+    public String getsupplierCode() {
+        return supplierCode;
     }
 
-    public void setSupplierKey(String supplierKey) {
-        this.supplierKey = supplierKey;
+    public void setsupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
     }
 
     public String getCategoryKey() {
@@ -106,12 +106,12 @@ public class Goods {
         this.categoryKey = categoryKey;
     }
 
-    public String getInventoryKey() {
-        return inventoryKey;
+    public String getinventoryCode() {
+        return inventoryCode;
     }
 
-    public void setInventoryKey(String inventoryKey) {
-        this.inventoryKey = inventoryKey;
+    public void setinventoryCode(String inventoryCode) {
+        this.inventoryCode = inventoryCode;
     }
 
     public String getGoodsUnit() {

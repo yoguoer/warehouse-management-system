@@ -9,7 +9,7 @@
         <result property="modelCode" column="model_code" jdbcType="VARCHAR"/>
         <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
         <result property="goodsUnit" column="goods_unit" jdbcType="VARCHAR"/>
-        <result property="inventoryKey" column="inventory_key" jdbcType="VARCHAR"/>
+        <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
         <result property="priceCostAverage" column="price_cost_average" jdbcType="VARCHAR"/>
         <result property="priceCostPreset" column="price_cost_preset" jdbcType="VARCHAR"/>
         <result property="priceCostReference" column="price_cost_reference" jdbcType="VARCHAR"/>
@@ -21,7 +21,7 @@
         <result property="unitDescription" column="unit_description" jdbcType="VARCHAR"/>
         <result property="weight" column="weight" jdbcType="INTEGER"/>
         <result property="volume" column="volume" jdbcType="INTEGER"/>
-        <result property="supplierKey" column="supplier_key" jdbcType="VARCHAR"/>
+        <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
         <result property="unitType" column="unit_type" jdbcType="VARCHAR"/>
         <result property="inventoryBook" column="inventory_book" jdbcType="INTEGER"/>
         <result property="priceRetail" column="price_retail" jdbcType="INTEGER"/>
@@ -36,7 +36,7 @@
                model_code,
                goods_code,
                goods_unit,
-               inventory_key,
+               inventory_code,
                price_cost_average,
                price_cost_preset,
                price_cost_reference,
@@ -48,9 +48,9 @@
                unit_description,
                weight,
                volume,
-               supplier_key,
+               supplier_code,
                unit_type,
-               inventory_key,
+               inventory_code,
                price_retail,
                price_wholesaler
         from goods
@@ -66,7 +66,7 @@
                model_code,
                goods_code,
                goods_unit,
-               inventory_key,
+               inventory_code,
                price_cost_average,
                price_cost_preset,
                price_cost_reference,
@@ -78,9 +78,9 @@
                unit_description,
                weight,
                volume,
-               supplier_key,
+               supplier_code,
                unit_type,
-               inventory_key,
+               inventory_code,
                price_retail,
                price_wholesaler
         from goods
@@ -90,9 +90,9 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="GoodsMap">
         select
-        goods_key, brand_code,goods_name, model_code, goods_code, goods_unit, inventory_key, price_cost_average, price_cost_preset,
+        goods_key, brand_code,goods_name, model_code, goods_code, goods_unit, inventory_code, price_cost_average, price_cost_preset,
         price_cost_reference, price_latest_purchase, goods_barcode, create_time, state, category_key, unit_description,
-        weight, volume, supplier_key, unit_type, inventory_book, price_retail, price_wholesaler
+        weight, volume, supplier_code, unit_type, inventory_book, price_retail, price_wholesaler
         from goods
         <where>
             <if test="goodsName != null and goodsName != ''">
@@ -128,8 +128,8 @@
             <if test="goodsUnit != null and goodsUnit != ''">
                 and goods_unit = #{goodsUnit}
             </if>
-            <if test="inventoryKey != null and inventoryKey != ''">
-                and inventory_key = #{inventoryKey}
+            <if test="inventoryCode != null and inventoryCode != ''">
+                and inventory_code = #{inventoryCode}
             </if>
             <if test="priceCostAverage != null and priceCostAverage != ''">
                 and price_cost_average = #{priceCostAverage}
@@ -164,8 +164,8 @@
             <if test="volume != null">
                 and volume = #{volume}
             </if>
-            <if test="supplierKey != null and supplierKey != ''">
-                and supplier_key = #{supplierKey}
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
             </if>
             <if test="unitType != null and unitType != ''">
                 and unit_type = #{unitType}
@@ -184,40 +184,40 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="goodsKey" useGeneratedKeys="true">
-        insert into goods(goods_key,brand_code,goods_name, model_code, goods_code, goods_unit, inventory_key, price_cost_average,
+        insert into goods(goods_key,brand_code,goods_name, model_code, goods_code, goods_unit, inventory_code, price_cost_average,
                           price_cost_preset, price_cost_reference, price_latest_purchase, goods_barcode, create_time,
-                          state, category_key, unit_description, weight, volume, supplier_key, unit_type,
+                          state, category_key, unit_description, weight, volume, supplier_code, unit_type,
                           inventory_book, price_retail, price_wholesaler)
-        values (#{goodsKey},#{brandCode},#{goodsName}, #{modelCode}, #{goodsCode}, #{goodsUnit}, #{inventoryKey}, #{priceCostAverage},
+        values (#{goodsKey},#{brandCode},#{goodsName}, #{modelCode}, #{goodsCode}, #{goodsUnit}, #{inventoryCode}, #{priceCostAverage},
                 #{priceCostPreset}, #{priceCostReference}, #{priceLatestPurchase}, #{goodsBarcode}, #{createTime},
-                #{state}, #{categoryKey}, #{unitDescription}, #{weight}, #{volume}, #{supplierKey}, #{unitType},
+                #{state}, #{categoryKey}, #{unitDescription}, #{weight}, #{volume}, #{supplierCode}, #{unitType},
                 #{inventoryBook}, #{priceRetail}, #{priceWholesaler})
     </insert>
 
     <insert id="insertBatch" keyProperty="goodsKey" useGeneratedKeys="true">
-        insert into goods(goods_name,brand_code, model_code, goods_code, goods_unit, inventory_key, price_cost_average,
+        insert into goods(goods_name,brand_code, model_code, goods_code, goods_unit, inventory_code, price_cost_average,
         price_cost_preset, price_cost_reference, price_latest_purchase, goods_barcode, create_time, state, category_key,
-        unit_description, weight, volume, supplier_key, unit_type, inventory_book, price_retail, price_wholesaler)
+        unit_description, weight, volume, supplier_code, unit_type, inventory_book, price_retail, price_wholesaler)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.goodsName},#{entity.brandCode},  #{entity.modelCode}, #{entity.goodsCode}, #{entity.goodsUnit}, #{entity.inventoryKey},
+            (#{entity.goodsName},#{entity.brandCode},  #{entity.modelCode}, #{entity.goodsCode}, #{entity.goodsUnit}, #{entity.inventoryCode},
             #{entity.priceCostAverage}, #{entity.priceCostPreset}, #{entity.priceCostReference},
             #{entity.priceLatestPurchase}, #{entity.goodsBarcode}, #{entity.createTime}, #{entity.state},
-            #{entity.categoryKey}, #{entity.unitDescription}, #{entity.weight}, #{entity.volume}, #{entity.supplierKey},
+            #{entity.categoryKey}, #{entity.unitDescription}, #{entity.weight}, #{entity.volume}, #{entity.supplierCode},
             #{entity.unitType}, #{entity.inventoryBook}, #{entity.priceRetail}, #{entity.priceWholesaler})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="goodsKey" useGeneratedKeys="true">
-        insert into goods(goods_name, brand_code,model_code, goods_code, goods_unit, inventory_key, price_cost_average,
+        insert into goods(goods_name, brand_code,model_code, goods_code, goods_unit, inventory_code, price_cost_average,
         price_cost_preset, price_cost_reference, price_latest_purchase, goods_barcode, create_time, state, category_key,
-        unit_description, weight, volume, supplier_key, unit_type, inventory_book, price_retail, price_wholesaler)
+        unit_description, weight, volume, supplier_code, unit_type, inventory_book, price_retail, price_wholesaler)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.goodsName},#{entity.brandCode},  #{entity.modelCode}, #{entity.goodsCode}, #{entity.goodsUnit}, #{entity.inventoryKey},
+            (#{entity.goodsName},#{entity.brandCode},  #{entity.modelCode}, #{entity.goodsCode}, #{entity.goodsUnit}, #{entity.inventoryCode},
             #{entity.priceCostAverage}, #{entity.priceCostPreset}, #{pentity.riceCostReference},
             #{entity.priceLatestPurchase}, #{entity.goodsBarcode}, #{entity.createTime}, #{entity.state},
-            #{entity.categoryKey}, #{entity.unitDescription}, #{entity.weight}, #{vvolume}, #{entity.supplierKey},
+            #{entity.categoryKey}, #{entity.unitDescription}, #{entity.weight}, #{vvolume}, #{entity.supplierCode},
             #{vunitType}, #{entity.inventoryBook}, #{entity.priceRetail}, #{entity.priceWholesaler})
         </foreach>
         on duplicate key update
@@ -226,7 +226,7 @@
         model_code = values(model_code),
         goods_code = values(goods_code),
         goods_unit = values(goods_unit),
-        inventory_key = values(inventory_key),
+        inventory_code = values(inventory_code),
         price_cost_average = values(price_cost_average),
         price_cost_preset = values(price_cost_preset),
         price_cost_reference = values(price_cost_reference),
@@ -238,9 +238,9 @@
         unit_description = values(unit_description),
         weight = values(weight),
         volume = values(volume),
-        supplier_key = values(supplier_key),
+        supplier_code = values(supplier_code),
         unit_type = values(unit_type),
-        inventory_key = values( inventory_key),
+        inventory_code = values( inventory_code),
         price_retail = values(price_retail),
         price_wholesaler = values(price_wholesaler)
     </insert>
@@ -264,8 +264,8 @@
             <if test="goodsUnit != null and goodsUnit != ''">
                 goods_unit = #{goodsUnit},
             </if>
-            <if test="inventoryKey != null and inventoryKey != ''">
-                inventory_key = #{inventoryKey},
+            <if test="inventoryCode != null and inventoryCode != ''">
+                inventory_code = #{inventoryCode},
             </if>
             <if test="priceCostAverage != null and priceCostAverage != ''">
                 price_cost_average = #{priceCostAverage},
@@ -300,8 +300,8 @@
             <if test="volume != null">
                 volume = #{volume},
             </if>
-            <if test="supplierKey != null and supplierKey != ''">
-                supplier_key = #{supplierKey},
+            <if test="supplierCode != null and supplierCode != ''">
+                supplier_code = #{supplierCode},
             </if>
             <if test="unitType != null and unitType != ''">
                 unit_type = #{unitType},

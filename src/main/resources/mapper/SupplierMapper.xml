@@ -5,7 +5,7 @@
     <resultMap type="com.example.api_project.pojo.Supplier" id="SupplierMap">
         <result property="supplierKey" column="supplier_key" jdbcType="VARCHAR"/>
         <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
-        <result property="supplierNumber" column="supplier_number" jdbcType="VARCHAR"/>
+        <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
         <result property="categoryKey" column="category_key" jdbcType="VARCHAR"/>
         <result property="superlierDescription" column="superlier_description" jdbcType="VARCHAR"/>
     </resultMap>
@@ -14,7 +14,7 @@
     <select id="getList" resultMap="SupplierMap">
         select supplier_key,
                supplier_name,
-               supplier_number,
+               supplier_code,
                category_key,
                superlier_description
         from supplier
@@ -24,7 +24,7 @@
     <select id="queryById" resultMap="SupplierMap">
         select supplier_key,
                supplier_name,
-               supplier_number,
+               supplier_code,
                category_key,
                superlier_description
         from supplier
@@ -34,14 +34,14 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="SupplierMap">
         select
-        supplier_key, supplier_name, supplier_number, category_key, superlier_description
+        supplier_key, supplier_name, supplier_code, category_key, superlier_description
         from supplier
         <where>
             <if test="supplierName != null and supplierName != ''">
                 and supplier_name like concat('%', #{supplierName}, '%')
             </if>
-            <if test="supplierNumber != null and supplierNumber != ''">
-                and supplier_number like concat('%', #{supplierNumber}, '%')
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code like concat('%', #{supplierCode}, '%')
             </if>
             <if test="categoryKey != null and categoryKey != ''">
                 and category_key = #{categoryKey}
@@ -61,8 +61,8 @@
             <if test="supplierName != null and supplierName != ''">
                 and supplier_name = #{supplierName}
             </if>
-            <if test="supplierNumber != null and supplierNumber != ''">
-                and supplier_number = #{supplierNumber}
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
             </if>
             <if test="categoryKey != null and categoryKey != ''">
                 and category_key = #{categoryKey}
@@ -75,27 +75,27 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="supplierKey" useGeneratedKeys="true">
-        insert into supplier(supplier_key,supplier_name, supplier_number, category_key, superlier_description)
-        values (#{supplierKey},#{supplierName}, #{supplierNumber}, #{categoryKey}, #{superlierDescription})
+        insert into supplier(supplier_key,supplier_name, supplier_code, category_key, superlier_description)
+        values (#{supplierKey},#{supplierName}, #{supplierCode}, #{categoryKey}, #{superlierDescription})
     </insert>
 
     <insert id="insertBatch" keyProperty="supplierKey" useGeneratedKeys="true">
-        insert into supplier(supplier_name, supplier_number, category_key, superlier_description)
+        insert into supplier(supplier_name, supplier_code, category_key, superlier_description)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.supplierName}, #{entity.supplierNumber}, #{entity.categoryKey}, #{entity.superlierDescription})
+            (#{entity.supplierName}, #{entity.supplierCode}, #{entity.categoryKey}, #{entity.superlierDescription})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="supplierKey" useGeneratedKeys="true">
-        insert into supplier(supplier_name, supplier_number, category_key, superlier_description)
+        insert into supplier(supplier_name, supplier_code, category_key, superlier_description)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.supplierName}, #{entity.supplierNumber}, #{entity.categoryKey}, #{entity.superlierDescription})
+            (#{entity.supplierName}, #{entity.supplierCode}, #{entity.categoryKey}, #{entity.superlierDescription})
         </foreach>
         on duplicate key update
         supplier_name = values(supplier_name),
-        supplier_number = values(supplier_number),
+        supplier_code = values(supplier_code),
         category_key = values(category_key),
         superlier_description = values(superlier_description)
     </insert>
@@ -107,8 +107,8 @@
             <if test="supplierName != null and supplierName != ''">
                 supplier_name = #{supplierName},
             </if>
-            <if test="supplierNumber != null and supplierNumber != ''">
-                supplier_number = #{supplierNumber},
+            <if test="supplierCode != null and supplierCode != ''">
+                supplier_code = #{supplierCode},
             </if>
             <if test="categoryKey != null and categoryKey != ''">
                 category_key = #{categoryKey},

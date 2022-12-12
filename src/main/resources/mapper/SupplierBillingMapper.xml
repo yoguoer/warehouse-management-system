@@ -3,7 +3,7 @@
 <mapper namespace="com.example.api_project.mapper.SupplierBillingMapper">
 
     <resultMap type="com.example.api_project.pojo.SupplierBilling" id="SupplierBillingMap">
-        <result property="supplierBillingKey" column="supplier_billing_key" jdbcType="VARCHAR"/>
+        <result property="supplierBillingCode" column="supplier_billing_code" jdbcType="VARCHAR"/>
         <result property="billingKey" column="billing_key" jdbcType="VARCHAR"/>
         <result property="taxNumber" column="tax_number" jdbcType="VARCHAR"/>
         <result property="accountName" column="account_name" jdbcType="VARCHAR"/>
@@ -14,7 +14,7 @@
 
     <!--查询所有（不分页）-->
     <select id="getList" resultMap="SupplierBillingMap">
-        select supplier_billing_key,
+        select supplier_billing_code,
                billing_key,
                tax_number,
                account_name,
@@ -26,7 +26,7 @@
 
     <!--根据supplierAddressKey查询-->
     <select id="queryBySupplierKey" resultMap="SupplierBillingMap">
-        select supplier_billing_key,
+        select supplier_billing_code,
                billing_key,
                tax_number,
                account_name,
@@ -35,15 +35,15 @@
                account_tel
         from supplier_billing
         <where>
-            <if test="supplierBillingKey != null and supplierBillingKey != ''">
-                and supplier_billing_key = #{supplierBillingKey}
+            <if test="supplierBillingCode != null and supplierBillingCode != ''">
+                and supplier_billing_code = #{supplierBillingCode}
             </if>
         </where>
     </select>
 
     <!--查询单个-->
     <select id="queryById" resultMap="SupplierBillingMap">
-        select supplier_billing_key,
+        select supplier_billing_code,
                billing_key,
                tax_number,
                account_name,
@@ -57,7 +57,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="SupplierBillingMap">
         select
-        supplier_billing_key, billing_key, tax_number, account_name, account_number, bank_name, account_tel
+        supplier_billing_code, billing_key, tax_number, account_name, account_number, bank_name, account_tel
         from supplier_billing
         <where>
             <if test="accountName != null and accountName != ''">
@@ -75,8 +75,8 @@
         select count(1)
         from supplier_billing
         <where>
-            <if test="supplierBillingKey != null and supplierBillingKey != ''">
-                and supplier_billing_key = #{supplierBillingKey}
+            <if test="supplierBillingCode != null and supplierBillingCode != ''">
+                and supplier_billing_code = #{supplierBillingCode}
             </if>
             <if test="billingKey != null and billingKey != ''">
                 and billing_key = #{billingKey}
@@ -101,31 +101,31 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="billingKey" useGeneratedKeys="true">
-        insert into supplier_billing(billing_key,supplier_billing_key, tax_number, account_name, account_number, bank_name,
+        insert into supplier_billing(billing_key,supplier_billing_code, tax_number, account_name, account_number, bank_name,
                                      account_tel)
-        values (#{billingKey},#{supplierBillingKey}, #{taxNumber}, #{accountName}, #{accountNumber}, #{bankName}, #{accountTel})
+        values (#{billingKey},#{supplierBillingCode}, #{taxNumber}, #{accountName}, #{accountNumber}, #{bankName}, #{accountTel})
     </insert>
 
     <insert id="insertBatch" keyProperty="billingKey" useGeneratedKeys="true">
-        insert into supplier_billing(supplier_billing_key, tax_number, account_name, account_number, bank_name,
+        insert into supplier_billing(supplier_billing_code, tax_number, account_name, account_number, bank_name,
         account_tel)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.supplierBillingKey}, #{entity.taxNumber}, #{entity.accountName}, #{entity.accountNumber},
+            (#{entity.supplierBillingCode}, #{entity.taxNumber}, #{entity.accountName}, #{entity.accountNumber},
             #{entity.bankName}, #{entity.accountTel})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="billingKey" useGeneratedKeys="true">
-        insert into supplier_billing(supplier_billing_key, tax_number, account_name, account_number, bank_name,
+        insert into supplier_billing(supplier_billing_code, tax_number, account_name, account_number, bank_name,
         account_tel)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.supplierBillingKey}, #{entity.taxNumber}, #{entity.accountName}, #{entity.accountNumber},
+            (#{entity.supplierBillingCode}, #{entity.taxNumber}, #{entity.accountName}, #{entity.accountNumber},
             #{entity.bankName}, #{entity.accountTel})
         </foreach>
         on duplicate key update
-        supplier_billing_key = values(supplier_billing_key),
+        supplier_billing_code = values(supplier_billing_code),
         tax_number = values(tax_number),
         account_name = values(account_name),
         account_number = values(account_number),
@@ -137,8 +137,8 @@
     <update id="update">
         update supplier_billing
         <set>
-            <if test="supplierBillingKey != null and supplierBillingKey != ''">
-                supplier_billing_key = #{supplierBillingKey},
+            <if test="supplierBillingCode != null and supplierBillingCode != ''">
+                supplier_billing_code = #{supplierBillingCode},
             </if>
             <if test="taxNumber != null and taxNumber != ''">
                 tax_number = #{taxNumber},

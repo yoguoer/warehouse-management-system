@@ -32,7 +32,7 @@ public interface SupplierBillingMapper {
      *
      * @return queryBySupplierKey
      */
-    List<SupplierBilling> queryBySupplierKey(String supplierBillingKey);
+    List<SupplierBilling> queryBySupplierKey(String supplierBillingCode);
 
     /**
      * 查询指定行数据

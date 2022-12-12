@@ -48,7 +48,7 @@ public class SupplierServiceImpl implements SupplierService {
     public List<Supplier> querylist() {
         List<Supplier> records=supplierMapper.getList();
 //        String categoryKey=supplier.getCategoryKey();
-//        List<Supplier> records = this.supplierMapper.queryAllByLimit(supplierName,supplierNumber,categoryKey,startRows, pageSize);
+//        List<Supplier> records = this.supplierMapper.queryAllByLimit(supplierName,supplierCode,categoryKey,startRows, pageSize);
         for (Supplier item : records) {
             //获取联系人列表
             String contactSupplierKey= item.getSupplierKey();
@@ -63,8 +63,8 @@ public class SupplierServiceImpl implements SupplierService {
                 item.setSupplierAddressList(supplierAddressList);
             }
             //获取开票信息列表
-            String supplierBillingKey= item.getSupplierKey();
-            List<SupplierBilling> supplierBillingList=this.supplierBillingMapper.queryBySupplierKey(supplierBillingKey);
+            String supplierBillingCode= item.getSupplierKey();
+            List<SupplierBilling> supplierBillingList=this.supplierBillingMapper.queryBySupplierKey(supplierBillingCode);
             if(null!=supplierBillingList) {
                 item.setSupplierBillingList(supplierBillingList);
             }
@@ -82,17 +82,17 @@ public class SupplierServiceImpl implements SupplierService {
     public Map<String, Object> queryByPage(Supplier supplier, Integer startRows, Integer pageSize) {
         long total = this.supplierMapper.count(supplier);
         String supplierName=supplier.getSupplierName();
-        String supplierNumber = supplier.getSupplierNumber();
+        String supplierCode = supplier.getSupplierCode();
         List<Supplier> records;
         if(null!=supplier.getCategoryKey() && supplier.getCategoryKey().equals("all_SUPPLIER")){
             String categoryKey="";
-            records = this.supplierMapper.queryAllByLimit(supplierName,supplierNumber,categoryKey,startRows, pageSize);
+            records = this.supplierMapper.queryAllByLimit(supplierName,supplierCode,categoryKey,startRows, pageSize);
         }else{
             String categoryKey=supplier.getCategoryKey();
-            records = this.supplierMapper.queryAllByLimit(supplierName,supplierNumber,categoryKey,startRows, pageSize);
+            records = this.supplierMapper.queryAllByLimit(supplierName,supplierCode,categoryKey,startRows, pageSize);
         }
 //        String categoryKey=supplier.getCategoryKey();
-//        List<Supplier> records = this.supplierMapper.queryAllByLimit(supplierName,supplierNumber,categoryKey,startRows, pageSize);
+//        List<Supplier> records = this.supplierMapper.queryAllByLimit(supplierName,supplierCode,categoryKey,startRows, pageSize);
         for (Supplier item : records) {
             //获取联系人列表
             String contactSupplierKey= item.getSupplierKey();
@@ -107,8 +107,8 @@ public class SupplierServiceImpl implements SupplierService {
                 item.setSupplierAddressList(supplierAddressList);
             }
             //获取开票信息列表
-            String supplierBillingKey= item.getSupplierKey();
-            List<SupplierBilling> supplierBillingList=this.supplierBillingMapper.queryBySupplierKey(supplierBillingKey);
+            String supplierBillingCode= item.getSupplierCode();
+            List<SupplierBilling> supplierBillingList=this.supplierBillingMapper.queryBySupplierKey(supplierBillingCode);
             if(null!=supplierBillingList) {
                 item.setSupplierBillingList(supplierBillingList);
             }

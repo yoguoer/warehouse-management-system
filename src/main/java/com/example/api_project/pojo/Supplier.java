@@ -3,7 +3,7 @@ package com.example.api_project.pojo;
 import java.util.List;
 
 public class Supplier {
-    private String supplierNumber;//供应商编号
+    private String supplierCode;//供应商编号
     private String supplierName;//供应商名称
     private String categoryKey;//所属分类
     private String supplierKey;//供应商key
@@ -13,12 +13,12 @@ public class Supplier {
     public List<SupplierAddress> supplierAddressList;//联系地址
     public List<Contact> supplierContactList;//联系人
 
-    public String getSupplierNumber() {
-        return supplierNumber;
+    public String getSupplierCode() {
+        return supplierCode;
     }
 
-    public void setSupplierNumber(String supplierNumber) {
-        this.supplierNumber = supplierNumber;
+    public void setSupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
     }
 
     public String getSupplierName() {

@@ -34,7 +34,7 @@ public interface SupplierMapper {
      *
      * @return 对象列表
      */
-    List<Supplier> queryAllByLimit(String supplierName,String supplierNumber,String categoryKey, Integer startRows, Integer pageSize);
+    List<Supplier> queryAllByLimit(String supplierName,String supplierCode,String categoryKey, Integer startRows, Integer pageSize);
 
     /**
      * 统计总行数

@@ -5,15 +5,13 @@ import java.io.Serializable;
 /**
  * 供应商的开票信息对应表(SupplierBilling)实体类
  *
- * @author makejava
- * @since 2022-11-24 14:25:27
  */
 public class SupplierBilling implements Serializable {
     private static final long serialVersionUID = -88365776600767095L;
     /**
      * 与供应商对应的key
      */
-    private String supplierBillingKey;
+    private String supplierBillingCode;
     /**
      * 开票信息本身的key
      */
@@ -40,12 +38,12 @@ public class SupplierBilling implements Serializable {
     private String accountTel;
 
 
-    public String getSupplierBillingKey() {
-        return supplierBillingKey;
+    public String getsupplierBillingCode() {
+        return supplierBillingCode;
     }
 
-    public void setSupplierBillingKey(String supplierBillingKey) {
-        this.supplierBillingKey = supplierBillingKey;
+    public void setsupplierBillingCode(String supplierBillingCode) {
+        this.supplierBillingCode = supplierBillingCode;
     }
 
     public String getBillingKey() {
