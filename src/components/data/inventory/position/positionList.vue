@@ -217,7 +217,7 @@ export default {
       }).then((res) => {
         this.list = res.data.data.records;
         this.total = res.data.data.total;
-        console.log("库位");
+        // console.log("库位");
         console.log(this.total, this.list);
       });
       this.$forceUpdate();

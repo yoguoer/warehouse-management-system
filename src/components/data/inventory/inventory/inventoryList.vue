@@ -18,6 +18,21 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="inventoryCode" label="仓库编号"></el-table-column>
         <el-table-column prop="inventoryName" label="仓库名"> </el-table-column>
+        <el-table-column prop="inventoryType" label="仓库类型"> 
+          <template slot-scope="scope">
+            <span>{{ scope.row.inventoryType == 1 ? '供应商仓库' 
+            : (scope.row.inventoryType == 2 ? '门店仓' 
+            : (scope.row.inventoryType == 3 ? '大仓' 
+            : (scope.row.inventoryType == 4 ? '渠道仓' 
+            : (scope.row.inventoryType == 5 ? '直发仓' 
+            : (scope.row.inventoryType == 6 ? '渠道共享仓' : '-')) ) ) ) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="status" label="仓库状态"> 
+          <template slot-scope="scope">
+            <span>{{ scope.row.status == 1 ? '正常' : '关仓'}}</span>
+         </template>
+        </el-table-column>
         <el-table-column prop="contactName" label="联系人"></el-table-column>
         <el-table-column prop="tel" label="电话"> </el-table-column>
         <el-table-column prop="zipCode" label="邮编"> </el-table-column>

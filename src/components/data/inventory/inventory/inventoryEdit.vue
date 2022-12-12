@@ -1,46 +1,77 @@
 <template>
   <div>
-    <el-dialog :title="ifCreate ? '新增仓库信息' : '编辑'" :visible.sync="dialogVisible" width="800px" :before-close="close"
+    <el-dialog :title="ifCreate ? '新增仓库信息' : '编辑'" :visible.sync="dialogVisible"  width="1200px" :before-close="close"
       top="25vh" :modal-append-to-body="false" :close-on-click-modal="false">
       <div class="dialog_body">
         <el-form size="middle" :model="form" :rules="rules" ref="form" :inline="true" label-width="100px">
           <el-row>
-            <el-form-item prop="inventoryName" label="仓库名">
-              <el-input v-model="form.inventoryName" placeholder="仓库名" class="form_text"></el-input>
-            </el-form-item>
+            <el-col :span="10">
+              <el-form-item prop="inventoryName" label="仓库名">
+                <el-input v-model="form.inventoryName" placeholder="仓库名" class="form_text"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item prop="inventoryCode" label="仓库编号">
+                <el-input v-model="form.inventoryCode" placeholder="仓库编号" class="form_text"></el-input>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row>
-            <el-form-item prop="inventoryCode" label="仓库编号">
-              <el-input v-model="form.inventoryCode" placeholder="仓库编号" class="form_text"></el-input>
-            </el-form-item>
+            <el-col :span="10">
+              <el-form-item label="仓库类型:" prop="inventoryType">
+                <!-- <el-radio-group v-model="form.inventoryType">
+                  <el-radio label="WAREHOUSE" value="WAREHOUSE" style="margin-right: 20px">仓库</el-radio>
+                  <el-radio label="CAR" value="CAR">车辆</el-radio>
+                </el-radio-group> -->
+                  <!-- 1.供应商仓库 2.门店仓 3.大仓 4.渠道仓 5.直发仓 6.渠道共享仓 -->
+                  <el-select size="mini" v-model="form.inventoryType" placeholder="请选择" style="width: 350px">
+                    <el-option label="供应商仓库" :value="1"></el-option>
+                    <el-option label="门店仓" :value="2"></el-option>
+                    <el-option label="大仓" :value="3"></el-option>
+                    <el-option label="渠道仓" :value="4"></el-option>
+                    <el-option label="直发仓" :value="5"></el-option>
+                    <el-option label="渠道共享仓" :value="6"></el-option>
+                  </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="仓库状态" prop="status">
+                <!-- 1.正常，2.关仓', -->
+                <el-select size="mini" v-model="form.status" placeholder="请选择" style="width: 350px">
+                  <el-option label="正常" :value="1"></el-option>
+                  <el-option label="关仓" :value="2"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row>
-            <el-form-item label="仓库类型:" prop="inventoryType">
-              <el-radio-group v-model="form.inventoryType">
-                <el-radio label="WAREHOUSE" value="WAREHOUSE" style="margin-right: 20px">仓库</el-radio>
-                <el-radio label="CAR" value="CAR">车辆</el-radio>
-              </el-radio-group>
-            </el-form-item>
+            <el-col :span="10">
+              <el-form-item label="所属分类" v-model="form.categoryKey" prop="categoryKey">
+                <listBoxF style="width: 350px">
+                  <template slot="content">
+                    <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list" style="width:350px;"
+                      placeholder="请选择" @select="selectNode" />
+                  </template>
+                </listBoxF>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="联系人:" prop="contactName">
+                <el-input v-model="form.contactName" class="form_text" placeholder="联系人"></el-input>
+              </el-form-item>
+            </el-col>
           </el-row>
           <el-row>
-            <el-form-item label="所属分类" v-model="form.categoryKey" prop="categoryKey">
-              <listBoxF style="width: 350px">
-                <template slot="content">
-                  <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list" style="width:350px;"
-                    placeholder="请选择" @select="selectNode" />
-                </template>
-              </listBoxF>
-            </el-form-item>
-          </el-row>
-          <el-row>
-            <el-form-item label="联系人:" prop="contactName">
-              <el-input v-model="form.contactName" class="form_text" placeholder="联系人"></el-input>
-            </el-form-item>
-          </el-row>
-          <el-row>
-            <el-form-item label="电话:" prop="tel">
-              <el-input v-model="form.tel" class="form_text" placeholder="电话"></el-input>
-            </el-form-item>
+            <el-col :span="10">
+              <el-form-item label="电话:" prop="tel">
+                <el-input v-model="form.tel" class="form_text" placeholder="电话"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="邮编:" prop="zipCode">
+                <el-input v-model="form.zipCode" class="form_text" placeholder="邮编"></el-input>
+              </el-form-item>
+              </el-col>
           </el-row>
           <el-row style="white-space: nowrap;">
             <el-form-item label="联系地址" prop="address" v-model="form.address">
@@ -48,14 +79,11 @@
             </el-form-item>
           </el-row>
           <el-row>
-            <el-form-item label="邮编:" prop="zipCode">
-              <el-input v-model="form.zipCode" class="form_text" placeholder="邮编"></el-input>
-            </el-form-item>
-          </el-row>
-          <el-row>
-            <el-form-item label="备注:" prop="description">
-              <el-input v-model="form.description" type="textarea" class="form_text" placeholder="备注"></el-input>
-            </el-form-item>
+            <el-col :span="10">
+              <el-form-item label="备注:" prop="description">
+                <el-input v-model="form.description" type="textarea" class="form_text" placeholder="备注"></el-input>
+              </el-form-item>
+            </el-col>
           </el-row>
         </el-form>
         <div class="dialog_footer">
@@ -102,6 +130,7 @@ export default {
         inventoryKey: "",
         inventoryName: "", //仓库名
         inventoryType: "", //仓库类型：WAREHOUSE：仓库，CAR：车辆
+        status:"",
         tel: "", //电话
         zipCode: "", //邮编
         address: {
@@ -136,6 +165,15 @@ export default {
         ],
         tel: [
           { required: true, message: '请输入电话', trigger: 'blur' },
+        ],
+        zipCode: [
+          { required: true, message: '请输入邮编', trigger: 'blur' },
+        ],
+        address: [
+          { required: true, message: '请输入地址', trigger: 'blur' },
+        ],
+        status: [
+          { required: true, message: '请选择仓库状态', trigger: 'blur' },
         ]
       }
     };
@@ -166,6 +204,8 @@ export default {
       this.form.address.district = this.rowData.district;
       this.form.address.detail = this.rowData.detail;
       this.form.description = this.rowData.description;
+      this.form.status = this.rowData.status;
+
       console.log(this.rowData);
     } else {
       this.ifCreate = true;
@@ -239,6 +279,7 @@ export default {
             district: this.form.address.district,
             detail: this.form.address.detail,
             description: this.form.description,
+            status:this.form.status
           };
           inventoryUpdate(data)
             .then((res) => {
@@ -276,6 +317,7 @@ export default {
             city: this.form.address.city,
             district: this.form.address.district,
             detail: this.form.address.detail,
+            status:this.form.status,
             description: this.form.description,
           };
           console.log(data);
@@ -308,6 +350,7 @@ export default {
         inventoryType: "", //仓库类型：WAREHOUSE：仓库，CAR：车辆
         tel: "", //电话
         zipCode: "", //邮编
+        status:"",
         address: {
           // 省provinceCode
           province: "",

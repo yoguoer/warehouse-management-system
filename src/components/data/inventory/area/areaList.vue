@@ -28,9 +28,14 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="districtCode" label="区域号">
         </el-table-column>
-        <el-table-column prop="inventoryKey" label="所属仓库">
-        </el-table-column>
+        <!-- <el-table-column prop="inventoryKey" label="所属仓库">
+        </el-table-column> -->
         <el-table-column prop="sort" label="排序"> </el-table-column>
+        <el-table-column prop="status" label="区域状态"> 
+          <template slot-scope="scope">
+            <span>{{ scope.row.status== 1 ? '未启用' : (scope.row.status == 2 ? '启用' : '停用') }}</span>
+         </template>
+        </el-table-column>
         <el-table-column prop="description" label="备注">
         </el-table-column>
         <el-table-column fixed="right" width="210px" label="操作">

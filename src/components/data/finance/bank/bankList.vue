@@ -31,8 +31,8 @@
         </el-table-column>
         <el-table-column prop="accountTel" label="联系电话">
         </el-table-column>
-        <!-- <el-table-column prop="supplierBillingKey" label="所属供应商">
-        </el-table-column> -->
+        <el-table-column prop="supplierBillingKey" label="所属供应商">
+        </el-table-column>
         <el-table-column align="center" fixed="right" width="200px" label="操作">
           <template slot-scope="scope">
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>

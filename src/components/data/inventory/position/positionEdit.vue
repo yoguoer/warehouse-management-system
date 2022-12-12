@@ -1,42 +1,62 @@
 <template>
   <div>
-    <el-dialog :title="ifCreate ? '新增货位信息' : '编辑'" :visible.sync="dialogVisible" width="600px" :before-close="close" 
+    <el-dialog :title="ifCreate ? '新增货位信息' : '编辑'" :visible.sync="dialogVisible" width="1200px" :before-close="close" 
       top="25vh" :modal-append-to-body="false" :close-on-click-modal="false">
       <div class="dialog_body">
         <el-form size="middle" :model="form" ref="form" :inline="true" :rules="rules" label-width="120px">
-          <el-form-item label="货位编号:" prop="positionCode">
-            <el-input v-model="form.positionCode" class="form_text" placeholder="货位编号"></el-input>
-          </el-form-item>
-          <el-form-item label="最大容量(m3):" prop="maxCapacity">
-            <el-input v-model="form.maxCapacity" type="Number" class="form_text" placeholder="最大容量(m3)"></el-input>
-          </el-form-item>
-          <el-form-item label="最大重量" prop="maxWeight">
-            <el-input v-model="form.maxWeight" type="Number" class="form_text" placeholder="最大重量"></el-input>
-          </el-form-item>
-          <el-form-item label="货位类型" prop="positionType">
-            <el-radio-group v-model="form.positionType">
-              <el-radio label="store" value="store" style="margin-right: 20px">存储位</el-radio>
-              <el-radio label="assemble" value="assemble">集货位</el-radio>
-            </el-radio-group>
-          </el-form-item>
-          <el-form-item label="所属仓库:" prop="inventoryKey">
-            <el-select size="middle" v-model="form.inventoryKey" placeholder="所属仓库" style="width:350px;"
-              @change="getdistrictlist()">
-              <el-option v-for="item in options1" :key="item.inventoryKey" :label="item.inventoryName"
-                :value="item.inventoryKey">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="所属区域:" prop="inventoryDistrictkey">
-            <el-select size="middle" v-model="form.inventoryDistrictkey" placeholder="所属区域" style="width:350px;">
-              <el-option v-for="item in options2" :key="item.inventoryDistrictkey" :label="item.districtCode"
-                :value="item.inventoryDistrictkey">
-              </el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="备注:" prop="description">
-            <el-input v-model="form.description" type="textarea" class="form_text" placeholder="备注"></el-input>
-          </el-form-item>
+          <el-row>
+            <el-col :span="10">
+              <el-form-item label="货位编号:" prop="positionCode">
+                <el-input v-model="form.positionCode" class="form_text" placeholder="货位编号"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="最大容量(m3):" prop="maxCapacity">
+                <el-input v-model="form.maxCapacity" type="Number" class="form_text" placeholder="最大容量(m3)"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="10">
+              <el-form-item label="最大重量" prop="maxWeight">
+                <el-input v-model="form.maxWeight" type="Number" class="form_text" placeholder="最大重量"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="货位类型" prop="positionType">
+                <el-select size="mini" v-model="form.positionType" placeholder="请选择" style="width: 350px">
+                  <el-option label="存储位" value="store"></el-option>
+                  <el-option label="集货位" value="assemble"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="10">
+              <el-form-item label="所属仓库:" prop="inventoryKey">
+                <el-select size="middle" v-model="form.inventoryKey" placeholder="所属仓库" style="width:350px;"
+                  @change="getdistrictlist()">
+                  <el-option v-for="item in options1" :key="item.inventoryKey" :label="item.inventoryName"
+                    :value="item.inventoryKey">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="所属区域:" prop="inventoryDistrictkey">
+                <el-select size="middle" v-model="form.inventoryDistrictkey" placeholder="所属区域" style="width:350px;">
+                  <el-option v-for="item in options2" :key="item.inventoryDistrictkey" :label="item.districtCode"
+                    :value="item.inventoryDistrictkey">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-form-item label="备注:" prop="description">
+              <el-input v-model="form.description" type="textarea" class="form_text" placeholder="备注"></el-input>
+            </el-form-item>
+          </el-row>
         </el-form>
         <div class="dialog_footer">
           <el-button type="" size="middle" @click="close()">取消</el-button>
@@ -58,19 +78,19 @@ export default {
     dialogVisible: {
       default: false,
     },
-    rowData: {},
+    rowData:{},
   },
   data() {
     return {
       form: {
-        inventoryDistrictkey: "",
         inventoryKey: "",
         positionCode: "", //货位编号
         positionType: "", //货位类型：store：存储位 assemble: 集货位
         maxWeight: "", //最大重量
         maxCapacity: "", //最大容量(m3)
         description: "", //备注
-        positionKey: ""
+        positionKey: "",
+        inventoryDistrictkey: "",
       },
       ifCreate: true,
       options1: [],
@@ -99,10 +119,8 @@ export default {
     };
   },
   created() {
-    this.getinventorylist()
-    if (this.rowData.positionCode) {
+    if (this.rowData.inventoryKey) {
       this.ifCreate = false;
-      this.form.inventoryDistrictkey = this.rowData.inventoryDistrictkey
       this.form.inventoryKey = this.rowData.inventoryKey
       this.form.positionCode = this.rowData.positionCode
       this.form.positionType = this.rowData.positionType
@@ -110,11 +128,22 @@ export default {
       this.form.maxCapacity = this.rowData.maxCapacity
       this.form.description = this.rowData.description
       this.form.positionKey = this.rowData.positionKey
-      console.log(this.rowData);
+      this.form.inventoryDistrictkey = this.rowData.inventoryDistrictkey
     } else {
       this.ifCreate = true
     }
-    console.log(this.userList);
+    this.getinventorylist()
+    districtlist({ inventoryKey: this.form.inventoryKey })
+        .then((res) => {
+          if (res.data.code === 200) {
+            this.options2 = res.data.data
+          } else {
+            this.$message.error(res.msg);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
   },
   methods: {
     getinventorylist() {
@@ -197,14 +226,14 @@ export default {
     },
     reset() {
       this.form = {
-        inventoryDistrictkey: "",
         inventoryKey: "",
         positionCode: "", //货位编号
         positionType: "", //货位类型：store：存储位 assemble: 集货位
         maxWeight: "", //最大重量
         maxCapacity: "", //最大容量(m3)
         description: "", //备注
-        positionKey: ""
+        positionKey: "",
+        inventoryDistrictkey: "",
       }
     }
   },
