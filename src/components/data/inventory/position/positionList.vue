@@ -51,7 +51,7 @@
           <template slot-scope="scope">
             <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
-            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small" icon="el-icon-delete">删除</el-button>
+            <el-button @click.native.prevent="deleteRow(scope.row)" type="text"  icon="el-icon-delete">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -62,7 +62,7 @@
       </div>
 
       <positionEdit v-if="positionEditVisable" :dialogVisible="positionEditVisable" :rowData="rowData"
-        @close="positionEditVisable = false" @success="_success()"></positionEdit>
+        @close="positionEditVisable = false" @success="success()"></positionEdit>
         <positionDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" />
     </div>
   </div>

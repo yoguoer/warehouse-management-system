@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add()">新增</el-button> -->
-    <!-- <el-divider/> -->
     <div>
       <el-input placeholder="仓库名称" v-model="inventoryName" type="text" size="small"
         style="width: 300px; margin-right: 20px" clearable>
@@ -12,29 +9,28 @@
       <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
       <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
-      <!-- <el-button type="danger"  size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
       <el-divider/>
     </div>
     <div class="list-model">
       <leftCard ref="leftcard" :categoryType="categoryType" :title="title" style="margin-top:0;height:600px;" />
       <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="list" tooltip-effect="dark" @selection-change="handleSelectionDelete"
-        style="width: auto; margin-top: 20px" :header-cell-style="{background:'#F2F6FC',color:'#606266'}" >
+        style="width: auto; margin-top: 20px" :header-cell-style="{background:'#F2F6FC',color:'#606266'}" class="table-fixed">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="inventoryCode" label="仓库编号"></el-table-column>
         <el-table-column prop="inventoryName" label="仓库名"> </el-table-column>
-        <el-table-column label="联系人" prop="contactName"></el-table-column>
+        <el-table-column prop="contactName" label="联系人"></el-table-column>
         <el-table-column prop="tel" label="电话"> </el-table-column>
         <el-table-column prop="zipCode" label="邮编"> </el-table-column>
         <el-table-column prop="province" label="省"> </el-table-column>
         <el-table-column prop="city" label="市"> </el-table-column>
-        <el-table-column prop="district" label="区"> </el-table-column>
-        <el-table-column prop="detail" label="地址"> </el-table-column>
-        <el-table-column prop="description" label="备注"> </el-table-column>
+        <el-table-column prop="district" label="区" :show-overflow-tooltip="true"> </el-table-column>
+        <el-table-column prop="detail" label="地址" :show-overflow-tooltip="true"> </el-table-column>
+        <el-table-column prop="description" label="备注" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column fixed="right" width="210px" label="操作">
           <template slot-scope="scope">
             <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
-            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small" icon="el-icon-delete">删除</el-button>
+            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" icon="el-icon-delete">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -45,7 +41,7 @@
       </div>
 
       <inventoryEdit ref="inventoryEdit" v-if="inventoryEditVisable" :dialogVisible="inventoryEditVisable"
-        :rowData="rowData" @close="inventoryEditVisable = false" @success="_success()"></inventoryEdit>
+        :rowData="rowData" @close="inventoryEditVisable = false" @success="success()"/>
         <inventoryDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" />
     </div>
   </div>
@@ -123,7 +119,6 @@ export default {
     openDetail(row) {
       this.rowData = row;
       this.isShow=true//详情
-      // this.$router.push({ name: "inventory-detail",params:{rowData:this.rowData} })
     },
     search() {
       inventorylistPage({
@@ -134,8 +129,8 @@ export default {
       }).then((res) => {
         this.list = res.data.data.records;
         this.total = res.data.data.total;
-        console.log("仓库");
-        console.log(this.total, this.list);
+        // console.log("仓库");
+        // console.log(this.total, this.list);
       });
       this.$forceUpdate()
     },
@@ -179,7 +174,7 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
       }).then(() => {
-        inventoryDeleteList(inventorykeys).then(response => {
+        inventoryDeleteList(inventorykeys).then(() => {
             this.getInventorylistPage();
             this.$message({
                 type: 'success',
@@ -206,15 +201,5 @@ export default {
 
 .list-model {
   width: 100%;
-}
-
-.el-table {
-  overflow-y: auto !important;
-  overflow-x: auto !important;
-}
-
-.el-table__fixed {
-  height: auto !important; // 让固定列的高自适应，且设置!important覆盖ele-ui的默认样式
-  bottom: 17px; // 固定列默认设置了定位，    position: absolute;top: 0;left: 0;只需要再设置一下bottom的值，让固定列和父元素的底部出现距离即可
 }
 </style>

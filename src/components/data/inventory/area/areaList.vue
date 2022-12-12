@@ -37,7 +37,7 @@
           <template slot-scope="scope">
             <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
-            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small" icon="el-icon-delete">删除</el-button>
+            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" icon="el-icon-delete">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -47,8 +47,8 @@
           @current-change="_page" @size-change="_pageSize"></el-pagination>
       </div>
 
-      <areaEdit v-if="areaEditVisable" :dialogVisible="areaEditVisable" :rowData="rowData"
-        @close="areaEditVisable = false" @success="_success()"></areaEdit>
+        <areaEdit v-if="areaEditVisable" :dialogVisible="areaEditVisable" :rowData="rowData"
+        @close="areaEditVisable = false" @success="success()"></areaEdit>
         <areaDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" />
     </div>
   </div>
