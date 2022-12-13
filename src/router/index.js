@@ -2,10 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 
-const routes = [
-  {
+const routes = [{
     path: "/",
-    redirect:{name:'login'},
+    redirect: {
+      name: 'login'
+    },
     component: () => import("@/views/login"),
   },
   //登录页
@@ -19,9 +20,11 @@ const routes = [
   //仪表板
   {
     path: "/success",
-    name:"success",
+    name: "success",
     component: () => import("@/views/dashboard"),
-    redirect:{name:'welcome'},
+    redirect: {
+      name: 'welcome'
+    },
     children: [
       //系统超级管理员可见的页面
       {
@@ -49,14 +52,16 @@ const routes = [
       },
 
 
-//-------------------资料模块------------------------------
+      //-------------------资料模块------------------------------
       //资料
       {
         path: '/data',
         name: 'data',
-        redirect: { name: "business" },
+        redirect: {
+          name: "business"
+        },
         component: () => import('@/views/data/Index.vue'),
-        children:[
+        children: [
 
           //资料-业务实体-商品管理
           {
@@ -70,8 +75,10 @@ const routes = [
             path: '/data/inventory',
             name: 'inventory',
             component: () => import('@/views/data/inventory/Index.vue'),
-            redirect:{name:'inventory'},
-              // ----------------Tabs里面------------------
+            redirect: {
+              name: 'inventory'
+            },
+            // ----------------Tabs里面------------------
             children: [
               //资料-仓库管理-库存
               {
@@ -90,7 +97,7 @@ const routes = [
                     path: '/data/inventory/:inventoryKey',
                     name: 'inventory-area',
                     component: () => import('@/components/data/inventory/area/areaList.vue')
-                  },                  
+                  },
                   //资料-业务实体-库存-详情-货位
                   {
                     path: '/data/inventory/:inventoryKey',
@@ -98,14 +105,14 @@ const routes = [
                     component: () => import('@/components/data/inventory/position/positionList.vue')
                   },
                 ]
-              }, 
+              },
 
               //资料-仓库管理-区域
               {
                 path: '/data/area',
                 name: 'area',
                 component: () => import('@/components/data/inventory/area/areaList.vue')
-              },       
+              },
               //资料-业务实体-区域-详情
               {
                 path: '/data/area/detail',
@@ -117,7 +124,7 @@ const routes = [
                     path: '/data/area/:inventoryDistrictkey',
                     name: 'area-inventory',
                     component: () => import('@/components/data/inventory/inventory/inventoryList.vue')
-                  },                  
+                  },
                   //资料-业务实体-区域-详情-货位
                   {
                     path: '/data/area/:inventoryDistrictkey',
@@ -125,8 +132,8 @@ const routes = [
                     component: () => import('@/components/data/inventory/position/positionList.vue')
                   },
                 ]
-              },        
-              
+              },
+
               //资料-仓库管理-货位
               {
                 path: '/data/position',
@@ -144,7 +151,7 @@ const routes = [
                     path: '/data/position/:positionKey',
                     name: 'position-inventory',
                     component: () => import('@/components/data/inventory/inventory/inventoryList.vue')
-                  },                  
+                  },
                   //资料-业务实体-货位-详情-区域
                   {
                     path: '/data/position/:positionKey',
@@ -152,7 +159,7 @@ const routes = [
                     component: () => import('@/components/data/inventory/area/areaList.vue')
                   },
                 ]
-              }, 
+              },
             ]
           },
           //资料-供应商
@@ -160,7 +167,9 @@ const routes = [
             path: '/data/supply',
             name: 'supply',
             component: () => import('@/views/data/supply/Index.vue'),
-            redirect:{name:'supplyList'},
+            redirect: {
+              name: 'supplyList'
+            },
             // ----------------Tabs里面------------------
             children: [
               //资料-供应商-供应商
@@ -177,9 +186,11 @@ const routes = [
             path: '/data/customer',
             name: 'customer',
             component: () => import('@/views/data/customer/Index.vue'),
-            redirect:{name:'customerList'},
+            redirect: {
+              name: 'customerList'
+            },
             // ----------------Tabs里面------------------
-            children: [            
+            children: [
               //资料-客户-客户
               {
                 path: '/data/customerList',
@@ -193,15 +204,17 @@ const routes = [
                 component: () => import('@/components/data/customer/contact/contactList.vue')
               },
             ]
-          },   
+          },
 
           //资料-业务实体
           {
             path: '/data/business',
             name: 'business',
-            redirect: { name: "brand" },
+            redirect: {
+              name: "brand"
+            },
             component: () => import('@/views/data/business/Index.vue'),
-            children:[
+            children: [
               //资料-业务实体-业务主体
               {
                 path: '/data/business/entity',
@@ -214,12 +227,12 @@ const routes = [
                 name: 'brand',
                 component: () => import('@/views/data/business/brand/Index.vue')
               },
-                //资料-业务实体-车辆
+              //资料-业务实体-车辆
               {
                 path: '/data/business/car',
                 name: 'car',
                 component: () => import('@/views/data/business/car/Index.vue')
-              },              
+              },
             ]
           },
 
@@ -227,9 +240,11 @@ const routes = [
           {
             path: '/data/finance',
             name: 'finance',
-            redirect: { name: "bank" },
+            redirect: {
+              name: "bank"
+            },
             component: () => import('@/views/data/finance/Index.vue'),
-            children:[
+            children: [
               //资料-账务实体-银行
               {
                 path: '/data/finance/bank',
@@ -242,19 +257,23 @@ const routes = [
       },
 
 
-//-------------------销售模块------------------------------
+      //-------------------销售模块------------------------------
       //销售
       {
         path: '/marketing',
         name: 'marketing',
-        redirect: { name: "marketingBusiness" },
+        redirect: {
+          name: "marketingBusiness"
+        },
         component: () => import('@/views/marketing/Index.vue')
       },
       //销售-销售业务
       {
         path: '/marketing/marketingBusiness',
         name: 'marketingBusiness',
-        redirect: { name: "retailOrder" },
+        redirect: {
+          name: "retailOrder"
+        },
         component: () => import('@/views/marketing/marketingBusiness/Index.vue')
       },
       //销售-销售业务-零售单
@@ -273,7 +292,9 @@ const routes = [
       {
         path: '/marketing/marketingQueries',
         name: 'marketingQueries',
-        redirect: { name: "bills" },
+        redirect: {
+          name: "bills"
+        },
         component: () => import('@/views/marketing/marketingQueries/Index.vue')
       },
       //销售-销售查询-销售单据查询
@@ -290,19 +311,23 @@ const routes = [
       },
 
 
-//-------------------采购模块------------------------------
+      //-------------------采购模块------------------------------
       //采购
       {
         path: '/purchasing',
         name: 'purchasing',
-        redirect: { name: "purchasingBusiness" },
+        redirect: {
+          name: "purchasingBusiness"
+        },
         component: () => import('@/views/purchasing/Index.vue')
       },
       //采购-采购业务
       {
         path: '/purchasing/purchasingBusiness',
         name: 'purchasingBusiness',
-        redirect: { name: "purchasingOrders" },
+        redirect: {
+          name: "purchasingOrders"
+        },
         component: () => import('@/views/purchasing/purchasingBusiness/Index.vue')
       },
       //采购-采购业务-采购订单
@@ -317,7 +342,7 @@ const routes = [
         name: 'returnCargo',
         component: () => import('@/views/purchasing/purchasingBusiness/returnCargo/Index.vue')
       },
-        //采购-采购业务-采购入库单
+      //采购-采购业务-采购入库单
       {
         path: '/purchasing/purchasingBusiness/enterWarehouse',
         name: 'enterWarehouse',
@@ -327,7 +352,9 @@ const routes = [
       {
         path: '/purchasing/purchasingQueries',
         name: 'purchasingQueries',
-        redirect: { name: "bills" },
+        redirect: {
+          name: "bills"
+        },
         component: () => import('@/views/purchasing/purchasingQueries/Index.vue')
       },
       //采购-采购查询-采购单据查询
@@ -346,7 +373,9 @@ const routes = [
       {
         path: '/purchasing/purchasingStrategy',
         name: 'purchasingStrategy',
-        redirect: { name: "warning" },
+        redirect: {
+          name: "warning"
+        },
         component: () => import('@/views/purchasing/purchasingStrategy/Index.vue')
       },
       //采购-采购策略-库存预警补货
@@ -369,44 +398,50 @@ const routes = [
       },
 
 
-//-------------------库存模块------------------------------
+      //-------------------库存模块------------------------------
       //库存
       {
         path: '/store',
         name: 'store',
-        redirect: { name: "suppliers" },
+        redirect: {
+          name: "suppliers"
+        },
         component: () => import('@/views/store/Index.vue')
-      }, 
+      },
       //库存-供应商库存
       {
         path: '/store/suppliers',
         name: 'suppliers',
-        redirect: { name: "warehouseConfig" },
+        redirect: {
+          name: "warehouseConfig"
+        },
         component: () => import('@/views/store/suppliers/Index.vue')
-      },  
+      },
       //库存-供应商库存-供应商库存管理
       {
         path: '/store/suppliers/stockManagement',
         name: 'stockManagement',
         component: () => import('@/views/store/suppliers/stockManagement/Index.vue')
-      },      
+      },
       //库存-供应商库存-供应商库存流水
       {
         path: '/store/suppliers/records',
         name: 'stockFlow',
         component: () => import('@/views/store/suppliers/stockFlow/Index.vue')
-      },   
+      },
       //库存-供应商库存-供应商仓库配置
       {
         path: '/store/suppliers/warehouseConfig',
         name: 'warehouseConfig',
         component: () => import('@/views/store/suppliers/warehouseConfig/Index.vue')
-      },   
+      },
       //库存-零售商库存    
       {
         path: '/store/shopkeepers',
         name: 'shopkeepers',
-        redirect: { name: "overview" },
+        redirect: {
+          name: "overview"
+        },
         component: () => import('@/views/store/shopkeepers/Index.vue')
       },
       //库存-零售商库存-库存总览  
@@ -435,19 +470,23 @@ const routes = [
       },
 
 
-//-------------------配货模块------------------------------
-        //配货
+      //-------------------配货模块------------------------------
+      //配货
       {
         path: '/distribution',
         name: 'distribution',
-        redirect: { name: "demandManagement" },
+        redirect: {
+          name: "demandManagement"
+        },
         component: () => import('@/views/distribution/Index.vue')
       },
       //配货-需求管理
       {
         path: '/distribution/demandManagement',
         name: 'demandManagement',
-        redirect: { name: "requirementList" },
+        redirect: {
+          name: "requirementList"
+        },
         component: () => import('@/views/distribution/demandManagement/Index.vue')
       },
       //配货-需求管理-需求单
@@ -460,33 +499,35 @@ const routes = [
       {
         path: '/distribution/distributionManagement',
         name: 'distributionManagement',
-        redirect: { name: "planLlist" },
+        redirect: {
+          name: "planLlist"
+        },
         component: () => import('@/views/distribution/distributionManagement/Index.vue')
-      },  
+      },
       //配货-配货管理-建议单   
       {
         path: '/distribution/distributionManagement/adviceList',
         name: 'adviceList',
         component: () => import('@/views/distribution/distributionManagement/adviceList/Index.vue')
-      },  
+      },
       //配货-配货管理-计划单
       {
         path: '/distribution/distributionManagement/planLlist',
         name: 'planLlist',
         component: () => import('@/views/distribution/distributionManagement/planLlist/Index.vue')
-      },  
+      },
       //配货-配货管理-任务清单
       {
         path: '/distribution/distributionManagement/taskLlist',
         name: 'taskLlist',
         component: () => import('@/views/distribution/distributionManagement/taskLlist/Index.vue')
-      },      
+      },
       //配货-门店配货
       {
         path: '/distribution/outletDistribution',
         name: 'outletDistribution',
         component: () => import('@/views/distribution/outletDistribution/Index.vue')
-      },     
+      },
     ]
   },
   {
@@ -522,7 +563,8 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if (to.path === '/login') {
     next()
-  } if (to.path === '/') {
+  }
+  if (to.path === '/') {
     next('/404')
   } else {
     next()

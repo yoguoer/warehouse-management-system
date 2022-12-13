@@ -33,7 +33,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="5">
-        <el-form-item label="所属供应商" prop="supplierBillingCode">
+          <el-form-item label="所属供应商" prop="supplierBillingCode">
             <el-select size="middle" v-model="ruleForm.supplierBillingCode" placeholder="所属供应商" style="width:270px;">
               <el-option v-for="item in options" :key="item.supplierCode" :label="item.supplierName"
                 :value="item.supplierCode">
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { bankUpdate,bankAdd,Supplierlist } from '@/api/data'
+import { bankUpdate, bankAdd, Supplierlist } from '@/api/data'
 
 export default {
   name: 'guestEdit',
@@ -64,15 +64,15 @@ export default {
     return {
       direction: 'btt',
       ifCreate: false,
-      options:[],
+      options: [],
       ruleForm: {
         bankName: "",
         accountName: "",
         accountNumber: "",
         taxNumber: "",
         accountTel: "",
-        billingKey:"",
-        supplierBillingCode:""
+        billingKey: "",
+        supplierBillingCode: ""
       },
       rules: {
         bankName: [
@@ -114,8 +114,8 @@ export default {
       this.ruleForm.accountNumber = this.rowData.accountNumber
       this.ruleForm.taxNumber = this.rowData.taxNumber
       this.ruleForm.accountTel = this.rowData.accountTel
-      this.ruleForm.supplierBillingCode= this.rowData.supplierBillingCode
-      this.ruleForm.billingKey= this.rowData.billingKey
+      this.ruleForm.supplierBillingCode = this.rowData.supplierBillingCode
+      this.ruleForm.billingKey = this.rowData.billingKey
     } else {
       this.ifCreate = true
     }
@@ -125,10 +125,10 @@ export default {
       this.$parent.drawer = false
       this.reset()
     },
-    getSupplierlist(){
+    getSupplierlist() {
       Supplierlist().then(res => {
         if (res.data.code == 200) {
-          this.options=res.data.data
+          this.options = res.data.data
         } else {
           this.$message.error("获取失败!");
         }
@@ -177,8 +177,8 @@ export default {
         accountNumber: "",
         taxNumber: "",
         accountTel: "",
-        billingKey:"",
-        supplierBillingCode:""
+        billingKey: "",
+        supplierBillingCode: ""
       }
     }
   },

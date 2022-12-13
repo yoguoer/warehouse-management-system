@@ -4,7 +4,8 @@
     <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add">新增</el-button> -->
     <!-- <el-divider/> -->
     <div>
-      <el-input placeholder="商品名" v-model="goodsName" type="text" clearable size="small" style="width:300px;margin-right:20px">
+      <el-input placeholder="商品名" v-model="goodsName" type="text" clearable size="small"
+        style="width:300px;margin-right:20px">
         <template slot="prepend">商品名</template>
       </el-input>
       <el-button type="primary" size="small" @click="search()" icon="el-icon-search">查询</el-button>
@@ -12,12 +13,13 @@
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
       <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
       <!-- <el-button type="danger"  size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
-      <el-divider/>
+      <el-divider />
     </div>
     <leftCard :categoryType="categoryType" :title="title" style="height:600px;" ref="leftcard" />
     <div class="list-model">
-      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="goodsList" tooltip-effect="dark" @selection-change="handleSelectionDelete"
-        style="width: auto; margin-top: 20px" :header-cell-style="{background:'#F2F6FC',color:'#606266'}">
+      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="goodsList" tooltip-effect="dark"
+        @selection-change="handleSelectionDelete" style="width: auto; margin-top: 20px"
+        :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="goodsKey" label="商品ID" :show-overflow-tooltip="true">
         </el-table-column>
@@ -46,7 +48,8 @@
         <el-table-column fixed="right" width="200px" label="操作">
           <template slot-scope="scope">
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
-            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small" icon="el-icon-delete">删除</el-button>
+            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
+              icon="el-icon-delete">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -62,7 +65,7 @@
 
 <script>
 import goodsEdit from "./goodsEdit";
-import { goodslistPage, goodsDelete,goodsDeleteList } from "@/api/data";
+import { goodslistPage, goodsDelete, goodsDeleteList } from "@/api/data";
 import leftCard from '@/components/public/leftCard.vue'
 
 export default {
@@ -80,7 +83,7 @@ export default {
       goodsList: [],
       title: "商品分类",
       categoryType: 'GOODS',
-      multipleSelection:[],
+      multipleSelection: [],
     };
   },
   created() {
@@ -94,7 +97,7 @@ export default {
         page: this.pageNo,
         size: this.pageSize,
       }).then((res) => {
-        this.total=res.data.data.total
+        this.total = res.data.data.total
         this.goodsList = res.data.data.records;
         console.log("goodsList:", this.goodsList);
       });
@@ -134,7 +137,7 @@ export default {
         page: this.pageNo,
         size: this.pageSize,
       }).then((res) => {
-        this.total=res.data.data.total
+        this.total = res.data.data.total
         this.goodsList = res.data.data.records;
         console.log("goodsList:", this.goodsList);
       });
@@ -152,10 +155,10 @@ export default {
     add() {
       this.editRow({})
     },
-    clean(){
+    clean() {
       this.goodsName = ''
-      this.inputCategory=''
-      this.$refs.leftcard.isActive=''
+      this.inputCategory = ''
+      this.$refs.leftcard.isActive = ''
       this.reload()
     },
     //批量删除选择
@@ -164,37 +167,37 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      if(this.multipleSelection.length>0){
+      if (this.multipleSelection.length > 0) {
         let goodsKeys = [];
         this.multipleSelection.forEach(item => {
-          goodsKeys.push({goodsKey:item.goodsKey})
+          goodsKeys.push({ goodsKey: item.goodsKey })
         })
         console.log(goodsKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           goodsDeleteList(goodsKeys).then(() => {
-              this.getGoodslistPage();
-              this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-              });
+            this.getGoodslistPage();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
           }).catch(error => {
-              console.log(error);
+            console.log(error);
           });
         }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '已取消删除'
-            });
-            this.multipleSelection=[]
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+          this.multipleSelection = []
         });
-      }else{
+      } else {
         this.$message({
-            type: 'error',
-            message: '至少选择一项'
+          type: 'error',
+          message: '至少选择一项'
         });
       }
     },

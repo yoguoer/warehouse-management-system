@@ -1,8 +1,8 @@
 <template>
-    <el-select v-model="entity" placeholder="请选择主体" class="form_text" clearable :style="{width:`${width}px`}">
-        <el-option v-for="(item, index) in options" :key="index" :label="item.entityName"
-            :value="item.entityCode"></el-option>
-    </el-select>
+  <el-select v-model="entity" placeholder="请选择主体" class="form_text" clearable :style="{ width: `${width}px` }">
+    <el-option v-for="(item, index) in options" :key="index" :label="item.entityName"
+      :value="item.entityCode"></el-option>
+  </el-select>
 </template>
 
 <script>
@@ -10,41 +10,41 @@ import { entityList } from "@/api/data";
 
 export default {
   name: 'chooseEntity',
-   data() {
+  data() {
     return {
-      options:[],
-      entity:""
-   }
+      options: [],
+      entity: ""
+    }
   },
   props: {
     // 从外部传进来下拉框的宽度。
-    width:{
-      type:String,
-      default:'350'
+    width: {
+      type: String,
+      default: '350'
     },
-    entityCode:{
-      type:String,
-      default:''
+    entityCode: {
+      type: String,
+      default: ''
     }
   },
   watch: {},
-  created () {
+  created() {
     this.getEntityList()
-    this.entity=this.entityCode
+    this.entity = this.entityCode
   },
   computed: {
   },
-  mounted () {
+  mounted() {
   },
-  computed:{
+  computed: {
     //选择结果
-    result(){
-        return this.entity
+    result() {
+      return this.entity
     }
   },
   methods: {
-    getEntityList(){
-        entityList().then((res) => {
+    getEntityList() {
+      entityList().then((res) => {
         if (res.code === 200) {
           this.options = res.data;
         } else {
@@ -57,4 +57,5 @@ export default {
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
+
 </style>

@@ -8,11 +8,11 @@
     </div>
     <!-- <el-tree :data="data" :props="defaultProps" @node-click="handleNodeClick"></el-tree> -->
     <div class="block">
-      <el-tree :data="data" ref="tree" node-key="id" :check-strictly="true" :props="defaultProps"  :expand-on-click-node="false"
-        :default-expand-all="true" @node-click="handleNodeClick">
+      <el-tree :data="data" ref="tree" node-key="id" :check-strictly="true" :props="defaultProps"
+        :expand-on-click-node="false" :default-expand-all="true" @node-click="handleNodeClick">
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <span :class="isActive == node.label ? 'custom-tree-node-active' : 'custom-tree-node'">{{ node.label }}</span>
-          <span v-if="node.label!='全部'">
+          <span v-if="node.label != '全部'">
             <el-button type="text" size="small" @click="() => edit(data)">
               编辑
             </el-button>
@@ -37,7 +37,7 @@ export default {
     return {
       data: [],
       list: [],
-      isActive:"",
+      isActive: "",
       ifCreate: false,
       defaultProps: {
         id: 'categoryKey',
@@ -73,7 +73,7 @@ export default {
         .then(_ => {
           let params = { categroyKeys: data.categoryKey }
           console.log(this.categoryKeyList)
-          if (data.children.length>0) {
+          if (data.children.length > 0) {
             this.$message({
               message: '含有子节点，不允许删除！',
               type: 'warning'
@@ -96,7 +96,7 @@ export default {
     //点击分类，查询对应信息
     handleNodeClick(data) {
       this.$parent.inputCategory = data.categoryKey
-      this.isActive=data.categoryName
+      this.isActive = data.categoryName
       this.$parent.search()
     },
 
@@ -182,7 +182,8 @@ export default {
   float: left;
 }
 
-.custom-tree-node,.custom-tree-node-active {
+.custom-tree-node,
+.custom-tree-node-active {
   flex: 1;
   display: flex;
   align-items: center;
@@ -190,10 +191,11 @@ export default {
   font-size: 14px;
   padding-right: 8px;
 }
-.custom-tree-node-active{
-  background:#f5f7fa;
-  padding:2px;
-  width:100%;
-  color:#07a;
+
+.custom-tree-node-active {
+  background: #f5f7fa;
+  padding: 2px;
+  width: 100%;
+  color: #07a;
 }
 </style>

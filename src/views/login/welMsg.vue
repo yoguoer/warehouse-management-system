@@ -1,47 +1,48 @@
 <template>
-<div>
-    <div class="welmsg">
-        <!-- 欢迎区域 -->
-        <div style="margin:10px;">
-            <el-card shadow="always" body-style="padding:30px;display: inline-flex;height:300px;width:830px;">
-                <div><img :src="welcomePic" alt="" style="width:200px;margin:5px;"/></div>
-                <div style="margin: 30px 0;">
-                    <span> <el-tag type="danger" style="font-size:24px;">{{ userInfo.userName }}</el-tag>，欢迎来到商品库存管理系统！</span>
-                    <DateUtils/>
-                </div>
-            </el-card>
+    <div>
+        <div class="welmsg">
+            <!-- 欢迎区域 -->
+            <div style="margin:10px;">
+                <el-card shadow="always" body-style="padding:30px;display: inline-flex;height:300px;width:830px;">
+                    <div><img :src="welcomePic" alt="" style="width:200px;margin:5px;" /></div>
+                    <div style="margin: 30px 0;">
+                        <span> <el-tag type="danger" style="font-size:24px;">{{ userInfo.userName
+                        }}</el-tag>，欢迎来到商品库存管理系统！</span>
+                        <DateUtils />
+                    </div>
+                </el-card>
+            </div>
+            <!-- 库存预警 -->
+            <div style="margin:10px;">
+                <el-card shadow="always" body-style="padding:30px;display: inline-flex;height:300px;width:830px;">
+                    <div><img :src="alertMsg1" alt="" style="width:200px;margin:5px;" /></div>
+                    <div style="">
+                        <span> <el-tag type="success" style="font-size:24px;">库存预警</el-tag></span>
+                    </div>
+                </el-card>
+            </div>
         </div>
-        <!-- 库存预警 -->
-        <div style="margin:10px;">
-            <el-card shadow="always" body-style="padding:30px;display: inline-flex;height:300px;width:830px;">
-                <div><img :src="alertMsg1" alt="" style="width:200px;margin:5px;"/></div>
-                <div style="">
-                    <span> <el-tag type="success" style="font-size:24px;">库存预警</el-tag></span>
-                </div>
-            </el-card>
+        <div class="welmsg">
+            <!-- 连续未动销预警 -->
+            <div style="margin:10px;">
+                <el-card shadow="always" body-style="padding:30px;display: inline-flex;height:300px;width:830px;">
+                    <div><img :src="alertMsg2" alt="" style="width:200px;margin:5px;" /></div>
+                    <div style="">
+                        <span> <el-tag type="success" style="font-size:24px;">连续未动销预警</el-tag></span>
+                    </div>
+                </el-card>
+            </div>
+            <!-- 统计图表 -->
+            <div style="margin:10px;">
+                <el-card shadow="always" body-style="padding:30px;display: inline-flex;height:300px;width:830px;">
+                    <div><img :src="welcomemsg" alt="" style="width:200px;margin:5px;" /></div>
+                    <div style="">
+                        <span> <el-tag type="success" style="font-size:24px;">预警信息</el-tag></span>
+                    </div>
+                </el-card>
+            </div>
         </div>
     </div>
-    <div class="welmsg">
-        <!-- 连续未动销预警 -->
-        <div style="margin:10px;">
-            <el-card shadow="always" body-style="padding:30px;display: inline-flex;height:300px;width:830px;">
-                <div><img :src="alertMsg2" alt="" style="width:200px;margin:5px;"/></div>
-                <div style="">
-                    <span> <el-tag type="success" style="font-size:24px;">连续未动销预警</el-tag></span>
-                </div>
-            </el-card>
-        </div>
-        <!-- 统计图表 -->
-        <div style="margin:10px;">
-            <el-card shadow="always" body-style="padding:30px;display: inline-flex;height:300px;width:830px;">
-                <div><img :src="welcomemsg" alt="" style="width:200px;margin:5px;"/></div>
-                <div style="">
-                    <span> <el-tag type="success" style="font-size:24px;">预警信息</el-tag></span>
-                </div>
-            </el-card>
-        </div>
-    </div>
-</div>
 </template>
 
 <script>
@@ -56,13 +57,13 @@ export default {
     data() {
         return {
             userInfo: "",
-            welcomePic:welcomePic,
-            welcomemsg:welcomemsg,
-            alertMsg1:alertMsg1,
-            alertMsg2:alertMsg2
+            welcomePic: welcomePic,
+            welcomemsg: welcomemsg,
+            alertMsg1: alertMsg1,
+            alertMsg2: alertMsg2
         }
     },
-    components:{
+    components: {
         DateUtils
     },
     created() {
@@ -84,7 +85,6 @@ export default {
     float: left;
     display: inline-flex;
 }
-.el-card__body{
-    
-}
+
+.el-card__body {}
 </style>>

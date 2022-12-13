@@ -1,7 +1,7 @@
 <template>
   <div>
-<!-- 供应商 -->
-<!-- <el-button type="primary" plain size="small" icon="el-icon-refresh" @click="reload">刷新</el-button> -->
+    <!-- 供应商 -->
+    <!-- <el-button type="primary" plain size="small" icon="el-icon-refresh" @click="reload">刷新</el-button> -->
     <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add">新增</el-button> -->
     <!-- <el-divider/> -->
     <div>
@@ -16,12 +16,13 @@
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
       <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
       <!-- <el-button type="danger"  size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
-      <el-divider/>
+      <el-divider />
     </div>
     <leftCard :categoryType="categoryType" :title="title" style="height:600px;" ref="leftcard" />
     <div class="list-model">
-      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="supplyList" tooltip-effect="dark" @selection-change="handleSelectionDelete"
-        style="width: auto;margin-top: 20px;" :header-cell-style="{background:'#F2F6FC',color:'#606266'}">
+      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="supplyList" tooltip-effect="dark"
+        @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
+        :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="supplierCode" sortable label="供应商编号">
         </el-table-column>
@@ -29,7 +30,7 @@
         </el-table-column>
         <el-table-column label="联系人列表">
           <template slot-scope="scope">
-            <span v-for="(item,index) in scope.row.supplierContactList" :key="index" :label="item">
+            <span v-for="(item, index) in scope.row.supplierContactList" :key="index" :label="item">
               <span>
                 {{ item.contactName }};
               </span>
@@ -40,7 +41,8 @@
           <template slot-scope="scope">
             <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
-            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small" icon="el-icon-delete">删除</el-button>
+            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
+              icon="el-icon-delete">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -49,8 +51,10 @@
           :current="parseInt(pageNo)" :total="total" :page-size.sync="pageSize" :page-no.sync="pageNo"
           @current-change="_page" @size-change="_pageSize"></el-pagination>
       </div>
-      <supplyEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" ref="edit"/>
-      <supplyDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" ref="detail"/>
+      <supplyEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"
+        ref="edit" />
+      <supplyDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()"
+        ref="detail" />
     </div>
   </div>
 </template>
@@ -58,7 +62,7 @@
 <script>
 import supplyEdit from "./supplyEdit";
 import supplyDetail from "./supplyDetail";
-import { SupplierlistPage,SupplierDelete,SupplierDeleteList,Supplierlist} from "@/api/data";
+import { SupplierlistPage, SupplierDelete, SupplierDeleteList, Supplierlist } from "@/api/data";
 import leftCard from "@/components/public/leftCard.vue";
 
 export default {
@@ -77,8 +81,8 @@ export default {
       isShow: false,
       rowData: {},
       supplyList: [],
-      multipleSelection:[],
-      activeItem:""
+      multipleSelection: [],
+      activeItem: ""
     };
   },
   props: {
@@ -93,7 +97,7 @@ export default {
   },
   methods: {
     search() {
-      SupplierlistPage({ supplierCode:this.supplyId, supplierName: this.supplyName,categoryKey:this.inputCategory, page: this.pageNo,  page: 1, size: 20 }).then(res => {
+      SupplierlistPage({ supplierCode: this.supplyId, supplierName: this.supplyName, categoryKey: this.inputCategory, page: this.pageNo, page: 1, size: 20 }).then(res => {
         this.supplyList = res.data.data.records;
         this.total = res.data.data.total
       });
@@ -123,10 +127,10 @@ export default {
     },
     //详情
     openDetail(row) {
-        this.rowData = row;
-        this.activeItem = row.supplierKey
-        this.isShow=true//详情
-        console.log(this.activeItem)
+      this.rowData = row;
+      this.activeItem = row.supplierKey
+      this.isShow = true//详情
+      console.log(this.activeItem)
     },
     //编辑
     editRow(row) {
@@ -134,21 +138,21 @@ export default {
       this.drawer = true
     },
     getSupplierlistPage() {
-      SupplierlistPage({ supplierCode:"", supplierName: "",categoryKey:"", page: this.pageNo, size: this.pageSize }).then((res) => {
+      SupplierlistPage({ supplierCode: "", supplierName: "", categoryKey: "", page: this.pageNo, size: this.pageSize }).then((res) => {
         this.supplyList = res.data.data.records;
         this.total = res.data.data.total
         console.log(this.total, this.supplyList);
       });
       this.$forceUpdate();
     },
-    getData(){
+    getData() {
       Supplierlist().then(res => {
         if (res.data.code == 200) {
           console.log(res.data.data)
-          res.data.data.forEach(item=>{
-            if(item.supplierKey==this.activeItem){
+          res.data.data.forEach(item => {
+            if (item.supplierKey == this.activeItem) {
               this.rowData = item
-              console.log(this.rowData,"this.rowData");
+              console.log(this.rowData, "this.rowData");
             }
             this.$refs.detail.reload()
           })
@@ -164,18 +168,18 @@ export default {
       this.rowData = {};
       this.getSupplierlistPage();
     },
-    reload(){
+    reload() {
       this.$refs.leftcard.getTree()
       this.getSupplierlistPage()
     },
-    add(){
-       this.editRow({})
+    add() {
+      this.editRow({})
     },
-    clean(){
+    clean() {
       this.supplyName = ''
       this.supplyId = ''
-      this.inputCategory=''
-      this.$refs.leftcard.isActive=''
+      this.inputCategory = ''
+      this.$refs.leftcard.isActive = ''
       this.reload()
     },
     //批量删除选择
@@ -184,37 +188,37 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      if(this.multipleSelection.length>0){
+      if (this.multipleSelection.length > 0) {
         let supplierkeys = [];
         this.multipleSelection.forEach(item => {
-          supplierkeys.push({supplierKey:item.supplierKey})
+          supplierkeys.push({ supplierKey: item.supplierKey })
         })
         console.log(supplierkeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           SupplierDeleteList(supplierkeys).then(response => {
-              this.getSupplierlistPage();
-              this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-              });
+            this.getSupplierlistPage();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
           }).catch(error => {
-              console.log(error);
+            console.log(error);
           });
         }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '已取消删除'
-            });
-            this.multipleSelection=[]
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+          this.multipleSelection = []
         });
-      }else{
+      } else {
         this.$message({
-            type: 'error',
-            message: '至少选择一项'
+          type: 'error',
+          message: '至少选择一项'
         });
       }
     },

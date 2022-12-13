@@ -54,16 +54,18 @@
             </el-table-column>
             <el-table-column label="性别">
                 <template slot-scope="scope">
-                    <el-tag :type="scope.row.userSex == '女' ? 'danger' :  'primary' " disable-transitions>
-                        {{scope.row.userSex}}
+                    <el-tag :type="scope.row.userSex == '女' ? 'danger' : 'primary'" disable-transitions>
+                        {{ scope.row.userSex }}
                     </el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="用户角色">
                 <template slot-scope="scope">
                     <!-- <span>{{ scope.row.userType == 'admin' ? '管理员' : '用户' || '-' }}</span> -->
-                    <el-tag :type="scope.row.userType == 0 ? 'danger' : (scope.row.userType == 1 ? 'primary' : 'success')" disable-transitions>
-                        {{scope.row.userType == 0 ? '超级管理员' :(scope.row.userType == 1 ? '管理员' : '用户')}}
+                    <el-tag
+                        :type="scope.row.userType == 0 ? 'danger' : (scope.row.userType == 1 ? 'primary' : 'success')"
+                        disable-transitions>
+                        {{ scope.row.userType == 0 ? '超级管理员' : (scope.row.userType == 1 ? '管理员' : '用户') }}
                     </el-tag>
                 </template>
             </el-table-column>
@@ -79,7 +81,8 @@
         </el-table>
         <!-- 新增 -->
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="70px" class="demo-ruleForm" size="medium">
-            <el-dialog title="添加" :append-to-body='true' :visible.sync="dialogAdd" :before-close="handleClose"  width="500px">
+            <el-dialog title="添加" :append-to-body='true' :visible.sync="dialogAdd" :before-close="handleClose"
+                width="500px">
                 <el-form-item label="编号" style="display:none">
                     <el-input v-model="ruleForm.userId"></el-input>
                 </el-form-item>
@@ -101,7 +104,7 @@
                 </el-form-item>
                 <el-form-item label="性别">
                     <!-- <el-input v-model="ruleForm.userSex"></el-input> -->
-                    <el-select size="middle" v-model="ruleForm.userSex" clearable  placeholder="性别" style="width:100%">
+                    <el-select size="middle" v-model="ruleForm.userSex" clearable placeholder="性别" style="width:100%">
                         <el-option label="男" value="男"></el-option>
                         <el-option label="女" value="女"></el-option>
                     </el-select>
@@ -114,7 +117,8 @@
         </el-form>
         <!-- 编辑 -->
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="70px" class="demo-ruleForm" size="medium">
-            <el-dialog title="编辑" :append-to-body='true' :visible.sync="dialogUpdate" :before-close="handleClose"  width="500px">
+            <el-dialog title="编辑" :append-to-body='true' :visible.sync="dialogUpdate" :before-close="handleClose"
+                width="500px">
                 <el-form-item label="编号" style="display:none">
                     <el-input v-model="ruleForm.userId"></el-input>
                 </el-form-item>
@@ -136,7 +140,7 @@
                 </el-form-item>
                 <el-form-item label="性别">
                     <!-- <el-input v-model="ruleForm.userSex"></el-input> -->
-                    <el-select size="middle" v-model="ruleForm.userSex" clearable  placeholder="性别" style="width:100%">
+                    <el-select size="middle" v-model="ruleForm.userSex" clearable placeholder="性别" style="width:100%">
                         <el-option label="男" value="男"></el-option>
                         <el-option label="女" value="女"></el-option>
                     </el-select>
@@ -147,9 +151,9 @@
                 </span>
             </el-dialog>
         </el-form>
-            <el-pagination layout="total, sizes, prev, pager, next, jumper" :page-sizes="[10, 20, 50, 100]" style="text-align: center;"
-                :current="parseInt(pageNo)" :total="total" :page-size.sync="pageSize" :page-no.sync="pageNo"
-                @current-change="_page" @size-change="_pageSize"></el-pagination>
+        <el-pagination layout="total, sizes, prev, pager, next, jumper" :page-sizes="[10, 20, 50, 100]"
+            style="text-align: center;" :current="parseInt(pageNo)" :total="total" :page-size.sync="pageSize"
+            :page-no.sync="pageNo" @current-change="_page" @size-change="_pageSize"></el-pagination>
     </div>
 </template>
 
@@ -166,7 +170,7 @@ export default {
                 userName: null,//用户姓名
                 userPhone: null,//手机号码
                 userEmail: null,//邮箱
-                userSex:null,//性别
+                userSex: null,//性别
             },
             rules: {},
             tableData: [],
@@ -262,7 +266,7 @@ export default {
                     this.emptyUserData()
                 })
                 .catch(_ => {
-            })
+                })
         },
 
         /**
@@ -380,4 +384,5 @@ export default {
 }
 </script>
 <style scoped>
+
 </style>

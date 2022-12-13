@@ -1,8 +1,8 @@
 <template>
   <div class="wrap-definition">
-      <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
-      <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
-      <el-divider/>
+    <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
+    <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
+    <el-divider />
 
     <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
       :tableColumn="tableColumn">
@@ -12,75 +12,71 @@
       </template>
     </TableList>
 
-    <el-dialog
-    :title="title"
-    :visible.sync="dialogVisible"
-    :append-to-body='true'
-    :close-on-click-modal="false"
-    :before-close="handleClose">
-    <el-form :model="bankForm" :rules="rules3" ref="bankForm" label-width="100px" class="add-ruleForm">
-      <el-row>
-        <el-col :span="10">
-          <el-form-item label="开户银行" prop="bankName">
-            <el-input v-model="bankForm.bankName"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item label="账户名" prop="accountName">
-            <el-input v-model="bankForm.accountName"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10">
-          <el-form-item label="银行账号" prop="accountNumber">
-            <el-input v-model="bankForm.accountNumber"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item label="联系电话" prop="accountTel">
-            <el-input v-model="bankForm.accountTel"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item label="税号" prop="taxNumber">
-            <el-input v-model="bankForm.taxNumber"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-    </el-form>
-    <span slot="footer" class="dialog-footer">
-      <el-button @click="handleClose()">取 消</el-button>
-      <el-button type="primary"  @click="create('bankForm')" v-if="ifCreate">确 定</el-button>
-      <el-button type="primary"  @click="save('bankForm')" v-else>确 定</el-button>
-    </span>
-  </el-dialog>
+    <el-dialog :title="title" :visible.sync="dialogVisible" :append-to-body='true' :close-on-click-modal="false"
+      :before-close="handleClose">
+      <el-form :model="bankForm" :rules="rules3" ref="bankForm" label-width="100px" class="add-ruleForm">
+        <el-row>
+          <el-col :span="10">
+            <el-form-item label="开户银行" prop="bankName">
+              <el-input v-model="bankForm.bankName"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="账户名" prop="accountName">
+              <el-input v-model="bankForm.accountName"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="10">
+            <el-form-item label="银行账号" prop="accountNumber">
+              <el-input v-model="bankForm.accountNumber"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="联系电话" prop="accountTel">
+              <el-input v-model="bankForm.accountTel"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="10">
+            <el-form-item label="税号" prop="taxNumber">
+              <el-input v-model="bankForm.taxNumber"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="handleClose()">取 消</el-button>
+        <el-button type="primary" @click="create('bankForm')" v-if="ifCreate">确 定</el-button>
+        <el-button type="primary" @click="save('bankForm')" v-else>确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import TableList from "@/components/public/tableList";
-import { supplierBillingAdd,supplierBillingUpdate,supplierBillingDelete,supplierBillingDeleteList } from "@/api/data";
+import { supplierBillingAdd, supplierBillingUpdate, supplierBillingDelete, supplierBillingDeleteList } from "@/api/data";
 
 export default {
   name: 'bankTable',
-   data() {
+  data() {
     return {
-      tableData:[],
-      dialogVisible:false,
-      ifCreate:false,
-      multipleSelection:[],
-      title:"编辑开票信息",
-      bankForm:{
-        supplierBillingCode:"",
-        billingKey:"",
-        bankName:"",
-        accountNumber:"",
-        accountName:"",
-        accountTel:"",
-        taxNumber:""
+      tableData: [],
+      dialogVisible: false,
+      ifCreate: false,
+      multipleSelection: [],
+      title: "编辑开票信息",
+      bankForm: {
+        supplierBillingCode: "",
+        billingKey: "",
+        bankName: "",
+        accountNumber: "",
+        accountName: "",
+        accountTel: "",
+        taxNumber: ""
       },
-      rules3:{
+      rules3: {
         accountTel: [
           { required: true, message: '请输入联系电话', trigger: 'blur' },
         ],
@@ -97,15 +93,15 @@ export default {
           { required: true, message: '请输入税号', trigger: 'blur' },
         ],
       }
-   }
+    }
   },
   props: {
-    bankList:[]
+    bankList: []
   },
   watch: {},
-  created () {
-    this.tableData=this.bankList
-    console.log("bankList",this.tableData)
+  created() {
+    this.tableData = this.bankList
+    console.log("bankList", this.tableData)
   },
   computed: {
     tableColumn() {
@@ -123,30 +119,30 @@ export default {
     TableList
   },
   methods: {
-    getTableData(){
+    getTableData() {
       return this.tableData
     },
     //编辑
     editRow(row) {
-      this.bankForm.supplierBillingCode= row.supplierBillingCode
-      this.bankForm.billingKey= row.billingKey
-      this.bankForm.bankName= row.bankName
-      this.bankForm.accountNumber= row.accountNumber
-      this.bankForm.accountName= row.accountName
-      this.bankForm.accountTel= row.accountTel
-      this.bankForm.taxNumber= row.taxNumber
-      this.dialogVisible=true
+      this.bankForm.supplierBillingCode = row.supplierBillingCode
+      this.bankForm.billingKey = row.billingKey
+      this.bankForm.bankName = row.bankName
+      this.bankForm.accountNumber = row.accountNumber
+      this.bankForm.accountName = row.accountName
+      this.bankForm.accountTel = row.accountTel
+      this.bankForm.taxNumber = row.taxNumber
+      this.dialogVisible = true
     },
     //添加
-    add(){
-      this.title="新增开票信息"
-      this.bankForm.supplierBillingCode=this.$parent.$parent.$parent.$parent.$parent.row.supplierKey
-      this.dialogVisible=true
-      this.ifCreate=true
+    add() {
+      this.title = "新增开票信息"
+      this.bankForm.supplierBillingCode = this.$parent.$parent.$parent.$parent.$parent.row.supplierKey
+      this.dialogVisible = true
+      this.ifCreate = true
     },
     //删除
     deleteRow(row) {
-      supplierBillingDelete({billingKey:row.billingKey})
+      supplierBillingDelete({ billingKey: row.billingKey })
         .then((res) => {
           if (res.data.code === 200) {
             this.$message.success('删除成功!')
@@ -156,26 +152,26 @@ export default {
           }
         })
     },
-    _handleFresh(){
+    _handleFresh() {
       this.$parent.$parent.$parent.$parent.$parent.getData()
-      this.dialogVisible=false
+      this.dialogVisible = false
       this.reset()
       this.$forceUpdate();
     },
-    handleClose(){
-      this.dialogVisible=false
+    handleClose() {
+      this.dialogVisible = false
       this.reset()
     },
     //新增
     create(formName) {
-      let data={
-        supplierBillingCode:this.bankForm.supplierBillingCode,
+      let data = {
+        supplierBillingCode: this.bankForm.supplierBillingCode,
         // billingKey:this.bankForm.billingKey,
-        bankName:this.bankForm.bankName,
-        accountNumber:this.bankForm.accountNumber,
-        accountName:this.bankForm.accountName,
-        accountTel:this.bankForm.accountTel,
-        taxNumber:this.bankForm.taxNumber
+        bankName: this.bankForm.bankName,
+        accountNumber: this.bankForm.accountNumber,
+        accountName: this.bankForm.accountName,
+        accountTel: this.bankForm.accountTel,
+        taxNumber: this.bankForm.taxNumber
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -200,14 +196,14 @@ export default {
     },
     //更新
     save(formName) {
-      let data={
-        supplierBillingCode:this.bankForm.supplierBillingCode,
-        billingKey:this.bankForm.billingKey,
-        bankName:this.bankForm.bankName,
-        accountNumber:this.bankForm.accountNumber,
-        accountName:this.bankForm.accountName,
-        accountTel:this.bankForm.accountTel,
-        taxNumber:this.bankForm.taxNumber
+      let data = {
+        supplierBillingCode: this.bankForm.supplierBillingCode,
+        billingKey: this.bankForm.billingKey,
+        bankName: this.bankForm.bankName,
+        accountNumber: this.bankForm.accountNumber,
+        accountName: this.bankForm.accountName,
+        accountTel: this.bankForm.accountTel,
+        taxNumber: this.bankForm.taxNumber
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -230,15 +226,15 @@ export default {
         }
       })
     },
-    reset(){
-      this.bankForm={
-        supplierBillingCode:"",
-        billingKey:"",
-        bankName:"",
-        accountNumber:"",
-        accountName:"",
-        accountTel:"",
-        taxNumber:""
+    reset() {
+      this.bankForm = {
+        supplierBillingCode: "",
+        billingKey: "",
+        bankName: "",
+        accountNumber: "",
+        accountName: "",
+        accountTel: "",
+        taxNumber: ""
       }
     },
     //批量删除选择
@@ -247,38 +243,38 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      if(this.multipleSelection.length>0){
+      if (this.multipleSelection.length > 0) {
         let billingKeys = [];
         this.multipleSelection.forEach(item => {
-          billingKeys.push({billingKey:item.billingKey})
+          billingKeys.push({ billingKey: item.billingKey })
         })
         console.log(billingKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           supplierBillingDeleteList(billingKeys).then(() => {
-              this.getTableData();
-              this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-              });
-              this._handleFresh()
+            this.getTableData();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            this._handleFresh()
           }).catch(error => {
-              console.log(error);
+            console.log(error);
           });
         }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '已取消删除'
-            });
-            this.multipleSelection=[]
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+          this.multipleSelection = []
         });
-      }else{
+      } else {
         this.$message({
-            type: 'error',
-            message: '至少选择一项'
+          type: 'error',
+          message: '至少选择一项'
         });
       }
     },

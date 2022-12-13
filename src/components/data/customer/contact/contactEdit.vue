@@ -5,9 +5,10 @@
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-row>
         <el-col :span="7">
-          <el-form-item label="客户"  prop="contactCustomerKey">
+          <el-form-item label="客户" prop="contactCustomerKey">
             <el-select v-model="ruleForm.contactCustomerKey" placeholder="客户">
-              <el-option v-for="item in options" :key="item.customerKey" :label="item.customerName" :value="item.customerKey"></el-option>
+              <el-option v-for="item in options" :key="item.customerKey" :label="item.customerName"
+                :value="item.customerKey"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -72,7 +73,7 @@ export default {
       ruleForm: {
         // contactInfo: "",//联系信息
         contactName: "",//联系人
-        contactNumber:"",//联系人编号
+        contactNumber: "",//联系人编号
         address: {
           // 省
           province: "",
@@ -129,22 +130,22 @@ export default {
   components: {
     checkAddress
   },
-  created(){
-    this.getCustomer() 
-    if(this.rowData.contactKey){
-      this.ifCreate=false
-      this.ruleForm.contactName=this.rowData.contactName
-      this.ruleForm.address.province=this.rowData.province
-      this.ruleForm.address.city=this.rowData.city
-      this.ruleForm.address.district=this.rowData.district
-      this.ruleForm.address.detail=this.rowData.detail
-      this.ruleForm.contactEmail=this.rowData.contactEmail
-      this.ruleForm.contactTel=this.rowData.contactTel
-      this.ruleForm.contactCustomerKey=this.rowData.contactCustomerKey
-      this.ruleForm.contactNumber=this.rowData.contactNumber
-      this.ruleForm.contactKey=this.rowData.contactKey
-    }else{
-      this.ifCreate=true
+  created() {
+    this.getCustomer()
+    if (this.rowData.contactKey) {
+      this.ifCreate = false
+      this.ruleForm.contactName = this.rowData.contactName
+      this.ruleForm.address.province = this.rowData.province
+      this.ruleForm.address.city = this.rowData.city
+      this.ruleForm.address.district = this.rowData.district
+      this.ruleForm.address.detail = this.rowData.detail
+      this.ruleForm.contactEmail = this.rowData.contactEmail
+      this.ruleForm.contactTel = this.rowData.contactTel
+      this.ruleForm.contactCustomerKey = this.rowData.contactCustomerKey
+      this.ruleForm.contactNumber = this.rowData.contactNumber
+      this.ruleForm.contactKey = this.rowData.contactKey
+    } else {
+      this.ifCreate = true
     }
   },
   methods: {
@@ -157,8 +158,8 @@ export default {
         }
       })
     },
-  //重置
-  resetForm(formName) {
+    //重置
+    resetForm(formName) {
       this.$refs[formName].resetFields();
     },
     //关闭
@@ -170,17 +171,17 @@ export default {
 
     //添加联系人
     create(formName) {
-      let data={
-        contactName:this.ruleForm.contactName,
-        province:this.ruleForm.address.province,
-        city:this.ruleForm.address.city,
-        district:this.ruleForm.address.district,
-        detail:this.ruleForm.address.detail,
-        contactEmail:this.ruleForm.contactEmail,
-        contactTel:this.ruleForm.contactTel,
-        contactCustomerKey:this.ruleForm.contactCustomerKey,
-        contactKey:this.ruleForm.contactKey,
-        contactNumber:this.ruleForm.contactNumber
+      let data = {
+        contactName: this.ruleForm.contactName,
+        province: this.ruleForm.address.province,
+        city: this.ruleForm.address.city,
+        district: this.ruleForm.address.district,
+        detail: this.ruleForm.address.detail,
+        contactEmail: this.ruleForm.contactEmail,
+        contactTel: this.ruleForm.contactTel,
+        contactCustomerKey: this.ruleForm.contactCustomerKey,
+        contactKey: this.ruleForm.contactKey,
+        contactNumber: this.ruleForm.contactNumber
       }
 
       console.log(this.ruleForm.address)
@@ -211,17 +212,17 @@ export default {
 
     //更新联系人
     save(formName) {
-      let data={
-        contactName:this.ruleForm.contactName,
-        province:this.ruleForm.address.province,
-        city:this.ruleForm.address.city,
-        district:this.ruleForm.address.district,
-        detail:this.ruleForm.address.detail,
-        contactEmail:this.ruleForm.contactEmail,
-        contactTel:this.ruleForm.contactTel,
-        contactCustomerKey:this.ruleForm.contactCustomerKey,
-        contactKey:this.ruleForm.contactKey,
-        contactNumber:this.ruleForm.contactNumber
+      let data = {
+        contactName: this.ruleForm.contactName,
+        province: this.ruleForm.address.province,
+        city: this.ruleForm.address.city,
+        district: this.ruleForm.address.district,
+        detail: this.ruleForm.address.detail,
+        contactEmail: this.ruleForm.contactEmail,
+        contactTel: this.ruleForm.contactTel,
+        contactCustomerKey: this.ruleForm.contactCustomerKey,
+        contactKey: this.ruleForm.contactKey,
+        contactNumber: this.ruleForm.contactNumber
       }
 
       console.log(this.ruleForm.address)
@@ -254,7 +255,7 @@ export default {
         // contactInfo: "",//联系信息
         contactName: "",//联系人
         // contactType: "",//联系类型 TEL, ADDRESS, EMAIL
-        contactNumber:"",//联系人编号
+        contactNumber: "",//联系人编号
         address: {
           // 省
           province: "",

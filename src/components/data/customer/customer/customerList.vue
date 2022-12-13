@@ -12,12 +12,13 @@
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
       <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
       <!-- <el-button type="danger"  size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
-      <el-divider/>
+      <el-divider />
     </div>
     <leftCard :categoryType="categoryType" :title="title" style="height:600px;" ref="leftcard" />
     <div class="list-model">
-      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="guestList" tooltip-effect="dark" @selection-change="handleSelectionDelete"
-        style="width: auto;margin-top: 20px;" :header-cell-style="{background:'#F2F6FC',color:'#606266'}">
+      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="guestList" tooltip-effect="dark"
+        @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
+        :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="customerName" label="客户名称">
         </el-table-column>
@@ -35,7 +36,8 @@
         <el-table-column width="200px" fixed="right" label="操作">
           <template slot-scope="scope">
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
-            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small" icon="el-icon-delete">删除</el-button>
+            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
+              icon="el-icon-delete">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -52,7 +54,7 @@
 <script>
 import guestsEdit from './customerEdit'
 import leftCard from '@/components/public/leftCard.vue'
-import { CustomerListpage, Customerdelete,CustomerdeleteList } from "@/api/data";
+import { CustomerListpage, Customerdelete, CustomerdeleteList } from "@/api/data";
 
 export default {
   name: 'guestsList',
@@ -66,128 +68,128 @@ export default {
       categoryType: 'CUSTOMER',
       title: "客户分类",
       guestList: [],
-      multipleSelection:[],
+      multipleSelection: [],
       inputName: '',
       inputCategory: ''
     }
   },
-  created(){
+  created() {
     this.getCustomer()
   },
   methods: {
     //客户
     getCustomer() {
-        CustomerListpage({
-          categoryKey: "",
-          customerName: "",
-          page: this.pageNo,
-          size: this.pageSize,
-        }).then((res) => {
-          if (res.data.code === 200) {
-            this.total = res.data.data.total;
-            this.guestList = res.data.data.records;
-            console.log(this.total, this.guestList);
-          } else {
-            console.log("error");
-          }
-        });
-        this.$forceUpdate()
-      },
-      clean(){
-        this.inputName = ''
-        this.inputCategory = ''
-        this.$refs.leftcard.isActive=''
-        this.reload()
-      },
-      search() {
-        //客户
-        CustomerListpage({
-          categoryKey: this.inputCategory,
-          customerName: this.inputName,
-          page: 1,
-          size: 20,
-        }).then((res) => {
-          if (res.data.code === 200) {
-            this.total = res.data.total;
-            this.guestList = res.data.data.records;
-            console.log(this.total, this.guestList);
-          } else {
-            console.log("error");
-          }
-        });
-        this.$forceUpdate();
-      },
-      _pageSize(val) {
-        this.pageSize = val
-        this.$forceUpdate()
-      },
-      _page(val) {
-        this.pageNo = val
-        this.$forceUpdate()
-      },
-      deleteRow(row) {
-        Customerdelete({customerKey:row.customerKey}).then((res) => {
-          if (res.data.code === 200) {
-            this.$message.success("删除成功!");
-            this.getCustomer();
-            this.$forceUpdate();
-          }
-        });
-      },
-      editRow(row) {
-        this.rowData = row;
-        this.drawer = true;
-      },
-      reload(){
-        this.$refs.leftcard.getTree()
-        this.getCustomer()
-      },
-      add(){
-        this.editRow({})
-      },
-      success() {
-        this.getCustomer();
-        this.$forceUpdate();
-        this.drawer = false;
-        this.rowData = {};
-      },
+      CustomerListpage({
+        categoryKey: "",
+        customerName: "",
+        page: this.pageNo,
+        size: this.pageSize,
+      }).then((res) => {
+        if (res.data.code === 200) {
+          this.total = res.data.data.total;
+          this.guestList = res.data.data.records;
+          console.log(this.total, this.guestList);
+        } else {
+          console.log("error");
+        }
+      });
+      this.$forceUpdate()
+    },
+    clean() {
+      this.inputName = ''
+      this.inputCategory = ''
+      this.$refs.leftcard.isActive = ''
+      this.reload()
+    },
+    search() {
+      //客户
+      CustomerListpage({
+        categoryKey: this.inputCategory,
+        customerName: this.inputName,
+        page: 1,
+        size: 20,
+      }).then((res) => {
+        if (res.data.code === 200) {
+          this.total = res.data.total;
+          this.guestList = res.data.data.records;
+          console.log(this.total, this.guestList);
+        } else {
+          console.log("error");
+        }
+      });
+      this.$forceUpdate();
+    },
+    _pageSize(val) {
+      this.pageSize = val
+      this.$forceUpdate()
+    },
+    _page(val) {
+      this.pageNo = val
+      this.$forceUpdate()
+    },
+    deleteRow(row) {
+      Customerdelete({ customerKey: row.customerKey }).then((res) => {
+        if (res.data.code === 200) {
+          this.$message.success("删除成功!");
+          this.getCustomer();
+          this.$forceUpdate();
+        }
+      });
+    },
+    editRow(row) {
+      this.rowData = row;
+      this.drawer = true;
+    },
+    reload() {
+      this.$refs.leftcard.getTree()
+      this.getCustomer()
+    },
+    add() {
+      this.editRow({})
+    },
+    success() {
+      this.getCustomer();
+      this.$forceUpdate();
+      this.drawer = false;
+      this.rowData = {};
+    },
     //批量删除选择
     handleSelectionDelete(val) {
       this.multipleSelection = val
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      if(this.multipleSelection.length>0){
+      if (this.multipleSelection.length > 0) {
         let customerKeys = [];
         this.multipleSelection.forEach(item => {
-          customerKeys.push({customerKey:item.customerKey})
+          customerKeys.push({ customerKey: item.customerKey })
         })
         console.log(customerKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           CustomerdeleteList(customerKeys).then(response => {
-              this.getCustomer();
-              this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-              });
+            this.getCustomer();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
           }).catch(error => {
-              console.log(error);
+            console.log(error);
           });
         }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '已取消删除'
-            });
-            this.multipleSelection=[]
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+          this.multipleSelection = []
         });
-      }else{
+      } else {
         this.$message({
-            type: 'error',
-            message: '至少选择一项'
+          type: 'error',
+          message: '至少选择一项'
         });
       }
     },

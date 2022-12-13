@@ -36,7 +36,7 @@
           </el-col>
           <el-col :span="7">
             <el-form-item label="默认仓库" prop="inventoryCode">
-              <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="默认仓库" style="width:405px;" >
+              <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="默认仓库" style="width:405px;">
                 <el-option v-for="item in options" :key="item.inventoryCode" :label="item.inventoryName"
                   :value="item.inventoryCode">
                 </el-option>
@@ -47,7 +47,7 @@
             <el-form-item label="所属分类" v-model="ruleForm.categoryKey" prop="categoryKey" size="middle">
               <listBoxF>
                 <template slot="content">
-                  <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list" 
+                  <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list"
                     placeholder="请选择" @select="selectNode" style="width:405px;" />
                 </template>
               </listBoxF>
@@ -62,15 +62,16 @@
           </el-col>
           <el-col :span="7">
             <el-form-item label="所属品牌" prop="brandCode">
-              <el-select size="middle" v-model="ruleForm.brandCode" placeholder="品牌" style="width:405px;" >
-                <el-option v-for="item in options1" :key="item.brandKey" :label="item.brandName" :value="item.brandCode">
+              <el-select size="middle" v-model="ruleForm.brandCode" placeholder="品牌" style="width:405px;">
+                <el-option v-for="item in options1" :key="item.brandKey" :label="item.brandName"
+                  :value="item.brandCode">
                 </el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="7">
             <el-form-item label="状态" prop="state">
-              <el-select size="middle" v-model="ruleForm.state" placeholder="请选择" style="width:405px;" >
+              <el-select size="middle" v-model="ruleForm.state" placeholder="请选择" style="width:405px;">
                 <el-option label="上架" :value="1"></el-option>
                 <el-option label="下架" :value="0"></el-option>
               </el-select>
@@ -166,7 +167,7 @@
 <script>
 import listBoxF from "@/components/public/listBoxF/listBoxF.vue";
 import moment from 'moment'
-import {goodsAdd,getCategoryTree, inventorylist,  goodsUpdate, brandlist,Supplierlist} from "@/api/data";
+import { goodsAdd, getCategoryTree, inventorylist, goodsUpdate, brandlist, Supplierlist } from "@/api/data";
 /**
  * 树形组件 用于选择框
  */
@@ -206,12 +207,12 @@ export default {
         priceCostAverage: "", //成本均价
         priceCostPreset: "", //预设进价
         priceCostReference: "", //参考成本
-        brandCode:""//品牌
+        brandCode: ""//品牌
       },
       list: [],
       options: [],
       options1: [],
-      suplyOptions:[],
+      suplyOptions: [],
       rules: {
         goodsBarcode: [
           { required: true, message: '请输入商品条码', trigger: 'blur' },
@@ -318,18 +319,18 @@ export default {
       this.ruleForm.modelCode = this.rowData.modelCode;
       this.ruleForm.state = this.rowData.state;
       this.ruleForm.supplierCode = this.rowData.supplierCode;
-      this.ruleForm.goodsUnit= this.rowData.goodsUnit
-      this.ruleForm.unitType= this.rowData.unitType
-      this.ruleForm.unitDescription= this.rowData.unitDescription
-      this.ruleForm.weight= this.rowData.weight
-      this.ruleForm.volume= this.rowData.volume
-      this.ruleForm.inventoryBook= this.rowData.inventoryBook
-      this.ruleForm.priceWholesaler= this.rowData.priceWholesaler
-      this.ruleForm.priceRetail= this.rowData.priceRetail
-      this.ruleForm.priceLatestPurchase= this.rowData.priceLatestPurchase
-      this.ruleForm.priceCostAverage= this.rowData.priceCostAverage
-      this.ruleForm.priceCostPreset= this.rowData.priceCostPreset
-      this.ruleForm.priceCostReference= this.rowData.priceCostReference
+      this.ruleForm.goodsUnit = this.rowData.goodsUnit
+      this.ruleForm.unitType = this.rowData.unitType
+      this.ruleForm.unitDescription = this.rowData.unitDescription
+      this.ruleForm.weight = this.rowData.weight
+      this.ruleForm.volume = this.rowData.volume
+      this.ruleForm.inventoryBook = this.rowData.inventoryBook
+      this.ruleForm.priceWholesaler = this.rowData.priceWholesaler
+      this.ruleForm.priceRetail = this.rowData.priceRetail
+      this.ruleForm.priceLatestPurchase = this.rowData.priceLatestPurchase
+      this.ruleForm.priceCostAverage = this.rowData.priceCostAverage
+      this.ruleForm.priceCostPreset = this.rowData.priceCostPreset
+      this.ruleForm.priceCostReference = this.rowData.priceCostReference
     } else {
       this.ifCreate = true;
     }
@@ -369,12 +370,12 @@ export default {
         })
         .catch((e) => {
           console.log(e);
-      });
+        });
     },
-    getSupplierlist(){
+    getSupplierlist() {
       Supplierlist().then(res => {
         if (res.data.code == 200) {
-          this.suplyOptions=res.data.data
+          this.suplyOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
         }
@@ -405,11 +406,11 @@ export default {
       getCategoryTree(params).then((res) => {
         if (res.data.code === 200) {
           res.data.data.forEach(item => {
-              if(item.categoryName=='全部'){
-                let index=res.data.data.indexOf(item)
-                res.data.data.splice(index,1)
-              }
-            });
+            if (item.categoryName == '全部') {
+              let index = res.data.data.indexOf(item)
+              res.data.data.splice(index, 1)
+            }
+          });
           this.list = res.data.data;
         } else {
           console.log("error");
@@ -433,7 +434,7 @@ export default {
             .catch((e) => {
               console.log(e);
             });
-          } else {
+        } else {
           console.log('error submit!!');
           return false;
         }
@@ -444,8 +445,8 @@ export default {
       this.ruleForm.createTime = moment().format("YYYY-MM-DD HH:mm:ss");
       this.$refs[formName].validate((valid) => {
         if (valid) {
-      // console.log(moment().format("YYYY-MM-DD HH:mm:ss")); //当前时间 （24小时制）
-      // console.log("this.ruleForm", this.ruleForm);
+          // console.log(moment().format("YYYY-MM-DD HH:mm:ss")); //当前时间 （24小时制）
+          // console.log("this.ruleForm", this.ruleForm);
           goodsAdd(this.ruleForm)
             .then((res) => {
               if (res.data.code == 200) {
@@ -458,7 +459,7 @@ export default {
             .catch((e) => {
               console.log(e);
             });
-          } else {
+        } else {
           console.log('error submit!!');
           return false;
         }
@@ -477,7 +478,7 @@ export default {
         modelCode: "", //型号
         state: "", //0下架 1上架
         supplierCode: "", //供应商
-        brandCode:"",
+        brandCode: "",
         goodsUnit: "", //商品单位
         unitType: "", //单位类型：BASIC：基本单位， SUPPORT：辅助单位
         unitDescription: "", //换算关系

@@ -28,11 +28,11 @@
             </el-col>
             <el-col :span="10">
               <el-form-item label="分区状态" prop="status">
-                  <el-select size="mini" v-model="form.status" placeholder="请选择" style="width: 350px" clearable>
-                    <el-option label="未启用" :value="1"></el-option>
-                    <el-option label="启用" :value="2"></el-option>
-                    <el-option label="停用" :value="3"></el-option>
-                  </el-select>
+                <el-select size="mini" v-model="form.status" placeholder="请选择" style="width: 350px" clearable>
+                  <el-option label="未启用" :value="1"></el-option>
+                  <el-option label="启用" :value="2"></el-option>
+                  <el-option label="停用" :value="3"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { districtUpdate, districtAdd,inventorylist } from "@/api/data";
+import { districtUpdate, districtAdd, inventorylist } from "@/api/data";
 
 export default {
   name: "areaEdit",
@@ -77,11 +77,11 @@ export default {
       form: {
         description: "",
         districtCode: "",
-        districtName:"",
+        districtName: "",
         inventoryDistrictkey: "",
         inventoryKey: "",
         sort: "",
-        status:""
+        status: ""
       },
       ifCreate: true,
       options: [],
@@ -115,7 +115,7 @@ export default {
       this.form.inventoryDistrictkey = this.rowData.inventoryDistrictkey
       this.form.inventoryKey = this.rowData.inventoryKey
       this.form.sort = this.rowData.sort
-      this.form.status=this.rowData.status
+      this.form.status = this.rowData.status
       console.log(this.rowData);
     } else {
       this.ifCreate = true;
@@ -155,7 +155,7 @@ export default {
             .catch((e) => {
               console.log(e);
             });
-          } else {
+        } else {
           console.log('error submit!!');
           return false;
         }
@@ -177,7 +177,7 @@ export default {
             .catch((e) => {
               console.log(e);
             });
-          } else {
+        } else {
           console.log('error submit!!');
           return false;
         }
@@ -187,11 +187,11 @@ export default {
       this.form = {
         description: "",
         districtCode: "",
-        districtName:"",
+        districtName: "",
         inventoryDistrictkey: "",
         inventoryKey: "",
         sort: "",
-        status:""
+        status: ""
       }
     }
   },

@@ -1,127 +1,132 @@
 <template>
-<div>
-<!-- 顶部 -->
-  <div style="padding:10px;">
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-refresh" @click="reload">刷新</el-button> -->
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add">新增</el-button> -->
-    <!-- <el-divider/> -->
-  </div>
-<!-- 搜索 -->
-  <section class="search-area">
-    <el-form :model="searchDouble" ref="searchForm" size="small">
-      <el-row v-show="config.length" :gutter="20" v-for="(col, idx) in searchConfig" :key="idx" :class="idx == 0 ? '' : 'down-row'">
-        <template v-for="(el, index) in col">
-          <el-col :span="el.span || 4.5" :key="el.field || index"
-            v-if="!(isSearchRows && !isShowMore && idx == 0 && index == cuttingNum - 1)" class="form-item"
-            :style="{ display: (ifHidden ? 'none' : 'inline') }">
-            <template v-if="el.slot">
-              <slot :name="el.slot" :props="{
-                key: el.field,
-                label: el.label,
-                type: el.type,
-                attr: el,
-                data: searchDouble
-              }"></slot>
-            </template>
-            <template v-else>
-              <!-- <el-form-item :label="el.label" :prop="el.field"> -->
-              <template v-if="el.type == 'value'">
-                <el-input :placeholder="el.placeholder || '请输入'" v-bind="el.attr" v-on="el.event"
-                  :value="el.field ? searchDouble[el.field] : el.value" disabled>
-                </el-input>
-              </template>
-              <template v-else-if="el.type == 'cascader'">
-                <el-cascader :options="el.options" :show-all-levels="false" clearable :ref="'cascaders' + index"
-                  v-model="searchDouble[el.field]" filterable :filter-method="filterMethods"
-                  :placeholder="el.placeholder || '请选择'" @change="
-                    () => treeHandleChange('cascaders' + index, el.field)
-                  " v-bind="el.attr" :props="el.props">
-                </el-cascader>
-              </template>
-              <template v-else-if="el.type == 'rangeInpNum'">
-                <div style="display: inline-block">
-                  <el-input-number v-model="searchDouble[el.field]" controls-position="right"
-                    style="width: calc(50% - 16px)" @change="rangeInpNumChange(el)" :min="0" :max="999999" :placeholder="el.label">
-                  </el-input-number>
-                  <span style="margin: 0 10px">~</span>
-                  <el-input-number v-model="searchDouble[el.field2]" controls-position="right"
-                    style="width: calc(50% - 16px)" :min="searchDouble[el.field]" :max="999999" :placeholder="el.label">
-                  </el-input-number>
-                </div>
-              </template>
-              <template v-else-if="el.type == 'select'">
-                <el-select :placeholder="el.placeholder || '请输入'" v-bind="el.attr" v-model="searchDouble[el.field]"
-                  clearable :multiple-limit="el.multipleLimit ? el.multipleLimit : 20" :multiple="el.multiple"
-                  :filterable="el.filterable === false ? el.filterable : true" remote :remote-method="
-                    el.callbacks ? el.callbacks.remoteMethod || null : null
-                  " :ref="el.field" reserve-keyword v-on="el.event" @change="selectChange(el)">
-                  <el-option v-for="item in el.options" :label="
-                    item.hasOwnProperty('label')
-                      ? item.label
-                      : item.name || item[el.option.label]
-                  " :key="item.value || (el.option && item[el.option.value])" :value="item.hasOwnProperty('value')? item.value: item.code || item[el.option.value]">
-                    <span style="float: left" v-if="el.showCode">
-                      [{{ item.value || item[el.option.value] }}]{{
-                          item.label || item[el.option.label]
-                      }}
-                    </span>
-                  </el-option>
-                </el-select>
-              </template>
-              <template v-else-if="el.type == 'number'">
-                <el-input-number v-model="searchDouble[el.field]" :controls="false"
-                  :placeholder="el.placeholder || '请输入'" v-bind="el.attr" :max="el.max || 9999999999" v-on="el.event"
-                  clearable></el-input-number>
-              </template>
-              <template v-else-if="el.type == 'radio'">
-                <el-radio-group v-model="searchDouble[el.field]" v-bind="el.attr" v-on="el.event">
-                  <el-radio :label="item.value" v-for="(item, index) in el.options" :key="index">{{ item.label }}
-                  </el-radio>
-                </el-radio-group>
-              </template>
-              <template v-else-if="el.type == 'date'">
-                <div style="display: flex; align-items: center;">
-                  <div v-if="el.tag" class="form-item-tag">{{ el.tag }}</div>
-                  <el-date-picker v-model="searchDouble[el.field]" :type="el.datePickerType || 'date'" clearable
-                    :start-placeholder="el.startPlaceholder || '开始时间'" :end-placeholder="el.endPlaceholder || '结束时间'"
-                    v-bind="el.attr" v-on="el.event" size="medium"></el-date-picker>
-                </div>
-              </template>
-              <template v-else-if="el.type == 'textarea'">
-                <el-input :placeholder="el.placeholder || '请输入'" v-bind="el.attr" v-on="el.event"
-                  v-model="searchDouble[el.field]" :maxlength="el.maxlength || 500" type="textarea"></el-input>
+  <div>
+    <!-- 顶部 -->
+    <div style="padding:10px;">
+      <!-- <el-button type="primary" plain size="small" icon="el-icon-refresh" @click="reload">刷新</el-button> -->
+      <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add">新增</el-button> -->
+      <!-- <el-divider/> -->
+    </div>
+    <!-- 搜索 -->
+    <section class="search-area">
+      <el-form :model="searchDouble" ref="searchForm" size="small">
+        <el-row v-show="config.length" :gutter="20" v-for="(col, idx) in searchConfig" :key="idx"
+          :class="idx == 0 ? '' : 'down-row'">
+          <template v-for="(el, index) in col">
+            <el-col :span="el.span || 4.5" :key="el.field || index"
+              v-if="!(isSearchRows && !isShowMore && idx == 0 && index == cuttingNum - 1)" class="form-item"
+              :style="{ display: (ifHidden ? 'none' : 'inline') }">
+              <template v-if="el.slot">
+                <slot :name="el.slot" :props="{
+                  key: el.field,
+                  label: el.label,
+                  type: el.type,
+                  attr: el,
+                  data: searchDouble
+                }"></slot>
               </template>
               <template v-else>
-                <el-input :placeholder="el.placeholder || '请输入'" v-bind="el.attr" v-on="el.event" clearable
-                  v-model.trim="searchDouble[el.field]" :maxlength="el.maxlength || 50">
-                  <template slot="prepend">{{el.label}}</template>
-                </el-input>
+                <!-- <el-form-item :label="el.label" :prop="el.field"> -->
+                <template v-if="el.type == 'value'">
+                  <el-input :placeholder="el.placeholder || '请输入'" v-bind="el.attr" v-on="el.event"
+                    :value="el.field ? searchDouble[el.field] : el.value" disabled>
+                  </el-input>
+                </template>
+                <template v-else-if="el.type == 'cascader'">
+                  <el-cascader :options="el.options" :show-all-levels="false" clearable :ref="'cascaders' + index"
+                    v-model="searchDouble[el.field]" filterable :filter-method="filterMethods"
+                    :placeholder="el.placeholder || '请选择'" @change="
+                      () => treeHandleChange('cascaders' + index, el.field)
+                    " v-bind="el.attr" :props="el.props">
+                  </el-cascader>
+                </template>
+                <template v-else-if="el.type == 'rangeInpNum'">
+                  <div style="display: inline-block">
+                    <el-input-number v-model="searchDouble[el.field]" controls-position="right"
+                      style="width: calc(50% - 16px)" @change="rangeInpNumChange(el)" :min="0" :max="999999"
+                      :placeholder="el.label">
+                    </el-input-number>
+                    <span style="margin: 0 10px">~</span>
+                    <el-input-number v-model="searchDouble[el.field2]" controls-position="right"
+                      style="width: calc(50% - 16px)" :min="searchDouble[el.field]" :max="999999"
+                      :placeholder="el.label">
+                    </el-input-number>
+                  </div>
+                </template>
+                <template v-else-if="el.type == 'select'">
+                  <el-select :placeholder="el.placeholder || '请输入'" v-bind="el.attr" v-model="searchDouble[el.field]"
+                    clearable :multiple-limit="el.multipleLimit ? el.multipleLimit : 20" :multiple="el.multiple"
+                    :filterable="el.filterable === false ? el.filterable : true" remote :remote-method="
+                      el.callbacks ? el.callbacks.remoteMethod || null : null
+                    " :ref="el.field" reserve-keyword v-on="el.event" @change="selectChange(el)">
+                    <el-option v-for="item in el.options" :label="
+                      item.hasOwnProperty('label')
+                        ? item.label
+                        : item.name || item[el.option.label]
+                    " :key="item.value || (el.option && item[el.option.value])"
+                      :value="item.hasOwnProperty('value') ? item.value : item.code || item[el.option.value]">
+                      <span style="float: left" v-if="el.showCode">
+                        [{{ item.value || item[el.option.value] }}]{{
+                            item.label || item[el.option.label]
+                        }}
+                      </span>
+                    </el-option>
+                  </el-select>
+                </template>
+                <template v-else-if="el.type == 'number'">
+                  <el-input-number v-model="searchDouble[el.field]" :controls="false"
+                    :placeholder="el.placeholder || '请输入'" v-bind="el.attr" :max="el.max || 9999999999" v-on="el.event"
+                    clearable></el-input-number>
+                </template>
+                <template v-else-if="el.type == 'radio'">
+                  <el-radio-group v-model="searchDouble[el.field]" v-bind="el.attr" v-on="el.event">
+                    <el-radio :label="item.value" v-for="(item, index) in el.options" :key="index">{{ item.label }}
+                    </el-radio>
+                  </el-radio-group>
+                </template>
+                <template v-else-if="el.type == 'date'">
+                  <div style="display: flex; align-items: center;">
+                    <div v-if="el.tag" class="form-item-tag">{{ el.tag }}</div>
+                    <el-date-picker v-model="searchDouble[el.field]" :type="el.datePickerType || 'date'" clearable
+                      :start-placeholder="el.startPlaceholder || '开始时间'" :end-placeholder="el.endPlaceholder || '结束时间'"
+                      v-bind="el.attr" v-on="el.event" size="medium"></el-date-picker>
+                  </div>
+                </template>
+                <template v-else-if="el.type == 'textarea'">
+                  <el-input :placeholder="el.placeholder || '请输入'" v-bind="el.attr" v-on="el.event"
+                    v-model="searchDouble[el.field]" :maxlength="el.maxlength || 500" type="textarea"></el-input>
+                </template>
+                <template v-else>
+                  <el-input :placeholder="el.placeholder || '请输入'" v-bind="el.attr" v-on="el.event" clearable
+                    v-model.trim="searchDouble[el.field]" :maxlength="el.maxlength || 50">
+                    <template slot="prepend">{{ el.label }}</template>
+                  </el-input>
+                </template>
+                <!-- </el-form-item> -->
               </template>
-              <!-- </el-form-item> -->
-            </template>
-          </el-col>
-        </template>
-        <template v-if="((idx == searchConfig.length - 1))">
-          <el-col :span="6" :class="(col.length == cuttingNum && idx != 0 ? 'down-row' : '')">
-            <div class="button-box">
-              <el-button :loading="loadingTable" type="primary" size="small" icon="el-icon-search"
-                @click="searchForm()">
-                搜索
-              </el-button>
-              <el-button @click="resetForm" size="small" icon="el-icon-sort" type="warning">重置</el-button>
-              <el-button type="success" size="small" icon="el-icon-plus" @click="add"
-                :style="{ display: hidden ? 'none' : 'inline' }">新增</el-button>
+            </el-col>
+          </template>
+          <template v-if="((idx == searchConfig.length - 1))">
+            <el-col :span="6" :class="(col.length == cuttingNum && idx != 0 ? 'down-row' : '')">
+              <div class="button-box">
+                <el-button :loading="loadingTable" type="primary" size="small" icon="el-icon-search"
+                  @click="searchForm()">
+                  搜索
+                </el-button>
+                <el-button @click="resetForm" size="small" icon="el-icon-sort" type="warning">重置</el-button>
+                <el-button type="success" size="small" icon="el-icon-plus" @click="add"
+                  :style="{ display: hidden ? 'none' : 'inline' }">新增</el-button>
                 <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList">删除</el-button>
-              <el-button type="text" @click="moreFilter" size="small" v-if="isSearchRows">{{ isShowMore ? '收起' : '展开'
-              }}查询</el-button>              <!-- <el-button type="danger" size="small" icon="el-icon-refresh" @click="reload">刷新</el-button> -->
-            </div>
-          </el-col>
-        </template>
-      </el-row>
-      <el-divider />
-    </el-form>
-  </section>
-</div>
+                <el-button type="text" @click="moreFilter" size="small" v-if="isSearchRows">{{ isShowMore ? '收起' : '展开'
+                }}查询</el-button>
+                <!-- <el-button type="danger" size="small" icon="el-icon-refresh" @click="reload">刷新</el-button> -->
+              </div>
+            </el-col>
+          </template>
+        </el-row>
+        <el-divider />
+      </el-form>
+    </section>
+  </div>
 </template>
 
 <script>
@@ -410,7 +415,7 @@ export default {
       //   }
       // });
       //如果是有分类leftCard的
-      if(this.$parent.inputCategory!=""&this.$parent.inputCategory!=null){
+      if (this.$parent.inputCategory != "" & this.$parent.inputCategory != null) {
         this.$parent.cleanInput()
       }
       this.$parent.getTableData()
@@ -453,10 +458,10 @@ export default {
     // reload(){
     //   this.$parent.reload()
     // },
-    add(){
+    add() {
       this.$parent.add()
     },
-    handleDeleteList(){
+    handleDeleteList() {
       this.$parent.handleDeleteList()
     },
   }

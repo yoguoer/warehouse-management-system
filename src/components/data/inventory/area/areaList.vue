@@ -4,18 +4,18 @@
     <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add()">新增</el-button> -->
     <!-- <el-divider/> -->
     <div>
-      <el-input placeholder="区域号" v-model="inputArea" clearable type="text" size="small" 
+      <el-input placeholder="区域号" v-model="inputArea" clearable type="text" size="small"
         style="width: 300px; margin-right: 20px">
         <template slot="prepend">区域号</template>
       </el-input>
-      <el-input placeholder="区域名称" v-model="inputName" clearable type="text" size="small" 
+      <el-input placeholder="区域名称" v-model="inputName" clearable type="text" size="small"
         style="width: 300px; margin-right: 20px">
         <template slot="prepend">区域名称</template>
       </el-input>
       <el-select size="small" clearable v-model="inputInventory" placeholder="所属仓库"
         style="width:200px;margin-right:20px;" @change="getdistrictlist()">
         <el-option v-for="item in options1" :key="item.inventoryKey" :label="item.inventoryName"
-          :value="item.inventoryKey" >
+          :value="item.inventoryKey">
         </el-option>
       </el-select>
       <el-select size="mini" v-model="status" placeholder="区域状态" style="width:200px;margin-right:20px;" clearable>
@@ -28,22 +28,23 @@
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
       <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
       <!-- <el-button type="danger"  size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
-      <el-divider/>
+      <el-divider />
     </div>
     <div class="list-model">
       <!-- <leftCard :categoryType="categoryType" :title="title" style="margin-top:0" ref="leftcard"/> -->
-      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="list" tooltip-effect="dark" @selection-change="handleSelectionDelete"
-        style="width: auto; margin-top: 20px" :header-cell-style="{background:'#F2F6FC',color:'#606266'}">
+      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="list" tooltip-effect="dark"
+        @selection-change="handleSelectionDelete" style="width: auto; margin-top: 20px"
+        :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="districtCode" label="区域号">
         </el-table-column>
         <el-table-column prop="districtName" label="区域名">
         </el-table-column>
         <el-table-column prop="sort" label="排序"> </el-table-column>
-        <el-table-column prop="status" label="区域状态"> 
+        <el-table-column prop="status" label="区域状态">
           <template slot-scope="scope">
-            <span>{{ scope.row.status== 1 ? '未启用' : (scope.row.status == 2 ? '启用' : '停用') }}</span>
-         </template>
+            <span>{{ scope.row.status == 1 ? '未启用' : (scope.row.status == 2 ? '启用' : '停用') }}</span>
+          </template>
         </el-table-column>
         <el-table-column prop="description" label="备注">
         </el-table-column>
@@ -61,9 +62,9 @@
           @current-change="_page" @size-change="_pageSize"></el-pagination>
       </div>
 
-        <areaEdit v-if="areaEditVisable" :dialogVisible="areaEditVisable" :rowData="rowData"
+      <areaEdit v-if="areaEditVisable" :dialogVisible="areaEditVisable" :rowData="rowData"
         @close="areaEditVisable = false" @success="success()"></areaEdit>
-        <areaDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" />
+      <areaDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" />
     </div>
   </div>
 </template>
@@ -72,7 +73,7 @@
 import areaEdit from "./areaEdit.vue";
 import areaDetail from "./areaDetail";
 // import leftCard from '@/components/public/leftCard.vue'
-import { districtlistPage,districtDelete,districtDeleteList,inventorylist } from "@/api/data";
+import { districtlistPage, districtDelete, districtDeleteList, inventorylist } from "@/api/data";
 
 export default {
   name: "inventoryList",
@@ -87,12 +88,12 @@ export default {
       categoryType: 'WAREHOUSE',
       list: [],
       inputInventory: "",
-      status:"",
+      status: "",
       inputArea: "",
-      inputName:"",
-      isShow:false,
-      multipleSelection:[],
-      options1:[]
+      inputName: "",
+      isShow: false,
+      multipleSelection: [],
+      options1: []
     };
   },
   props: {
@@ -133,11 +134,11 @@ export default {
     //详情
     openDetail(row) {
       this.rowData = row;
-      this.isShow=true//详情
+      this.isShow = true//详情
       // this.$router.push({ name: "inventory-detail",params:{rowData:this.rowData} })
     },
     search() {
-      districtlistPage({ districtCode: this.inputArea,districtName:this.inputName, inventoryKey: this.inputInventory,status:this.status, page: this.pageNo, size: this.pageSize }).then((res) => {
+      districtlistPage({ districtCode: this.inputArea, districtName: this.inputName, inventoryKey: this.inputInventory, status: this.status, page: this.pageNo, size: this.pageSize }).then((res) => {
         this.list = res.data.data.records;
         this.total = res.data.data.total
         console.log("区域")
@@ -165,7 +166,7 @@ export default {
       done();
     },
     getDistrictlistPage() {
-      districtlistPage({ districtCode: "", inventoryKey: this.$route.params.inventoryKey||"", page: this.pageNo, size: this.pageSize }).then((res) => {
+      districtlistPage({ districtCode: "", inventoryKey: this.$route.params.inventoryKey || "", page: this.pageNo, size: this.pageSize }).then((res) => {
         this.list = res.data.data.records;
         this.total = res.data.data.total
         console.log("区域")
@@ -179,18 +180,18 @@ export default {
       this.getDistrictlistPage()
       this.$forceUpdate()
     },
-    clean(){
+    clean() {
       this.inputArea = ''
-      this.inputName=''
+      this.inputName = ''
       this.inputInventory = ''
-      this.status=''
+      this.status = ''
       this.reload()
     },
-    reload(){
+    reload() {
       this.getDistrictlistPage()
       this.getinventorylist()
     },
-    add(){
+    add() {
       this.editRow({})
     },
     //批量删除选择
@@ -199,37 +200,37 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      if(this.multipleSelection.length>0){
+      if (this.multipleSelection.length > 0) {
         let inventoryDistrictkeys = [];
         this.multipleSelection.forEach(item => {
-          inventoryDistrictkeys.push({inventoryDistrictkey:item.inventoryDistrictkey})
+          inventoryDistrictkeys.push({ inventoryDistrictkey: item.inventoryDistrictkey })
         })
         console.log(inventoryDistrictkeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           districtDeleteList(inventoryDistrictkeys).then(response => {
-              this.getDistrictlistPage();
-              this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-              });
+            this.getDistrictlistPage();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
           }).catch(error => {
-              console.log(error);
+            console.log(error);
           });
         }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '已取消删除'
-            });
-            this.multipleSelection=[]
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+          this.multipleSelection = []
         });
-      }else{
+      } else {
         this.$message({
-            type: 'error',
-            message: '至少选择一项'
+          type: 'error',
+          message: '至少选择一项'
         });
       }
     },

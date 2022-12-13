@@ -15,11 +15,12 @@
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
       <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
       <!-- <el-button type="danger"  size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
-      <el-divider/>
+      <el-divider />
     </div>
     <div class="list-model">
-      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="bankList" tooltip-effect="dark" @selection-change="handleSelectionDelete"
-        style="width: auto;margin-top: 20px;" :header-cell-style="{background:'#F2F6FC',color:'#606266'}">
+      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="bankList" tooltip-effect="dark"
+        @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
+        :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="bankName" label="银行全称">
         </el-table-column>
@@ -36,7 +37,8 @@
         <el-table-column align="center" fixed="right" width="200px" label="操作">
           <template slot-scope="scope">
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
-            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small" icon="el-icon-delete">删除</el-button>
+            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
+              icon="el-icon-delete">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -52,7 +54,7 @@
 
 <script>
 import bankEdit from "./bankEdit";
-import { banklistPage,bankDelete,bankDeleteList } from "@/api/data";
+import { banklistPage, bankDelete, bankDeleteList } from "@/api/data";
 
 export default {
   name: "slist",
@@ -66,30 +68,30 @@ export default {
       drawer: false,
       rowData: {},
       bankList: [],
-      multipleSelection:[],
+      multipleSelection: [],
     };
   },
   created() {
     this.getBanklistPage();
   },
   methods: {
-    clean(){
+    clean() {
       this.accountNumber = ''
       this.accountName = ''
       this.reload()
     },
     search() {
-      banklistPage({ accountName: this.accountName, bankName: this.accountNumber,page: 1, size: 20 }).then((res) => {
+      banklistPage({ accountName: this.accountName, bankName: this.accountNumber, page: 1, size: 20 }).then((res) => {
         this.bankList = res.data.data.records;
         console.log("bankList:", this.bankList);
       });
       this.$forceUpdate();
     },
-    reload(){
+    reload() {
       this.getBanklistPage()
     },
-    add(){
-       this.editRow({})
+    add() {
+      this.editRow({})
     },
     _pageSize(val) {
       this.pageSize = val;
@@ -136,37 +138,37 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      if(this.multipleSelection.length>0){
+      if (this.multipleSelection.length > 0) {
         let billingKeys = [];
         this.multipleSelection.forEach(item => {
-          billingKeys.push({billingKey:item.billingKey})
+          billingKeys.push({ billingKey: item.billingKey })
         })
         console.log(billingKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           bankDeleteList(billingKeys).then(response => {
-              this.getBanklistPage();
-              this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-              });
+            this.getBanklistPage();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
           }).catch(error => {
-              console.log(error);
+            console.log(error);
           });
         }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '已取消删除'
-            });
-            this.multipleSelection=[]
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+          this.multipleSelection = []
         });
-      }else{
+      } else {
         this.$message({
-            type: 'error',
-            message: '至少选择一项'
+          type: 'error',
+          message: '至少选择一项'
         });
       }
     },

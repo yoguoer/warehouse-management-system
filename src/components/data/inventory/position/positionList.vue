@@ -14,12 +14,14 @@
           :value="item.inventoryKey">
         </el-option>
       </el-select>
-      <el-select size="small" v-model="inputDistrict" clearable placeholder="所属区域" style="width:200px;margin-right:20px;">
+      <el-select size="small" v-model="inputDistrict" clearable placeholder="所属区域"
+        style="width:200px;margin-right:20px;">
         <el-option v-for="item in options2" :key="item.inputDistrict" :label="item.districtCode"
           :value="item.inputDistrict">
         </el-option>
       </el-select>
-      <el-select size="small" v-model="inputpositionType" placeholder="货位类型" clearable style="width:200px;margin-right:20px;">
+      <el-select size="small" v-model="inputpositionType" placeholder="货位类型" clearable
+        style="width:200px;margin-right:20px;">
         <el-option label="存储位" value="store" key="store"></el-option>
         <el-option label="集货位" value="assemble" key="assemble"></el-option>
       </el-select>
@@ -28,12 +30,13 @@
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
       <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
       <!-- <el-button type="danger"  size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
-      <el-divider/>
+      <el-divider />
     </div>
     <div class="list-model">
       <!-- <leftCard :categoryType="categoryType" :title="title" style="margin-top:0"/> -->
-      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="list" tooltip-effect="dark" @selection-change="handleSelectionDelete"
-      style="width: auto; margin-top: 20px" :header-cell-style="{background:'#F2F6FC',color:'#606266'}">
+      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="list" tooltip-effect="dark"
+        @selection-change="handleSelectionDelete" style="width: auto; margin-top: 20px"
+        :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="positionCode" label="货位编号">
         </el-table-column>
@@ -50,7 +53,7 @@
           <template slot-scope="scope">
             <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
-            <el-button @click.native.prevent="deleteRow(scope.row)" type="text"  icon="el-icon-delete">删除</el-button>
+            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" icon="el-icon-delete">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -62,7 +65,7 @@
 
       <positionEdit v-if="positionEditVisable" :dialogVisible="positionEditVisable" :rowData="rowData"
         @close="positionEditVisable = false" @success="success()"></positionEdit>
-        <positionDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" />
+      <positionDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" />
     </div>
   </div>
 </template>
@@ -71,7 +74,7 @@
 import positionEdit from "./positionEdit.vue";
 import positionDetail from "./positionDetail";
 // import leftCard from '@/components/public/leftCard.vue'
-import { positionlistPage, positionDelete,districtlist, inventorylist,positionDeleteList } from "@/api/data";
+import { positionlistPage, positionDelete, districtlist, inventorylist, positionDeleteList } from "@/api/data";
 
 export default {
   name: "positionList",
@@ -80,10 +83,10 @@ export default {
       inputCode: "",
       inputDistrict: "",
       inputInventory: "",
-      inputpositionType:"",
+      inputpositionType: "",
       pageSize: 10,
       pageNo: 1,
-      isShow:false,
+      isShow: false,
       total: null,
       rowData: {},
       positionEditVisable: false,
@@ -92,10 +95,10 @@ export default {
       list: [],
       options1: [],
       options2: [],
-      multipleSelection:[],
+      multipleSelection: [],
       query: {
-        partitionKey:"",
-        inventoryKey:""
+        inventoryDistrictkey: "",
+        inventoryKey: ""
       },
     };
   },
@@ -106,10 +109,10 @@ export default {
     // leftCard
   },
   created() {
-    if(this.$route.params.inventoryKey){
-        this.query.inventoryKey=this.$route.params.inventoryKey
-    }if(this.$route.params.rowData){
-      this.query.partitionKey=this.$route.params.rowData.partitionKey||""
+    if (this.$route.params.inventoryKey) {
+      this.query.inventoryKey = this.$route.params.inventoryKey
+    } if (this.$route.params.rowData) {
+      this.query.inventoryDistrictkey = this.$route.params.rowData.inventoryDistrictkey || ""
     }
     this.getinventorylist()
     this.getPositionlistPage();
@@ -160,7 +163,7 @@ export default {
       positionlistPage({
         positionCode: this.inputCode,
         inventoryDistrictkey: this.inputDistrict,
-        positionType:this.inputpositionType,
+        positionType: this.inputpositionType,
         inventoryKey: this.inputInventory,
         page: this.pageNo,
         size: this.pageSize
@@ -189,7 +192,7 @@ export default {
     //详情
     openDetail(row) {
       this.rowData = row;
-      this.isShow=true//详情
+      this.isShow = true//详情
       // this.$router.push({ name: "inventory-detail",params:{rowData:this.rowData} })
     },
     editRow(row) {
@@ -199,18 +202,18 @@ export default {
     handleClose(done) {
       done();
     },
-    clean(){
+    clean() {
       this.inputCode = ''
-      this.inputDistrict=''
-      this.inputInventory=''
-      this.inputpositionType=''
+      this.inputDistrict = ''
+      this.inputInventory = ''
+      this.inputpositionType = ''
       this.reload()
     },
     getPositionlistPage() {
       positionlistPage({
-        inventoryKey: this.query.inventoryKey||"",
-        inventoryDistrictkey: this.query.inventoryDistrictkey||"",
-        positionType:"",
+        inventoryKey: this.query.inventoryKey || "",
+        inventoryDistrictkey: this.query.inventoryDistrictkey || "",
+        positionType: "",
         positionCode: "",
         page: this.pageNo,
         size: this.pageSize,
@@ -227,11 +230,11 @@ export default {
       this.rowData = {};
       this.getPositionlistPage();
     },
-    reload(){
+    reload() {
       this.getPositionlistPage()
       this.getinventorylist()
     },
-    add(){
+    add() {
       this.editRow({})
     },
     //批量删除选择
@@ -240,37 +243,37 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      if(this.multipleSelection.length>0){
+      if (this.multipleSelection.length > 0) {
         let positionkeys = [];
         this.multipleSelection.forEach(item => {
-          positionkeys.push({positionKey:item.positionKey})
+          positionkeys.push({ positionKey: item.positionKey })
         })
         console.log(positionkeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           positionDeleteList(positionkeys).then(response => {
-              this.getPositionlistPage();
-              this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-              });
+            this.getPositionlistPage();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
           }).catch(error => {
-              console.log(error);
+            console.log(error);
           });
         }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '已取消删除'
-            });
-            this.multipleSelection=[]
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+          this.multipleSelection = []
         });
-      }else{
+      } else {
         this.$message({
-            type: 'error',
-            message: '至少选择一项'
+          type: 'error',
+          message: '至少选择一项'
         });
       }
     },

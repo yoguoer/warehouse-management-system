@@ -5,7 +5,7 @@
         <div class="star" v-for="(item, index) in starsCount" :key="index"></div>
       </div>
     </div>
-    <welMsg/>
+    <welMsg />
   </div>
 </template>
 
@@ -15,19 +15,19 @@ import welMsg from "./welMsg.vue"
 
 export default {
   name: 'indexPage',
-  data(){
-    return{
+  data() {
+    return {
     }
   },
-  components:{
+  components: {
     welMsg
   },
-  created(){
+  created() {
 
   },
-  methods:{
-    gotoLogin(){
-      this.$router.push({name:'login'});
+  methods: {
+    gotoLogin() {
+      this.$router.push({ name: 'login' });
     }
   },
   setup() {
@@ -59,72 +59,74 @@ export default {
 </script>
 
 <style lang="css" scoped>
-*{		/* CSS Reset */
-  margin : 0;
-  padding : 0;
+* {
+  /* CSS Reset */
+  margin: 0;
+  padding: 0;
 }
+
 #body {
-position: absolute;
-left: 0;
-top: 50px;
-overflow: hidden;
-margin:0;
-padding:0;
-height:100%;
-width: 100%;
-opacity: 0.8;
-background: radial-gradient(
-  200% 100% at bottom center,
-  #f7f7b6,
-  #e96f92,
-  #1b2947
-);
-background: radial-gradient(
-  200% 105% at top center,
-  #1b2947 10%,
-  #75517d 40%,
-  #e96f92 65%,
-  #f7f7b6
-);
-background-attachment: fixed;
-overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 50px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.8;
+  background: radial-gradient(200% 100% at bottom center,
+      #f7f7b6,
+      #e96f92,
+      #1b2947);
+  background: radial-gradient(200% 105% at top center,
+      #1b2947 10%,
+      #75517d 40%,
+      #e96f92 65%,
+      #f7f7b6);
+  background-attachment: fixed;
+  overflow: hidden;
 }
 
 @keyframes rotate {
-0% {
-  transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
+  0% {
+    transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
+  }
+
+  100% {
+    transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(-360deg);
+  }
 }
-100% {
-  transform: perspective(400px) rotateZ(20deg) rotateX(-40deg)
-    rotateY(-360deg);
-}
-}
+
 .stars {
-transform: perspective(500px);
-transform-style: preserve-3d;
-position: absolute;
-perspective-origin: 50% 100%;
-left: 45%;
-animation: rotate 90s infinite linear;
-bottom: 0;
+  transform: perspective(500px);
+  transform-style: preserve-3d;
+  position: absolute;
+  perspective-origin: 50% 100%;
+  left: 45%;
+  animation: rotate 90s infinite linear;
+  bottom: 0;
 }
+
 .star {
-width: 2px;
-height: 2px;
-background: #f7f7b6;
-position: absolute;
-left: 0;
-top: 0;
-backface-visibility: hidden;
+  width: 2px;
+  height: 2px;
+  background: #f7f7b6;
+  position: absolute;
+  left: 0;
+  top: 0;
+  backface-visibility: hidden;
 }
-.enter-btn{
-cursor: pointer;
-top:50%;
+
+.enter-btn {
+  cursor: pointer;
+  top: 50%;
 }
-.enter-btn{
-position: absolute;
-z-index: 999;
-left: 50vw;
-top: 50vh;
+
+.enter-btn {
+  position: absolute;
+  z-index: 999;
+  left: 50vw;
+  top: 50vh;
 }
 </style>

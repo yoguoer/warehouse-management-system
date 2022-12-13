@@ -1,17 +1,11 @@
 <template>
-  <el-drawer
-    size="30%"
-    :title="ifCreate ? '新增联系人' : '联系人编辑'"
-    :visible.sync="drawer"
-    :direction="direction"
-    :close-on-press-escape="false"
-    :show-close="false"
-    :wrapperClosable="false">
+  <el-drawer size="30%" :title="ifCreate ? '新增联系人' : '联系人编辑'" :visible.sync="drawer" :direction="direction"
+    :close-on-press-escape="false" :show-close="false" :wrapperClosable="false">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
 
       <el-row>
-          <el-col :span="5">
+        <el-col :span="5">
           <el-form-item label="车辆编码" prop="vehicleCode">
             <el-input v-model="ruleForm.vehicleCode"></el-input>
           </el-form-item>
@@ -44,9 +38,9 @@
           </el-form-item>
         </el-col>
       </el-row>
-    
+
       <el-form-item style="display:inline-block;float:right;margin:10px 40%">
-        <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate==false">保存</el-button>
+        <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
         <el-button type="primary" @click="create('ruleForm')" v-else>立即创建</el-button>
         <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
         <el-button @click="close()">关闭</el-button>
@@ -58,121 +52,122 @@
 </template>
 
 <script>
-import { vehicleUpdate,vehicleAdd } from '@/api/data'
+import { vehicleUpdate, vehicleAdd } from '@/api/data'
 
 export default {
-    name: 'guestEdit',
-    data(){
-      return{
-        direction: 'btt',
-        ifCreate:false,
-        ruleForm:{
-            maxWeight:"",
-            detail:"",
-            description:"",
-            maxCapacity:"",
-            vehicleCode:"",
-            vehicleType:"",
-            vehicleKey:""
-          },
-        rules: {
-          vehicleCode: [
-            { required: true, message: '请输入车辆编码', trigger: 'blur' },
-          ],
-          maxWeight: [
-            { required: true, message: '请输入载重', trigger: 'blur' },
-          ],
-          vehicleType: [
-            { required: true, message: '请输入车型', trigger: 'blur' },
-          ],
-          maxCapacity: [
-            { required: true, message: '请输入装货体积', trigger: 'blur' },
-          ]
-        }
+  name: 'guestEdit',
+  data() {
+    return {
+      direction: 'btt',
+      ifCreate: false,
+      ruleForm: {
+        maxWeight: "",
+        detail: "",
+        description: "",
+        maxCapacity: "",
+        vehicleCode: "",
+        vehicleType: "",
+        vehicleKey: ""
+      },
+      rules: {
+        vehicleCode: [
+          { required: true, message: '请输入车辆编码', trigger: 'blur' },
+        ],
+        maxWeight: [
+          { required: true, message: '请输入载重', trigger: 'blur' },
+        ],
+        vehicleType: [
+          { required: true, message: '请输入车型', trigger: 'blur' },
+        ],
+        maxCapacity: [
+          { required: true, message: '请输入装货体积', trigger: 'blur' },
+        ]
       }
+    }
+  },
+  props: {
+    drawer: {
+      default: true,
     },
-    props: {
-       drawer: {
-          default: true,
-       },
-      rowData: {},
-    },
-    watch:{
+    rowData: {},
+  },
+  watch: {
 
+  },
+  created() {
+    if (this.rowData.maxWeight) {
+      this.ruleForm.maxWeight = this.rowData.maxWeight
+      this.ruleForm.detail = this.rowData.detail
+      this.ruleForm.description = this.rowData.description
+      this.ruleForm.maxCapacity = this.rowData.maxCapacity
+      this.ruleForm.vehicleCode = this.rowData.vehicleCode
+      this.ruleForm.vehicleType = this.rowData.vehicleType
+      this.ruleForm.vehicleKey = this.rowData.vehicleKey
+    } else {
+      this.ifCreate = true
+    }
+  },
+  methods: {
+    close() {
+      this.$parent.drawer = false
+      this.reset()
     },
-    created(){
-      if(this.rowData.maxWeight){
-        this.ruleForm.maxWeight=this.rowData.maxWeight
-        this.ruleForm.detail=this.rowData.detail
-        this.ruleForm.description=this.rowData.description
-        this.ruleForm.maxCapacity=this.rowData.maxCapacity
-        this.ruleForm.vehicleCode=this.rowData.vehicleCode
-        this.ruleForm.vehicleType=this.rowData.vehicleType
-        this.ruleForm.vehicleKey=this.rowData.vehicleKey
-      }else{
-        this.ifCreate=true
-      }
-    },
-    methods:{
-      close() {
-        this.$parent.drawer=false
-        this.reset()
-      },
-      save(formName) {
+    save(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-            vehicleUpdate(this.ruleForm).then(res=> {
-              if(res.data.code==200){
-                this.$message.success("编辑成功!");
-                this.$parent.success()
-                this.$forceUpdate()
-              }else{
-                this.$message.error("编辑失败!");
-              }
-            });
-          } else {
+          vehicleUpdate(this.ruleForm).then(res => {
+            if (res.data.code == 200) {
+              this.$message.success("编辑成功!");
+              this.$parent.success()
+              this.$forceUpdate()
+            } else {
+              this.$message.error("编辑失败!");
+            }
+          });
+        } else {
           console.log('error submit!!');
           return false;
         }
       })
-      },
-      create(formName) {
+    },
+    create(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-            vehicleAdd(this.ruleForm).then(res=> {
-              if(res.data.code==200){
-                this.$message.success("新增成功!");
-                this.$parent.success()
-                this.$forceUpdate()
-              }else{
-                this.$message.error("新增失败!");
-              }
-            });  
-          } else {
+          vehicleAdd(this.ruleForm).then(res => {
+            if (res.data.code == 200) {
+              this.$message.success("新增成功!");
+              this.$parent.success()
+              this.$forceUpdate()
+            } else {
+              this.$message.error("新增失败!");
+            }
+          });
+        } else {
           console.log('error submit!!');
           return false;
         }
       })
-      },
-      reset(){
-        this.ruleForm={
-            maxWeight:"",
-            detail:"",
-            description:"",
-            maxCapacity:"",
-            vehicleCode:"",
-            vehicleType:"",
-            vehicleKey:""
-          }
-      }
     },
+    reset() {
+      this.ruleForm = {
+        maxWeight: "",
+        detail: "",
+        description: "",
+        maxCapacity: "",
+        vehicleCode: "",
+        vehicleType: "",
+        vehicleKey: ""
+      }
+    }
+  },
 }
 </script>
 <style lang="scss">
-.el-select{
-  width:100%;
+.el-select {
+  width: 100%;
 }
-.demo-ruleForm{
-  padding:0 80px 50px 80px;
+
+.demo-ruleForm {
+  padding: 0 80px 50px 80px;
 }
 </style>

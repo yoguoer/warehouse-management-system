@@ -1,21 +1,9 @@
 <template>
   <div class="stock-management">
-    <reloadAndsearch
-      ref="search"
-      :config="searchConfig"
-      @search="getTableData"
-    />
-    <TableList
-      :pageMethod="getTableData"
-      :searchMethod="getTableData"
-      :table-data="tableData"
-      :tableColumn="tableColumn"
-      :query.sync="query"
-      :total="total"
-      :loading="loadings.table"
-      :height="'600px'"
-      @select="handleSelectionChange"
-    >
+    <reloadAndsearch ref="search" :config="searchConfig" @search="getTableData" />
+    <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
+      :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table" :height="'600px'"
+      @select="handleSelectionChange">
       <template v-slot:column-sku="{ row }">
         <span>{{ row.skuName }}</span>
         <br />
@@ -28,11 +16,7 @@
       </template>
       <template v-slot:column-stockSchedule="{ row }">
         <el-popover ref="stockScheduleVisible" width="400" placement="bottom">
-          <span
-            class="popover-num"
-            slot="reference"
-            @click="getStockScheduleList(row)"
-          >
+          <span class="popover-num" slot="reference" @click="getStockScheduleList(row)">
             {{ row.stockSchedule }}
           </span>
           <el-table :data="stockScheduleConfig" border>
@@ -49,9 +33,10 @@
         <el-button class="prohibitclick" type="text" @click="openInputInfo('stockSchedule', row)">录入排产</el-button>
         <el-button class="prohibitclick" type="text" @click="openInputInfo('product', row)">录入成品</el-button>
       </template>
-  </TableList>
-  <addsku ref="addsku" :visible="skuVisible" @close="skuVisible = false" v-if="skuVisible"></addsku>
-  <inputInfo ref="inputInfo" :visible="inputInfoVisible" :raw-data="rawData" :patern="inputInfoPatern" @close="inputInfoVisible = false" v-if="inputInfoVisible"></inputInfo>
+    </TableList>
+    <addsku ref="addsku" :visible="skuVisible" @close="skuVisible = false" v-if="skuVisible"></addsku>
+    <inputInfo ref="inputInfo" :visible="inputInfoVisible" :raw-data="rawData" :patern="inputInfoPatern"
+      @close="inputInfoVisible = false" v-if="inputInfoVisible"></inputInfo>
   </div>
 </template>
 
@@ -799,11 +784,12 @@ export default {
     },
     tableColumn() {
       return [
-        { label: '操作', type:"selection", width: 45, align: "center"},
+        { label: '操作', type: "selection", width: 45, align: "center" },
         { label: "SKU", slots: { name: "column-sku" } },
         { label: "细类", slots: { name: "column-tinyCategory" } },
         { label: "供应商仓库", slots: { name: "column-supplierWarehouse" } },
-        { label: "通知备货", children: [
+        {
+          label: "通知备货", children: [
             {
               label: "执行中",
               prop: "inProcess",
@@ -818,7 +804,8 @@ export default {
             },
           ]
         },
-        { label: "准备", children: [
+        {
+          label: "准备", children: [
             {
               label: "备料",
               prop: "prepareStuff",
@@ -831,8 +818,10 @@ export default {
               width: 100,
               align: "right",
             },
-        ]},
-        { label: "成品", children: [
+          ]
+        },
+        {
+          label: "成品", children: [
             {
               label: "总数",
               prop: "product",
@@ -851,7 +840,8 @@ export default {
               width: 100,
               align: "right",
             },
-        ]},
+          ]
+        },
         { label: "操作", slots: { name: "column-todo" }, width: 250 },
       ];
     },

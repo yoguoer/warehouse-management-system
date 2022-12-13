@@ -20,8 +20,8 @@
             <el-form-item label="所属分类" v-model="ruleForm.categoryKey">
               <listBoxF>
                 <template slot="content">
-                  <treeselect class="treeSelect-option" v-model="value" :multiple="multiple" :normalizer="normalizer"  style="width:250px;"
-                    :options="list" placeholder="请选择" @select="selectNode" />
+                  <treeselect class="treeSelect-option" v-model="value" :multiple="multiple" :normalizer="normalizer"
+                    style="width:250px;" :options="list" placeholder="请选择" @select="selectNode" />
                 </template>
               </listBoxF>
             </el-form-item>
@@ -42,11 +42,11 @@
         </el-row>
         <el-row>
           <el-col>
-                <el-form-item label="联系地址" prop="address" v-model="ruleForm.address">
-                  <!-- <el-input v-model="item.contactTypeFlex3"></el-input> -->
-                  <checkAddress ref="address" v-model="ruleForm.address" :form="ruleForm.address" />
-                </el-form-item>
-              </el-col>
+            <el-form-item label="联系地址" prop="address" v-model="ruleForm.address">
+              <!-- <el-input v-model="item.contactTypeFlex3"></el-input> -->
+              <checkAddress ref="address" v-model="ruleForm.address" :form="ruleForm.address" />
+            </el-form-item>
+          </el-col>
         </el-row>
       </div>
 
@@ -131,22 +131,22 @@ export default {
       addStr: "",
       tempList: [
         {
-        contactName: "",//联系人
-        contactNumber:"",//联系人编号
-        address: {
-          // 省
-          province: "",
-          // 市
-          city: "",
-          // 区
-          district: "",
-          //详细地址
-          detail: ""
-        },//联系地址
-        contactEmail: "",//联系邮箱
-        contactTel: "",//联系电话
-        contactCustomerKey: "",//联系人key
-        contactKey: ""//客户key
+          contactName: "",//联系人
+          contactNumber: "",//联系人编号
+          address: {
+            // 省
+            province: "",
+            // 市
+            city: "",
+            // 区
+            district: "",
+            //详细地址
+            detail: ""
+          },//联系地址
+          contactEmail: "",//联系邮箱
+          contactTel: "",//联系电话
+          contactCustomerKey: "",//联系人key
+          contactKey: ""//客户key
         }
       ],
       ifCreate: true,
@@ -161,19 +161,19 @@ export default {
         customerKey: "",//客户key
         customerName: "",//客户名称
         customerNumber: "",//客户编号
-        customerTel:"",
-        customerAddress:"",
-        customerEmail:"",
+        customerTel: "",
+        customerAddress: "",
+        customerEmail: "",
         address: {
-            // 省
-            province: "",
-            // 市
-            city: "",
-            // 区
-            district: "",
-            //详细地址
-            detail: ""
-          },//联系地址
+          // 省
+          province: "",
+          // 市
+          city: "",
+          // 区
+          district: "",
+          //详细地址
+          detail: ""
+        },//联系地址
       },
       rules: {
         categoryKey: [
@@ -245,29 +245,29 @@ export default {
       this.ruleForm.customerKey = this.rowData.customerKey
       this.ruleForm.customerNumber = this.rowData.customerNumber
       this.ruleForm.customerTypeKey = this.rowData.customerTypeKey
-      this.ruleForm.customerTel=this.rowData.customerTel
-      this.ruleForm.customerEmail=this.rowData.customerEmail
-      this.ruleForm.address.province=this.rowData.province
-      this.ruleForm.address.city=this.rowData.city
-      this.ruleForm.address.district=this.rowData.district
-      this.ruleForm.address.detail=this.rowData.detail
+      this.ruleForm.customerTel = this.rowData.customerTel
+      this.ruleForm.customerEmail = this.rowData.customerEmail
+      this.ruleForm.address.province = this.rowData.province
+      this.ruleForm.address.city = this.rowData.city
+      this.ruleForm.address.district = this.rowData.district
+      this.ruleForm.address.detail = this.rowData.detail
       //常用联系人非空
-      if(this.rowData.customerContactList.length>0){
-        this.tempList=[]
-        this.rowData.customerContactList.forEach(item=>{
+      if (this.rowData.customerContactList.length > 0) {
+        this.tempList = []
+        this.rowData.customerContactList.forEach(item => {
           this.tempList.push({
-            contactName:item.contactName,
-            address:{
-              province:item.province,
-              city:item.city,
-              district:item.district,
-              detail:item.detail,
+            contactName: item.contactName,
+            address: {
+              province: item.province,
+              city: item.city,
+              district: item.district,
+              detail: item.detail,
             },
-            contactEmail:item.contactEmail,
-            contactTel:item.contactTel,
-            contactCustomerKey:item.contactCustomerKey,
-            contactNumber:item.contactNumber,
-            contactKey:item.contactKey,
+            contactEmail: item.contactEmail,
+            contactTel: item.contactTel,
+            contactCustomerKey: item.contactCustomerKey,
+            contactNumber: item.contactNumber,
+            contactKey: item.contactKey,
           })
         })
       }
@@ -308,11 +308,11 @@ export default {
       getCategoryTree(params).then(res => {
         if (res.data.code === 200) {
           res.data.data.forEach(item => {
-              if(item.categoryName=='全部'){
-                let index=res.data.data.indexOf(item)
-                res.data.data.splice(index,1)
-              }
-            });
+            if (item.categoryName == '全部') {
+              let index = res.data.data.indexOf(item)
+              res.data.data.splice(index, 1)
+            }
+          });
           this.list = res.data.data
           console.log(this.list);
         } else {
@@ -321,52 +321,52 @@ export default {
       })
     },
 
-   //添加客户
-   create(formName) {
+    //添加客户
+    create(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let arr=[]
-          this.tempList.forEach(item=>{
+          let arr = []
+          this.tempList.forEach(item => {
             arr.push({
-              contactName:item.contactName,
-              province:item.address.province,
-              city:item.address.city,
-              district:item.address.district,
-              detail:item.address.detail,
-              contactEmail:item.contactEmail,
-              contactTel:item.contactTel,
-              contactCustomerKey:item.contactCustomerKey,
-              contactNumber:item.contactNumber,
-              contactKey:item.contactKey,
+              contactName: item.contactName,
+              province: item.address.province,
+              city: item.address.city,
+              district: item.address.district,
+              detail: item.address.detail,
+              contactEmail: item.contactEmail,
+              contactTel: item.contactTel,
+              contactCustomerKey: item.contactCustomerKey,
+              contactNumber: item.contactNumber,
+              contactKey: item.contactKey,
             })
           })
           let data = {
-            categoryKey :  this.ruleForm.categoryKey,
-            customerName :  this.ruleForm.customerName,
-            customerKey :  this.ruleForm.customerKey,
-            customerNumber :  this.ruleForm.customerNumber,
-            customerTypeKey :  this.ruleForm.customerTypeKey,
+            categoryKey: this.ruleForm.categoryKey,
+            customerName: this.ruleForm.customerName,
+            customerKey: this.ruleForm.customerKey,
+            customerNumber: this.ruleForm.customerNumber,
+            customerTypeKey: this.ruleForm.customerTypeKey,
             customerTel: this.ruleForm.customerTel,
             customerEmail: this.ruleForm.customerEmail,
             province: this.ruleForm.address.province,
             city: this.ruleForm.address.city,
             district: this.ruleForm.address.district,
             detail: this.ruleForm.address.detail,
-            customerContactList:arr
+            customerContactList: arr
           }
           console.log("#this.ruleForm#", data)
           Customeradd(data)
-          .then((res) => {
-            if (res.data.code === 200) {
-              this.$message.success('创建成功!')
-              this.reset()
-              this.$parent.success();
-            } else {
-              this.$message.error(res.msg)
-            }
-          }).catch((e) => {
-            console.log(e);
-          });
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.$message.success('创建成功!')
+                this.reset()
+                this.$parent.success();
+              } else {
+                this.$message.error(res.msg)
+              }
+            }).catch((e) => {
+              console.log(e);
+            });
         } else {
           console.log('error submit!!');
           return false;
@@ -378,47 +378,47 @@ export default {
     save(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let arr=[]
-          this.tempList.forEach(item=>{
+          let arr = []
+          this.tempList.forEach(item => {
             arr.push({
-              contactName:item.contactName,
-              province:item.address.province,
-              city:item.address.city,
-              district:item.address.district,
-              detail:item.address.detail,
-              contactEmail:item.contactEmail,
-              contactTel:item.contactTel,
-              contactCustomerKey:item.contactCustomerKey,
-              contactNumber:item.contactNumber,
-              contactKey:item.contactKey,
+              contactName: item.contactName,
+              province: item.address.province,
+              city: item.address.city,
+              district: item.address.district,
+              detail: item.address.detail,
+              contactEmail: item.contactEmail,
+              contactTel: item.contactTel,
+              contactCustomerKey: item.contactCustomerKey,
+              contactNumber: item.contactNumber,
+              contactKey: item.contactKey,
             })
           })
           let data = {
-            categoryKey :  this.ruleForm.categoryKey,
-            customerName :  this.ruleForm.customerName,
-            customerKey :  this.ruleForm.customerKey,
-            customerNumber :  this.ruleForm.customerNumber,
-            customerTypeKey :  this.ruleForm.customerTypeKey,
+            categoryKey: this.ruleForm.categoryKey,
+            customerName: this.ruleForm.customerName,
+            customerKey: this.ruleForm.customerKey,
+            customerNumber: this.ruleForm.customerNumber,
+            customerTypeKey: this.ruleForm.customerTypeKey,
             customerTel: this.ruleForm.customerTel,
             customerEmail: this.ruleForm.customerEmail,
             province: this.ruleForm.address.province,
             city: this.ruleForm.address.city,
             district: this.ruleForm.address.district,
             detail: this.ruleForm.address.detail,
-            customerContactList:arr
+            customerContactList: arr
           }
           Customerupdate(data)
-          .then((res) => {
-            if (res.data.code === 200) {
-              this.$message.success('修改成功!')
-              this.reset()
-              this.$parent.success();
-            } else {
-              this.$message.error(res.msg)
-            }
-          }).catch((e) => {
-            console.log(e);
-          });
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.$message.success('修改成功!')
+                this.reset()
+                this.$parent.success();
+              } else {
+                this.$message.error(res.msg)
+              }
+            }).catch((e) => {
+              console.log(e);
+            });
         } else {
           console.log('error submit!!');
           return false;
@@ -470,24 +470,9 @@ export default {
         customerKey: "",//客户key
         customerName: "",//客户名称
         customerNumber: "",//客户编号
-        customerTel:"",
-        customerAddress:"",
-        customerEmail:"",
-        address: {
-            // 省
-            province: "",
-            // 市
-            city: "",
-            // 区
-            district: "",
-            //详细地址
-            detail: ""
-          },//联系地址
-      }
-      this.tempList =[
-        {
-        contactName: "",//联系人
-        contactNumber:"",//联系人编号
+        customerTel: "",
+        customerAddress: "",
+        customerEmail: "",
         address: {
           // 省
           province: "",
@@ -498,10 +483,25 @@ export default {
           //详细地址
           detail: ""
         },//联系地址
-        contactEmail: "",//联系邮箱
-        contactTel: "",//联系电话
-        contactCustomerKey: "",//联系人key
-        contactKey: ""//客户key
+      }
+      this.tempList = [
+        {
+          contactName: "",//联系人
+          contactNumber: "",//联系人编号
+          address: {
+            // 省
+            province: "",
+            // 市
+            city: "",
+            // 区
+            district: "",
+            //详细地址
+            detail: ""
+          },//联系地址
+          contactEmail: "",//联系邮箱
+          contactTel: "",//联系电话
+          contactCustomerKey: "",//联系人key
+          contactKey: ""//客户key
         }
       ]
     },

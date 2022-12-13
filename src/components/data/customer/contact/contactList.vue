@@ -4,7 +4,8 @@
     <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add()">新增</el-button> -->
     <!-- <el-divider/> -->
     <div>
-      <el-select v-model="inputCustomer" placeholder="客户" style="width:200px;margin-right:20px;" :clearable="true" size="small">
+      <el-select v-model="inputCustomer" placeholder="客户" style="width:200px;margin-right:20px;" :clearable="true"
+        size="small">
         <el-option v-for="(item, index) in options" :key="index" :label="item.customerName"
           :value="item.customerKey"></el-option>
       </el-select>
@@ -16,11 +17,12 @@
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
       <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
       <!-- <el-button type="danger"  size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
-      <el-divider/>
+      <el-divider />
     </div>
     <div class="list-model">
-      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="allList" tooltip-effect="dark" @selection-change="handleSelectionDelete"
-        style="width: auto;margin-top: 20px;" :header-cell-style="{background:'#F2F6FC',color:'#606266'}">
+      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="allList" tooltip-effect="dark"
+        @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
+        :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="contactName" label="联系人名称">
         </el-table-column>
@@ -37,7 +39,8 @@
         <el-table-column width="200px" fixed="right" label="操作">
           <template slot-scope="scope">
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
-            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small" icon="el-icon-delete">删除</el-button>
+            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
+              icon="el-icon-delete">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -53,13 +56,13 @@
 
 <script>
 import contactEdit from './contactEdit.vue'
-import { contactListpage, CustomerList, Contactdelete,ContactdeleteList } from '@/api/data'
+import { contactListpage, CustomerList, Contactdelete, ContactdeleteList } from '@/api/data'
 
 export default {
   name: 'guestsList',
   data() {
     return {
-      multipleSelection:[],
+      multipleSelection: [],
       pageSize: 10,
       pageNo: 1,
       total: null,
@@ -86,20 +89,20 @@ export default {
         }
       })
     },
-  //联系人
-  getContact() {
+    //联系人
+    getContact() {
       this.allList = []
       contactListpage({ contactCustomerKey: '', contactName: '', page: this.pageNo, size: this.pageSize }).then(res => {
         if (res.data.code === 200) {
           this.total = res.data.data.total
-          this.allList= res.data.data.records
+          this.allList = res.data.data.records
           console.log(this.total, this.allList);
         } else {
           console.log('error');
         }
       })
     },
-    clean(){
+    clean() {
       this.inputName = ''
       this.inputCustomer = ''
       this.inputContactType = ''
@@ -129,7 +132,7 @@ export default {
       this.$forceUpdate()
     },
     deleteRow(row) {
-      Contactdelete({contactKey:row.contactKey})
+      Contactdelete({ contactKey: row.contactKey })
         .then((res) => {
           if (res.data.code === 200) {
             this.$message.success('删除成功!')
@@ -142,11 +145,11 @@ export default {
       this.rowData = row
       this.drawer = true
     },
-    reload(){
+    reload() {
       this.getContact()
       this.getCustomer()
     },
-    add(){
+    add() {
       this.editRow({})
     },
     success() {
@@ -161,37 +164,37 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      if(this.multipleSelection.length>0){
+      if (this.multipleSelection.length > 0) {
         let contactKeys = [];
         this.multipleSelection.forEach(item => {
-          contactKeys.push({contactKey:item.contactKey})
+          contactKeys.push({ contactKey: item.contactKey })
         })
         console.log(contactKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           ContactdeleteList(contactKeys).then(response => {
-              this.getContact();
-              this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-              });
+            this.getContact();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
           }).catch(error => {
-              console.log(error);
+            console.log(error);
           });
         }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '已取消删除'
-            });
-            this.multipleSelection=[]
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+          this.multipleSelection = []
         });
-      }else{
+      } else {
         this.$message({
-            type: 'error',
-            message: '至少选择一项'
+          type: 'error',
+          message: '至少选择一项'
         });
       }
     },

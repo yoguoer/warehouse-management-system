@@ -1,7 +1,7 @@
 <template>
   <div class="wrap-definition">
-<!-- 供应商 -->
-    <entityList ref="entityList"/>
+    <!-- 供应商 -->
+    <entityList ref="entityList" />
   </div>
 </template>
 
@@ -10,22 +10,22 @@ import entityList from '@/components/data/business/entity/entityList'
 
 export default {
   name: 'entity',
-   data() {
+  data() {
     return {
-   }
+    }
   },
   props: {},
   methods: {
 
   },
   watch: {},
-  created () {
+  created() {
   },
   computed: {
   },
-  mounted () {
+  mounted() {
   },
-  beforeDestroy () {
+  beforeDestroy() {
   },
   components: {
     entityList,

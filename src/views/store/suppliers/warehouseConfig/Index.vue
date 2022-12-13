@@ -1,20 +1,8 @@
 <template>
   <div class="warehouse-config">
-    <reloadAndsearch
-      ref="search"
-      :config="searchConfig"
-      @search="getTableData"
-    />
-    <TableList
-      :pageMethod="getTableData"
-      :searchMethod="getTableData"
-      :table-data="tableData"
-      :tableColumn="tableColumn"
-      :query.sync="query"
-      :total="total"
-      :loading="loadings.table"
-      :height="'600px'"
-    >
+    <reloadAndsearch ref="search" :config="searchConfig" @search="getTableData" />
+    <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
+      :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table" :height="'600px'">
       <template v-slot:column-supplier="{ row }">
         {{ row.supplierCode }}&nbsp;{{ row.supplierName }}
       </template>
@@ -23,14 +11,12 @@
       </template>
       <template v-slot:column-status="{ row }">
         <div class="customFillet">
-            <span
-          :class="
+          <span :class="
             (statusClass[row.warehouseStatus] &&
               statusClass[row.warehouseStatus].class) ||
             'grey'
-          "
-        ></span>
-        <span>{{ row.warehouseStatusName }}</span>
+          "></span>
+          <span>{{ row.warehouseStatusName }}</span>
         </div>
       </template>
       <template v-slot:column-createTime="{ row }">
@@ -40,21 +26,28 @@
         <el-checkbox :checked="row.prepareStuffStatus == 2" @change="changeStatus('prepareStuff', row)">备案</el-checkbox>
       </template>
       <template v-slot:column-stockScheduleStatus="{ row }">
-        <el-checkbox :checked="row.stockScheduleStatus == 2" @change="changeStatus('stockSchedule', row)">排产</el-checkbox>
+        <el-checkbox :checked="row.stockScheduleStatus == 2"
+          @change="changeStatus('stockSchedule', row)">排产</el-checkbox>
       </template>
       <template v-slot:column-stockProductStatus="{ row }">
-        <el-checkbox :checked="row.stockProductStatus == 2" @change="changeStatus('stockProduct', row)" disabled>成品</el-checkbox>
+        <el-checkbox :checked="row.stockProductStatus == 2" @change="changeStatus('stockProduct', row)"
+          disabled>成品</el-checkbox>
       </template>
       <template v-slot:column-prepareSendStatus="{ row }">
-        <el-checkbox :checked="row.prepareSendStatus == 2" @change="changeStatus('prepareSend', row)" disabled>备发</el-checkbox>
+        <el-checkbox :checked="row.prepareSendStatus == 2" @change="changeStatus('prepareSend', row)"
+          disabled>备发</el-checkbox>
       </template>
       <template v-slot:column-todo="{ row }">
-        <el-popconfirm :title="(row.warehouseStatus == 1 ? '确定设为正常？' : '确定设为关仓？')" @confirm="changeWareHouseStatus(row)">
-            <el-button slot="reference" class="prohibitclick" type="text">{{(row.warehouseStatus == 1 ? '设为关仓' : '设为正常')}}</el-button>
+        <el-popconfirm :title="(row.warehouseStatus == 1 ? '确定设为正常？' : '确定设为关仓？')"
+          @confirm="changeWareHouseStatus(row)">
+          <el-button slot="reference" class="prohibitclick" type="text">{{ (row.warehouseStatus == 1 ? '设为关仓' :
+              '设为正常')
+          }}</el-button>
         </el-popconfirm>
       </template>
     </TableList>
-    <addSupplierWarehouse ref="addSupplierWarehouse" :visible="supplierWarehouseVisible" @close="supplierWarehouseVisible = false" v-if="supplierWarehouseVisible"></addSupplierWarehouse>
+    <addSupplierWarehouse ref="addSupplierWarehouse" :visible="supplierWarehouseVisible"
+      @close="supplierWarehouseVisible = false" v-if="supplierWarehouseVisible"></addSupplierWarehouse>
   </div>
 </template>
 
@@ -407,10 +400,10 @@ export default {
       return "-";
     },
     changeStatus(patern, item) {
-        console.log(patern);
+      console.log(patern);
     },
     changeWareHouseStatus(row) {
-        console.log(row);
+      console.log(row);
     },
     add() {
       this.supplierWarehouseVisible = true
@@ -424,27 +417,28 @@ export default {
 
 <style lang="scss" scoped>
 .customFillet {
-    display: flex;
-    align-items: center;
-    span {
-        &:first-child {
-            border-radius: 50%;
-            width: 6px;
-            height: 6px;
-            margin-right: 4px;
-        }
-    }
+  display: flex;
+  align-items: center;
 
-    .blue {
-        background-color: #656df6;
+  span {
+    &:first-child {
+      border-radius: 50%;
+      width: 6px;
+      height: 6px;
+      margin-right: 4px;
     }
+  }
 
-    .grey {
-        background-color: #cccccc;
-    }
+  .blue {
+    background-color: #656df6;
+  }
+
+  .grey {
+    background-color: #cccccc;
+  }
 }
 
 .prohibitclick {
-    padding: 8px 0;
+  padding: 8px 0;
 }
 </style>

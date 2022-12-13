@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog :title="ifCreate ? '新增货位信息' : '编辑'" :visible.sync="dialogVisible" width="1200px" :before-close="close" 
+    <el-dialog :title="ifCreate ? '新增货位信息' : '编辑'" :visible.sync="dialogVisible" width="1200px" :before-close="close"
       top="25vh" :modal-append-to-body="false" :close-on-click-modal="false">
       <div class="dialog_body">
         <el-form size="middle" :model="form" ref="form" :inline="true" :rules="rules" label-width="120px">
@@ -78,7 +78,7 @@ export default {
     dialogVisible: {
       default: false,
     },
-    rowData:{},
+    rowData: {},
   },
   data() {
     return {
@@ -134,16 +134,16 @@ export default {
     }
     this.getinventorylist()
     districtlist({ inventoryKey: this.form.inventoryKey })
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.options2 = res.data.data
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      .then((res) => {
+        if (res.data.code === 200) {
+          this.options2 = res.data.data
+        } else {
+          this.$message.error(res.msg);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   },
   methods: {
     getinventorylist() {
@@ -196,7 +196,7 @@ export default {
             .catch((e) => {
               console.log(e);
             });
-          } else {
+        } else {
           console.log('error submit!!');
           return false;
         }
@@ -218,7 +218,7 @@ export default {
             .catch((e) => {
               console.log(e);
             });
-          } else {
+        } else {
           console.log('error submit!!');
           return false;
         }

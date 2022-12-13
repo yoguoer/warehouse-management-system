@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog :title="ifCreate ? '新增仓库信息' : '编辑'" :visible.sync="dialogVisible"  width="1200px" :before-close="close"
+    <el-dialog :title="ifCreate ? '新增仓库信息' : '编辑'" :visible.sync="dialogVisible" width="1200px" :before-close="close"
       top="25vh" :modal-append-to-body="false" :close-on-click-modal="false">
       <div class="dialog_body">
         <el-form size="middle" :model="form" :rules="rules" ref="form" :inline="true" label-width="100px">
@@ -23,15 +23,15 @@
                   <el-radio label="WAREHOUSE" value="WAREHOUSE" style="margin-right: 20px">仓库</el-radio>
                   <el-radio label="CAR" value="CAR">车辆</el-radio>
                 </el-radio-group> -->
-                  <!-- 1.供应商仓库 2.门店仓 3.大仓 4.渠道仓 5.直发仓 6.渠道共享仓 -->
-                  <el-select size="mini" v-model="form.inventoryType" placeholder="请选择" style="width: 350px">
-                    <el-option label="供应商仓库" :value="1"></el-option>
-                    <el-option label="门店仓" :value="2"></el-option>
-                    <el-option label="大仓" :value="3"></el-option>
-                    <el-option label="渠道仓" :value="4"></el-option>
-                    <el-option label="直发仓" :value="5"></el-option>
-                    <el-option label="渠道共享仓" :value="6"></el-option>
-                  </el-select>
+                <!-- 1.供应商仓库 2.门店仓 3.大仓 4.渠道仓 5.直发仓 6.渠道共享仓 -->
+                <el-select size="mini" v-model="form.inventoryType" placeholder="请选择" style="width: 350px">
+                  <el-option label="供应商仓库" :value="1"></el-option>
+                  <el-option label="门店仓" :value="2"></el-option>
+                  <el-option label="大仓" :value="3"></el-option>
+                  <el-option label="渠道仓" :value="4"></el-option>
+                  <el-option label="直发仓" :value="5"></el-option>
+                  <el-option label="渠道共享仓" :value="6"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10">
@@ -49,8 +49,8 @@
               <el-form-item label="所属分类" v-model="form.categoryKey" prop="categoryKey">
                 <listBoxF style="width: 350px">
                   <template slot="content">
-                    <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list" style="width:350px;"
-                      placeholder="请选择" @select="selectNode" />
+                    <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list"
+                      style="width:350px;" placeholder="请选择" @select="selectNode" />
                   </template>
                 </listBoxF>
               </el-form-item>
@@ -71,7 +71,7 @@
               <el-form-item label="邮编:" prop="zipCode">
                 <el-input v-model="form.zipCode" class="form_text" placeholder="邮编"></el-input>
               </el-form-item>
-              </el-col>
+            </el-col>
           </el-row>
           <el-row style="white-space: nowrap;">
             <el-form-item label="联系地址" prop="address" v-model="form.address">
@@ -130,7 +130,7 @@ export default {
         inventoryKey: "",
         inventoryName: "", //仓库名
         inventoryType: "", //仓库类型：WAREHOUSE：仓库，CAR：车辆
-        status:"",
+        status: "",
         tel: "", //电话
         zipCode: "", //邮编
         address: {
@@ -242,11 +242,11 @@ export default {
       getCategoryTree(params).then((res) => {
         if (res.data.code === 200) {
           res.data.data.forEach(item => {
-              if(item.categoryName=='全部'){
-                let index=res.data.data.indexOf(item)
-                res.data.data.splice(index,1)
-              }
-            });
+            if (item.categoryName == '全部') {
+              let index = res.data.data.indexOf(item)
+              res.data.data.splice(index, 1)
+            }
+          });
           this.list = res.data.data
           console.log(this.list);
         } else {
@@ -279,7 +279,7 @@ export default {
             district: this.form.address.district,
             detail: this.form.address.detail,
             description: this.form.description,
-            status:this.form.status
+            status: this.form.status
           };
           inventoryUpdate(data)
             .then((res) => {
@@ -293,7 +293,7 @@ export default {
             .catch((e) => {
               console.log(e);
             });
-          } else {
+        } else {
           console.log('error submit!!');
           return false;
         }
@@ -317,7 +317,7 @@ export default {
             city: this.form.address.city,
             district: this.form.address.district,
             detail: this.form.address.detail,
-            status:this.form.status,
+            status: this.form.status,
             description: this.form.description,
           };
           console.log(data);
@@ -333,7 +333,7 @@ export default {
             .catch((e) => {
               console.log(e);
             });
-          } else {
+        } else {
           console.log('error submit!!');
           return false;
         }
@@ -350,7 +350,7 @@ export default {
         inventoryType: "", //仓库类型：WAREHOUSE：仓库，CAR：车辆
         tel: "", //电话
         zipCode: "", //邮编
-        status:"",
+        status: "",
         address: {
           // 省provinceCode
           province: "",

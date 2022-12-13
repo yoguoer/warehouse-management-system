@@ -16,7 +16,7 @@
 
 <script>
 import entityEdit from "./entityEdit";
-import { entityListPage, entityDelete,entityDeleteList } from "@/api/data";
+import { entityListPage, entityDelete, entityDeleteList } from "@/api/data";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 
@@ -31,7 +31,7 @@ export default {
       rowData: {},
       entityList: [],
       tableData: [],
-      multipleSelection:[],
+      multipleSelection: [],
       loadings: {
         table: true,
       },
@@ -50,10 +50,10 @@ export default {
       return [
         { prop: "entityCode", label: "业务主体编码" },
         { prop: "entityName", label: "业务主体名称" },
-        { slots: { name: "column-todo" }, label: "操作",fixed:"right" },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right" },
       ];
     },
-    searchConfig () {
+    searchConfig() {
       return [
         {
           label: '业务主体编码',
@@ -113,11 +113,11 @@ export default {
         this.query.pageSize = pageSize;
       }
       const searchData = this.$refs.search.search
-      entityListPage({ 
+      entityListPage({
         ...searchData,
         page: this.query.pageNo,
         size: this.query.pageSize,
-       }).then((res) => {
+      }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
@@ -152,11 +152,11 @@ export default {
       this.rowData = {};
       this.getTableData();
     },
-    reload(){
+    reload() {
       this.getTableData()
     },
-    add(){
-       this.editRow({})
+    add() {
+      this.editRow({})
     },
     //批量删除选择
     handleSelectionDelete(val) {
@@ -164,37 +164,37 @@ export default {
     },
     //根据 userId 批量删除用户
     handleDeleteList() {
-      if(this.multipleSelection.length>0){
+      if (this.multipleSelection.length > 0) {
         let entityCodes = [];
         this.multipleSelection.forEach(item => {
-          entityCodes.push({entityCode:item.entityCode})
+          entityCodes.push({ entityCode: item.entityCode })
         })
         console.log(entityCodes);
         this.$confirm('删除操作, 是否继续?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         }).then(() => {
           entityDeleteList(entityCodes).then(() => {
-              this.getTableData();
-              this.$message({
-                  type: 'success',
-                  message: '删除成功!'
-              });
+            this.getTableData();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
           }).catch(error => {
-              console.log(error);
+            console.log(error);
           });
         }).catch(() => {
-            this.$message({
-                type: 'info',
-                message: '已取消删除'
-            });
-            this.multipleSelection=[]
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+          this.multipleSelection = []
         });
-      }else{
+      } else {
         this.$message({
-            type: 'error',
-            message: '至少选择一项'
+          type: 'error',
+          message: '至少选择一项'
         });
       }
     },

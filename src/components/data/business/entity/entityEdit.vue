@@ -7,7 +7,8 @@
       <el-row>
         <el-col :span="5">
           <el-form-item label="业务主体编号" prop="entityCode">
-            <el-input v-model="ruleForm.entityCode" class="readonly-copy" placeholder="业务主体编号" readonly v-if="ifCreate==false"></el-input>
+            <el-input v-model="ruleForm.entityCode" class="readonly-copy" placeholder="业务主体编号" readonly
+              v-if="ifCreate == false"></el-input>
             <el-input v-model="ruleForm.entityCode" v-else></el-input>
           </el-form-item>
         </el-col>

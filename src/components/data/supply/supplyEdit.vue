@@ -26,7 +26,7 @@
           <el-form-item label="所属分类" v-model="ruleForm.categoryKey" prop="categoryKey">
             <listBoxF>
               <template slot="content">
-                <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list" 
+                <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list"
                   placeholder="请选择" @select="selectNode" style="width:335px;" />
               </template>
             </listBoxF>
@@ -215,7 +215,7 @@ export default {
       addressList: [
         {
           addressType: "",
-          addressKey:"",
+          addressKey: "",
           address: {
             // 省
             province: "",
@@ -234,8 +234,8 @@ export default {
         {
           bankName: "",
           accountNumber: "",
-          accountName:"",
-          accountTel:"",
+          accountName: "",
+          accountTel: "",
           billingKey: "",
           taxNumber: ""
         }
@@ -360,7 +360,7 @@ export default {
         this.rowData.supplierAddressList.forEach(item => {
           let add = {
             addressType: "",
-            addressKey:"",
+            addressKey: "",
             address: {
               // 省
               province: "",
@@ -373,7 +373,7 @@ export default {
             }
           }
           add.addressType = item.addressType
-          add.addressKey=item.addressKey
+          add.addressKey = item.addressKey
           add.address.province = item.province
           add.address.city = item.city
           add.address.district = item.district
@@ -424,11 +424,11 @@ export default {
       getCategoryTree(params).then(res => {
         if (res.data.code === 200) {
           res.data.data.forEach(item => {
-              if(item.categoryName=='全部'){
-                let index=res.data.data.indexOf(item)
-                res.data.data.splice(index,1)
-              }
-            });
+            if (item.categoryName == '全部') {
+              let index = res.data.data.indexOf(item)
+              res.data.data.splice(index, 1)
+            }
+          });
           this.list = res.data.data
           // console.log(this.list);
         } else {
@@ -472,7 +472,7 @@ export default {
         this.ruleForm.supplierAddressList.push(
           {
             addressType: item.addressType,
-            addressKey:item.addressKey,
+            addressKey: item.addressKey,
             city: item.address.city,
             detail: item.address.detail,
             district: item.address.district,
@@ -534,7 +534,7 @@ export default {
         this.ruleForm.supplierAddressList.push(
           {
             addressType: item.addressType,
-            addressKey:item.addressKey,
+            addressKey: item.addressKey,
             city: item.address.city,
             detail: item.address.detail,
             district: item.address.district,
@@ -617,8 +617,8 @@ export default {
           {
             bankName: "",
             accountNumber: "",
-            accountName:"",
-            accountTel:"",
+            accountName: "",
+            accountTel: "",
             billingKey: "",
             taxNumber: ""
           }
@@ -651,7 +651,7 @@ export default {
       //每次增加，都要添加一个空的数组来存放新输入的数据
       this.contactList.push({
         contactSupplierKey: "",
-        contactKey:"",
+        contactKey: "",
         contactName: "",//联系人
         contactTel: "",
         contactEmail: "",
@@ -691,9 +691,9 @@ export default {
       this.bankList.push({
         bankName: "",
         accountNumber: "",
-        accountName:"",
-        accountTel:"",
-        billingKey:"",
+        accountName: "",
+        accountTel: "",
+        billingKey: "",
         taxNumber: ""
       })
       // console.log(this.bankList, this.ruleForm)
