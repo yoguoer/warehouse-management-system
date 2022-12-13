@@ -7,6 +7,15 @@ public class District {
     private String inventoryKey;//所属仓库
     private String sort;//排序
     private Integer status;//状态
+    private String districtName;//区域名称
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
 
     public Integer getStatus() {
         return status;

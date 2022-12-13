@@ -41,7 +41,7 @@ public interface DistrictMapper {
      *
      * @return 对象列表
      */
-    List<District> queryAllByLimit(String districtCode, String inventoryKey, Integer startRows, Integer pageSize);
+    List<District> queryAllByLimit(String districtCode, String districtName,String inventoryKey, Integer startRows, Integer pageSize);
 
     /**
      * 统计总行数

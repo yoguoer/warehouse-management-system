@@ -50,8 +50,9 @@ public class DistrictServiceImpl implements DistrictService {
     public Map<String, Object> queryByPage(District district, Integer startRows, Integer pageSize) {
         long total = this.districtMapper.count(district);
         String districtCode=district.getDistrictCode();
+        String districtName=district.getDistrictName();
         String inventoryKey=district.getInventoryKey();
-        List<District> records = districtMapper.queryAllByLimit(districtCode,inventoryKey,startRows, pageSize);
+        List<District> records = districtMapper.queryAllByLimit(districtCode,districtName,inventoryKey,startRows, pageSize);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

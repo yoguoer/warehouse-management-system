@@ -93,6 +93,9 @@
             <if test="inventoryName != null and inventoryName != ''">
                 and inventory_name like concat('%', #{inventoryName}, '%')
             </if>
+            <if test="inventoryCode != null and inventoryCode != ''">
+                and inventory_code like concat('%', #{inventoryCode}, '%')
+            </if>
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>

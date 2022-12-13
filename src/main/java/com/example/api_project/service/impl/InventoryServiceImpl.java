@@ -49,13 +49,14 @@ public class InventoryServiceImpl implements InventoryService {
     public Map<String, Object> queryByPage(Inventory inventory, Integer startRows, Integer pageSize) {
         long total = this.inventoryMapper.count(inventory);
         String inventoryName=inventory.getInventoryName();
+        String inventoryCode=inventory.getInventoryCode();
         List<Inventory> records;
         if(null!=inventory.getCategoryKey() && inventory.getCategoryKey().equals("all_WAREHOUSE")){
             String categoryKey="";
-            records = this.inventoryMapper.queryAllByLimit(inventoryName,categoryKey,startRows, pageSize);
+            records = this.inventoryMapper.queryAllByLimit(inventoryName,inventoryCode,categoryKey,startRows, pageSize);
         }else{
             String categoryKey=inventory.getCategoryKey();
-            records = this.inventoryMapper.queryAllByLimit(inventoryName,categoryKey,startRows, pageSize);
+            records = this.inventoryMapper.queryAllByLimit(inventoryName,inventoryCode,categoryKey,startRows, pageSize);
         }
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
