@@ -1,6 +1,10 @@
 <template>
   <div>
     <div>
+      <el-input placeholder="仓库编号" v-model="inventoryCode" type="text" size="small"
+        style="width: 300px; margin-right: 20px" clearable>
+        <template slot="prepend">仓库编号</template>
+      </el-input>
       <el-input placeholder="仓库名称" v-model="inventoryName" type="text" size="small"
         style="width: 300px; margin-right: 20px" clearable>
         <template slot="prepend">仓库名称</template>
@@ -28,11 +32,6 @@
             : (scope.row.inventoryType == 6 ? '渠道共享仓' : '-')) ) ) ) }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="仓库状态"> 
-          <template slot-scope="scope">
-            <span>{{ scope.row.status == 1 ? '正常' : '关仓'}}</span>
-         </template>
-        </el-table-column>
         <el-table-column prop="contactName" label="联系人"></el-table-column>
         <el-table-column prop="tel" label="电话"> </el-table-column>
         <el-table-column prop="zipCode" label="邮编"> </el-table-column>
@@ -40,6 +39,11 @@
         <el-table-column prop="city" label="市"> </el-table-column>
         <el-table-column prop="district" label="区" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="detail" label="地址" :show-overflow-tooltip="true"> </el-table-column>
+        <el-table-column prop="status" label="仓库状态"> 
+          <template slot-scope="scope">
+            <span>{{ scope.row.status == 1 ? '正常' : '关仓'}}</span>
+         </template>
+        </el-table-column>
         <el-table-column prop="description" label="备注" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column fixed="right" width="210px" label="操作">
           <template slot-scope="scope">
@@ -82,6 +86,7 @@ export default {
       list: [],
       inputCategory: "",
       inventoryName: "",
+      inventoryCode:"",
       isShow:false,
       multipleSelection:[],
     };
@@ -127,6 +132,7 @@ export default {
     },
     clean(){
       this.inventoryName = ''
+      this.inventoryCode=''
       this.inputCategory=''
       this.$refs.leftcard.isActive=''
       this.reload()
@@ -139,6 +145,7 @@ export default {
     search() {
       inventorylistPage({
         inventoryName: this.inventoryName,
+        inventoryCode:this.inventoryCode,
         categoryKey: this.inputCategory,
         page: this.pageNo,
         size: this.pageSize,

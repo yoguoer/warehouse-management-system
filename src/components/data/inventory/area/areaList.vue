@@ -8,6 +8,10 @@
         style="width: 300px; margin-right: 20px">
         <template slot="prepend">区域号</template>
       </el-input>
+      <el-input placeholder="区域名称" v-model="inputName" clearable type="text" size="small" 
+        style="width: 300px; margin-right: 20px">
+        <template slot="prepend">区域名称</template>
+      </el-input>
       <el-select size="small" clearable v-model="inputInventory" placeholder="所属仓库"
         style="width:200px;margin-right:20px;" @change="getdistrictlist()">
         <el-option v-for="item in options1" :key="item.inventoryKey" :label="item.inventoryName"
@@ -28,8 +32,8 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="districtCode" label="区域号">
         </el-table-column>
-        <!-- <el-table-column prop="inventoryKey" label="所属仓库">
-        </el-table-column> -->
+        <el-table-column prop="districtName" label="区域名">
+        </el-table-column>
         <el-table-column prop="sort" label="排序"> </el-table-column>
         <el-table-column prop="status" label="区域状态"> 
           <template slot-scope="scope">
@@ -79,6 +83,7 @@ export default {
       list: [],
       inputInventory: "",
       inputArea: "",
+      inputName:"",
       isShow:false,
       multipleSelection:[],
       options1:[]
@@ -126,7 +131,7 @@ export default {
       // this.$router.push({ name: "inventory-detail",params:{rowData:this.rowData} })
     },
     search() {
-      districtlistPage({ districtCode: this.inputArea, inventoryKey: this.inputInventory, page: this.pageNo, size: this.pageSize }).then((res) => {
+      districtlistPage({ districtCode: this.inputArea,districtName:this.inputName, inventoryKey: this.inputInventory, page: this.pageNo, size: this.pageSize }).then((res) => {
         this.list = res.data.data.records;
         this.total = res.data.data.total
         console.log("区域")
@@ -170,6 +175,7 @@ export default {
     },
     clean(){
       this.inputArea = ''
+      this.inputName=''
       this.inputInventory = ''
       this.reload()
     },
