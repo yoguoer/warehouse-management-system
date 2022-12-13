@@ -8,7 +8,6 @@
         style="width: 300px; margin-right: 20px">
         <template slot="prepend">货位编号</template>
       </el-input>
-
       <el-select size="small" v-model="inputInventory" clearable placeholder="所属仓库"
         style="width:200px;margin-right:20px;" @change="getdistrictlist()">
         <el-option v-for="item in options1" :key="item.inventoryKey" :label="item.inventoryName"

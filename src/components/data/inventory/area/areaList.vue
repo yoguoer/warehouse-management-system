@@ -15,8 +15,13 @@
       <el-select size="small" clearable v-model="inputInventory" placeholder="所属仓库"
         style="width:200px;margin-right:20px;" @change="getdistrictlist()">
         <el-option v-for="item in options1" :key="item.inventoryKey" :label="item.inventoryName"
-          :value="item.inventoryKey">
+          :value="item.inventoryKey" >
         </el-option>
+      </el-select>
+      <el-select size="mini" v-model="status" placeholder="区域状态" style="width:200px;margin-right:20px;" clearable>
+        <el-option label="未启用" :value="1"></el-option>
+        <el-option label="启用" :value="2"></el-option>
+        <el-option label="停用" :value="3"></el-option>
       </el-select>
       <el-button type="primary" size="small" @click="search()" icon="el-icon-search">查询</el-button>
       <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
@@ -82,6 +87,7 @@ export default {
       categoryType: 'WAREHOUSE',
       list: [],
       inputInventory: "",
+      status:"",
       inputArea: "",
       inputName:"",
       isShow:false,
@@ -131,7 +137,7 @@ export default {
       // this.$router.push({ name: "inventory-detail",params:{rowData:this.rowData} })
     },
     search() {
-      districtlistPage({ districtCode: this.inputArea,districtName:this.inputName, inventoryKey: this.inputInventory, page: this.pageNo, size: this.pageSize }).then((res) => {
+      districtlistPage({ districtCode: this.inputArea,districtName:this.inputName, inventoryKey: this.inputInventory,status:this.status, page: this.pageNo, size: this.pageSize }).then((res) => {
         this.list = res.data.data.records;
         this.total = res.data.data.total
         console.log("区域")
@@ -177,6 +183,7 @@ export default {
       this.inputArea = ''
       this.inputName=''
       this.inputInventory = ''
+      this.status=''
       this.reload()
     },
     reload(){

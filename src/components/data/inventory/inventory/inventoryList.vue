@@ -6,9 +6,13 @@
         <template slot="prepend">仓库编号</template>
       </el-input>
       <el-input placeholder="仓库名称" v-model="inventoryName" type="text" size="small"
-        style="width: 300px; margin-right: 20px" clearable>
+      style="width: 300px; margin-right: 20px" clearable>
         <template slot="prepend">仓库名称</template>
       </el-input>
+      <el-select size="mini" v-model="status" placeholder="仓库状态" style="width:200px;margin-right:20px;">
+        <el-option label="正常" :value="1"></el-option>
+        <el-option label="关仓" :value="2"></el-option>
+      </el-select>
       <el-button type="primary" size="small" @click="search()" icon="el-icon-search">查询</el-button>
       <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
@@ -86,6 +90,7 @@ export default {
       list: [],
       inputCategory: "",
       inventoryName: "",
+      status:"",
       inventoryCode:"",
       isShow:false,
       multipleSelection:[],
@@ -132,6 +137,7 @@ export default {
     },
     clean(){
       this.inventoryName = ''
+      this.status=''
       this.inventoryCode=''
       this.inputCategory=''
       this.$refs.leftcard.isActive=''
@@ -147,6 +153,7 @@ export default {
         inventoryName: this.inventoryName,
         inventoryCode:this.inventoryCode,
         categoryKey: this.inputCategory,
+        status:this.status,
         page: this.pageNo,
         size: this.pageSize,
       }).then((res) => {
