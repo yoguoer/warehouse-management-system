@@ -51,8 +51,9 @@ public class DistrictServiceImpl implements DistrictService {
         long total = this.districtMapper.count(district);
         String districtCode=district.getDistrictCode();
         String districtName=district.getDistrictName();
+        Integer status=district.getStatus();
         String inventoryKey=district.getInventoryKey();
-        List<District> records = districtMapper.queryAllByLimit(districtCode,districtName,inventoryKey,startRows, pageSize);
+        List<District> records = districtMapper.queryAllByLimit(districtCode,districtName,status,inventoryKey,startRows, pageSize);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

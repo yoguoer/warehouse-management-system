@@ -50,6 +50,9 @@
             <if test="districtName != null and districtName != ''">
                 and district_name like concat('%', #{districtName}, '%')
             </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
             <if test="inventoryKey != null and inventoryKey != ''">
                 and inventory_key = #{inventoryKey}
             </if>
