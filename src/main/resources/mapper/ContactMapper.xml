@@ -13,20 +13,20 @@
         <result property="city" column="city" jdbcType="VARCHAR"/>
         <result property="district" column="district" jdbcType="VARCHAR"/>
         <result property="detail" column="detail" jdbcType="VARCHAR"/>
-        <result property="contactNumber" column="contact_number" jdbcType="VARCHAR"/>
+        <result property="contactCode" column="contact_code" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询全部-->
     <select id="getList" resultMap="ContactMap">
         select
-            contact_name, contact_key, contact_tel, contact_Email, province, contact_customer_key,contact_supplier_key, city, district, detail, contact_number
+            contact_name, contact_key, contact_tel, contact_Email, province, contact_customer_key,contact_supplier_key, city, district, detail, contact_code
         from contact
     </select>
 
     <!--查询单个-->
     <select id="queryById" resultMap="ContactMap">
         select
-          contact_name, contact_key, contact_tel, contact_Email, province, contact_customer_key,contact_supplier_key, city, district, detail, contact_number
+          contact_name, contact_key, contact_tel, contact_Email, province, contact_customer_key,contact_supplier_key, city, district, detail, contact_code
         from contact
         where contact_key = #{contactKey}
     </select>
@@ -34,7 +34,7 @@
     <!--查询指定行数据(客户查询的时候用)-->
     <select id="queryAllByCustomer" resultMap="ContactMap">
         select
-          contact_name, contact_key, contact_tel, contact_Email, province, contact_customer_key,city, district, detail, contact_number
+          contact_name, contact_key, contact_tel, contact_Email, province, contact_customer_key,city, district, detail, contact_code
         from contact
         <where>
             <if test="contactName != null and contactName != ''">
@@ -51,7 +51,7 @@
     <!--通过contactSupplier查询-->
     <select id="queryBySupplierKey" resultMap="ContactMap">
         select
-            contact_name, contact_key, contact_tel, contact_Email, province, contact_supplier_key, city, district, detail, contact_number
+            contact_name, contact_key, contact_tel, contact_Email, province, contact_supplier_key, city, district, detail, contact_code
         from contact
         <where>
             <if test="contactSupplierKey != null and contactSupplierKey != ''">
@@ -95,8 +95,8 @@
             <if test="detail != null and detail != ''">
                 and detail = #{detail}
             </if>
-            <if test="contactNumber != null and contactNumber != ''">
-                and contact_number = #{contactNumber}
+            <if test="contactCode != null and contactCode != ''">
+                and contact_code = #{contactCode}
             </if>
         </where>
     </select>
@@ -129,8 +129,8 @@
             <if test="detail != null and detail != ''">
                 detail,
             </if>
-            <if test="contactNumber != null and contactNumber != ''">
-                contact_number,
+            <if test="contactCode != null and contactCode != ''">
+                contact_code,
             </if>
             <if test="contactCustomerKey != null and contactCustomerKey != ''">
                 contact_customer_key,
@@ -164,8 +164,8 @@
             <if test="detail != null and detail != ''">
                 #{detail},
             </if>
-            <if test="contactNumber != null and contactNumber != ''">
-                #{contactNumber},
+            <if test="contactCode != null and contactCode != ''">
+                #{contactCode},
             </if>
             <if test="contactCustomerKey != null and contactCustomerKey != ''">
                 #{contactCustomerKey},
@@ -177,18 +177,18 @@
     </insert>
 
     <insert id="insertBatch" keyProperty="contactName" useGeneratedKeys="true">
-        insert into contact(contact_name,contact_key, contact_tel, contact_Email, province, contact_customer_key,contact_supplier_key,city, district, detail, contact_number)
+        insert into contact(contact_name,contact_key, contact_tel, contact_Email, province, contact_customer_key,contact_supplier_key,city, district, detail, contact_code)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{contactName},#{contactKey}, #{contactTel}, #{contactEmail}, #{province}, #{contactCustomerKey}, #{contactSupplierKey},#{city}, #{district}, #{detail}, #{contactNumber})
+        (#{contactName},#{contactKey}, #{contactTel}, #{contactEmail}, #{province}, #{contactCustomerKey}, #{contactSupplierKey},#{city}, #{district}, #{detail}, #{contactCode})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="contactName" useGeneratedKeys="true">
-        insert into contact(contact_name,contact_key, contact_tel, contact_Email, province, contact_customer_key,contact_supplier_key, city, district, detail, contact_number)
+        insert into contact(contact_name,contact_key, contact_tel, contact_Email, province, contact_customer_key,contact_supplier_key, city, district, detail, contact_code)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{contactName},#{contactKey}, #{contactTel}, #{contactEmail}, #{province}, #{contactCustomerKey}, #{contactSupplierKey},#{city}, #{district}, #{detail}, #{contactNumber})
+            (#{contactName},#{contactKey}, #{contactTel}, #{contactEmail}, #{province}, #{contactCustomerKey}, #{contactSupplierKey},#{city}, #{district}, #{detail}, #{contactCode})
         </foreach>
         on duplicate key update
         contact_key = values(contact_key),
@@ -200,7 +200,7 @@
         city = values(city),
         district = values(district),
         detail = values(detail),
-        contact_number = values(contact_number),
+        contact_code = values(contact_code),
         contact_name = values(contact_name)
     </insert>
 
@@ -232,8 +232,8 @@
             <if test="detail != null and detail != ''">
                 detail = #{detail},
             </if>
-            <if test="contactNumber != null and contactNumber != ''">
-                contact_number = #{contactNumber},
+            <if test="contactCode != null and contactCode != ''">
+                contact_code = #{contactCode},
             </if>
             <if test="contactName != null and contactName != ''">
                 contact_name = #{contactName},
@@ -250,7 +250,7 @@
     <!--通过contactCustomerKey查询-->
     <select id="queryByCustomerKey" resultMap="ContactMap">
         select
-            contact_name, contact_key, contact_tel, contact_Email, province, contact_customer_key, city, district, detail, contact_number
+            contact_name, contact_key, contact_tel, contact_Email, province, contact_customer_key, city, district, detail, contact_code
         from contact
         where contact_customer_key = #{contactCustomerKey}
     </select>

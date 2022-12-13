@@ -51,7 +51,7 @@ public class Contact implements Serializable {
     /**
      * 联系人编号
      */
-    private String contactNumber;
+    private String contactCode;
 
     public String getContactSupplierKey() {
         return contactSupplierKey;
@@ -133,12 +133,12 @@ public class Contact implements Serializable {
         this.detail = detail;
     }
 
-    public String getContactNumber() {
-        return contactNumber;
+    public String getContactCode() {
+        return contactCode;
     }
 
-    public void setContactNumber(String contactNumber) {
-        this.contactNumber = contactNumber;
+    public void setContactCode(String contactCode) {
+        this.contactCode = contactCode;
     }
 
 }

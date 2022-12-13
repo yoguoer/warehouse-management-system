@@ -7,7 +7,7 @@ public class Customer {
     private String categoryKey;//所属分类
     private String customerKey;//客户key
     private String customerName;//客户名称
-    private String customerNumber;//客户编号
+    private String customerCode;//客户编号
     private String customerEmail;//联系邮箱
     private String customerTel;//联系电话
     private String customerAddress;//联系地址
@@ -93,12 +93,12 @@ public class Customer {
         this.customerName = customerName;
     }
 
-    public String getCustomerNumber() {
-        return customerNumber;
+    public String getCustomerCode() {
+        return customerCode;
     }
 
-    public void setCustomerNumber(String customerNumber) {
-        this.customerNumber = customerNumber;
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode;
     }
 
     public String getCustomerEmail() {
