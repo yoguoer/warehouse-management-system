@@ -20,9 +20,9 @@
         @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="customerName" label="客户名称">
+        <el-table-column prop="customerCode" sortable label="客户编号">
         </el-table-column>
-        <el-table-column prop="customerNumber" sortable label="客户编号">
+        <el-table-column prop="customerName" label="客户名称">
         </el-table-column>
         <el-table-column label="联系人列表">
           <template slot-scope="scope">
@@ -35,6 +35,7 @@
         </el-table-column>
         <el-table-column width="200px" fixed="right" label="操作">
           <template slot-scope="scope">
+            <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
             <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
               icon="el-icon-delete">删除</el-button>
@@ -47,12 +48,15 @@
           @size-change="_pageSize"></el-pagination>
       </div>
       <guestsEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="_success()" />
+      <customerDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()"
+        ref="detail" />
     </div>
   </div>
 </template>
 
 <script>
 import guestsEdit from './customerEdit'
+import customerDetail from "./customerDetail";
 import leftCard from '@/components/public/leftCard.vue'
 import { CustomerListpage, Customerdelete, CustomerdeleteList } from "@/api/data";
 
@@ -64,6 +68,7 @@ export default {
       pageNo: 1,
       total: null,
       drawer: false,
+      isShow:false,
       rowData: {},
       categoryType: 'CUSTOMER',
       title: "客户分类",
@@ -136,6 +141,11 @@ export default {
         }
       });
     },
+    //详情
+    openDetail(row) {
+      this.rowData = row;
+      this.isShow = true//详情
+    },
     editRow(row) {
       this.rowData = row;
       this.drawer = true;
@@ -198,6 +208,7 @@ export default {
   },
   components: {
     guestsEdit,
+    customerDetail,
     leftCard
   }
 }

@@ -12,8 +12,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="客户编号" prop="customerNumber">
-              <el-input v-model="ruleForm.customerNumber"></el-input>
+            <el-form-item label="客户编号" prop="customerCode">
+              <el-input v-model="ruleForm.customerCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -57,8 +57,8 @@
           <el-form :model="item" :rules="addRules" ref="addForm" label-width="100px" class="add-ruleForm">
             <el-row>
               <el-col :span="10">
-                <el-form-item label="联系人编号" prop="contactNumber">
-                  <el-input v-model="item.contactNumber"></el-input>
+                <el-form-item label="联系人编号" prop="contactCode">
+                  <el-input v-model="item.contactCode"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="10">
@@ -132,7 +132,7 @@ export default {
       tempList: [
         {
           contactName: "",//联系人
-          contactNumber: "",//联系人编号
+          contactCode: "",//联系人编号
           address: {
             // 省
             province: "",
@@ -160,7 +160,7 @@ export default {
         // customerContactList: [],//联系人信息列表（可能有多个）
         customerKey: "",//客户key
         customerName: "",//客户名称
-        customerNumber: "",//客户编号
+        customerCode: "",//客户编号
         customerTel: "",
         customerAddress: "",
         customerEmail: "",
@@ -179,7 +179,7 @@ export default {
         categoryKey: [
           { required: true, message: '请输入所属分类', trigger: 'blur' },
         ],
-        customerNumber: [
+        customerCode: [
           { required: true, message: '请输入客户编码', trigger: 'blur' }
         ],
         customerName: [
@@ -192,7 +192,7 @@ export default {
         categoryKey: [
           { required: true, message: '请输入所属分类', trigger: 'blur' },
         ],
-        customerNumber: [
+        customerCode: [
           { required: true, message: '请输入客户编码', trigger: 'blur' }
         ],
         customerName: [
@@ -243,7 +243,7 @@ export default {
       this.ruleForm.categoryKey = this.rowData.categoryKey
       this.ruleForm.customerName = this.rowData.customerName
       this.ruleForm.customerKey = this.rowData.customerKey
-      this.ruleForm.customerNumber = this.rowData.customerNumber
+      this.ruleForm.customerCode = this.rowData.customerCode
       this.ruleForm.customerTypeKey = this.rowData.customerTypeKey
       this.ruleForm.customerTel = this.rowData.customerTel
       this.ruleForm.customerEmail = this.rowData.customerEmail
@@ -266,7 +266,7 @@ export default {
             contactEmail: item.contactEmail,
             contactTel: item.contactTel,
             contactCustomerKey: item.contactCustomerKey,
-            contactNumber: item.contactNumber,
+            contactCode: item.contactCode,
             contactKey: item.contactKey,
           })
         })
@@ -336,7 +336,7 @@ export default {
               contactEmail: item.contactEmail,
               contactTel: item.contactTel,
               contactCustomerKey: item.contactCustomerKey,
-              contactNumber: item.contactNumber,
+              contactCode: item.contactCode,
               contactKey: item.contactKey,
             })
           })
@@ -344,7 +344,7 @@ export default {
             categoryKey: this.ruleForm.categoryKey,
             customerName: this.ruleForm.customerName,
             customerKey: this.ruleForm.customerKey,
-            customerNumber: this.ruleForm.customerNumber,
+            customerCode: this.ruleForm.customerCode,
             customerTypeKey: this.ruleForm.customerTypeKey,
             customerTel: this.ruleForm.customerTel,
             customerEmail: this.ruleForm.customerEmail,
@@ -389,7 +389,7 @@ export default {
               contactEmail: item.contactEmail,
               contactTel: item.contactTel,
               contactCustomerKey: item.contactCustomerKey,
-              contactNumber: item.contactNumber,
+              contactCode: item.contactCode,
               contactKey: item.contactKey,
             })
           })
@@ -397,7 +397,7 @@ export default {
             categoryKey: this.ruleForm.categoryKey,
             customerName: this.ruleForm.customerName,
             customerKey: this.ruleForm.customerKey,
-            customerNumber: this.ruleForm.customerNumber,
+            customerCode: this.ruleForm.customerCode,
             customerTypeKey: this.ruleForm.customerTypeKey,
             customerTel: this.ruleForm.customerTel,
             customerEmail: this.ruleForm.customerEmail,
@@ -469,7 +469,7 @@ export default {
         // customerContactList: [],//联系人信息列表（可能有多个）
         customerKey: "",//客户key
         customerName: "",//客户名称
-        customerNumber: "",//客户编号
+        customerCode: "",//客户编号
         customerTel: "",
         customerAddress: "",
         customerEmail: "",
@@ -487,7 +487,7 @@ export default {
       this.tempList = [
         {
           contactName: "",//联系人
-          contactNumber: "",//联系人编号
+          contactCode: "",//联系人编号
           address: {
             // 省
             province: "",

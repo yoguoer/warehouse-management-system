@@ -57,9 +57,7 @@ const routes = [{
       {
         path: '/data',
         name: 'data',
-        redirect: {
-          name: "business"
-        },
+        redirect: {name: "customer"},
         component: () => import('@/views/data/Index.vue'),
         children: [
 
@@ -205,6 +203,21 @@ const routes = [{
               },
             ]
           },
+          //资料-客户-客户详情页
+          {
+            path: '/data/ccustomerList/detail',
+            name: 'customer-detail',
+            component: () => import('@/components/data/customer/customer/customerDetail.vue'),
+            children: [
+              //资料-客户-客户详情页-所属联系人
+              {
+                path: '/data/customerList/:customerKey',
+                name: 'customer-contact',
+                component: () => import('@/components/data/customer/contact/contactList.vue')
+              },
+            ]
+          },
+
 
           //资料-业务实体
           {

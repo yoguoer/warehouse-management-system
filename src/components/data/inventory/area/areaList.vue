@@ -43,7 +43,10 @@
         <el-table-column prop="sort" label="排序"> </el-table-column>
         <el-table-column prop="status" label="区域状态">
           <template slot-scope="scope">
-            <span>{{ scope.row.status == 1 ? '未启用' : (scope.row.status == 2 ? '启用' : '停用') }}</span>
+            <!-- <span>{{ scope.row.status == 1 ? '未启用' : (scope.row.status == 2 ? '启用' : '停用') }}</span> -->
+            <el-tag type="warning" size="medium" v-if=" scope.row.status == 1">未启用</el-tag>
+            <el-tag type="success" size="medium" v-if=" scope.row.status == 2">启用</el-tag>
+            <el-tag type="danger" size="medium" v-if="scope.row.status == 3">停用</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="description" label="备注">

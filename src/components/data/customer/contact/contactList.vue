@@ -24,9 +24,9 @@
         @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="contactName" label="联系人名称">
+        <el-table-column prop="contactCode" sortable label="联系人编号">
         </el-table-column>
-        <el-table-column prop="contactNumber" sortable label="联系人编号">
+        <el-table-column prop="contactName" label="联系人名称">
         </el-table-column>
         <el-table-column prop="contactTel" label="联系电话">
         </el-table-column>
@@ -92,11 +92,20 @@ export default {
     //联系人
     getContact() {
       this.allList = []
-      contactListpage({ contactCustomerKey: '', contactName: '', page: this.pageNo, size: this.pageSize }).then(res => {
+      contactListpage({ contactCustomerKey: this.$route.params.customerKey||'', contactName: '', page: this.pageNo, size: this.pageSize }).then(res => {
         if (res.data.code === 200) {
-          this.total = res.data.data.total
-          this.allList = res.data.data.records
-          console.log(this.total, this.allList);
+          // this.total = res.data.data.total
+          // this.allList = res.data.data.records
+          this.allList = []
+          this.total=0
+          //只取客户的联系人
+          res.data.data.records.forEach(item=>{
+            if(item.contactCustomerKey!=null && item.contactCustomerKey!=""){
+              this.allList.push(item)
+              this.total++
+            }
+          })
+          // console.log(this.total, this.allList);
         } else {
           console.log('error');
         }
@@ -114,7 +123,7 @@ export default {
         if (res.data.code === 200) {
           this.total = res.total
           this.allList = res.data.data.records
-          console.log(this.total, this.allList);
+          // console.log(this.total, this.allList);
         } else {
           console.log('error');
         }

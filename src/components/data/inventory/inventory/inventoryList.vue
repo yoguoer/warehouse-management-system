@@ -47,7 +47,9 @@
         <el-table-column prop="detail" label="地址" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="status" label="仓库状态">
           <template slot-scope="scope">
-            <span>{{ scope.row.status == 1 ? '正常' : '关仓' }}</span>
+            <!-- <span>{{ scope.row.status == 1 ? '正常' : '关仓' }}</span> -->
+            <el-tag type="success" size="medium" v-if=" scope.row.status == 1">正常</el-tag>
+            <el-tag type="danger" size="medium" v-if="scope.row.status == 2">关仓</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="description" label="备注" :show-overflow-tooltip="true"> </el-table-column>
