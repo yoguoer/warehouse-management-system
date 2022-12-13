@@ -50,7 +50,7 @@
         from position
         <where>
             <if test="inventoryDistrictkey != null and inventoryDistrictkey != ''">
-                and inventoryDistrictkey = #{inventoryDistrictkey}
+                and inventory_districtkey = #{inventoryDistrictkey}
             </if>
             <if test="inventoryKey != null and inventoryKey != ''">
                 and inventory_key = #{inventoryKey}

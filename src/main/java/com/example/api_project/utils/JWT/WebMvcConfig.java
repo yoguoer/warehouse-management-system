@@ -14,17 +14,22 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/api/login/**").order(11)
                 .addPathPatterns("/api/user/**")
                 .addPathPatterns("/api/brand/**")
+                .addPathPatterns("/api/vehicle/**")
+                .addPathPatterns("/api/entity/**")
                 .addPathPatterns("/api/category/**")
+
                 .addPathPatterns("/api/contact/**")
                 .addPathPatterns("/api/customer/**")
-                .addPathPatterns("/api/district/**")
+
                 .addPathPatterns("/api/goods/**")
+
                 .addPathPatterns("/api/inventory/**")
-                .addPathPatterns("/api/supplierAddress/**")
-                .addPathPatterns("/api/supplierBilling/**")
+                .addPathPatterns("/api/district/**")
+                .addPathPatterns("/api/position/**")
+
                 .addPathPatterns("/api/supplier/**")
-                .addPathPatterns("/api/vehicle/**")
-                .addPathPatterns("/api/position/**");
+                .addPathPatterns("/api/supplierAddress/**")
+                .addPathPatterns("/api/supplierBilling/**");
     }
 }
 
