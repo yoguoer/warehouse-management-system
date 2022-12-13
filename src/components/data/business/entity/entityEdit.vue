@@ -3,29 +3,30 @@
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
-
       <el-row>
-        <el-col :span="5">
-          <el-form-item label="业务主体编号" prop="entityCode">
-            <el-input v-model="ruleForm.entityCode" class="readonly-copy" placeholder="业务主体编号" readonly
-              v-if="ifCreate == false"></el-input>
-            <el-input v-model="ruleForm.entityCode" v-else></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="业务主体名称" prop="entityName">
-            <el-input v-model="ruleForm.entityName"></el-input>
-          </el-form-item>
-        </el-col>
+        <el-row>
+          <el-col :span="5">
+            <el-form-item label="业务主体编号" prop="entityCode">
+              <el-input v-model="ruleForm.entityCode" class="readonly-copy" placeholder="业务主体编号" readonly
+                v-if="ifCreate == false"></el-input>
+              <el-input v-model="ruleForm.entityCode" v-else clearable placeholder="业务主体编号"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="业务主体名称" prop="entityName">
+              <el-input v-model="ruleForm.entityName" clearable placeholder="业务主体名称"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-row>
-
-      <el-form-item style="display:inline-block;float:right;margin:10px 40%">
-        <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
-        <el-button type="primary" @click="create('ruleForm')" v-else>立即创建</el-button>
-        <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
-        <el-button @click="close()">关闭</el-button>
-      </el-form-item>
-
+      <el-row>
+        <el-form-item style="display:inline-block;float:right;margin:10px 40%">
+          <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
+          <el-button type="primary" @click="create('ruleForm')" v-else>立即创建</el-button>
+          <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
+          <el-button @click="close()">关闭</el-button>
+        </el-form-item>
+      </el-row>
     </el-form>
 
   </el-drawer>

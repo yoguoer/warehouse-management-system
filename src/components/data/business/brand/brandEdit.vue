@@ -3,27 +3,28 @@
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-
       <el-row>
-        <el-col :span="5">
-          <el-form-item label="品牌编号" prop="brandCode">
-            <el-input v-model="ruleForm.brandCode"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="品牌名称" prop="brandName">
-            <el-input v-model="ruleForm.brandName"></el-input>
-          </el-form-item>
-        </el-col>
+        <el-row>
+          <el-col :span="5">
+            <el-form-item label="品牌编号" prop="brandCode">
+              <el-input v-model="ruleForm.brandCode" clearable placeholder="品牌编号"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="品牌名称" prop="brandName">
+              <el-input v-model="ruleForm.brandName" clearable placeholder="品牌名称"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-row>
-
-      <el-form-item style="display:inline-block;float:right;margin:10px 40%">
-        <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
-        <el-button type="primary" @click="create('ruleForm')" v-else>立即创建</el-button>
-        <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
-        <el-button @click="close()">关闭</el-button>
-      </el-form-item>
-
+      <el-row>
+        <el-form-item style="display:inline-block;float:right;margin:10px 40%">
+          <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
+          <el-button type="primary" @click="create('ruleForm')" v-else>立即创建</el-button>
+          <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
+          <el-button @click="close()">关闭</el-button>
+        </el-form-item>
+      </el-row>
     </el-form>
 
   </el-drawer>

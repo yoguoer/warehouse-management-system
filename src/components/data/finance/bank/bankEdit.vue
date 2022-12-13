@@ -1,55 +1,57 @@
 <template>
-  <el-drawer size="30%" :title="ifCreate ? '新增银行' : '联系人编辑'" :visible.sync="drawer" :direction="direction"
+  <el-drawer size="30%" :title="ifCreate ? '新增银行' : '编辑银行'" :visible.sync="drawer" :direction="direction"
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-
       <el-row>
-        <el-col :span="5">
-          <el-form-item label="银行全称" prop="bankName">
-            <el-input v-model="ruleForm.bankName"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="户主名" prop="accountName">
-            <el-input v-model="ruleForm.accountName"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="银行账号" prop="accountNumber">
-            <el-input v-model="ruleForm.accountNumber"></el-input>
-          </el-form-item>
-        </el-col>
+        <el-row>
+          <el-col :span="5">
+            <el-form-item label="银行全称" prop="bankName">
+              <el-input v-model="ruleForm.bankName" placeholder="银行全称" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="户主名" prop="accountName">
+              <el-input v-model="ruleForm.accountName" placeholder="户主名" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="银行账号" prop="accountNumber">
+              <el-input v-model="ruleForm.accountNumber" placeholder="银行账号" clearable></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <el-form-item label="联系电话" prop="accountTel">
+              <el-input v-model="ruleForm.accountTel" placeholder="联系电话" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="税号" prop="taxNumber">
+              <el-input v-model="ruleForm.taxNumber" placeholder="税号" clearable></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="所属供应商" prop="supplierBillingCode">
+              <el-select size="middle" v-model="ruleForm.supplierBillingCode" placeholder="所属供应商" style="width:270px;"
+                clearable>
+                <el-option v-for="item in options" :key="item.supplierCode" :label="item.supplierName"
+                  :value="item.supplierCode">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-row>
       <el-row>
-        <el-col :span="5">
-          <el-form-item label="税号" prop="taxNumber">
-            <el-input v-model="ruleForm.taxNumber"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="联系电话" prop="accountTel">
-            <el-input v-model="ruleForm.accountTel"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="所属供应商" prop="supplierBillingCode">
-            <el-select size="middle" v-model="ruleForm.supplierBillingCode" placeholder="所属供应商" style="width:270px;">
-              <el-option v-for="item in options" :key="item.supplierCode" :label="item.supplierName"
-                :value="item.supplierCode">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
+        <el-form-item style="display:inline-block;float:right;margin:10px 40%">
+          <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
+          <el-button type="primary" @click="create('ruleForm')" v-else>立即创建</el-button>
+          <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
+          <el-button @click="close()">关闭</el-button>
+        </el-form-item>
       </el-row>
-
-      <el-form-item style="display:inline-block;float:right;margin:10px 40%">
-        <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
-        <el-button type="primary" @click="create('ruleForm')" v-else>立即创建</el-button>
-        <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
-        <el-button @click="close()">关闭</el-button>
-      </el-form-item>
-
     </el-form>
 
   </el-drawer>

@@ -13,7 +13,7 @@
         <template slot="prepend">区域名称</template>
       </el-input>
       <el-select size="small" clearable v-model="inputInventory" placeholder="所属仓库"
-        style="width:200px;margin-right:20px;" @change="getdistrictlist()">
+        style="width:200px;margin-right:20px;">
         <el-option v-for="item in options1" :key="item.inventoryKey" :label="item.inventoryName"
           :value="item.inventoryKey">
         </el-option>

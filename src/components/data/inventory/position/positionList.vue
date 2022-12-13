@@ -16,8 +16,8 @@
       </el-select>
       <el-select size="small" v-model="inputDistrict" clearable placeholder="所属区域"
         style="width:200px;margin-right:20px;">
-        <el-option v-for="item in options2" :key="item.inputDistrict" :label="item.districtCode"
-          :value="item.inputDistrict">
+        <el-option v-for="item in options2" :key="item.inventoryDistrictkey" :label="item.districtName"
+          :value="item.inventoryDistrictkey">
         </el-option>
       </el-select>
       <el-select size="small" v-model="inputpositionType" placeholder="货位类型" clearable

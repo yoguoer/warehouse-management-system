@@ -7,12 +7,12 @@
           <el-row>
             <el-col :span="10">
               <el-form-item prop="inventoryName" label="仓库名">
-                <el-input v-model="form.inventoryName" placeholder="仓库名" class="form_text"></el-input>
+                <el-input v-model="form.inventoryName" placeholder="仓库名" class="form_text" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item prop="inventoryCode" label="仓库编号">
-                <el-input v-model="form.inventoryCode" placeholder="仓库编号" class="form_text"></el-input>
+                <el-input v-model="form.inventoryCode" placeholder="仓库编号" class="form_text" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -24,7 +24,7 @@
                   <el-radio label="CAR" value="CAR">车辆</el-radio>
                 </el-radio-group> -->
                 <!-- 1.供应商仓库 2.门店仓 3.大仓 4.渠道仓 5.直发仓 6.渠道共享仓 -->
-                <el-select size="mini" v-model="form.inventoryType" placeholder="请选择" style="width: 350px">
+                <el-select size="mini" v-model="form.inventoryType" placeholder="请选择" style="width: 350px" clearable>
                   <el-option label="供应商仓库" :value="1"></el-option>
                   <el-option label="门店仓" :value="2"></el-option>
                   <el-option label="大仓" :value="3"></el-option>
@@ -37,7 +37,7 @@
             <el-col :span="10">
               <el-form-item label="仓库状态" prop="status">
                 <!-- 1.正常，2.关仓', -->
-                <el-select size="mini" v-model="form.status" placeholder="请选择" style="width: 350px">
+                <el-select size="mini" v-model="form.status" placeholder="请选择" style="width: 350px" clearable>
                   <el-option label="正常" :value="1"></el-option>
                   <el-option label="关仓" :value="2"></el-option>
                 </el-select>
@@ -49,7 +49,7 @@
               <el-form-item label="所属分类" v-model="form.categoryKey" prop="categoryKey">
                 <listBoxF style="width: 350px">
                   <template slot="content">
-                    <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list"
+                    <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list" clearable
                       style="width:350px;" placeholder="请选择" @select="selectNode" />
                   </template>
                 </listBoxF>
@@ -57,19 +57,19 @@
             </el-col>
             <el-col :span="10">
               <el-form-item label="联系人:" prop="contactName">
-                <el-input v-model="form.contactName" class="form_text" placeholder="联系人"></el-input>
+                <el-input v-model="form.contactName" class="form_text" placeholder="联系人" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="10">
               <el-form-item label="电话:" prop="tel">
-                <el-input v-model="form.tel" class="form_text" placeholder="电话"></el-input>
+                <el-input v-model="form.tel" class="form_text" placeholder="电话" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="邮编:" prop="zipCode">
-                <el-input v-model="form.zipCode" class="form_text" placeholder="邮编"></el-input>
+                <el-input v-model="form.zipCode" class="form_text" placeholder="邮编" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -81,7 +81,7 @@
           <el-row>
             <el-col :span="10">
               <el-form-item label="备注:" prop="description">
-                <el-input v-model="form.description" type="textarea" class="form_text" placeholder="备注"></el-input>
+                <el-input v-model="form.description" type="textarea" class="form_text" placeholder="备注" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>

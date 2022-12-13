@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-refresh" @click="reload">刷新</el-button> -->
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add">新增</el-button> -->
-    <!-- <el-divider /> -->
     <div>
       <el-input placeholder="车型" v-model="inputvehicleType" type="text" size="small" :clearable="true">
         <template slot="prepend">车型</template>

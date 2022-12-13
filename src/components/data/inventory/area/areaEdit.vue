@@ -7,20 +7,20 @@
           <el-row>
             <el-col :span="10">
               <el-form-item label="区域号:" prop="districtCode">
-                <el-input v-model="form.districtCode" class="form_text" placeholder="区域号"></el-input>
+                <el-input v-model="form.districtCode" class="form_text" placeholder="区域号" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="区域名称:" prop="districtName">
-                <el-input v-model="form.districtName" class="form_text" placeholder="区域名称"></el-input>
+                <el-input v-model="form.districtName" class="form_text" placeholder="区域名称" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="10">
               <el-form-item label="所属仓库:" prop="inventoryKey">
-                <el-select size="middle" v-model="form.inventoryKey" placeholder="所属仓库" style="width:350px;">
-                  <el-option v-for="item in options" :key="item.inventoryKey" :label="item.inventoryName"
+                <el-select size="middle" v-model="form.inventoryKey" placeholder="所属仓库" style="width:350px;" clearable>
+                  <el-option v-for="item in options" :key="item.inventoryKey" :label="item.inventoryName" 
                     :value="item.inventoryKey">
                   </el-option>
                 </el-select>
@@ -39,12 +39,12 @@
           <el-row>
             <el-col :span="10">
               <el-form-item label="排序" prop="sort">
-                <el-input v-model="form.sort" type="Number" class="form_text" placeholder="排序"></el-input>
+                <el-input v-model="form.sort" type="Number" class="form_text" placeholder="排序" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="备注:" prop="description">
-                <el-input v-model="form.description" type="textarea" class="form_text" placeholder="备注"></el-input>
+                <el-input v-model="form.description" type="textarea" class="form_text" placeholder="备注" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>

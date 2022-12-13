@@ -1,111 +1,112 @@
 <template>
-  <el-drawer size="98%" :title="ifCreate ? '新增客户信息' : '客户编辑'" :visible.sync="drawer" :direction="direction"
+  <el-drawer size="98%" :title="ifCreate ? '新增客户信息' : '编辑客户'" :visible.sync="drawer" :direction="direction"
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-      <h4 class="msg-title">基础信息</h4>
-      <div style="width:1000px;">
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="联系人名称" prop="customerName">
-              <el-input v-model="ruleForm.customerName"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="客户编号" prop="customerCode">
-              <el-input v-model="ruleForm.customerCode"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="所属分类" v-model="ruleForm.categoryKey">
-              <listBoxF>
-                <template slot="content">
-                  <treeselect class="treeSelect-option" v-model="value" :multiple="multiple" :normalizer="normalizer"
-                    style="width:250px;" :options="list" placeholder="请选择" @select="selectNode" />
-                </template>
-              </listBoxF>
-            </el-form-item>
-          </el-col>
-        </el-row>
+      <el-row>
+        <h4 class="msg-title">基础信息</h4>
+        <div style="width:1000px;">
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="客户名称" prop="customerName">
+                <el-input v-model="ruleForm.customerName" placeholder="客户名称" clearable></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="客户编号" prop="customerCode">
+                <el-input v-model="ruleForm.customerCode" placeholder="客户编号" clearable></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="所属分类" v-model="ruleForm.categoryKey">
+                <listBoxF style="width:100%;">
+                  <template slot="content">
+                    <treeselect class="treeSelect-option" v-model="value" :multiple="multiple" :normalizer="normalizer"
+                      clearable :options="list" placeholder="请选择" @select="selectNode" />
+                  </template>
+                </listBoxF>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
-        <el-row>
-          <el-col :span="8">
-            <el-form-item label="联系电话" prop="customerTel">
-              <el-input v-model="ruleForm.customerTel"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="联系邮箱" prop="customerEmail">
-              <el-input v-model="ruleForm.customerEmail"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col>
-            <el-form-item label="联系地址" prop="address" v-model="ruleForm.address">
-              <!-- <el-input v-model="item.contactTypeFlex3"></el-input> -->
-              <checkAddress ref="address" v-model="ruleForm.address" :form="ruleForm.address" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </div>
-
-      <!-- <div><span class="msg-title">联系人信息</span><el-button type="primary" plain size="small" icon="el-icon-plus">添加联系人</el-button></div> -->
-      <div><span class="msg-title">常用联系人</span></div>
-      <div v-for="(item, index) in tempList" :key="index" style="width:1300px">
-        <div class="toAddcontact">
-          <el-form :model="item" :rules="addRules" ref="addForm" label-width="100px" class="add-ruleForm">
-            <el-row>
-              <el-col :span="10">
-                <el-form-item label="联系人编号" prop="contactCode">
-                  <el-input v-model="item.contactCode"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="联系人姓名" prop="contactName">
-                  <el-input v-model="item.contactName"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-
-            <el-row>
-              <el-col :span="10">
-                <el-form-item label="联系电话" prop="contactTel">
-                  <el-input v-model="item.contactTel"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="联系邮箱" prop="contactEmail">
-                  <el-input v-model="item.contactEmail"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-
-            <el-row>
-              <el-col>
-                <el-form-item label="联系地址" prop="address" v-model="item.address">
-                  <checkAddress ref="address" v-model="item.address" :key="index" :form="item.address" />
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </el-form>
-          <div style="color: #409EFF;float:right">
-            <span style="margin:20px;cursor:pointer" @click="toAdd(index)">添加</span>
-            <span style="margin:20px;cursor:pointer" @click="toDelete(index)" v-if="tempList.length > 1">删除</span>
-          </div>
+          <el-row>
+            <el-col :span="8">
+              <el-form-item label="联系电话" prop="customerTel">
+                <el-input v-model="ruleForm.customerTel" placeholder="联系电话" clearable></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="联系邮箱" prop="customerEmail">
+                <el-input v-model="ruleForm.customerEmail" placeholder="联系邮箱" clearable></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col>
+              <el-form-item label="联系地址" prop="address" v-model="ruleForm.address">
+                <!-- <el-input v-model="item.contactTypeFlex3"></el-input> -->
+                <checkAddress ref="address" v-model="ruleForm.address" :form="ruleForm.address" />
+              </el-form-item>
+            </el-col>
+          </el-row>
         </div>
 
-      </div>
+        <!-- <div><span class="msg-title">联系人信息</span><el-button type="primary" plain size="small" icon="el-icon-plus">添加联系人</el-button></div> -->
+        <div><span class="msg-title">常用联系人</span></div>
+        <div v-for="(item, index) in tempList" :key="index" style="width:1300px">
+          <div class="toAddcontact">
+            <el-form :model="item" :rules="addRules" ref="addForm" label-width="100px" class="add-ruleForm">
+              <el-row>
+                <el-col :span="10">
+                  <el-form-item label="联系人编号" prop="contactCode">
+                    <el-input v-model="item.contactCode" placeholder="联系人编号" clearable></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                  <el-form-item label="联系人姓名" prop="contactName">
+                    <el-input v-model="item.contactName" placeholder="联系人姓名" clearable></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
 
-      <el-form-item style="display:inline-block;float:right;margin:10px 20%">
-        <el-button type="primary" style="margin:50px 20px;cursor:pointer" @click="save('ruleForm')"
-          v-if="ifCreate == false">保存</el-button>
-        <el-button type="primary" style="margin:50px 20px;cursor:pointer" @click="create('ruleForm')" v-else>立即创建
-        </el-button>
-        <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
-        <el-button style="margin:50px 20px;cursor:pointer" @click="close()">关闭</el-button>
-      </el-form-item>
+              <el-row>
+                <el-col :span="10">
+                  <el-form-item label="联系电话" prop="contactTel">
+                    <el-input v-model="item.contactTel" placeholder="联系电话" clearable></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="10">
+                  <el-form-item label="联系邮箱" prop="contactEmail">
+                    <el-input v-model="item.contactEmail" placeholder="联系邮箱" clearable></el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
 
+              <el-row>
+                <el-col>
+                  <el-form-item label="联系地址" prop="address" v-model="item.address">
+                    <checkAddress ref="address" v-model="item.address" :key="index" :form="item.address" />
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </el-form>
+            <div style="color: #409EFF;float:right">
+              <span style="margin:20px;cursor:pointer" @click="toAdd(index)">添加</span>
+              <span style="margin:20px;cursor:pointer" @click="toDelete(index)" v-if="tempList.length > 1">删除</span>
+            </div>
+          </div>
+
+        </div>
+      </el-row>
+      <el-row>
+        <el-form-item style="display:inline-block;float:right;margin:10px 30%">
+          <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
+          <el-button type="primary" @click="create('ruleForm')" v-else>立即创建
+          </el-button>
+          <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
+          <el-button @click="close()">关闭</el-button>
+        </el-form-item>
+      </el-row>
     </el-form>
 
   </el-drawer>

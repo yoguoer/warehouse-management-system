@@ -1,158 +1,156 @@
 <template>
   <div>
-    <el-drawer size="95%" :title="ifCreate ? '添加商品' : '商品编辑'" :visible.sync="drawer" :direction="direction"
+    <el-drawer size="95%" :title="ifCreate ? '添加商品' : '编辑商品'" :visible.sync="drawer" :direction="direction"
       :close-on-press-escape="false" :show-close="false" :wrapperClosable="false">
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-        <h4 class="msg-title">基础信息</h4>
         <el-row>
-          <el-col :span="7">
-            <el-form-item label="商品名" prop="goodsName">
-              <el-input v-model="ruleForm.goodsName"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="商品货号" prop="goodsCode">
-              <el-input v-model="ruleForm.goodsCode"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="商品条码" prop="goodsBarcode">
-              <el-input v-model="ruleForm.goodsBarcode"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="7">
-            <!-- <el-form-item label="供应商" prop="supplierCode">
-              <el-input v-model="ruleForm.supplierCode"></el-input>
-            </el-form-item> -->
-            <el-form-item label="所属供应商" prop="supplierCode">
-              <el-select size="middle" v-model="ruleForm.supplierCode" placeholder="所属供应商" style="width:405px;">
-                <el-option v-for="item in suplyOptions" :key="item.supplierKey" :label="item.supplierName"
-                  :value="item.supplierCode">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="默认仓库" prop="inventoryCode">
-              <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="默认仓库" style="width:405px;">
-                <el-option v-for="item in options" :key="item.inventoryCode" :label="item.inventoryName"
-                  :value="item.inventoryCode">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="所属分类" v-model="ruleForm.categoryKey" prop="categoryKey" size="middle">
-              <listBoxF>
-                <template slot="content">
-                  <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list"
-                    placeholder="请选择" @select="selectNode" style="width:405px;" />
-                </template>
-              </listBoxF>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="7">
-            <el-form-item label="型号" prop="modelCode">
-              <el-input v-model="ruleForm.modelCode"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="所属品牌" prop="brandCode">
-              <el-select size="middle" v-model="ruleForm.brandCode" placeholder="品牌" style="width:405px;">
-                <el-option v-for="item in options1" :key="item.brandKey" :label="item.brandName"
-                  :value="item.brandCode">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
-            <el-form-item label="状态" prop="state">
-              <el-select size="middle" v-model="ruleForm.state" placeholder="请选择" style="width:405px;">
-                <el-option label="上架" :value="1"></el-option>
-                <el-option label="下架" :value="0"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
+          <h4 class="msg-title">基础信息</h4>
+          <el-row>
+            <el-col :span="7">
+              <el-form-item label="商品名" prop="goodsName">
+                <el-input v-model="ruleForm.goodsName" clearable placeholder="商品名"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-form-item label="商品货号" prop="goodsCode">
+                <el-input v-model="ruleForm.goodsCode" clearable placeholder="商品货号"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-form-item label="商品条码" prop="goodsBarcode">
+                <el-input v-model="ruleForm.goodsBarcode" clearable placeholder="商品条码"></el-input>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="7">
+              <el-form-item label="所属供应商" prop="supplierCode">
+                <el-select size="middle" v-model="ruleForm.supplierCode" placeholder="所属供应商" style="width:100%;">
+                  <el-option v-for="item in suplyOptions" :key="item.supplierKey" :label="item.supplierName"
+                    :value="item.supplierCode" clearable placeholder="所属供应商">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-form-item label="默认仓库" prop="inventoryCode">
+                <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="默认仓库" style="width:100%;">
+                  <el-option v-for="item in options" :key="item.inventoryCode" :label="item.inventoryName" clearable
+                    :value="item.inventoryCode">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-form-item label="所属分类" v-model="ruleForm.categoryKey" prop="categoryKey" size="middle">
+                <listBoxF style="width:100%">
+                  <template slot="content">
+                    <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list" clearable
+                      placeholder="请选择" @select="selectNode" style="width:405px;" />
+                  </template>
+                </listBoxF>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="7">
+              <el-form-item label="型号" prop="modelCode">
+                <el-input v-model="ruleForm.modelCode" clearable placeholder="型号"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-form-item label="所属品牌" prop="brandCode">
+                <el-select size="middle" v-model="ruleForm.brandCode" placeholder="品牌" style="width:100%">
+                  <el-option v-for="item in options1" :key="item.brandKey" :label="item.brandName"
+                    :value="item.brandCode">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="7">
+              <el-form-item label="状态" prop="state">
+                <el-select size="middle" v-model="ruleForm.state" placeholder="请选择" style="width:100%">
+                  <el-option label="上架" :value="1"></el-option>
+                  <el-option label="下架" :value="0"></el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </el-row>
 
-        <el-row>
-          <span class="msg-title">商品单位信息</span>
           <el-row>
-            <el-col :span="7">
-              <el-form-item label="商品单位" prop="goodsUnit">
-                <el-input v-model="ruleForm.goodsUnit"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item label="单位类型" prop="unitType">
-                <el-input v-model="ruleForm.unitType"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item label="换算关系" prop="unitDescription">
-                <el-input v-model="ruleForm.unitDescription"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="7">
-              <el-form-item label="重量：克" prop="weight">
-                <el-input v-model="ruleForm.weight"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item label="体积" prop="volume">
-                <el-input v-model="ruleForm.volume"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item label="账面库存" prop="inventoryBook">
-                <el-input v-model="ruleForm.inventoryBook"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="7">
-              <el-form-item label="批发价" prop="priceWholesaler">
-                <el-input v-model="ruleForm.priceWholesaler"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item label="零售价" prop="priceRetail">
-                <el-input v-model="ruleForm.priceRetail"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item label="参考成本" prop="priceCostReference">
-                <el-input v-model="ruleForm.priceCostReference"></el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="7">
-              <el-form-item label="最近进价" prop="priceLatestPurchase">
-                <el-input v-model="ruleForm.priceLatestPurchase"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item label="成本均价" prop="priceCostAverage">
-                <el-input v-model="ruleForm.priceCostAverage"></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item label="预设进价" prop="priceCostPreset">
-                <el-input v-model="ruleForm.priceCostPreset"></el-input>
-              </el-form-item>
-            </el-col>
+            <span class="msg-title">商品单位信息</span>
+            <el-row>
+              <el-col :span="7">
+                <el-form-item label="商品单位" prop="goodsUnit">
+                  <el-input v-model="ruleForm.goodsUnit" clearable placeholder="商品单位"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item label="单位类型" prop="unitType">
+                  <el-input v-model="ruleForm.unitType" clearable placeholder="单位类型"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item label="换算关系" prop="unitDescription">
+                  <el-input v-model="ruleForm.unitDescription" clearable placeholder="换算关系"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="7">
+                <el-form-item label="重量：克" prop="weight">
+                  <el-input v-model="ruleForm.weight" clearable placeholder="重量：克"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item label="体积" prop="volume">
+                  <el-input v-model="ruleForm.volume" clearable placeholder="体积"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item label="账面库存" prop="inventoryBook">
+                  <el-input v-model="ruleForm.inventoryBook" clearable placeholder="账面库存"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="7">
+                <el-form-item label="批发价" prop="priceWholesaler">
+                  <el-input v-model="ruleForm.priceWholesaler" clearable placeholder="批发价"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item label="零售价" prop="priceRetail">
+                  <el-input v-model="ruleForm.priceRetail" clearable placeholder="零售价"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item label="参考成本" prop="priceCostReference">
+                  <el-input v-model="ruleForm.priceCostReference" clearable placeholder="参考成本"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-row>
+              <el-col :span="7">
+                <el-form-item label="最近进价" prop="priceLatestPurchase">
+                  <el-input v-model="ruleForm.priceLatestPurchase" clearable placeholder="最近进价"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item label="成本均价" prop="priceCostAverage">
+                  <el-input v-model="ruleForm.priceCostAverage" clearable placeholder="成本均价"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :span="7">
+                <el-form-item label="预设进价" prop="priceCostPreset">
+                  <el-input v-model="ruleForm.priceCostPreset" clearable placeholder="预设进价"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </el-row>
         </el-row>
-
-        <el-row style="width: 1200px">
-          <el-form-item style="float: right; margin-top: 5%">
+        <el-row>
+          <el-form-item style="display:inline-block;float:right;margin:10px 30%">
             <el-button type="primary" @click="update('ruleForm')" v-if="ifCreate == false">保存</el-button>
             <el-button type="primary" @click="save('ruleForm')" v-else>立即创建</el-button>
             <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
@@ -516,6 +514,7 @@ export default {
 
   .add-ruleForm {
     padding: 50px 80px 10px 80px;
+    width:100%;
   }
 }
 </style>

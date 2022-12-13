@@ -3,49 +3,50 @@
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-
       <el-row>
-        <el-col :span="5">
-          <el-form-item label="车辆编码" prop="vehicleCode">
-            <el-input v-model="ruleForm.vehicleCode"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="载重" prop="maxWeight">
-            <el-input v-model="ruleForm.maxWeight" type="Number"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="车型" prop="vehicleType">
-            <el-input v-model="ruleForm.vehicleType"></el-input>
-          </el-form-item>
-        </el-col>
+        <el-row>
+          <el-col :span="5">
+            <el-form-item label="车辆编码" prop="vehicleCode">
+              <el-input v-model="ruleForm.vehicleCode" clearable placeholder="车辆编码"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="车型" prop="vehicleType">
+              <el-input v-model="ruleForm.vehicleType" clearable placeholder="车型"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="载重" prop="maxWeight">
+              <el-input v-model="ruleForm.maxWeight" type="Number" clearable placeholder="载重"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="5">
+            <el-form-item label="装货体积" prop="maxCapacity">
+              <el-input v-model="ruleForm.maxCapacity" type="Number" clearable placeholder="装货体积"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="详细说明" prop="detail">
+              <el-input v-model="ruleForm.detail" clearable placeholder="详细说明"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="5">
+            <el-form-item label="备注" prop="description">
+              <el-input v-model="ruleForm.description" clearable placeholder="备注"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-row>
       <el-row>
-        <el-col :span="5">
-          <el-form-item label="装货体积" prop="maxCapacity">
-            <el-input v-model="ruleForm.maxCapacity" type="Number"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="详细说明" prop="detail">
-            <el-input v-model="ruleForm.detail"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="5">
-          <el-form-item label="备注" prop="description">
-            <el-input v-model="ruleForm.description"></el-input>
-          </el-form-item>
-        </el-col>
+        <el-form-item style="display:inline-block;float:right;margin:10px 40%">
+          <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
+          <el-button type="primary" @click="create('ruleForm')" v-else>立即创建</el-button>
+          <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
+          <el-button @click="close()">关闭</el-button>
+        </el-form-item>
       </el-row>
-
-      <el-form-item style="display:inline-block;float:right;margin:10px 40%">
-        <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
-        <el-button type="primary" @click="create('ruleForm')" v-else>立即创建</el-button>
-        <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
-        <el-button @click="close()">关闭</el-button>
-      </el-form-item>
-
     </el-form>
 
   </el-drawer>

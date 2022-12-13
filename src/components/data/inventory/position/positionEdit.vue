@@ -7,24 +7,24 @@
           <el-row>
             <el-col :span="10">
               <el-form-item label="货位编号:" prop="positionCode">
-                <el-input v-model="form.positionCode" class="form_text" placeholder="货位编号"></el-input>
+                <el-input v-model="form.positionCode" class="form_text" placeholder="货位编号" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="最大容量(m3):" prop="maxCapacity">
-                <el-input v-model="form.maxCapacity" type="Number" class="form_text" placeholder="最大容量(m3)"></el-input>
+                <el-input v-model="form.maxCapacity" type="Number" class="form_text" placeholder="最大容量(m3)" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="10">
               <el-form-item label="最大重量" prop="maxWeight">
-                <el-input v-model="form.maxWeight" type="Number" class="form_text" placeholder="最大重量"></el-input>
+                <el-input v-model="form.maxWeight" type="Number" class="form_text" placeholder="最大重量" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="货位类型" prop="positionType">
-                <el-select size="mini" v-model="form.positionType" placeholder="请选择" style="width: 350px">
+                <el-select size="mini" v-model="form.positionType" placeholder="请选择" style="width: 350px" clearable>
                   <el-option label="存储位" value="store"></el-option>
                   <el-option label="集货位" value="assemble"></el-option>
                 </el-select>
@@ -34,7 +34,7 @@
           <el-row>
             <el-col :span="10">
               <el-form-item label="所属仓库:" prop="inventoryKey">
-                <el-select size="middle" v-model="form.inventoryKey" placeholder="所属仓库" style="width:350px;"
+                <el-select size="middle" v-model="form.inventoryKey" placeholder="所属仓库" style="width:350px;" clearable
                   @change="getdistrictlist()">
                   <el-option v-for="item in options1" :key="item.inventoryKey" :label="item.inventoryName"
                     :value="item.inventoryKey">
@@ -44,8 +44,8 @@
             </el-col>
             <el-col :span="10">
               <el-form-item label="所属区域:" prop="inventoryDistrictkey">
-                <el-select size="middle" v-model="form.inventoryDistrictkey" placeholder="所属区域" style="width:350px;">
-                  <el-option v-for="item in options2" :key="item.inventoryDistrictkey" :label="item.districtCode"
+                <el-select size="middle" v-model="form.inventoryDistrictkey" placeholder="所属区域" style="width:350px;" clearable>
+                  <el-option v-for="item in options2" :key="item.inventoryDistrictkey" :label="item.districtName"
                     :value="item.inventoryDistrictkey">
                   </el-option>
                 </el-select>
@@ -54,7 +54,7 @@
           </el-row>
           <el-row>
             <el-form-item label="备注:" prop="description">
-              <el-input v-model="form.description" type="textarea" class="form_text" placeholder="备注"></el-input>
+              <el-input v-model="form.description" type="textarea" class="form_text" placeholder="备注" clearable></el-input>
             </el-form-item>
           </el-row>
         </el-form>
