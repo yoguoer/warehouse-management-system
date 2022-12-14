@@ -15,6 +15,9 @@
         <el-col :span="5">
           <span>电话: {{ row.tel }}</span>
         </el-col>
+        <el-col :span="5">
+          <span>所属分类: {{ row.categoryName }}</span>
+        </el-col>
       </el-row>
       <el-row>
         <el-tabs type="card" v-model="activeName" @tab-click="handleClick">

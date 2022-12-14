@@ -10,7 +10,7 @@
           <span>供应商名称: {{ row.supplierName }}</span>
         </el-col>
         <el-col :span="5">
-          <span>所属分类: {{ row.categoryKey }}</span>
+          <span>所属分类: {{ row.categoryName }}</span>
         </el-col>
         <el-col :span="5">
           <span>备注: {{ row.superlierDescription }}</span>

@@ -31,9 +31,9 @@
         </el-table-column>
         <el-table-column prop="goodsCode" label="商品货号" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="inventoryKey" label="默认仓库" :show-overflow-tooltip="true">
+        <el-table-column prop="inventoryName" label="默认仓库" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="supplierKey" label="供应商" :show-overflow-tooltip="true">
+        <el-table-column prop="supplierName" label="所属供应商" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column prop="brandCode" label="所属品牌" :show-overflow-tooltip="true">
         </el-table-column>
@@ -42,6 +42,8 @@
         </el-table-column>
         <!-- <el-table-column prop="goodsHeadPic" label="商品头图">
         </el-table-column> -->
+        <el-table-column prop="categoryName" label="所属分类" :show-overflow-tooltip="true">
+        </el-table-column>
         <el-table-column prop="createTime" label="添加时间" :show-overflow-tooltip="true">
           <template slot-scope="scope">{{ scope.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</template>
         </el-table-column>

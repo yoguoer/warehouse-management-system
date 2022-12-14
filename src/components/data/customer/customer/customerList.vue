@@ -33,6 +33,8 @@
             </span>
           </template>
         </el-table-column>
+        <el-table-column prop="categoryName" label="所属分类">
+        </el-table-column>
         <el-table-column width="200px" fixed="right" label="操作">
           <template slot-scope="scope">
             <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>

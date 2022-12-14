@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { supplierInventoryUpdate, supplierInventoryAdd } from '@/api/data'
+// import { supplierInventoryUpdate, supplierInventoryAdd } from '@/api/data'
 
 export default {
   name: 'guestEdit',

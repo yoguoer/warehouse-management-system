@@ -51,6 +51,8 @@
           </template>
         </el-table-column>
         <el-table-column prop="description" label="备注" :show-overflow-tooltip="true"> </el-table-column>
+        <el-table-column prop="categoryName" label="所属分类">
+        </el-table-column>
         <el-table-column fixed="right" width="210px" label="操作">
           <template slot-scope="scope">
             <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
