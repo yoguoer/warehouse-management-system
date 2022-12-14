@@ -43,8 +43,8 @@
 <script>
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import TableList from "@/components/public/tableList";
-import addsku from '@/components/suppliers/stockManagement/addsku.vue';
-import inputInfo from '@/components/suppliers/stockManagement/inputInfo.vue';
+import addsku from '@/components/store/suppliers/stockManagement/addsku.vue';
+import inputInfo from '@/components/store/suppliers/stockManagement/inputInfo.vue';
 export default {
   components: { reloadAndsearch, TableList, addsku, inputInfo },
   data() {

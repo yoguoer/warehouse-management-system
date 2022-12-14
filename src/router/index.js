@@ -421,6 +421,7 @@ const routes = [{
         },
         component: () => import('@/views/store/Index.vue')
       },
+
       //库存-供应商库存
       {
         path: '/store/suppliers',
@@ -446,7 +447,7 @@ const routes = [{
       {
         path: '/store/suppliers/warehouseConfig',
         name: 'warehouseConfig',
-        component: () => import('@/views/store/suppliers/warehouseConfig/Index.vue')
+        component: () => import('@/components/store/suppliers/warehouseConfig/configList.vue')
       },
       //库存-零售商库存    
       {

@@ -112,10 +112,10 @@
                   @click="searchForm()">
                   搜索
                 </el-button>
-                <el-button @click="resetForm" size="small" icon="el-icon-sort" type="warning">重置</el-button>
-                <el-button type="success" size="small" icon="el-icon-plus" @click="add"
+                <el-button @click="resetForm()" size="small" icon="el-icon-sort" type="warning">重置</el-button>
+                <el-button type="success" size="small" icon="el-icon-plus" @click="add()"
                   :style="{ display: hidden ? 'none' : 'inline' }">新增</el-button>
-                <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList">删除</el-button>
+                <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
                 <el-button type="text" @click="moreFilter" size="small" v-if="isSearchRows">{{ isShowMore ? '收起' : '展开'
                 }}查询</el-button>
                 <!-- <el-button type="danger" size="small" icon="el-icon-refresh" @click="reload">刷新</el-button> -->
