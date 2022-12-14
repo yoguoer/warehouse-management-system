@@ -6,7 +6,7 @@ public class Inventory {
     private String inventoryCode; //仓库编号
     private String inventoryKey;
     private String inventoryName; //仓库名
-    private Integer inventoryType; //仓库类型：WAREHOUSE：仓库，CAR：车辆
+    private Integer inventoryType; //仓库类型：1.供应商仓库 2.门店仓 3.大仓 4.渠道仓 5.直发仓
     private String tel; //电话
     private String zipCode; //邮编
     private String province;//省
