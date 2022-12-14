@@ -14,6 +14,11 @@
         <result property="city" column="city" jdbcType="VARCHAR"/>
         <result property="district" column="district" jdbcType="VARCHAR"/>
         <result property="detail" column="detail" jdbcType="VARCHAR"/>
+
+        <association property="categoryName" javaType="String"
+                     column="{categoryKey=category_key}"
+                     select="com.example.api_project.mapper.CategoryMapper.queryNameById">
+        </association>
     </resultMap>
 
     <!--查询全部-->
@@ -33,12 +38,11 @@
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CustomerMap">
-        select
-          category_key, customer_key, customer_name, customer_code, customer_email, customer_tel, customer_address,province, city, district, detail
-        from customer
+        select customer.*, category.category_name
+        from customer join category on customer.category_key = category.category_key
         <where>
             <if test="categoryKey != null and categoryKey != ''">
-                and category_key = #{categoryKey,jdbcType=INTEGER}
+                and customer.category_key = #{categoryKey,jdbcType=INTEGER}
             </if>
             <if test="customerName != null and customerName != ''">
                 and customer_name like concat('%', #{customerName}, '%')

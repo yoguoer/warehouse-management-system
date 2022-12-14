@@ -12,6 +12,15 @@ public class Supplier {
     public List<SupplierBilling> supplierBillingList;//开票信息
     public List<SupplierAddress> supplierAddressList;//联系地址
     public List<Contact> supplierContactList;//联系人
+    private String categoryName;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 
     public String getSupplierCode() {
         return supplierCode;

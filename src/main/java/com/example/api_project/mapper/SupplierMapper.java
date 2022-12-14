@@ -14,6 +14,9 @@ import java.util.List;
  */
 public interface SupplierMapper {
 
+    //    根据id查供应商名称
+    String queryNameById(String supplierKey);
+
     /**
      * 通过ID查询单条数据
      *

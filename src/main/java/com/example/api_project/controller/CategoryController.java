@@ -6,6 +6,7 @@ import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
 import com.example.api_project.pojo.Category;
 import com.example.api_project.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -23,7 +24,7 @@ public class CategoryController {
     /**
      * 服务对象
      */
-    @Resource
+    @Autowired
     private CategoryService categoryService;
 
     /**

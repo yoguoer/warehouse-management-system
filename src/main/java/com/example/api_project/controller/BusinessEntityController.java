@@ -5,6 +5,7 @@ import com.example.api_project.model.Result;
 import com.example.api_project.pojo.Brand;
 import com.example.api_project.pojo.BusinessEntity;
 import com.example.api_project.service.BusinessEntityService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -20,7 +21,7 @@ public class BusinessEntityController {
     /**
      * 服务对象
      */
-    @Resource
+    @Autowired
     private BusinessEntityService businessEntityService;
 
     /**

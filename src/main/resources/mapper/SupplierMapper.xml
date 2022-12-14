@@ -8,6 +8,11 @@
         <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
         <result property="categoryKey" column="category_key" jdbcType="VARCHAR"/>
         <result property="superlierDescription" column="superlier_description" jdbcType="VARCHAR"/>
+
+        <association property="categoryName" javaType="String"
+                     column="{categoryKey=category_key}"
+                     select="com.example.api_project.mapper.CategoryMapper.queryNameById">
+        </association>
     </resultMap>
 
     <!--查询全部-->
@@ -31,11 +36,18 @@
         where supplier_key = #{supplierKey}
     </select>
 
+    <!--查询供应商名单个-->
+    <select id="queryNameById" resultType="String">
+        select
+            supplier_name
+        from supplier
+        where supplier_key = #{supplierKey}
+    </select>
+
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="SupplierMap">
-        select
-        supplier_key, supplier_name, supplier_code, category_key, superlier_description
-        from supplier
+        select supplier.*, category.category_name
+        from supplier join category on supplier.category_key = category.category_key
         <where>
             <if test="supplierName != null and supplierName != ''">
                 and supplier_name like concat('%', #{supplierName}, '%')
@@ -44,7 +56,7 @@
                 and supplier_code like concat('%', #{supplierCode}, '%')
             </if>
             <if test="categoryKey != null and categoryKey != ''">
-                and category_key = #{categoryKey}
+                and supplier.category_key = #{categoryKey}
             </if>
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}

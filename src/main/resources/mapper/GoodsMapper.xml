@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.api_project.mapper.GoodsMapper">
-
     <resultMap type="com.example.api_project.pojo.Goods" id="GoodsMap">
         <result property="goodsKey" column="goods_key" jdbcType="VARCHAR"/>
         <result property="brandCode" column="brand_code" jdbcType="VARCHAR"/>
@@ -26,6 +25,20 @@
         <result property="inventoryBook" column="inventory_book" jdbcType="INTEGER"/>
         <result property="priceRetail" column="price_retail" jdbcType="INTEGER"/>
         <result property="priceWholesaler" column="price_wholesaler" jdbcType="INTEGER"/>
+
+        <association property="categoryName" javaType="String"
+                     column="{categoryKey=category_key}"
+                     select="com.example.api_project.mapper.CategoryMapper.queryNameById">
+        </association>
+        <association property="supplierName" javaType="String"
+                     column="{inventoryKey=inventory_key}"
+                     select="com.example.api_project.mapper.InventoryMapper.queryNameById">
+        </association>
+        <association property="inventoryName" javaType="String"
+                     column="{supplierKey=supplier_key}"
+                     select="com.example.api_project.mapper.SupplierMapper.queryNameById">
+        </association>
+
     </resultMap>
 
     <!--查询所有-->
@@ -89,17 +102,22 @@
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="GoodsMap">
-        select
-        goods_key, brand_code,goods_name, model_code, goods_code, goods_unit, inventory_key, price_cost_average, price_cost_preset,
-        price_cost_reference, price_latest_purchase, goods_barcode, create_time, state, category_key, unit_description,
-        weight, volume, supplier_key, unit_type, inventory_book, price_retail, price_wholesaler
-        from goods
+        select goods.*, category.category_name, supplier.supplier_name, inventory.inventory_name
+        from goods join category on goods.category_key = category.category_key
+            join supplier on goods.supplier_key = supplier.supplier_key
+            join inventory on goods.inventory_key = inventory.inventory_key
         <where>
             <if test="goodsName != null and goodsName != ''">
                 and goods_name like concat('%', #{goodsName}, '%')
             </if>
             <if test="categoryKey != null and categoryKey != ''">
-                and category_key = #{categoryKey}
+                and goods.category_key = #{categoryKey}
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                and goods.inventory_key = #{inventoryKey}
+            </if>
+            <if test="supplierKey != null and supplierKey != ''">
+                and goods.supplier_key = #{supplierKey}
             </if>
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}

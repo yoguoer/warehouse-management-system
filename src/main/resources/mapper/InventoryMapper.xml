@@ -17,6 +17,11 @@
         <result property="detail" column="detail" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
+
+        <association property="categoryName" javaType="String"
+                     column="{categoryKey=category_key}"
+                     select="com.example.api_project.mapper.CategoryMapper.queryNameById">
+        </association>
     </resultMap>
 
     <!--查询所有（不分页）-->
@@ -60,6 +65,14 @@
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
+    <!--查询仓库名单个-->
+    <select id="queryNameById" resultType="String">
+        select
+            inventory_name
+        from inventory
+        where inventory_key = #{inventoryKey}
+    </select>
+
     <!--查询单个-->
     <select id="queryById" resultMap="InventoryMap">
         select category_key,
@@ -82,13 +95,11 @@
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="InventoryMap">
-        select
-        category_key, contact_name, inventory_code, inventory_key, inventory_name, inventory_type, tel, zip_code,
-        province, city, district, detail, description,status
-        from inventory
+        select inventory.*, category.category_name
+        from inventory join category on inventory.category_key = category.category_key
         <where>
             <if test="categoryKey != null and categoryKey != ''">
-                and category_key = #{categoryKey}
+                and inventory.category_key = #{categoryKey}
             </if>
             <if test="inventoryName != null and inventoryName != ''">
                 and inventory_name like concat('%', #{inventoryName}, '%')

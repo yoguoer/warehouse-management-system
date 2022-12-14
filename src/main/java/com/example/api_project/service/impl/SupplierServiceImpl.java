@@ -91,26 +91,26 @@ public class SupplierServiceImpl implements SupplierService {
             String categoryKey=supplier.getCategoryKey();
             records = this.supplierMapper.queryAllByLimit(supplierName,supplierCode,categoryKey,startRows, pageSize);
         }
-//        String categoryKey=supplier.getCategoryKey();
-//        List<Supplier> records = this.supplierMapper.queryAllByLimit(supplierName,supplierCode,categoryKey,startRows, pageSize);
-        for (Supplier item : records) {
-            //获取联系人列表
-            String contactSupplierKey= item.getSupplierKey();
-            List<Contact> supplierContactList=this.contactMapper.queryBySupplierKey(contactSupplierKey);
-            if(null!=supplierContactList) {
-                item.setSupplierContactList(supplierContactList);
-            }
-            //获取地址列表
-            String supplierAddressKey= item.getSupplierKey();
-            List<SupplierAddress> supplierAddressList=this.supplierAddressMapper.queryBySupplierKey(supplierAddressKey);
-            if(null!=supplierAddressList) {
-                item.setSupplierAddressList(supplierAddressList);
-            }
-            //获取开票信息列表
-            String supplierBillingCode= item.getSupplierCode();
-            List<SupplierBilling> supplierBillingList=this.supplierBillingMapper.queryBySupplierKey(supplierBillingCode);
-            if(null!=supplierBillingList) {
-                item.setSupplierBillingList(supplierBillingList);
+        if(records!=null){
+            for (Supplier item : records) {
+                //获取联系人列表
+                String contactSupplierKey= item.getSupplierKey();
+                List<Contact> supplierContactList=this.contactMapper.queryBySupplierKey(contactSupplierKey);
+                if(null!=supplierContactList) {
+                    item.setSupplierContactList(supplierContactList);
+                }
+                //获取地址列表
+                String supplierAddressKey= item.getSupplierKey();
+                List<SupplierAddress> supplierAddressList=this.supplierAddressMapper.queryBySupplierKey(supplierAddressKey);
+                if(null!=supplierAddressList) {
+                    item.setSupplierAddressList(supplierAddressList);
+                }
+                //获取开票信息列表
+                String supplierBillingCode= item.getSupplierCode();
+                List<SupplierBilling> supplierBillingList=this.supplierBillingMapper.queryBySupplierKey(supplierBillingCode);
+                if(null!=supplierBillingList) {
+                    item.setSupplierBillingList(supplierBillingList);
+                }
             }
         }
         Map<String,Object> res = new HashMap<>();

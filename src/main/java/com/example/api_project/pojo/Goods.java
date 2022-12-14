@@ -26,12 +26,32 @@ public class Goods {
     private String weight;//重量：克
     private String volume;//体积
 
-    public String getBrandCode() {
-        return brandCode;
+    private String categoryName;
+    private String supplierName;
+    private String inventoryName;
+
+    public String getSupplierName() {
+        return supplierName;
     }
 
-    public void setBrandCode(String brandCode) {
-        this.brandCode = brandCode;
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public String getInventoryName() {
+        return inventoryName;
+    }
+
+    public void setInventoryName(String inventoryName) {
+        this.inventoryName = inventoryName;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getGoodsName() {
@@ -90,11 +110,11 @@ public class Goods {
         this.state = state;
     }
 
-    public String getsupplierKey() {
+    public String getSupplierKey() {
         return supplierKey;
     }
 
-    public void setsupplierKey(String supplierKey) {
+    public void setSupplierKey(String supplierKey) {
         this.supplierKey = supplierKey;
     }
 
@@ -106,11 +126,19 @@ public class Goods {
         this.categoryKey = categoryKey;
     }
 
-    public String getinventoryKey() {
+    public String getBrandCode() {
+        return brandCode;
+    }
+
+    public void setBrandCode(String brandCode) {
+        this.brandCode = brandCode;
+    }
+
+    public String getInventoryKey() {
         return inventoryKey;
     }
 
-    public void setinventoryKey(String inventoryKey) {
+    public void setInventoryKey(String inventoryKey) {
         this.inventoryKey = inventoryKey;
     }
 

@@ -29,6 +29,15 @@
         where category_key = #{categoryKey}
     </select>
 
+    <!--查询分类名单个-->
+    <select id="queryNameById" resultType="String">
+        select
+            category_name
+        from category
+        where category_key = #{categoryKey}
+    </select>
+
+
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CategoryMap">
         select

@@ -28,6 +28,9 @@ public interface CategoryMapper {
      */
     Category queryById(String categoryKey);
 
+    //    根据id查分类名称
+    String queryNameById(String categoryKey);
+
     /**
      * 查询指定行数据
      *

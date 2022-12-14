@@ -15,6 +15,15 @@ public class Inventory {
     private String detail;//具体地址
     private String description; //备注
     private Integer status; //状态
+    private String categoryName;
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
 
     public String getCategoryKey() {
         return categoryKey;

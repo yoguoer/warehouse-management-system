@@ -27,7 +27,7 @@
     </select>
 
     <!--分页查询所有-->
-    <select id="getListPage" resultMap="BrandMap">
+    <select id="getListPage" resultType="Brand">
         select brand_name,
                brand_key,
                brand_code

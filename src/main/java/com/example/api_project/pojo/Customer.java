@@ -27,10 +27,18 @@ public class Customer {
      * 详细地址
      */
     private String detail;
-
+    private String categoryName;
 
     public List<Contact> getCustomerContactList() {
         return customerContactList;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public void setCustomerContactList(List<Contact> customerContactList) {

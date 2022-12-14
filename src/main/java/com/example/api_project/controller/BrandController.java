@@ -3,7 +3,6 @@ package com.example.api_project.controller;
 import com.example.api_project.pojo.Brand;
 import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
-import com.example.api_project.pojo.SupplierBilling;
 import com.example.api_project.service.BrandService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

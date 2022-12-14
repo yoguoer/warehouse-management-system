@@ -19,3 +19,5 @@ pagehelper:
   params: count=countSql
 mybatis:
   mapper-locations: mapper/*.xml
+  map-underscore-to-camel-case : true
+  type-aliases-package: com.example.api_project.pojo

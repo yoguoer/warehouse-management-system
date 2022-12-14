@@ -13,6 +13,9 @@ import java.util.List;
  */
 public interface InventoryMapper {
 
+    //    根据id查仓库名称
+    String queryNameById(String inventoryKey);
+
     /**
      * 查询指全部数据
      * 不分页
