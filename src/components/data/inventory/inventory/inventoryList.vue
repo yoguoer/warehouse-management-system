@@ -33,9 +33,7 @@
                 : (scope.row.inventoryType == 2 ? '门店仓'
                   : (scope.row.inventoryType == 3 ? '大仓'
                     : (scope.row.inventoryType == 4 ? '渠道仓'
-                      : (scope.row.inventoryType == 5 ? '直发仓'
-                        : (scope.row.inventoryType == 6 ? '渠道共享仓' : '-')))))
-            }}</span>
+                      : (scope.row.inventoryType == 5 ? '直发仓':'-'))))}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="contactName" label="联系人"></el-table-column>

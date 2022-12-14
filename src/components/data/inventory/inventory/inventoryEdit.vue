@@ -23,14 +23,13 @@
                   <el-radio label="WAREHOUSE" value="WAREHOUSE" style="margin-right: 20px">仓库</el-radio>
                   <el-radio label="CAR" value="CAR">车辆</el-radio>
                 </el-radio-group> -->
-                <!-- 1.供应商仓库 2.门店仓 3.大仓 4.渠道仓 5.直发仓 6.渠道共享仓 -->
+                <!-- 1.供应商仓库 2.门店仓 3.大仓 4.渠道仓 5.直发仓 -->
                 <el-select size="mini" v-model="form.inventoryType" placeholder="请选择" style="width: 350px" clearable>
                   <el-option label="供应商仓库" :value="1"></el-option>
                   <el-option label="门店仓" :value="2"></el-option>
                   <el-option label="大仓" :value="3"></el-option>
                   <el-option label="渠道仓" :value="4"></el-option>
                   <el-option label="直发仓" :value="5"></el-option>
-                  <el-option label="渠道共享仓" :value="6"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
