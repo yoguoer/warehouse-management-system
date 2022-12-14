@@ -93,7 +93,7 @@ export default {
           { required: true, message: '请输入区域名称', trigger: 'blur' },
         ],
         inventoryKey: [
-          { required: true, message: '请输入品牌编号', trigger: 'blur' },
+          { required: true, message: '请选择所属仓库', trigger: 'blur' },
         ],
         sort: [
           { required: true, message: '请输入排序', trigger: 'blur' },

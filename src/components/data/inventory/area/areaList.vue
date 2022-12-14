@@ -49,6 +49,8 @@
             <el-tag type="danger" size="medium" v-if="scope.row.status == 3">停用</el-tag>
           </template>
         </el-table-column>
+        <el-table-column prop="inventoryKey" label="所属仓库">
+        </el-table-column>
         <el-table-column prop="description" label="备注">
         </el-table-column>
         <el-table-column fixed="right" width="210px" label="操作">

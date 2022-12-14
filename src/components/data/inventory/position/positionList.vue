@@ -47,6 +47,8 @@
         </el-table-column>
         <el-table-column prop="maxCapacity" label="最大容量(m3)">
         </el-table-column>
+        <el-table-column prop="inventoryDistrictkey" label="所属区域">
+        </el-table-column>
         <el-table-column prop="description" label="备注">
         </el-table-column>
         <el-table-column fixed="right" width="210px" label="操作" style="margin-top: -10px!important;">
