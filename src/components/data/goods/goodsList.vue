@@ -21,15 +21,15 @@
         @selection-change="handleSelectionDelete" style="width: auto; margin-top: 20px"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="goodsKey" label="商品ID" :show-overflow-tooltip="true">
-        </el-table-column>
-        <el-table-column prop="goodsBarcode" label="商品条码" :show-overflow-tooltip="true">
+        <!-- <el-table-column prop="goodsKey" label="商品ID" :show-overflow-tooltip="true">
+        </el-table-column> -->
+        <el-table-column prop="goodsCode" label="商品货号" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column prop="goodsName" label="商品名" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="modelCode" label="型号" :show-overflow-tooltip="true">
+        <el-table-column prop="goodsBarcode" label="商品条码" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="goodsCode" label="商品货号" :show-overflow-tooltip="true">
+        <el-table-column prop="modelCode" label="型号" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column prop="inventoryName" label="默认仓库" :show-overflow-tooltip="true">
         </el-table-column>
