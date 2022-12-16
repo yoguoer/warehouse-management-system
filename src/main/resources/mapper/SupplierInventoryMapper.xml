@@ -117,6 +117,9 @@
             <if test="belongKey != null and belongKey != ''">
                 belong_key = #{belongKey},
             </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
         </set>
         where inventory_key = #{inventoryKey}
     </update>
