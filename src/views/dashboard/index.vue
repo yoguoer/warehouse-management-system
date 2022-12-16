@@ -34,7 +34,7 @@
                 <i class="el-icon-arrow-down el-icon--right"></i>
               </span>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="userManage" v-if="role == 0">管理用户</el-dropdown-item>
+                <el-dropdown-item command="userManage" v-if="userType == 0">管理用户</el-dropdown-item>
                 <el-dropdown-item command="appUser">用户信息</el-dropdown-item>
                 <el-dropdown-item command="logout">退出</el-dropdown-item>
               </el-dropdown-menu>
@@ -91,7 +91,7 @@ export default {
       openMenu: openMenu,
       closeMenu: closeMenu,
       userName: "", // 用户名
-      role: "",//角色
+      userType: "",//角色
       selOneMenu: '',
       menuState: 'close',//左侧菜单状态
       menuList: [],
@@ -106,17 +106,17 @@ export default {
     this.menuList = menu.menu
     console.log("菜单：", this.menuList)
     let user = JSON.parse(localStorage.getItem("userInfo"))
-    this.role = user.userType
+    this.userType = user.userType
     this.userName = user.userName
     // getUserInfo(user).then(res => {
     //     let userInfo=res.data.data||[]
-    //     this.role=userInfo.userType
+    //     this.userType=userInfo.userType
     //     this.userName=userInfo.userName
     //     console.log(this.userInfo)
     //   }).catch(err => {
     //       console.log(err);
     // });
-    console.log('用户角色', this.role)
+    console.log('用户角色', this.userType)
     //处理刷新后活跃标签信息丢失的问题
     if (sessionStorage.getItem("selOneMenu")) {
       this.selOneMenu = sessionStorage.getItem("selOneMenu")

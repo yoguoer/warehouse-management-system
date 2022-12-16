@@ -170,7 +170,6 @@ import configEdit from "./configEdit";
       handleSelectionDelete(val) {
         this.multipleSelection = val
       },
-      //根据 userId 批量删除用户
       handleDeleteList() {
         if (this.multipleSelection.length > 0) {
           let supplierInventoryKeys = [];
