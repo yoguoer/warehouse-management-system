@@ -9,7 +9,8 @@
             <el-tag type="danger" size="medium" v-if="props.row.status == 2">关仓</el-tag>
           </template>
           <template v-slot:column-todo="props">
-            <!-- <el-button class="prohibitclick" @click="editRow(props.row)" type="text" size="small">编辑</el-button> -->
+            <el-button class="prohibitclick" @click="setClose(props.row)" type="text" size="small" v-if="props.row.status == 1">设为关仓</el-button>
+            <el-button class="prohibitclick" @click="setOpen(props.row)" type="text" size="small" v-if="props.row.status == 2">设为正常</el-button>
             <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small">删除</el-button>
           </template>
         </TableList>
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import { supplierInventoryListPage, supplierInventoryDelete, supplierInventoryDeleteList } from "@/api/warehouse";
+import { supplierInventoryListPage, supplierInventoryDelete, supplierInventoryDeleteList,SupplierInventoryUpdate } from "@/api/warehouse";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import configEdit from "./configEdit";
@@ -161,10 +162,37 @@ import configEdit from "./configEdit";
           }
         });
       },
-      editRow(row) {
-        console.log("edit")
-        this.rowData = row
-        this.drawer = true
+      setClose(row) {
+        let ruleForm={
+        belongKey: row.supplierKey,
+        inventoryKey: row.inventoryKey,
+        status:2
+       }
+      SupplierInventoryUpdate(ruleForm).then(res => {
+            if (res.data.code == 200) {
+              this.$message.success("编辑成功!");
+              this.getTableData()
+              this.$forceUpdate()
+            } else {
+              this.$message.error("编辑失败!");
+            }
+          })
+      },
+      setOpen(row) {
+        let ruleForm={
+        belongKey: row.supplierKey,
+        inventoryKey: row.inventoryKey,
+        status:1
+       }
+      SupplierInventoryUpdate(ruleForm).then(res => {
+            if (res.data.code == 200) {
+              this.$message.success("编辑成功!");
+              this.getTableData()
+              this.$forceUpdate()
+            } else {
+              this.$message.error("编辑失败!");
+            }
+          })
       },
       success() {
         this.drawer = false;
@@ -175,7 +203,8 @@ import configEdit from "./configEdit";
         this.getTableData()
       },
       add() {
-        this.editRow({})
+        this.rowData = {}
+        this.drawer = true
       },
       //批量删除选择
       handleSelectionDelete(val) {
