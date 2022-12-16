@@ -15,9 +15,9 @@
         <result property="city" column="city" jdbcType="VARCHAR"/>
         <result property="district" column="district" jdbcType="VARCHAR"/>
         <result property="detail" column="detail" jdbcType="VARCHAR"/>
+        <result property="belongKey" column="belong_key" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
-        <result property="belongKey" column="belong_key" jdbcType="VARCHAR"/>
 
         <association property="categoryName" javaType="String"
                      column="{categoryKey=category_key}"
@@ -40,7 +40,8 @@
                district,
                detail,
                description,
-               status
+               status,
+               belong_key
         from inventory
         order by inventory_key desc
     </select>
