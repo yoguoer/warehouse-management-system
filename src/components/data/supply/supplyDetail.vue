@@ -83,7 +83,7 @@ export default {
   },
   created() {
     console.log("详情rowData", this.rowData)
-    this.row = this.rowData
+    this.row.belongKey = this.rowData.supplierKey
     this.contactList = this.rowData.supplierContactList
     this.addressList = this.rowData.supplierAddressList
     this.bankList = this.rowData.supplierBillingList

@@ -9,9 +9,9 @@
             <el-tag type="danger" size="medium" v-if="props.row.status == 2">关仓</el-tag>
           </template>
           <template v-slot:column-todo="props">
-            <el-button class="prohibitclick" @click="setClose(props.row)" type="text" size="small" v-if="props.row.status == 1">设为关仓</el-button>
-            <el-button class="prohibitclick" @click="setOpen(props.row)" type="text" size="small" v-if="props.row.status == 2">设为正常</el-button>
-            <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small">删除</el-button>
+            <el-button class="prohibitclick" @click="setClose(props.row)" type="text" size="small" v-if="props.row.status == 1" icon="el-icon-moon">设为关仓</el-button>
+            <el-button class="prohibitclick" @click="setOpen(props.row)" type="text" size="small" v-if="props.row.status == 2"  icon="el-icon-sunny">设为正常</el-button>
+            <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small" icon="el-icon-document">删除</el-button>
           </template>
         </TableList>
       </div>

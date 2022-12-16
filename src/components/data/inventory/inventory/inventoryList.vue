@@ -167,7 +167,7 @@ export default {
       this.$forceUpdate()
     },
     getInventorylistPage() {
-      inventorylistPage({ inventoryName: "", page: this.pageNo, size: this.pageSize }).then(
+      inventorylistPage({ page: this.pageNo, size: this.pageSize }).then(
         (res) => {
           this.list = res.data.data.records;
           this.total = res.data.data.total;
