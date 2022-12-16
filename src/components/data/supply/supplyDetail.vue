@@ -27,6 +27,9 @@
           <el-tab-pane label="开票信息" name="supply-bank">
             <bankTable :bankList="bankList" ref="bankTable" v-if="activeName == 'supply-bank'" />
           </el-tab-pane>
+          <el-tab-pane label="仓库" name="supply-inventory">
+            <inventoryTable ref="inventoryTable" v-if="activeName == 'supply-inventory'" :rowData="row"/>
+          </el-tab-pane>
         </el-tabs>
       </el-row>
     </div>
@@ -38,6 +41,7 @@
 import bankTable from "./bankTable"
 import addressTable from "./addressTable"
 import contactTable from "./contactTable"
+import inventoryTable from "./inventoryTable"
 
 export default {
   name: 'supplyDetail',
@@ -61,7 +65,8 @@ export default {
   components: {
     contactTable,
     addressTable,
-    bankTable
+    bankTable,
+    inventoryTable
   },
   watch: {
     // 监听选中值的变化
