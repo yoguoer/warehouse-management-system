@@ -73,8 +73,8 @@ import configEdit from "./configEdit";
             type: 'input'
           },
           {
-            label: '业务仓库名称',
-            placeholder: '请输入业务仓库名称',
+            label: '供应商仓库名称',
+            placeholder: '请输入供应商仓库名称',
             field: 'inventoryName',
             value: '',
             type: 'input'
