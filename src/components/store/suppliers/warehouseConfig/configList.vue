@@ -5,8 +5,8 @@
         <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
           :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
           <template v-slot:column-status="props">
-            <el-tag type="success" size="medium" v-if=" props.row.supplierInventoryStatus == 1">正常</el-tag>
-            <el-tag type="danger" size="medium" v-if="props.row.supplierInventoryStatus == 2">关仓</el-tag>
+            <el-tag type="success" size="medium" v-if=" props.row.status == 1">正常</el-tag>
+            <el-tag type="danger" size="medium" v-if="props.row.status == 2">关仓</el-tag>
           </template>
           <template v-slot:column-todo="props">
             <el-button class="prohibitclick" @click="editRow(props.row)" type="text" size="small">编辑</el-button>
@@ -43,6 +43,10 @@ import configEdit from "./configEdit";
           pageNo: 1,
           pageSize: 10,
         },
+        statusList:[
+          {label:"正常",value:"1"},
+          {label:"关仓",value:"2"},
+        ],
       };
     },
     created() {
@@ -53,8 +57,8 @@ import configEdit from "./configEdit";
         return [
           { prop: "supplierCode", label: "供应商编码" },
           { prop: "supplierName", label: "供应商名称" },
-          { prop: "supplierInventoryCode", label: "仓库编码" },
-          { prop: "supplierInventoryName", label: "仓库名称" },
+          { prop: "inventoryCode", label: "仓库编码" },
+          { prop: "inventoryName", label: "仓库名称" },
           { slots: { name: "column-status" }, label: "状态" },
           { prop: "description", label: "备注" },
           { slots: { name: "column-todo" }, label: "操作", fixed: "right" },
@@ -63,18 +67,26 @@ import configEdit from "./configEdit";
       searchConfig() {
         return [
           {
-            label: '供应商编码',
-            placeholder: '请输入供应商编码',
-            field: 'supplierCode',
+            label: '供应商名称',
+            placeholder: '请输入供应商名称',
+            field: 'supplierName',
             value: '',
             type: 'input'
           },
           {
-            label: '业务仓库编码',
-            placeholder: '请输入业务仓库编码',
-            field: 'supplierInventoryCode',
+            label: '业务仓库名称',
+            placeholder: '请输入业务仓库名称',
+            field: 'inventoryName',
             value: '',
             type: 'input'
+          },
+          {
+            label: '请选择',
+            placeholder: '请选择状态',
+            field: 'status',
+            value: '',
+            type: "select",
+            options:this.statusList
           }
         ];
       }
@@ -98,9 +110,9 @@ import configEdit from "./configEdit";
           // ...this.query,
           page: this.query.pageNo,
           size: this.query.pageSize,
-          supplierInventoryName: "",
-          supplierInventoryCode: "",
-          supplierInventoryStatus:""
+          inventoryName: "",
+          inventoryCode: "",
+          status:""
         };
         supplierInventoryListPage(params).then((res) => {
           if (res.data.code === 200) {
@@ -121,26 +133,26 @@ import configEdit from "./configEdit";
           this.query.pageSize = pageSize;
         }
         const searchData = this.$refs.search.search
-        // supplierInventoryListPage({
-        //   ...searchData,
-        //   page: this.query.pageNo,
-        //   size: this.query.pageSize,
-        // }).then((res) => {
-        //   if (res.data.code === 200) {
-        //     this.total = res.data.data.total;
-        //     this.tableData = res.data.data.records;
-        //     console.log(this.total, this.tableData);
-        //   } else {
-        //     console.log("error");
-        //   }
-        // })
-        //   .finally(() => {
-        //     this.loadings.table = false;
-        //   });
+        supplierInventoryListPage({
+          ...searchData,
+          page: this.query.pageNo,
+          size: this.query.pageSize,
+        }).then((res) => {
+          if (res.data.code === 200) {
+            this.total = res.data.data.total;
+            this.tableData = res.data.data.records;
+            console.log(this.total, this.tableData);
+          } else {
+            console.log("error");
+          }
+        })
+          .finally(() => {
+            this.loadings.table = false;
+          });
       },
       deleteRow(row) {
         console.log("deleteRow", row)
-        supplierInventoryDelete({ supplierInventoryKey: row.supplierInventoryKey }).then(res => {
+        supplierInventoryDelete({ belongKey: row.belongKey,inventoryKey:row.inventoryKey }).then(res => {
           if (res.data.code == 200) {
             this.$message.success("删除成功!");
             this.getTableData()
@@ -172,17 +184,17 @@ import configEdit from "./configEdit";
       },
       handleDeleteList() {
         if (this.multipleSelection.length > 0) {
-          let supplierInventoryKeys = [];
+          let SupplierInventorys = [];
           this.multipleSelection.forEach(item => {
-            supplierInventoryKeys.push({ supplierInventoryKey: item.supplierInventoryKey })
+            SupplierInventorys.push({ belongKey: item.belongKey,inventoryKey:item.inventoryKey })
           })
-          console.log(supplierInventoryKeys);
+          console.log(SupplierInventorys);
           this.$confirm('删除操作, 是否继续?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            supplierInventoryDeleteList(supplierInventoryKeys).then(() => {
+            supplierInventoryDeleteList(SupplierInventorys).then(() => {
               this.getTableData();
               this.$message({
                 type: 'success',

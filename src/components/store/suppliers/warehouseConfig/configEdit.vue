@@ -6,42 +6,22 @@
       <el-row>
         <el-row>
           <el-col :span="5">
-            <el-form-item label="供应商编号" prop="supplierCode">
-              <el-input v-model="ruleForm.supplierCode" class="readonly-copy" placeholder="供应商编号" readonly
-                v-if="ifCreate == false"></el-input>
-              <el-input v-model="ruleForm.supplierCode" v-else clearable placeholder="供应商编号"></el-input>
-            </el-form-item>
+            <el-form-item label="所属供应商" prop="belongKey">
+                <el-select size="middle" v-model="ruleForm.belongKey" placeholder="所属供应商" style="width:100%;">
+                  <el-option v-for="item in suplyOptions" :key="item.supplierKey" :label="item.supplierName"
+                    :value="item.supplierKey" clearable placeholder="所属供应商">
+                  </el-option>
+                </el-select>
+              </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="供应商名称" prop="supplierName">
-              <el-input v-model="ruleForm.supplierName" clearable placeholder="供应商名称"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <el-form-item label="仓库编号" prop="supplierInventoryCode">
-              <el-input v-model="ruleForm.supplierInventoryCode" class="readonly-copy" placeholder="仓库编号" readonly
-                v-if="ifCreate == false"></el-input>
-              <el-input v-model="ruleForm.supplierInventoryCode" v-else clearable placeholder="仓库编号"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="仓库名称" prop="supplierInventoryName">
-              <el-input v-model="ruleForm.supplierInventoryName" clearable placeholder="仓库名称"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="5">
-            <el-form-item label="状态" prop="supplierInventoryStatus">
-              <el-input v-model="ruleForm.supplierInventoryStatus" class="readonly-copy" placeholder="状态"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="5">
-            <el-form-item label="备注" prop="description">
-              <el-input v-model="ruleForm.description" clearable placeholder="备注"></el-input>
-            </el-form-item>
+            <el-form-item label="默认仓库" prop="inventoryKey">
+                <el-select size="middle" v-model="ruleForm.inventoryKey" placeholder="默认仓库" style="width:100%;">
+                  <el-option v-for="item in options" :key="item.inventoryKey" :label="item.inventoryName" clearable
+                    :value="item.inventoryKey">
+                  </el-option>
+                </el-select>
+              </el-form-item>
           </el-col>
         </el-row>
       </el-row>
@@ -59,7 +39,8 @@
 </template>
 
 <script>
-// import { supplierInventoryUpdate, supplierInventoryAdd } from '@/api/data'
+import { SupplierInventoryUpdate, supplierInventoryAdd } from '@/api/warehouse'
+import { inventorylist,Supplierlist } from '@/api/data'
 
 export default {
   name: 'guestEdit',
@@ -68,18 +49,17 @@ export default {
       direction: 'btt',
       ifCreate: false,
       ruleForm: {
-        supplierCode: "",
-        supplierCode: "",
-        supplierInventoryCode:"",
-        supplierInventoryName:"",
-
+        belongKey: "",
+        inventoryKey: "",
       },
+      suplyOptions:[],
+      options:[],
       rules: {
-        supplierName: [
-          { required: true, message: '请输入供应商名称', trigger: 'blur' },
+        belongKey: [
+          { required: true, message: '请选择供应商', trigger: 'blur' },
         ],
-        supplierCode: [
-          { required: true, message: '请输入供应商编号', trigger: 'blur' },
+        inventoryKey: [
+          { required: true, message: '请选择仓库', trigger: 'blur' },
         ],
 
       }
@@ -95,21 +75,51 @@ export default {
 
   },
   created() {
-    if (this.rowData.supplierInventoryCode) {
-      this.ruleForm.supplierInventoryName = this.rowData.supplierInventoryName
-      this.ruleForm.supplierInventoryCode = this.rowData.supplierInventoryCode
+    this.getSupplierlist()
+    this.getinventorylist();
+    if (this.rowData.belongKey) {
+      this.ruleForm.belongKey = this.rowData.belongKey
+      this.ruleForm.inventoryKey = this.rowData.inventoryKey
     } else {
       this.ifCreate = true
     }
   },
   methods: {
+    getSupplierlist() {
+      Supplierlist().then(res => {
+        if (res.data.code == 200) {
+          this.suplyOptions = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
+    getinventorylist() {
+      inventorylist()
+        .then((res) => {
+          if (res.data.code === 200) {
+            // this.options = res.data.data
+            this.options =[]
+            res.data.data.forEach(item => {
+              if (item.belongKey == null||item.belongKey == "") {
+                this.options.push(item)
+              }
+            });
+          } else {
+            this.$message.error(res.msg);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
     close() {
       this.$parent.drawer = false
     },
     save(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          supplierInventoryUpdate(this.ruleForm).then(res => {
+          SupplierInventoryUpdate(this.ruleForm).then(res => {
             if (res.data.code == 200) {
               this.$message.success("编辑成功!");
               this.$parent.success()

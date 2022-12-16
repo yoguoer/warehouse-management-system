@@ -8,7 +8,7 @@ const baseUrl = "/api"
 //查询供应商仓库（分页)
 export function supplierInventoryListPage(data) {
     return request({
-      url: baseUrl + "/supplierInventory/list-page",
+      url: baseUrl + "/SupplierInventory/list-page",
       method: "get",
       params: data,
     });
@@ -17,16 +17,16 @@ export function supplierInventoryListPage(data) {
 //添加供应商仓库
 export function supplierInventoryAdd(data) {
 return request({
-    url: baseUrl + "/supplierInventory/add",
+    url: baseUrl + "/SupplierInventory/add",
     method: "POST",
     data: data,
 });
 }
 
 //更新供应商仓库
-export function supplierInventoryUpdate(data) {
+export function SupplierInventoryUpdate(data) {
 return request({
-    url: baseUrl + "/supplierInventory/update",
+    url: baseUrl + "/SupplierInventory/update",
     method: "POST",
     data: data,
 });
@@ -35,7 +35,7 @@ return request({
 //删除供应商仓库
 export function supplierInventoryDelete(data) {
 return request({
-    url: baseUrl + "/supplierInventory/delete",
+    url: baseUrl + "/SupplierInventory/delete",
     method: "POST",
     data: data,
 });
@@ -44,7 +44,7 @@ return request({
 //删除供应商仓库(列表)
 export function supplierInventoryDeleteList(data) {
 return request({
-    url: baseUrl + "/supplierInventory/delete-list",
+    url: baseUrl + "/SupplierInventory/delete-list",
     method: "POST",
     data: data,
 });

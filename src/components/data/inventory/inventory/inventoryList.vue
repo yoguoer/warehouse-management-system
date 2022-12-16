@@ -36,6 +36,7 @@
                       : (scope.row.inventoryType == 5 ? '直发仓':'-'))))}}</span>
           </template>
         </el-table-column>
+        <!-- <el-table-column prop="belongKey" label="归属"></el-table-column> -->
         <el-table-column prop="contactName" label="联系人"></el-table-column>
         <el-table-column prop="tel" label="电话"> </el-table-column>
         <el-table-column prop="zipCode" label="邮编"> </el-table-column>
@@ -50,9 +51,9 @@
             <el-tag type="danger" size="medium" v-if="scope.row.status == 2">关仓</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="description" label="备注" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="categoryName" label="所属分类">
         </el-table-column>
+        <el-table-column prop="description" label="备注" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column fixed="right" width="210px" label="操作">
           <template slot-scope="scope">
             <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
