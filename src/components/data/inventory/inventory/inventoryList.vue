@@ -36,7 +36,6 @@
                       : (scope.row.inventoryType == 5 ? '直发仓':'-'))))}}</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="belongKey" label="归属"></el-table-column> -->
         <el-table-column prop="contactName" label="联系人"></el-table-column>
         <el-table-column prop="tel" label="电话"> </el-table-column>
         <el-table-column prop="zipCode" label="邮编"> </el-table-column>
@@ -46,7 +45,6 @@
         <el-table-column prop="detail" label="地址" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="status" label="仓库状态">
           <template slot-scope="scope">
-            <!-- <span>{{ scope.row.status == 1 ? '正常' : '关仓' }}</span> -->
             <el-tag type="success" size="medium" v-if=" scope.row.status == 1">正常</el-tag>
             <el-tag type="danger" size="medium" v-if="scope.row.status == 2">关仓</el-tag>
           </template>
@@ -67,7 +65,6 @@
           :current="parseInt(pageNo)" :total="total" :page-size.sync="pageSize" :page-no.sync="pageNo"
           @current-change="_page" @size-change="_pageSize"></el-pagination>
       </div>
-
       <inventoryEdit ref="inventoryEdit" v-if="inventoryEditVisable" :dialogVisible="inventoryEditVisable"
         :rowData="rowData" @close="inventoryEditVisable = false" @success="success()" />
       <inventoryDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" />

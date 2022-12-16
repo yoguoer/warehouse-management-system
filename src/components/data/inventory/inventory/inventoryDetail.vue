@@ -3,19 +3,19 @@
     :show-close="true" :before-close="handleClose" :wrapperClosable="false">
     <div style="padding:0 20px;">
       <el-row style="margin-bottom: 20px;">
-        <el-col :span="5">
+        <el-col :span="4">
           <span>仓库编号: {{ row.inventoryCode }}</span>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="4">
           <span>仓库名: {{ row.inventoryName }}</span>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="4">
           <span>联系人: {{ row.contactName }}</span>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="4">
           <span>电话: {{ row.tel }}</span>
         </el-col>
-        <el-col :span="5">
+        <el-col :span="4">
           <span>所属分类: {{ row.categoryName }}</span>
         </el-col>
       </el-row>
