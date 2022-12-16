@@ -8,7 +8,7 @@
           <el-col :span="5">
             <el-form-item label="所属供应商" prop="belongKey">
                 <el-select size="middle" v-model="ruleForm.belongKey" placeholder="所属供应商" style="width:100%;">
-                  <el-option v-for="item in suplyOptions" :key="item.supplierKey" :label="item.supplierName"
+                  <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
                     :value="item.supplierKey" clearable placeholder="所属供应商">
                   </el-option>
                 </el-select>
@@ -52,7 +52,7 @@ export default {
         belongKey: "",
         inventoryKey: "",
       },
-      suplyOptions:[],
+      supplyOptions:[],
       options:[],
       rules: {
         belongKey: [
@@ -70,6 +70,7 @@ export default {
       default: true,
     },
     rowData: {},
+    supplierInventoryList:[]
   },
   watch: {
 
@@ -83,12 +84,22 @@ export default {
     } else {
       this.ifCreate = true
     }
+    // console.log(this.supplierInventoryList)
   },
   methods: {
     getSupplierlist() {
       Supplierlist().then(res => {
         if (res.data.code == 200) {
-          this.suplyOptions = res.data.data
+          this.supplyOptions = res.data.data
+          this.supplierInventoryList.forEach(t=>{
+            this.supplyOptions.forEach(item=>{
+              if(item.supplierKey==t.supplierKey){
+                let index=this.supplyOptions.indexOf(t)
+                this.supplyOptions.splice(index,1)
+              }
+            })
+          })
+
         } else {
           this.$message.error("获取失败!");
         }
@@ -101,7 +112,7 @@ export default {
             // this.options = res.data.data
             this.options =[]
             res.data.data.forEach(item => {
-              if (item.belongKey == null||item.belongKey == "") {
+              if (item.belongKey == null||item.belongKey=="") {
                 this.options.push(item)
               }
             });

@@ -9,12 +9,12 @@
             <el-tag type="danger" size="medium" v-if="props.row.status == 2">关仓</el-tag>
           </template>
           <template v-slot:column-todo="props">
-            <el-button class="prohibitclick" @click="editRow(props.row)" type="text" size="small">编辑</el-button>
+            <!-- <el-button class="prohibitclick" @click="editRow(props.row)" type="text" size="small">编辑</el-button> -->
             <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small">删除</el-button>
           </template>
         </TableList>
       </div>
-      <configEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
+      <configEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" :supplierInventoryList="tableData"/>
     </div>
 </template>
 
@@ -33,7 +33,6 @@ import configEdit from "./configEdit";
         total: null,
         drawer: false,
         rowData: {},
-        supplierInventoryList: [],
         tableData: [],
         multipleSelection: [],
         loadings: {
