@@ -1,7 +1,5 @@
 package com.example.api_project.service.impl;
 
-import com.example.api_project.pojo.Position;
-import com.example.api_project.pojo.SupplierAddress;
 import com.example.api_project.pojo.SupplierBilling;
 import com.example.api_project.mapper.SupplierBillingMapper;
 import com.example.api_project.service.SupplierBillingService;

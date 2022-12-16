@@ -16,6 +16,15 @@ public class Inventory {
     private String description; //备注
     private Integer status; //状态
     private String categoryName;
+    private String belongKey;//归属于
+
+    public String getBelongKey() {
+        return belongKey;
+    }
+
+    public void setBelongKey(String belongKey) {
+        this.belongKey = belongKey;
+    }
 
     public String getCategoryName() {
         return categoryName;

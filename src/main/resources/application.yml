@@ -20,4 +20,4 @@ pagehelper:
 mybatis:
   mapper-locations: mapper/*.xml
   map-underscore-to-camel-case : true
-  type-aliases-package: com.example.api_project.pojo
+  type-aliases-package: com.example.api_project.pojo and com.example.api_project.vo
