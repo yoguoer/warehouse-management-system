@@ -24,6 +24,13 @@ public class ShopController {
     private ShopService shopService;
 
     /**
+     * 不分页查询
+     */
+    @GetMapping("/list")
+    public Result querylist() {
+        return ResponseData.success(this.shopService.querylist());
+    }
+    /**
      * 分页查询
      *
      * @param shop 筛选条件

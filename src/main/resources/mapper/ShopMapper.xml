@@ -18,6 +18,13 @@
         <result property="cooperationType" column="cooperation_type" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <!--查询全部（不分页）-->
+    <select id="getList" resultMap="ShopMap">
+        select
+            shop_key, shop_code, shop_name, business_person_code, liable_person_code, shop_status, category_key, description, province, city, district, detail,cooperation_type
+        from shop
+    </select>
+
     <!--查询单个-->
     <select id="queryById" resultMap="ShopMap">
         select

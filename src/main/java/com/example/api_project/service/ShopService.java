@@ -1,9 +1,11 @@
 package com.example.api_project.service;
 
 
+import com.example.api_project.pojo.BusinessEntity;
 import com.example.api_project.pojo.Shop;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,6 +21,11 @@ public interface ShopService {
      * @return 实例对象
      */
     Shop queryById(String shopKey);
+
+    /**
+     * 不分页查询
+     */
+    List<Shop> querylist();
 
     /**
      * 分页查询

@@ -1,6 +1,7 @@
 package com.example.api_project.service.impl;
 
 import com.example.api_project.mapper.ShopMapper;
+import com.example.api_project.pojo.BusinessEntity;
 import com.example.api_project.pojo.Position;
 import com.example.api_project.pojo.Shop;
 import com.example.api_project.service.ShopService;
@@ -31,6 +32,13 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public Shop queryById(String shopKey) {
         return this.shopMapper.queryById(shopKey);
+    }
+
+    /**
+     * 不分页查询
+     */
+    public List<Shop> querylist() {
+        return shopMapper.getList();
     }
 
     /**

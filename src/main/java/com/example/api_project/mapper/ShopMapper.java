@@ -1,5 +1,6 @@
 package com.example.api_project.mapper;
 
+import com.example.api_project.pojo.BusinessEntity;
 import com.example.api_project.pojo.Shop;
 import org.apache.ibatis.annotations.Param;
 
@@ -25,6 +26,13 @@ public interface ShopMapper {
      * @return 对象列表
      */
     List<Shop> queryAllByLimit(String shopName,String categoryKey,Integer shopStatus,Integer cooperationType, Integer startRows, Integer pageSize);
+
+    /**
+     * 查询指全部数据
+     * 不分页
+     * @return 对象列表
+     */
+    List<Shop> getList();
 
     /**
      * 统计总行数
