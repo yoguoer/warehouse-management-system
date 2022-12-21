@@ -723,3 +723,12 @@ export function entityList(data) {
     params: data,
   });
 }
+
+//查询门店（不分页）
+export function shoplist(data) {
+  return request({
+    url: baseUrl + "/shop/list",
+    method: "get",
+    params: data,
+  });
+}

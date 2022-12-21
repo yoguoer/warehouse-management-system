@@ -433,7 +433,7 @@ const routes = [{
         path: '/store/suppliers',
         name: 'suppliers',
         redirect: {
-          name: "warehouseConfig"
+          name: "configuration"
         },
         component: () => import('@/views/store/suppliers/Index.vue')
       },
@@ -451,16 +451,18 @@ const routes = [{
       },
       //库存-供应商库存-供应商仓库配置
       {
-        path: '/store/suppliers/warehouseConfig',
-        name: 'warehouseConfig',
-        component: () => import('@/components/store/suppliers/warehouseConfig/configList.vue')
+        path: '/store/suppliers/configuration',
+        name: 'configuration',
+        component: () => import('@/components/store/suppliers/configuration/configList.vue')
       },
+
+
       //库存-零售商库存    
       {
         path: '/store/shopkeepers',
         name: 'shopkeepers',
         redirect: {
-          name: "overview"
+          name: "configure"
         },
         component: () => import('@/views/store/shopkeepers/Index.vue')
       },
@@ -486,7 +488,7 @@ const routes = [{
       {
         path: '/store/shopkeepers/configure',
         name: 'configure',
-        component: () => import('@/views/store/shopkeepers/configure/Index.vue')
+        component: () => import('@/components/store/shopkeepers/configure/configList.vue')
       },
 
 

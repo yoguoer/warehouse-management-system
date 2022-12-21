@@ -125,7 +125,7 @@
                     "name": "供应商库存配置",
                     "icon": "",
                     "level": 3,
-                    "componentName": "warehouseConfig"
+                    "componentName": "configuration"
                 }, {
                     "name": "供应商库存管理",
                     "icon": "",

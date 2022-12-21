@@ -99,51 +99,51 @@
             <el-row>
               <el-col :span="7">
                 <el-form-item label="重量：克" prop="weight">
-                  <el-input v-model="ruleForm.weight" clearable placeholder="重量：克"></el-input>
+                  <el-input v-model="ruleForm.weight" clearable placeholder="重量：克" type="Number"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="7">
                 <el-form-item label="体积" prop="volume">
-                  <el-input v-model="ruleForm.volume" clearable placeholder="体积"></el-input>
+                  <el-input v-model="ruleForm.volume" clearable placeholder="体积" type="Number"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="7">
                 <el-form-item label="账面库存" prop="inventoryBook">
-                  <el-input v-model="ruleForm.inventoryBook" clearable placeholder="账面库存"></el-input>
+                  <el-input v-model="ruleForm.inventoryBook" clearable placeholder="账面库存" type="Number"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="7">
                 <el-form-item label="批发价" prop="priceWholesaler">
-                  <el-input v-model="ruleForm.priceWholesaler" clearable placeholder="批发价"></el-input>
+                  <el-input v-model="ruleForm.priceWholesaler" clearable placeholder="批发价" type="Number"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="7">
                 <el-form-item label="零售价" prop="priceRetail">
-                  <el-input v-model="ruleForm.priceRetail" clearable placeholder="零售价"></el-input>
+                  <el-input v-model="ruleForm.priceRetail" clearable placeholder="零售价" type="Number"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="7">
                 <el-form-item label="参考成本" prop="priceCostReference">
-                  <el-input v-model="ruleForm.priceCostReference" clearable placeholder="参考成本"></el-input>
+                  <el-input v-model="ruleForm.priceCostReference" clearable placeholder="参考成本" type="Number"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="7">
                 <el-form-item label="最近进价" prop="priceLatestPurchase">
-                  <el-input v-model="ruleForm.priceLatestPurchase" clearable placeholder="最近进价"></el-input>
+                  <el-input v-model="ruleForm.priceLatestPurchase" clearable placeholder="最近进价" type="Number"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="7">
                 <el-form-item label="成本均价" prop="priceCostAverage">
-                  <el-input v-model="ruleForm.priceCostAverage" clearable placeholder="成本均价"></el-input>
+                  <el-input v-model="ruleForm.priceCostAverage" clearable placeholder="成本均价" type="Number"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="7">
                 <el-form-item label="预设进价" prop="priceCostPreset">
-                  <el-input v-model="ruleForm.priceCostPreset" clearable placeholder="预设进价"></el-input>
+                  <el-input v-model="ruleForm.priceCostPreset" clearable placeholder="预设进价" type="Number"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
