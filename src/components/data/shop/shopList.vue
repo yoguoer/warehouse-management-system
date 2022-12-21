@@ -108,6 +108,10 @@ export default {
         { slots: { name: "column-status" }, label: "店铺状态" },//3A-开业，3B-关店，3C-搬迁，3D-筹备，3E-暂停，3F-预关店',   
         { prop: "businessPersonCode", label: "业务人员" },
         { prop: "liablePersonCode", label: "责任人员" },
+        { prop: "province", label: "省" },
+        { prop: "city", label: "市" },
+        { prop: "district", label: "区" },
+        { prop: "detail", label: "详细地址" },
         { prop: "description", label: "备注"},   
         { slots: { name: "column-todo" }, label: "操作", fixed: "right" },
       ]

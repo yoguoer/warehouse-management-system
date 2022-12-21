@@ -74,6 +74,11 @@
               </el-form-item>
           </el-col>
           </el-row>
+          <el-row style="white-space: nowrap;">
+            <el-form-item label="联系地址" prop="address" v-model="form.address">
+              <checkAddress ref="address" v-model="form.address" :form="form.address" style="width: 80%" />
+            </el-form-item>
+          </el-row>
         </el-form>
         <div class="dialog_footer">
           <el-button type="" size="small" @click="close()">取消</el-button>
@@ -88,6 +93,7 @@
 <script>
 import { shopUpdate, shopAdd, getCategoryTree } from "@/api/data";
 import listBoxF from "@/components/public/listBoxF/listBoxF.vue";
+import checkAddress from "@/components/public/checkAddress.vue";
 /**
  * 树形组件 用于选择框
  */
@@ -101,6 +107,7 @@ export default {
   components: {
     listBoxF,
     Treeselect,
+    checkAddress
   },
   props: {
     dialogVisible: {
@@ -123,7 +130,17 @@ export default {
         shopStatus: "",
         description:"",
         shopKey: "",
-        categoryKey: ""
+        categoryKey: "",
+        address: {
+          // 省provinceCode
+          province: "",
+          // 市cityCode
+          city: "",
+          // 区districtCode
+          district: "",
+          //详细地址address
+          detail: "",
+        }, //联系地址
       },
       ifCreate: true,
       list: [],
@@ -148,6 +165,9 @@ export default {
         ],
         categoryKey: [
           { required: true, message: '请选择所属分类', trigger: 'blur' },
+        ],
+        address: [
+          { required: true, message: '请输入地址', trigger: 'blur' },
         ],
       }
     };
@@ -174,6 +194,10 @@ export default {
       this.form.shopStatus = this.rowData.shopStatus
       this.form.categoryKey = this.rowData.categoryKey
       this.form.description=this.rowData.description
+      this.form.address.province = this.rowData.province;
+      this.form.address.city = this.rowData.city;
+      this.form.address.district = this.rowData.district;
+      this.form.address.detail = this.rowData.detail;
       console.log(this.rowData);
     } else {
       this.ifCreate = true;
@@ -230,7 +254,22 @@ export default {
       this.form.categoryKey = this.valueC
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          shopUpdate(this.form)
+          let data={
+            province: this.form.address.province,
+            city: this.form.address.city,
+            district: this.form.address.district,
+            detail: this.form.address.detail,
+            shopCode: this.form.shopCode,
+            shopName: this.form.shopName,
+            businessPersonCode: this.form.businessPersonCode,
+            liablePersonCode: this.form.liablePersonCode,
+            cooperationType: this.form.cooperationType,
+            shopStatus: this.form.shopStatus,
+            description: this.form.description,
+            shopKey: this.form.shopKey,
+            categoryKey: this.form.categoryKey
+          }
+          shopUpdate(data)
             .then((res) => {
               if (res.data.code === 200) {
                 this.$message.success("修改成功!");
@@ -254,17 +293,20 @@ export default {
       this.form.categoryKey = this.valueC
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let data = {
-            shopName: this.form.shopName,
+          let data={
+            province: this.form.address.province,
+            city: this.form.address.city,
+            district: this.form.address.district,
+            detail: this.form.address.detail,
             shopCode: this.form.shopCode,
+            shopName: this.form.shopName,
             businessPersonCode: this.form.businessPersonCode,
             liablePersonCode: this.form.liablePersonCode,
-            shopType: this.form.shopType,
             cooperationType: this.form.cooperationType,
             shopStatus: this.form.shopStatus,
-            categoryKey: this.form.categoryKey,
-            description:this.form.description
-          };
+            description: this.form.description,
+            categoryKey: this.form.categoryKey
+          }
           console.log(data);
           shopAdd(data)
             .then((res) => {
