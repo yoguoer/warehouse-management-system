@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.ShopMapper">
+
+    <resultMap type="com.example.api_project.pojo.Shop" id="ShopMap">
+        <result property="shopKey" column="shop_key" jdbcType="VARCHAR"/>
+        <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
+        <result property="businessPersonCode" column="business_person_code" jdbcType="VARCHAR"/>
+        <result property="liablePersonCode" column="liable_person_code" jdbcType="VARCHAR"/>
+        <result property="shopStatus" column="shop_status" jdbcType="INTEGER"/>
+        <result property="categoryKey" column="category_key" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="district" column="district" jdbcType="VARCHAR"/>
+        <result property="detail" column="detail" jdbcType="INTEGER"/>
+        <result property="cooperationType" column="cooperation_type" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ShopMap">
+        select
+          shop_key, shop_code, shop_name, business_person_code, liable_person_code, shop_status, category_key, description, province, city, district, detail,cooperation_type
+        from shop
+        where shop_key = #{shopKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ShopMap">
+        select
+          shop_key, shop_code, shop_name, business_person_code, liable_person_code, shop_status, category_key, description, province, city, district, detail,cooperation_type
+        from shop
+        <where>
+            <if test="shopName != null and shopName != ''">
+                and shop_name like concat('%', #{shopName}, '%')
+            </if>
+            <if test="shopStatus != null">
+                and shop_status = #{shopStatus}
+            </if>
+            <if test="categoryKey != null and categoryKey != ''">
+                and category_key = #{categoryKey}
+            </if>
+            <if test="cooperationType != null and cooperationType != ''">
+                and cooperation_type = #{cooperationType}
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from shop
+        <where>
+            <if test="shopKey != null and shopKey != ''">
+                and shop_key = #{shopKey}
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            <if test="shopName != null and shopName != ''">
+                and shop_name = #{shopName}
+            </if>
+            <if test="businessPersonCode != null and businessPersonCode != ''">
+                and business_person_code = #{businessPersonCode}
+            </if>
+            <if test="liablePersonCode != null and liablePersonCode != ''">
+                and liable_person_code = #{liablePersonCode}
+            </if>
+            <if test="shopStatus != null">
+                and shop_status = #{shopStatus}
+            </if>
+            <if test="categoryKey != null and categoryKey != ''">
+                and category_key = #{categoryKey}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="district != null and district != ''">
+                and district = #{district}
+            </if>
+            <if test="detail != null and detail != ''">
+                and detail = #{detail}
+            </if>
+            <if test="cooperationType != null and cooperationType != ''">
+                and cooperation_type = #{cooperationType}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="shopKey" useGeneratedKeys="true">
+        insert into shop(shop_key,shop_code, shop_name, business_person_code, liable_person_code, shop_status, category_key, description, province, city, district, detail,cooperation_type)
+        values (#{shopKey},#{shopCode}, #{shopName}, #{businessPersonCode}, #{liablePersonCode}, #{shopStatus}, #{categoryKey}, #{description}, #{province}, #{city}, #{district}, #{detail},#{cooperationType})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="shopKey" useGeneratedKeys="true">
+        insert into shop(shop_code, shop_name, business_person_code, liable_person_code, shop_status, category_key, description, province, city, district, detail,cooperation_type)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.shopCode}, #{entity.shopName}, #{entity.businessPersonCode}, #{entity.liablePersonCode}, #{entity.shopStatus}, #{entity.categoryKey}, #{entity.description}, #{entity.province}, #{entity.city}, #{entity.district}, #{entity.detail},#{entity.cooperationType})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="shopKey" useGeneratedKeys="true">
+        insert into shop(shop_code, shop_name, business_person_code, liable_person_code, shop_status, category_key, description, province, city, district, detail)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.shopCode}, #{entity.shopName}, #{entity.businessPersonCode}, #{entity.liablePersonCode}, #{entity.shopStatus}, #{entity.categoryKey}, #{entity.description}, #{entity.province}, #{entity.city}, #{entity.district}, #{entity.detail},#{entity.cooperationType})
+        </foreach>
+        on duplicate key update
+        shop_code = values(shop_code),
+        shop_name = values(shop_name),
+        business_person_code = values(business_person_code),
+        liable_person_code = values(liable_person_code),
+        shop_status = values(shop_status),
+        category_key = values(category_key),
+        description = values(description),
+        province = values(province),
+        city = values(city),
+        district = values(district),
+        detail = values(detail)
+        cooperation_type=values(cooperation_type)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update shop
+        <set>
+            <if test="shopCode != null and shopCode != ''">
+                shop_code = #{shopCode},
+            </if>
+            <if test="shopName != null and shopName != ''">
+                shop_name = #{shopName},
+            </if>
+            <if test="businessPersonCode != null and businessPersonCode != ''">
+                business_person_code = #{businessPersonCode},
+            </if>
+            <if test="liablePersonCode != null and liablePersonCode != ''">
+                liable_person_code = #{liablePersonCode},
+            </if>
+            <if test="shopStatus != null">
+                shop_status = #{shopStatus},
+            </if>
+            <if test="categoryKey != null and categoryKey != ''">
+                category_key = #{categoryKey},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="district != null and district != ''">
+                district = #{district},
+            </if>
+            <if test="detail != null and detail != ''">
+                detail = #{detail},
+            </if>
+            <if test="cooperationType != null and cooperationType != ''">
+                cooperation_type = #{cooperationType},
+            </if>
+        </set>
+        where shop_key = #{shopKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from shop where shop_key = #{shopKey}
+    </delete>
+
+</mapper>
+
