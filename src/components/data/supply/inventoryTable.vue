@@ -57,7 +57,7 @@
 
 <script>
 import { supplierInventoryDelete, supplierInventoryDeleteList } from "@/api/warehouse";
-import configEdit from "@/components/store/suppliers/warehouseConfig/configEdit.vue";
+import configEdit from "@/components/store/suppliers/configuration/configEdit.vue";
 import { inventorylistPage } from "@/api/data";
 
 export default {

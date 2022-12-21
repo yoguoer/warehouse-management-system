@@ -27,13 +27,10 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="inventoryCode" label="仓库编号"></el-table-column>
         <el-table-column prop="inventoryName" label="仓库名"> </el-table-column>
-        <el-table-column prop="inventoryType" label="仓库类型">
+        <el-table-column prop="inventoryType" label="仓库类型" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span>{{ scope.row.inventoryType == 1 ? '供应商仓库'
-                : (scope.row.inventoryType == 2 ? '门店仓'
-                  : (scope.row.inventoryType == 3 ? '大仓'
-                    : (scope.row.inventoryType == 4 ? '渠道仓'
-                      : (scope.row.inventoryType == 5 ? '直发仓':'-'))))}}</span>
+                : (scope.row.inventoryType == 2 ? '零售商仓库':'-')}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="contactName" label="联系人"></el-table-column>

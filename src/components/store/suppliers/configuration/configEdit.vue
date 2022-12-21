@@ -84,7 +84,7 @@ export default {
     } else {
       this.ifCreate = true
     }
-    // console.log(this.supplierInventoryList)
+    console.log(this.supplierInventoryList)
   },
   methods: {
     getSupplierlist() {
@@ -94,7 +94,7 @@ export default {
           this.supplierInventoryList.forEach(t=>{
           this.supplyOptions.forEach(item=>{
             if(item.supplierKey==t.supplierKey){
-                let index=this.supplyOptions.indexOf(t)
+                let index=this.supplyOptions.indexOf(item)
                 this.supplyOptions.splice(index,1)
               }
             })
@@ -111,7 +111,7 @@ export default {
             // this.options = res.data.data
             this.options =[]
             res.data.data.forEach(item => {
-              if (item.belongKey == null||item.belongKey=="") {
+              if (item.inventoryType=='1'&&item.belongKey == null||item.belongKey=="") {
                 this.options.push(item)
               }
             });

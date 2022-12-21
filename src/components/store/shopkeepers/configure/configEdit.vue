@@ -8,7 +8,7 @@
           <el-col :span="5">
             <el-form-item label="所属门店" prop="belongKey">
                 <el-select size="middle" v-model="ruleForm.belongKey" placeholder="所属门店" style="width:100%;">
-                  <el-option v-for="item in supplyOptions" :key="item.shopKey" :label="item.shopName"
+                  <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName"
                     :value="item.shopKey" clearable placeholder="所属门店">
                   </el-option>
                 </el-select>
@@ -52,7 +52,7 @@ export default {
         belongKey: "",
         inventoryKey: "",
       },
-      supplyOptions:[],
+      shopOptions:[],
       options:[],
       rules: {
         belongKey: [
@@ -90,12 +90,12 @@ export default {
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
-          this.supplyOptions = res.data.data
+          this.shopOptions = res.data.data
           this.ShopInventoryList.forEach(t=>{
-          this.supplyOptions.forEach(item=>{
+          this.shopOptions.forEach(item=>{
             if(item.shopKey==t.shopKey){
-                let index=this.supplyOptions.indexOf(t)
-                this.supplyOptions.splice(index,1)
+                let index=this.shopOptions.indexOf(t)
+                this.shopOptions.splice(index,1)
               }
             })
           })
@@ -111,7 +111,7 @@ export default {
             // this.options = res.data.data
             this.options =[]
             res.data.data.forEach(item => {
-              if (item.belongKey == null||item.belongKey=="") {
+              if (item.inventoryType=='2'&&item.belongKey == null||item.belongKey=="") {
                 this.options.push(item)
               }
             });
