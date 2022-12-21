@@ -507,6 +507,51 @@ export function goodsDeleteList(data) {
   });
 }
 
+//查询门店
+export function shoplistPage(data) {
+  return request({
+    url: baseUrl + "/shop/list-page",
+    method: "get",
+    params: data,
+  });
+}
+
+//新增门店
+export function shopAdd(data) {
+  return request({
+    url: baseUrl + "/shop/add",
+    method: "POST",
+    data: qs.parse(data),
+  });
+}
+
+//更新门店
+export function shopUpdate(data) {
+  return request({
+    url: baseUrl + "/shop/update",
+    method: "POST",
+    data:qs.parse(data),
+  });
+}
+
+//删除门店
+export function shopDelete(data) {
+  return request({
+    url: baseUrl + "/shop/delete",
+    method: "POST",
+    data: data,
+  });
+}
+
+//删除门店(列表)
+export function shopDeleteList(data) {
+  return request({
+    url: baseUrl + "/shop/delete-list",
+    method: "POST",
+    data: data,
+  });
+}
+
 //查询业务主体（分页)
 export function entityListPage(data) {
   return request({

@@ -164,35 +164,35 @@ import configEdit from "./configEdit";
       },
       setClose(row) {
         let ruleForm={
-        belongKey: row.supplierKey,
-        inventoryKey: row.inventoryKey,
-        status:2
+          belongKey: row.supplierKey,
+          inventoryKey: row.inventoryKey,
+          status:2
        }
       SupplierInventoryUpdate(ruleForm).then(res => {
-            if (res.data.code == 200) {
-              this.$message.success("编辑成功!");
-              this.getTableData()
-              this.$forceUpdate()
-            } else {
-              this.$message.error("编辑失败!");
-            }
-          })
+          if (res.data.code == 200) {
+            this.$message.success("编辑成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("编辑失败!");
+          }
+        })
       },
       setOpen(row) {
         let ruleForm={
         belongKey: row.supplierKey,
-        inventoryKey: row.inventoryKey,
+        inventoryKey: row.inventoryKey, 
         status:1
        }
       SupplierInventoryUpdate(ruleForm).then(res => {
-            if (res.data.code == 200) {
-              this.$message.success("编辑成功!");
-              this.getTableData()
-              this.$forceUpdate()
-            } else {
-              this.$message.error("编辑失败!");
-            }
-          })
+        if (res.data.code == 200) {
+            this.$message.success("编辑成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("编辑失败!");
+          }
+        })
       },
       success() {
         this.drawer = false;

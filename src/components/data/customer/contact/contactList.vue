@@ -1,17 +1,15 @@
 <template>
   <div>
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add()">新增</el-button> -->
-    <!-- <el-divider/> -->
     <div>
+      <el-input placeholder="联系人名称" v-model="inputName" type="text" size="small" :clearable="true">
+        <template slot="prepend">联系人名称</template>
+      </el-input>
       <el-select v-model="inputCustomer" placeholder="客户" style="width:200px;margin-right:20px;" :clearable="true"
         size="small">
         <el-option v-for="(item, index) in options" :key="index" :label="item.customerName"
           :value="item.customerKey"></el-option>
       </el-select>
-      <el-input placeholder="联系人名称" v-model="inputName" type="text" size="small" :clearable="true">
-        <template slot="prepend">联系人名称</template>
-      </el-input>
+
       <el-button type="primary" size="small" @click="search()" icon="el-icon-search">查询</el-button>
       <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>

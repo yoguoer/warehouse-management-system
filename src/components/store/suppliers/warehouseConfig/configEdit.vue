@@ -92,14 +92,13 @@ export default {
         if (res.data.code == 200) {
           this.supplyOptions = res.data.data
           this.supplierInventoryList.forEach(t=>{
-            this.supplyOptions.forEach(item=>{
-              if(item.supplierKey==t.supplierKey){
+          this.supplyOptions.forEach(item=>{
+            if(item.supplierKey==t.supplierKey){
                 let index=this.supplyOptions.indexOf(t)
                 this.supplyOptions.splice(index,1)
               }
             })
           })
-
         } else {
           this.$message.error("获取失败!");
         }

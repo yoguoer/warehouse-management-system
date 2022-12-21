@@ -266,6 +266,12 @@ const routes = [{
               },
             ]
           },
+          //资料-门店管理
+          {
+            path: '/data/shopList',
+            name: 'shop',
+            component: () => import('@/views/data/shop/Index.vue')
+          },
         ]
       },
 

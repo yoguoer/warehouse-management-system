@@ -143,6 +143,11 @@
                 "level": 2,
                 "componentName": "shopkeepers",
                 "children": [{
+                    "name": "仓库配置",
+                    "icon": "",
+                    "level": 3,
+                    "componentName": "configure"
+                },{
                     "name": "库存总览",
                     "icon": "",
                     "level": 3,
@@ -157,11 +162,6 @@
                     "icon": "",
                     "level": 3,
                     "componentName": "warehouse"
-                }, {
-                    "name": "仓库配置",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "configure"
                 }]
             }]
         }, 
@@ -255,6 +255,11 @@
                 "icon": "",
                 "level": 1,
                 "componentName": "goods"
+            },{
+                "name": "门店管理",
+                "icon": "",
+                "level": 1,
+                "componentName": "shop"
             }, {
                 "name": "仓库管理",
                 "icon": "",
