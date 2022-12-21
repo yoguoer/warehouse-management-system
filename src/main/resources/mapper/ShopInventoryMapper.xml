@@ -71,6 +71,7 @@
             <if test="status != null and status != ''">
                 and inventory.status =#{status}
             </if>
+            and inventory.inventory_type=2
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
@@ -107,6 +108,7 @@
             <if test="description != null and description != ''">
                 and inventory.description = #{description}
             </if>
+            and inventory.inventory_type=2
         </where>
     </select>
 
