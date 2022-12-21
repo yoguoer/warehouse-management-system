@@ -8,8 +8,8 @@
           <el-col :span="5">
             <el-form-item label="所属门店" prop="belongKey">
                 <el-select size="middle" v-model="ruleForm.belongKey" placeholder="所属门店" style="width:100%;">
-                  <el-option v-for="item in supplyOptions" :key="item.shopkeeperKey" :label="item.shopkeeperName"
-                    :value="item.shopkeeperKey" clearable placeholder="所属门店">
+                  <el-option v-for="item in supplyOptions" :key="item.shopKey" :label="item.shopName"
+                    :value="item.shopKey" clearable placeholder="所属门店">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import { shopkeeperInventoryUpdate, shopkeeperInventoryAdd } from '@/api/warehouse'
+import { ShopInventoryUpdate, ShopInventoryAdd } from '@/api/warehouse'
 import { inventorylist,shoplist } from '@/api/data'
 
 export default {
@@ -70,7 +70,7 @@ export default {
       default: true,
     },
     rowData: {},
-    shopkeeperInventoryList:[]
+    ShopInventoryList:[]
   },
   watch: {
 
@@ -84,16 +84,16 @@ export default {
     } else {
       this.ifCreate = true
     }
-    // console.log(this.shopkeeperInventoryList)
+    // console.log(this.ShopInventoryList)
   },
   methods: {
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
           this.supplyOptions = res.data.data
-          this.shopkeeperInventoryList.forEach(t=>{
+          this.ShopInventoryList.forEach(t=>{
           this.supplyOptions.forEach(item=>{
-            if(item.shopkeeperKey==t.shopkeeperKey){
+            if(item.shopKey==t.shopKey){
                 let index=this.supplyOptions.indexOf(t)
                 this.supplyOptions.splice(index,1)
               }
@@ -129,7 +129,7 @@ export default {
     save(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          shopkeeperInventoryUpdate(this.ruleForm).then(res => {
+          ShopInventoryUpdate(this.ruleForm).then(res => {
             if (res.data.code == 200) {
               this.$message.success("编辑成功!");
               this.$parent.success()
@@ -147,7 +147,7 @@ export default {
     create(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          shopkeeperInventoryAdd(this.ruleForm).then(res => {
+          ShopInventoryAdd(this.ruleForm).then(res => {
             if (res.data.code == 200) {
               this.$message.success("新增成功!");
               this.$parent.success()

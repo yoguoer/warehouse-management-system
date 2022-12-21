@@ -52,45 +52,45 @@ return request({
 
 //********************************零售商**************************************************** */
 //查询零售商仓库（分页)
-export function shopkeeperInventoryListPage(data) {
+export function ShopInventoryListPage(data) {
     return request({
-      url: baseUrl + "/shopkeeperInventory/list-page",
+      url: baseUrl + "/ShopInventory/list-page",
       method: "get",
       params: data,
     });
   }
   
 //添加零售商仓库
-export function shopkeeperInventoryAdd(data) {
+export function ShopInventoryAdd(data) {
 return request({
-    url: baseUrl + "/shopkeeperInventory/add",
+    url: baseUrl + "/ShopInventory/add",
     method: "POST",
     data: data,
 });
 }
 
 //更新零售商仓库
-export function shopkeeperInventoryUpdate(data) {
+export function ShopInventoryUpdate(data) {
 return request({
-    url: baseUrl + "/shopkeeperInventory/update",
+    url: baseUrl + "/ShopInventory/update",
     method: "POST",
     data: data,
 });
 }
 
 //删除零售商仓库
-export function shopkeeperInventoryDelete(data) {
+export function ShopInventoryDelete(data) {
 return request({
-    url: baseUrl + "/shopkeeperInventory/delete",
+    url: baseUrl + "/ShopInventory/delete",
     method: "POST",
     data: data,
 });
 }
 
 //删除零售商仓库(列表)
-export function shopkeeperInventoryDeleteList(data) {
+export function ShopInventoryDeleteList(data) {
 return request({
-    url: baseUrl + "/shopkeeperInventory/delete-list",
+    url: baseUrl + "/ShopInventory/delete-list",
     method: "POST",
     data: data,
 });

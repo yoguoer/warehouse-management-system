@@ -15,12 +15,12 @@
           </template>
         </TableList>
       </div>
-      <configEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" :shopkeeperInventoryList="tableData"/>
+      <configEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" :ShopInventoryList="tableData"/>
     </div>
 </template>
 
 <script>
-import { shopkeeperInventoryListPage, shopkeeperInventoryDelete, shopkeeperInventoryDeleteList,shopkeeperInventoryUpdate } from "@/api/warehouse";
+import { ShopInventoryListPage, ShopInventoryDelete, ShopInventoryDeleteList,ShopInventoryUpdate } from "@/api/warehouse";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import configEdit from "./configEdit";
@@ -59,8 +59,8 @@ import configEdit from "./configEdit";
     computed: {
       tableColumn() {
         return [
-          { prop: "shopkeeperCode", label: "门店编码" },
-          { prop: "shopkeeperName", label: "门店名称" },
+          { prop: "shopCode", label: "门店编码" },
+          { prop: "shopName", label: "门店名称" },
           { prop: "inventoryCode", label: "仓库编码" },
           { prop: "inventoryName", label: "仓库名称" },
           { slots: { name: "column-status" }, label: "状态" },
@@ -73,7 +73,7 @@ import configEdit from "./configEdit";
           {
             label: '门店名称',
             placeholder: '请输入门店名称',
-            field: 'shopkeeperName',
+            field: 'shopName',
             value: '',
             type: 'input'
           },
@@ -118,7 +118,7 @@ import configEdit from "./configEdit";
           inventoryCode: "",
           status:""
         };
-        shopkeeperInventoryListPage(params).then((res) => {
+        ShopInventoryListPage(params).then((res) => {
           if (res.data.code === 200) {
             this.total = res.data.data.total;
             this.tableData = res.data.data.records;
@@ -137,7 +137,7 @@ import configEdit from "./configEdit";
           this.query.pageSize = pageSize;
         }
         const searchData = this.$refs.search.search
-        shopkeeperInventoryListPage({
+        ShopInventoryListPage({
           ...searchData,
           page: this.query.pageNo,
           size: this.query.pageSize,
@@ -156,7 +156,7 @@ import configEdit from "./configEdit";
       },
       deleteRow(row) {
         console.log("deleteRow", row)
-        shopkeeperInventoryDelete({ belongKey: row.belongKey,inventoryKey:row.inventoryKey }).then(res => {
+        ShopInventoryDelete({ belongKey: row.belongKey,inventoryKey:row.inventoryKey }).then(res => {
           if (res.data.code == 200) {
             this.$message.success("删除成功!");
             this.getTableData()
@@ -168,11 +168,11 @@ import configEdit from "./configEdit";
       },
       setClose(row) {
         let ruleForm={
-          belongKey: row.shopkeeperKey,
+          belongKey: row.shopKey,
           inventoryKey: row.inventoryKey,
           status:2
        }
-      shopkeeperInventoryUpdate(ruleForm).then(res => {
+      ShopInventoryUpdate(ruleForm).then(res => {
           if (res.data.code == 200) {
             this.$message.success("编辑成功!");
             this.getTableData()
@@ -184,11 +184,11 @@ import configEdit from "./configEdit";
       },
       setOpen(row) {
         let ruleForm={
-        belongKey: row.shopkeeperKey,
+        belongKey: row.shopKey,
         inventoryKey: row.inventoryKey, 
         status:1
        }
-      shopkeeperInventoryUpdate(ruleForm).then(res => {
+      ShopInventoryUpdate(ruleForm).then(res => {
         if (res.data.code == 200) {
             this.$message.success("编辑成功!");
             this.getTableData()
@@ -216,17 +216,17 @@ import configEdit from "./configEdit";
       },
       handleDeleteList() {
         if (this.multipleSelection.length > 0) {
-          let shopkeeperInventorys = [];
+          let ShopInventorys = [];
           this.multipleSelection.forEach(item => {
-            shopkeeperInventorys.push({ belongKey: item.belongKey,inventoryKey:item.inventoryKey })
+            ShopInventorys.push({ belongKey: item.belongKey,inventoryKey:item.inventoryKey })
           })
-          console.log(shopkeeperInventorys);
+          console.log(ShopInventorys);
           this.$confirm('删除操作, 是否继续?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            shopkeeperInventoryDeleteList(shopkeeperInventorys).then(() => {
+            ShopInventoryDeleteList(ShopInventorys).then(() => {
               this.getTableData();
               this.$message({
                 type: 'success',
