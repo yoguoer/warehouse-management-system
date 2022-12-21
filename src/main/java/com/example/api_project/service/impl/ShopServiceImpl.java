@@ -1,8 +1,6 @@
 package com.example.api_project.service.impl;
 
 import com.example.api_project.mapper.ShopMapper;
-import com.example.api_project.pojo.BusinessEntity;
-import com.example.api_project.pojo.Position;
 import com.example.api_project.pojo.Shop;
 import com.example.api_project.service.ShopService;
 import org.springframework.stereotype.Service;
