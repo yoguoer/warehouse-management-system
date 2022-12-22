@@ -5,7 +5,7 @@ public class District {
     private String districtCode;//区域号
     private String inventoryDistrictkey;//区域key
     private String inventoryKey;//所属仓库
-    private String sort;//排序
+    private Integer sort;//排序
     private Integer status;//状态
     private String districtName;//区域名称
 
@@ -57,11 +57,11 @@ public class District {
         this.inventoryKey = inventoryKey;
     }
 
-    public String getSort() {
+    public Integer getSort() {
         return sort;
     }
 
-    public void setSort(String sort) {
+    public void setSort(Integer sort) {
         this.sort = sort;
     }
 }

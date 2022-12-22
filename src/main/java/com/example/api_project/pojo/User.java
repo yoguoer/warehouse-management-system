@@ -7,7 +7,7 @@ public class User {
     private String userEmail;//邮箱
     private String passWord;//密码
     private String userPhone;//手机号码
-    private String userType;//用户类型(1管理员、0普通用户)
+    private Integer userType;//用户类型(1管理员、0普通用户)
 
     public String getUserId() {
         return userId;
@@ -57,11 +57,11 @@ public class User {
         this.userPhone = userPhone;
     }
 
-    public String getUserType() {
+    public Integer getUserType() {
         return userType;
     }
 
-    public void setUserType(String userType) {
+    public void setUserType(Integer userType) {
         this.userType = userType;
     }
 }

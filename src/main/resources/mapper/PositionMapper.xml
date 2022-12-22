@@ -7,8 +7,8 @@
         <result property="inventoryKey" column="inventory_key" jdbcType="VARCHAR"/>
         <result property="positionCode" column="position_code" jdbcType="VARCHAR"/>
         <result property="positionType" column="position_type" jdbcType="VARCHAR"/>
-        <result property="maxWeight" column="maxWeight" jdbcType="VARCHAR"/>
-        <result property="maxCapacity" column="max_capacity" jdbcType="VARCHAR"/>
+        <result property="maxWeight" column="maxWeight" jdbcType="INTEGER"/>
+        <result property="maxCapacity" column="max_capacity" jdbcType="INTEGER"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="positionKey" column="position_key" jdbcType="VARCHAR"/>
     </resultMap>

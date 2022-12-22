@@ -9,7 +9,6 @@
         <result property="customerCode" column="customer_code" jdbcType="VARCHAR"/>
         <result property="customerEmail" column="customer_email" jdbcType="VARCHAR"/>
         <result property="customerTel" column="customer_tel" jdbcType="VARCHAR"/>
-        <result property="customerAddress" column="customer_address" jdbcType="VARCHAR"/>
         <result property="province" column="province" jdbcType="VARCHAR"/>
         <result property="city" column="city" jdbcType="VARCHAR"/>
         <result property="district" column="district" jdbcType="VARCHAR"/>
@@ -24,14 +23,14 @@
     <!--查询全部-->
     <select id="getList" resultMap="CustomerMap">
         select
-            category_key, customer_key, customer_name, customer_code, customer_email, customer_tel, customer_address
+            category_key, customer_key, customer_name, customer_code, customer_email, customer_tel
         from customer
     </select>
 
     <!--查询单个-->
     <select id="queryById" resultMap="CustomerMap">
         select
-          category_key, customer_key, customer_name, customer_code, customer_email, customer_tel, customer_address
+          category_key, customer_key, customer_name, customer_code, customer_email, customer_tel
         from customer
         where customer_key = #{customerKey}
     </select>
@@ -74,9 +73,6 @@
             <if test="customerTel != null and customerTel != ''">
                 and customer_tel = #{customerTel}
             </if>
-            <if test="customerAddress != null and customerAddress != ''">
-                and customer_address = #{customerAddress}
-            </if>
             <if test="province != null and province != ''">
                 and province = #{province}
             </if>
@@ -94,23 +90,23 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="customerKey" useGeneratedKeys="true">
-        insert into customer(customer_key,category_key, customer_name, customer_code, customer_email, customer_tel, customer_address, province,city, district, detail)
-        values (#{customerKey},#{categoryKey}, #{customerName}, #{customerCode}, #{customerEmail}, #{customerTel}, #{customerAddress}, #{province},#{city}, #{district}, #{detail})
+        insert into customer(customer_key,category_key, customer_name, customer_code, customer_email, customer_tel, province,city, district, detail)
+        values (#{customerKey},#{categoryKey}, #{customerName}, #{customerCode}, #{customerEmail}, #{customerTel}, #{province},#{city}, #{district}, #{detail})
     </insert>
 
     <insert id="insertBatch" keyProperty="customerKey" useGeneratedKeys="true">
-        insert into customer(category_key, customer_name, customer_code, customer_email, customer_tel, customer_address, province, city, district, detail)
+        insert into customer(category_key, customer_name, customer_code, customer_email, customer_tel, province, city, district, detail)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{categoryKey}, #{customerName}, #{customerCode}, #{customerEmail}, #{customerTel}, #{customerAddress}, #{province}, #{city}, #{district}, #{detail})
+        (#{categoryKey}, #{customerName}, #{customerCode}, #{customerEmail}, #{customerTel},  #{province}, #{city}, #{district}, #{detail})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="customerKey" useGeneratedKeys="true">
-        insert into customer(category_key, customer_name, customer_code, customer_email, customer_tel, customer_address,province,city, district, detail)
+        insert into customer(category_key, customer_name, customer_code, customer_email, customer_tel,province,city, district, detail)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{categoryKey}, #{customerName}, #{customerCode}, #{customerEmail}, #{customerTel}, #{customerAddress},#{province},#{city}, #{district}, #{detail})
+            (#{categoryKey}, #{customerName}, #{customerCode}, #{customerEmail}, #{customerTel}, #{province},#{city}, #{district}, #{detail})
         </foreach>
         on duplicate key update
         category_key = values(category_key),
@@ -118,7 +114,6 @@
         customer_code = values(customer_code),
         customer_email = values(customer_email),
         customer_tel = values(customer_tel),
-        customer_address = values(customer_address)
         province = values(province),
         city = values(city),
         district = values(district),
@@ -146,9 +141,6 @@
             </if>
             <if test="province != null and province != ''">
                 province = #{province},
-            </if>
-            <if test="customerAddress != null and customerAddress != ''">
-                customer_address = #{customerAddress},
             </if>
             <if test="city != null and city != ''">
                 city = #{city},

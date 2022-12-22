@@ -6,42 +6,42 @@
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="districtCode" column="district_code" jdbcType="VARCHAR"/>
         <result property="districtName" column="district_name" jdbcType="VARCHAR"/>
-        <result property="inventoryDistrictkey" column="inventory_districtKey" jdbcType="VARCHAR"/>
+        <result property="inventoryDistrictkey" column="inventory_district_key" jdbcType="VARCHAR"/>
         <result property="inventoryKey" column="inventory_key" jdbcType="VARCHAR"/>
-        <result property="sort" column="sort" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="DistrictMap">
         select
-          description, district_code,district_name, inventory_districtKey, inventory_key, sort
+          description, district_code,district_name, inventory_district_key, inventory_key, sort
         from district
-        where inventory_districtKey = #{inventoryDistrictkey}
+        where inventory_district_key = #{inventoryDistrictkey}
     </select>
 
     <!--查询所有（不分页）-->
     <select id="getList" resultMap="DistrictMap">
         select
-            description, district_code,district_name, inventory_districtKey, inventory_key, sort,status
+            description, district_code,district_name, inventory_district_key, inventory_key, sort,status
         from district
         where inventory_key = #{inventoryKey}
-        order by inventory_districtKey desc
+        order by inventory_district_key desc
     </select>
 
     <!--分页查询所有-->
     <select id="getListPage" resultMap="DistrictMap">
         select
-            description, district_code,district_name, inventory_districtKey, inventory_key, sort,status
+            description, district_code,district_name, inventory_district_key, inventory_key, sort,status
         from district
-        order by inventory_districtKey desc
+        order by inventory_district_key desc
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="DistrictMap">
         select
-          description, district_code,district_name, inventory_districtKey, inventory_key, sort,status
+          description, district_code,district_name, inventory_district_key, inventory_key, sort,status
         from district
         <where>
             <if test="districtCode != null and districtCode != ''">
@@ -75,7 +75,7 @@
                 and district_name = #{districtName}
             </if>
             <if test="inventoryDistrictkey != null and inventoryDistrictkey != ''">
-                and inventory_districtKey = #{inventoryDistrictkey}
+                and inventory_district_key = #{inventoryDistrictkey}
             </if>
             <if test="inventoryKey != null and inventoryKey != ''">
                 and inventory_key = #{inventoryKey}
@@ -91,7 +91,7 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="inventoryDistrictkey" useGeneratedKeys="true">
-        insert into district(inventory_districtKey,description, district_code,district_name, inventory_key, sort,status)
+        insert into district(inventory_district_key,description, district_code,district_name, inventory_key, sort,status)
         values (#{inventoryDistrictkey},#{description}, #{districtCode}, #{districtName},#{inventoryKey}, #{sort},#{status})
     </insert>
 
@@ -141,12 +141,12 @@
                 status = #{status},
             </if>
         </set>
-        where inventory_districtKey = #{inventoryDistrictkey}
+        where inventory_district_key = #{inventoryDistrictkey}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from district where inventory_districtKey = #{inventoryDistrictkey}
+        delete from district where inventory_district_key = #{inventoryDistrictkey}
     </delete>
 
 </mapper>

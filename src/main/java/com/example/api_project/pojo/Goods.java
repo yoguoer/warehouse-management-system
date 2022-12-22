@@ -7,7 +7,7 @@ public class Goods {
     private String createTime;//添加时间
     private String goodsKey;//商品ID
     private String modelCode;//型号
-    private String state;//0下架 1上架
+    private Integer state;//0下架 1上架
     private String supplierKey;//供应商
     private String categoryKey;//所属分类
     private String brandCode;//品牌
@@ -15,44 +15,20 @@ public class Goods {
     //商品头图？
     private String goodsUnit;//商品单位
     private String unitType; //单位类型：BASIC：基本单位， SUPPORT：辅助单位
-    private String inventoryBook;//账面库存
-    private String priceRetail;//零售价
-    private String priceWholesaler;//批发价
-    private String priceCostAverage;//成本均价
-    private String priceCostPreset;//预设进价
-    private String priceCostReference;//参考成本
-    private String priceLatestPurchase;//最近进价
+    private Integer inventoryBook;//账面库存
+    private Integer priceRetail;//零售价
+    private Integer priceWholesaler;//批发价
+    private Integer priceCostAverage;//成本均价
+    private Integer priceCostPreset;//预设进价
+    private Integer priceCostReference;//参考成本
+    private Integer priceLatestPurchase;//最近进价
     private String unitDescription;//换算关系
-    private String weight;//重量：克
-    private String volume;//体积
+    private Integer weight;//重量：克
+    private Integer volume;//体积
 
     private String categoryName;
     private String supplierName;
     private String inventoryName;
-
-    public String getSupplierName() {
-        return supplierName;
-    }
-
-    public void setSupplierName(String supplierName) {
-        this.supplierName = supplierName;
-    }
-
-    public String getInventoryName() {
-        return inventoryName;
-    }
-
-    public void setInventoryName(String inventoryName) {
-        this.inventoryName = inventoryName;
-    }
-
-    public String getCategoryName() {
-        return categoryName;
-    }
-
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
 
     public String getGoodsName() {
         return goodsName;
@@ -102,11 +78,11 @@ public class Goods {
         this.modelCode = modelCode;
     }
 
-    public String getState() {
+    public Integer getState() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(Integer state) {
         this.state = state;
     }
 
@@ -158,59 +134,59 @@ public class Goods {
         this.unitType = unitType;
     }
 
-    public String getInventoryBook() {
+    public Integer getInventoryBook() {
         return inventoryBook;
     }
 
-    public void setInventoryBook(String inventoryBook) {
+    public void setInventoryBook(Integer inventoryBook) {
         this.inventoryBook = inventoryBook;
     }
 
-    public String getPriceRetail() {
+    public Integer getPriceRetail() {
         return priceRetail;
     }
 
-    public void setPriceRetail(String priceRetail) {
+    public void setPriceRetail(Integer priceRetail) {
         this.priceRetail = priceRetail;
     }
 
-    public String getPriceWholesaler() {
+    public Integer getPriceWholesaler() {
         return priceWholesaler;
     }
 
-    public void setPriceWholesaler(String priceWholesaler) {
+    public void setPriceWholesaler(Integer priceWholesaler) {
         this.priceWholesaler = priceWholesaler;
     }
 
-    public String getPriceCostAverage() {
+    public Integer getPriceCostAverage() {
         return priceCostAverage;
     }
 
-    public void setPriceCostAverage(String priceCostAverage) {
+    public void setPriceCostAverage(Integer priceCostAverage) {
         this.priceCostAverage = priceCostAverage;
     }
 
-    public String getPriceCostPreset() {
+    public Integer getPriceCostPreset() {
         return priceCostPreset;
     }
 
-    public void setPriceCostPreset(String priceCostPreset) {
+    public void setPriceCostPreset(Integer priceCostPreset) {
         this.priceCostPreset = priceCostPreset;
     }
 
-    public String getPriceCostReference() {
+    public Integer getPriceCostReference() {
         return priceCostReference;
     }
 
-    public void setPriceCostReference(String priceCostReference) {
+    public void setPriceCostReference(Integer priceCostReference) {
         this.priceCostReference = priceCostReference;
     }
 
-    public String getPriceLatestPurchase() {
+    public Integer getPriceLatestPurchase() {
         return priceLatestPurchase;
     }
 
-    public void setPriceLatestPurchase(String priceLatestPurchase) {
+    public void setPriceLatestPurchase(Integer priceLatestPurchase) {
         this.priceLatestPurchase = priceLatestPurchase;
     }
 
@@ -222,19 +198,43 @@ public class Goods {
         this.unitDescription = unitDescription;
     }
 
-    public String getWeight() {
+    public Integer getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(Integer weight) {
         this.weight = weight;
     }
 
-    public String getVolume() {
+    public Integer getVolume() {
         return volume;
     }
 
-    public void setVolume(String volume) {
+    public void setVolume(Integer volume) {
         this.volume = volume;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
+    public String getInventoryName() {
+        return inventoryName;
+    }
+
+    public void setInventoryName(String inventoryName) {
+        this.inventoryName = inventoryName;
     }
 }

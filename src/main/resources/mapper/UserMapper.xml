@@ -9,7 +9,7 @@
     <result property="userEmail" column="user_email" jdbcType="VARCHAR" /><!--邮箱-->
     <result property="passWord" column="user_pwd" jdbcType="VARCHAR" /><!--密码-->
     <result property="userPhone" column="user_phone" jdbcType="VARCHAR" /><!--手机号码-->
-    <result property="userType" column="user_type" jdbcType="VARCHAR" /><!--户类型(1管理员、0普通用户)-->
+    <result property="userType" column="user_type" jdbcType="INTEGER" /><!--户类型(1管理员、0普通用户)-->
   </resultMap>
 
   <sql id="Base_Column_List" >

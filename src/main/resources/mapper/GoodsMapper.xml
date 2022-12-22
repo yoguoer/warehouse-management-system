@@ -9,13 +9,13 @@
         <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
         <result property="goodsUnit" column="goods_unit" jdbcType="VARCHAR"/>
         <result property="inventoryKey" column="inventory_key" jdbcType="VARCHAR"/>
-        <result property="priceCostAverage" column="price_cost_average" jdbcType="VARCHAR"/>
-        <result property="priceCostPreset" column="price_cost_preset" jdbcType="VARCHAR"/>
-        <result property="priceCostReference" column="price_cost_reference" jdbcType="VARCHAR"/>
-        <result property="priceLatestPurchase" column="price_latest_purchase" jdbcType="VARCHAR"/>
+        <result property="priceCostAverage" column="price_cost_average" jdbcType="INTEGER"/>
+        <result property="priceCostPreset" column="price_cost_preset" jdbcType="INTEGER"/>
+        <result property="priceCostReference" column="price_cost_reference" jdbcType="INTEGER"/>
+        <result property="priceLatestPurchase" column="price_latest_purchase" jdbcType="INTEGER"/>
         <result property="goodsBarcode" column="goods_barcode" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
-        <result property="state" column="state" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
         <result property="categoryKey" column="category_key" jdbcType="VARCHAR"/>
         <result property="unitDescription" column="unit_description" jdbcType="VARCHAR"/>
         <result property="weight" column="weight" jdbcType="INTEGER"/>

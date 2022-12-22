@@ -15,7 +15,7 @@
         <result property="city" column="city" jdbcType="VARCHAR"/>
         <result property="district" column="district" jdbcType="VARCHAR"/>
         <result property="detail" column="detail" jdbcType="INTEGER"/>
-        <result property="cooperationType" column="cooperation_type" jdbcType="VARCHAR"/>
+        <result property="cooperationType" column="cooperation_type" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询全部（不分页）-->

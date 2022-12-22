@@ -10,7 +10,6 @@ public class Customer {
     private String customerCode;//客户编号
     private String customerEmail;//联系邮箱
     private String customerTel;//联系电话
-    private String customerAddress;//联系地址
     /**
      * 省
      */
@@ -125,11 +124,4 @@ public class Customer {
         this.customerTel = customerTel;
     }
 
-    public String getCustomerAddress() {
-        return customerAddress;
-    }
-
-    public void setCustomerAddress(String customerAddress) {
-        this.customerAddress = customerAddress;
-    }
 }

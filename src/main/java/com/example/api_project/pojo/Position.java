@@ -5,8 +5,8 @@ public class Position {
     private String inventoryKey;//所属仓库
     private String positionCode; //货位编号
     private String positionType; //货位类型：store：存储位 assemble: 集货位
-    private String maxWeight; //最大重量
-    private String maxCapacity; //最大容量(m3)
+    private Integer maxWeight; //最大重量
+    private Integer maxCapacity; //最大容量(m3)
     private String description; //备注
     private String positionKey;
 
@@ -42,19 +42,19 @@ public class Position {
         this.positionType = positionType;
     }
 
-    public String getMaxWeight() {
+    public Integer getMaxWeight() {
         return maxWeight;
     }
 
-    public void setMaxWeight(String maxWeight) {
+    public void setMaxWeight(Integer maxWeight) {
         this.maxWeight = maxWeight;
     }
 
-    public String getMaxCapacity() {
+    public Integer getMaxCapacity() {
         return maxCapacity;
     }
 
-    public void setMaxCapacity(String maxCapacity) {
+    public void setMaxCapacity(Integer maxCapacity) {
         this.maxCapacity = maxCapacity;
     }
 
