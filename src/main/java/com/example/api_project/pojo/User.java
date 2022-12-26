@@ -8,6 +8,15 @@ public class User {
     private String passWord;//密码
     private String userPhone;//手机号码
     private Integer userType;//用户类型(1管理员、0普通用户)
+    private String userBelong;//归属于
+
+    public String getUserBelong() {
+        return userBelong;
+    }
+
+    public void setUserBelong(String userBelong) {
+        this.userBelong = userBelong;
+    }
 
     public String getUserId() {
         return userId;

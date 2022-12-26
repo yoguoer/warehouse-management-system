@@ -9,11 +9,12 @@
     <result property="userEmail" column="user_email" jdbcType="VARCHAR" /><!--邮箱-->
     <result property="passWord" column="user_pwd" jdbcType="VARCHAR" /><!--密码-->
     <result property="userPhone" column="user_phone" jdbcType="VARCHAR" /><!--手机号码-->
+    <result property="userBelong" column="user_belong" jdbcType="VARCHAR" /><!--归属于-->
     <result property="userType" column="user_type" jdbcType="INTEGER" /><!--户类型(1管理员、0普通用户)-->
   </resultMap>
 
   <sql id="Base_Column_List" >
-    user_id, user_name, user_sex, user_email, user_pwd, user_phone, user_type
+    user_id, user_name, user_sex, user_email, user_pwd, user_phone, user_type,user_belong
   </sql>
 
 <!--  根据id查找用户-->
@@ -32,13 +33,14 @@
 
 <!--  插入新用户-->
   <insert id="insert" parameterType="com.example.api_project.pojo.User" >
-    insert into user (user_id, user_name, user_sex, user_phone, user_email, user_type,user_pwd)
+    insert into user (user_id, user_name, user_sex, user_phone, user_email, user_type,user_belong,user_pwd)
     values (#{userId,jdbcType=VARCHAR},
             #{userName,jdbcType=VARCHAR},
             #{userSex,jdbcType=VARCHAR},
             #{userPhone,jdbcType=VARCHAR},
             #{userEmail,jdbcType=VARCHAR},
             #{userType,jdbcType=VARCHAR},
+            #{userBelong,jdbcType=VARCHAR},
             #{passWord,jdbcType=VARCHAR})
   </insert>
 
@@ -64,6 +66,9 @@
       <if test="userType != null" >
         user_type,
       </if>
+      <if test="userBelong != null" >
+        user_belong,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
@@ -83,6 +88,9 @@
       </if>
       <if test="userType != null" >
         #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="userBelong != null" >
+        #{userBelong,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -106,6 +114,9 @@
       <if test="userType!= null and userType !=''" >
         user_type = #{userType,jdbcType=VARCHAR},
       </if>
+      <if test="userBelong!= null and userBelong !=''" >
+        user_belong = #{userBelong,jdbcType=VARCHAR},
+      </if>
       <if test="passWord!= null and passWord !=''" >
         user_pwd = #{passWord,jdbcType=VARCHAR},
       </if>
@@ -120,7 +131,8 @@
       user_email = #{userEmail,jdbcType=VARCHAR},
       user_sex = #{userSex,jdbcType=VARCHAR},
       user_phone = #{userPhone,jdbcType=VARCHAR},
-      user_type = #{userType,jdbcType=VARCHAR}
+      user_type = #{userType,jdbcType=VARCHAR},
+      user_belong = #{userBelong,jdbcType=VARCHAR}
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
 
@@ -137,6 +149,9 @@
       <if test="userType != null and userType !=''">
         and user_type = #{userType}
       </if>
+      <if test="userBelong != null and userBelong !=''">
+        and user_belong = #{userBelong}
+      </if>
     </where>
     order by user_id desc
     limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -151,6 +166,9 @@
       </if>
       <if test="userType != null and userType !=''">
         and user_type = #{userType}
+      </if>
+      <if test="userBelong != null and userBelong !=''">
+        and user_belong = #{userBelong}
       </if>
     </where>
   </select>

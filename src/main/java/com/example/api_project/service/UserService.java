@@ -15,7 +15,7 @@ public interface UserService {
      * @param pageSize
      * @return
      */
-    List<User> selectUserPage(@Param("userName")String userName, @Param("userType")String userType, @Param("startRows")Integer startRows,@Param("pageSize")Integer pageSize);
+    List<User> selectUserPage(@Param("userName")String userName, @Param("userType")String userType,@Param("userBelong")String userBelong, @Param("startRows")Integer startRows,@Param("pageSize")Integer pageSize);
 
     /**
      * 查询 User 个数
@@ -23,7 +23,7 @@ public interface UserService {
      * @param userType
      * @return
      */
-    Integer getRowCount(@Param("userName")String userName, @Param("userType")String userType);
+    Integer getRowCount(@Param("userName")String userName, @Param("userType")String userType,@Param("userBelong")String userBelong);
 
     /**
      * 添加 User

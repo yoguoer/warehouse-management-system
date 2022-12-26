@@ -24,12 +24,12 @@ public class UserController {
 
     @RequestMapping("/selectUserPage")
     @ResponseBody
-    public Result selectUserPage(String userName, String userType, Integer page,Integer size) {
+    public Result selectUserPage(String userName, String userType,String userBelong, Integer page,Integer size) {
         int pageNow = page == null ? 1 : page;
         int pageSize = size== null ? 5 : size;
         int startRows = pageSize * (pageNow - 1);
-        List records = userService.selectUserPage(userName, userType, startRows,pageSize);
-        Integer total = userService.getRowCount(userName, userType);
+        List records = userService.selectUserPage(userName, userType, userBelong, startRows,pageSize);
+        Integer total = userService.getRowCount(userName, userType, userBelong);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

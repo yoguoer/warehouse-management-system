@@ -15,9 +15,9 @@ public interface UserMapper {
 
     int updateByPrimaryKeySelective(User user);
 
-    List<User> selectUserPage(String userName, String userType, Integer startRows, Integer pageSize);
+    List<User> selectUserPage(String userName, String userType, String userBelong,Integer startRows, Integer pageSize);
 
-    Integer getRowCount(String userName, String userType);
+    Integer getRowCount(String userName, String userType, String userBelong);
 
     Integer deleteUserByIdList(List userIds);
 

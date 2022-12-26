@@ -15,13 +15,13 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public List<User> selectUserPage(String userName, String userType, Integer startRows,Integer pageSize) {
-        return userMapper.selectUserPage(userName, userType, startRows, pageSize);
+    public List<User> selectUserPage(String userName, String userType,String userBelong, Integer startRows,Integer pageSize) {
+        return userMapper.selectUserPage(userName, userType, userBelong, startRows, pageSize);
     }
 
     @Override
-    public Integer getRowCount(String userName, String userType) {
-        return userMapper.getRowCount(userName, userType);
+    public Integer getRowCount(String userName, String userType, String userBelong) {
+        return userMapper.getRowCount(userName, userType,userBelong);
     }
 
     @Override
