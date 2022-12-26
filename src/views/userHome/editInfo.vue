@@ -27,6 +27,7 @@
 
 <script>
 import { updateUserById } from '@/api/api'
+import qs from "qs";
 
 export default {
     name: 'guestEdit',
@@ -75,7 +76,7 @@ export default {
     methods: {
         submit() {
             this.$parent.dialogFormVisible = false
-            let postData = this.qs.stringify({
+            let postData = qs.stringify({
                 userId: this.form.userId,//用户 Id
                 userType: this.form.userType,//用户角色
                 userName: this.form.userName,//用户姓名

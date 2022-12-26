@@ -4,7 +4,7 @@
     <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
     <el-divider />
     <div class="list-model">
-      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="list" tooltip-effect="dark"
+      <el-table height="500px" :cell-style="{ padding: '5px' }" border :data="list" tooltip-effect="dark"
         @selection-change="handleSelectionDelete" style="width: auto; margin-top: 20px"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }" class="table-fixed">
         <el-table-column type="selection" width="55"></el-table-column>
@@ -177,11 +177,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page-box {
-  text-align: center;
+  text-align: right;
   margin: 20px;
 }
-
-.list-model {
-  width: 100%;
+.wrap-definition {
+  background: #fff;
 }
 </style>

@@ -123,6 +123,7 @@ export default {
     getBanklistPage() {
       banklistPage({ page: this.pageNo, size: this.pageSize }).then((res) => {
         this.bankList = res.data.data.records;
+        this.total = res.data.data.total;
         // console.log("bankList:", this.bankList);
       });
       this.$forceUpdate();
@@ -181,7 +182,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page-box {
-  text-align: center;
+  text-align: right;
   margin: 20px;
 }
 

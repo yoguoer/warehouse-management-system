@@ -5,7 +5,7 @@
     <el-divider />
 
     <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
-      :tableColumn="tableColumn">
+      :tableColumn="tableColumn" height="500px">
       <template v-slot:column-address="props">
         <span>{{ props.row.province }},{{ props.row.city }},{{ props.row.district }},{{ props.row.detail }}</span>
       </template>
@@ -267,5 +267,9 @@ export default {
 <style lang="scss" rel="stylesheet/scss" scoped>
 .wrap-definition {
   background: #fff;
+}
+.page-box {
+  text-align: right;
+  margin: 20px;
 }
 </style>

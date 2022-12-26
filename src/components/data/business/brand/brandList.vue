@@ -73,6 +73,7 @@ export default {
       if (this.brandId || this.brandName) {
         brandlistPage({ brandName: this.brandName, brandCode: this.brandId, page: this.pageNo, size: this.pageSize }).then((res) => {
           this.brandList = res.data.data.records;
+          this.total = res.data.data.total;
           console.log("brandList:", this.brandList);
         });
         this.$forceUpdate();
@@ -123,6 +124,7 @@ export default {
     getBrandlistPage() {
       brandlistPage({ brandName: "", brandCode: "", page: this.pageNo, size: this.pageSize }).then((res) => {
         this.brandList = res.data.data.records;
+        this.total = res.data.data.total;
         console.log("brandList:", this.brandList);
       });
       this.$forceUpdate();
@@ -182,7 +184,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page-box {
-  text-align: center;
+  text-align: right;
   margin: 20px;
 }
 

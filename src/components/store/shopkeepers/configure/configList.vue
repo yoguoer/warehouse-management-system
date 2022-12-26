@@ -254,7 +254,7 @@ import configEdit from "./configEdit";
   </script>
   <style lang="scss" scoped>
   .page-box {
-    text-align: center;
+    text-align: right;
     margin: 20px;
   }
   

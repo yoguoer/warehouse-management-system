@@ -231,11 +231,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page-box {
-  text-align: center;
+  text-align: right;
   margin: 20px;
-}
-
-.list-model {
-  width: 100%;
 }
 </style>

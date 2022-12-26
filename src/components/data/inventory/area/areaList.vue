@@ -243,21 +243,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page-box {
-  text-align: center;
+  text-align: right;
   margin: 20px;
-}
-
-.list-model {
-  width: 100%;
-}
-
-.el-table {
-  overflow-y: auto !important;
-  overflow-x: auto !important;
-}
-
-.el-table__fixed {
-  height: auto !important; // 让固定列的高自适应，且设置!important覆盖ele-ui的默认样式
-  bottom: 17px; // 固定列默认设置了定位，    position: absolute;top: 0;left: 0;只需要再设置一下bottom的值，让固定列和父元素的底部出现距离即可
 }
 </style>

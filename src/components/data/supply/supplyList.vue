@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- 供应商 -->
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-refresh" @click="reload">刷新</el-button> -->
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add">新增</el-button> -->
-    <!-- <el-divider/> -->
     <div>
       <el-input placeholder="供应商编号" v-model="supplyId" type="text" size="small" :clearable="true">
         <template slot="prepend">供应商编号</template>
@@ -228,7 +224,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .page-box {
-  text-align: center;
+  text-align: right;
   margin: 20px;
 }
 

@@ -72,6 +72,7 @@ export default {
       let user = JSON.parse(localStorage.getItem("userInfo"))
       getUserInfo(user).then(res => {
         this.userInfo = res.data.data || []
+        localStorage.setItem("userInfo", JSON.stringify(this.userInfo))
         // console.log(this.userInfo)
       }).catch(err => {
         console.log(err);

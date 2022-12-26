@@ -21,6 +21,7 @@
 
 <script>
 import { updateUserById } from '@/api/api'
+import qs from "qs";
 
 export default {
     name: 'guestEdit',
@@ -67,7 +68,7 @@ export default {
             } else {
                 if (this.form.currentPwd == this.$parent.userInfo.passWord) {
                     this.$parent.dialogVisible = false
-                    let postData = this.qs.stringify({
+                    let postData = qs.stringify({
                         userId: this.$parent.userInfo.userId,//用户 userId
                         passWord: this.form.passWord,//用户密码
                     });
