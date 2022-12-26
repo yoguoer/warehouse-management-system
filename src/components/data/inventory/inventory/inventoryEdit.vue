@@ -77,18 +77,20 @@
                   clearable></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="10">
-              <el-form-item label="所属门店" prop="belongKey" v-if="form.inventoryType == 2">
-                <el-select size="middle" v-model="form.belongKey" placeholder="所属门店" style="width:100%;">
-                  <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName"
-                    :value="item.shopKey" clearable placeholder="所属门店">
+            <el-col :span="10" v-if="form.inventoryType == 1">
+              <el-form-item label="所属供应商" prop="belongKey">
+                <el-select size="middle" v-model="form.belongKey" placeholder="所属供应商" style="width:100%;" clearable>
+                  <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
+                    :value="item.supplierKey"  placeholder="所属供应商" :disabled="item.disabled">
                   </el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="所属供应商" prop="belongKey" v-if="form.inventoryType == 1">
-                <el-select size="middle" v-model="form.belongKey" placeholder="所属供应商" style="width:100%;">
-                  <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
-                    :value="item.supplierKey" clearable placeholder="所属供应商">
+            </el-col>
+            <el-col :span="10"  v-if="form.inventoryType == 2">
+              <el-form-item label="所属门店" prop="belongKey">
+                <el-select size="middle" v-model="form.belongKey" placeholder="所属门店" style="width:100%;" clearable>
+                  <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName"
+                  :disabled="item.disabled" :value="item.shopKey"  placeholder="所属门店">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -257,11 +259,11 @@ export default {
           this.inventory.forEach(t => {
             this.shopOptions.forEach(item => {
               if (item.shopKey == t.belongKey) {
-                let index = this.shopOptions.indexOf(item)
-                this.shopOptions.splice(index, 1)
+                item.disabled=true
               }
             })
           })
+          console.log("shopOptions",this.shopOptions)
         } else {
           this.$message.error("获取失败!");
         }
@@ -274,11 +276,11 @@ export default {
           this.inventory.forEach(t => {
             this.supplyOptions.forEach(item => {
               if (item.supplierKey == t.belongKey) {
-                let index = this.supplyOptions.indexOf(item)
-                this.supplyOptions.splice(index, 1)
+                item.disabled=true
               }
             })
           })
+          console.log("supplyOptions",this.supplyOptions)
         } else {
           this.$message.error("获取失败!");
         }

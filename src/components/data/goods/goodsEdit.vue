@@ -25,17 +25,17 @@
           <el-row>
             <el-col :span="7">
               <el-form-item label="所属供应商" prop="supplierKey">
-                <el-select size="middle" v-model="ruleForm.supplierKey" placeholder="所属供应商" style="width:100%;">
-                  <el-option v-for="item in suplyOptions" :key="item.supplierKey" :label="item.supplierName"
-                    :value="item.supplierKey" clearable placeholder="所属供应商">
+                <el-select size="middle" v-model="ruleForm.supplierKey" placeholder="所属供应商" style="width:100%;" clearable>
+                  <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
+                    :value="item.supplierKey"  placeholder="所属供应商">
                   </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="7">
               <el-form-item label="默认仓库" prop="inventoryKey">
-                <el-select size="middle" v-model="ruleForm.inventoryKey" placeholder="默认仓库" style="width:100%;">
-                  <el-option v-for="item in options" :key="item.inventoryKey" :label="item.inventoryName" clearable
+                <el-select size="middle" v-model="ruleForm.inventoryKey" placeholder="默认仓库" style="width:100%;" clearable>
+                  <el-option v-for="item in options" :key="item.inventoryKey" :label="item.inventoryName" 
                     :value="item.inventoryKey">
                   </el-option>
                 </el-select>
@@ -210,7 +210,7 @@ export default {
       list: [],
       options: [],
       options1: [],
-      suplyOptions: [],
+      supplyOptions: [],
       rules: {
         goodsBarcode: [
           { required: true, message: '请输入商品条码', trigger: 'blur' },
@@ -373,7 +373,7 @@ export default {
     getSupplierlist() {
       Supplierlist().then(res => {
         if (res.data.code == 200) {
-          this.suplyOptions = res.data.data
+          this.supplyOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
         }
