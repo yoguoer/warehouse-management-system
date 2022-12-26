@@ -49,7 +49,7 @@
           :current="parseInt(pageNo)" :total="total" :page-size="pageSize" :page-no="pageNo" @current-change="_page"
           @size-change="_pageSize"></el-pagination>
       </div>
-      <guestsEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="_success()" />
+      <guestsEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
       <customerDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()"
         ref="detail" />
     </div>

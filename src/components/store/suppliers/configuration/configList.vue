@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="background:#fff;padding:10px;">
       <reloadAndsearch ref="search" :config="searchConfig" @search="search" />
       <div class="list-model">
         <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"

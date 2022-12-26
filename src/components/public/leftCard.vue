@@ -135,7 +135,7 @@ export default {
 .box-card {
   width: 300px;
   height: 550px;
-  margin: 20px 20px 20px 0;
+  margin: 0 20px 20px 0;
   float: left;
 }
 

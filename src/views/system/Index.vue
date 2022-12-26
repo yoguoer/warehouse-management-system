@@ -7,28 +7,34 @@
                 </el-input>
             </el-form-item>
             <el-form-item>
-                <el-select size="small" v-model="search2" clearable>
-                    <el-option label="请选择用户类型" value=""></el-option>
+                <el-select size="small" v-model="search2" placeholder="请选择用户类型" clearable>
                     <el-option label="超级管理员" value="0"></el-option>
                     <el-option label="管理员" value="1"></el-option>
                     <el-option label="用户" value="2"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button class="el-icon-search" type="primary" size="small" @click="handleSearch()">查询
-                </el-button>
+                <el-select size="middle" v-model="search3" placeholder="归属于">
+                    <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName"
+                        :value="item.shopKey" clearable placeholder="归属于">
+                    </el-option>
+                </el-select>
             </el-form-item>
             <el-form-item>
-                <el-button class="el-icon-circle-plus-outline" type="success" size="small" @click="dialogAdd = true">添加
-                </el-button>
+                <el-button class="el-icon-search" type="primary" size="small" @click="handleSearch()">查询</el-button>
             </el-form-item>
             <el-form-item>
-                <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除
-                </el-button>
+                <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
+            </el-form-item>
+            <el-form-item>
+                <el-button class="el-icon-circle-plus-outline" type="success" size="small" @click="dialogAdd = true">添加</el-button>
+            </el-form-item>
+            <el-form-item>
+                <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
             </el-form-item>
         </el-form>
         <!-- 表格数据 -->
-        <el-table ref="multipleTable" :data="tableData" border highlight-current-row style="width: 100%"
+        <el-table ref="multipleTable" :data="tableData" border highlight-current-row style="width: 100%;min-height:600px;"
             @selection-change="handleSelectionDelete">
             <el-table-column type="selection" width="55">
             </el-table-column>
@@ -109,6 +115,13 @@
                         <el-option label="女" value="女"></el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item label="归属于">
+                    <el-select size="middle" v-model="ruleForm.userBelong" placeholder="归属于" style="width:100%">
+                        <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName"
+                            :value="item.shopKey" clearable placeholder="归属于">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="emptyUserData()" size="medium">取 消</el-button>
                     <el-button @click="addUser('ruleForm')" type="primary" size="medium">确 定</el-button>
@@ -145,6 +158,13 @@
                         <el-option label="女" value="女"></el-option>
                     </el-select>
                 </el-form-item>
+                <el-form-item label="归属于">
+                    <el-select size="middle" v-model="ruleForm.userBelong" placeholder="归属于" style="width:100%">
+                        <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName"
+                            :value="item.shopKey" clearable placeholder="归属于">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="emptyUserData()" size="medium">取 消</el-button>
                     <el-button @click="updateUser()" type="primary" size="medium">确 定</el-button>
@@ -159,6 +179,8 @@
 
 <script>
 import { createUser, deleteUserById, deleteUserByIdList, getUserList, updateUserById } from "../../api/api";
+import { shoplist } from '@/api/data'
+import qs from "qs";
 
 export default {
     name: 'userManage',
@@ -171,11 +193,13 @@ export default {
                 userPhone: null,//手机号码
                 userEmail: null,//邮箱
                 userSex: null,//性别
+                userBelong: null,
             },
             rules: {},
             tableData: [],
             search1: '',
             search2: '',
+            search3: '',
             dialogAdd: false,
             dialogUpdate: false,
             pageSize: 20,
@@ -183,16 +207,27 @@ export default {
             total: 0,
             disablePage: false,
             multipleSelection: [],
-            userInfo: ''
+            userInfo: '',
+            shopOptions: []
         };
     },
     //初始化
     created() {
         this.userInfo = JSON.parse(localStorage.getItem("userInfo"))
         this.getUserListPage()
+        this.getshoplist()
     },
 
     methods: {
+        getshoplist() {
+            shoplist().then(res => {
+                if (res.data.code == 200) {
+                    this.shopOptions = res.data.data
+                } else {
+                    this.$message.error("获取失败!");
+                }
+            });
+        },
         getUserListPage() {
             let postData = ({
                 page: this.pageNo,
@@ -224,7 +259,8 @@ export default {
                 userEmail: this.ruleForm.userEmail,//邮箱
                 userPhone: this.ruleForm.userPhone,//手机号码
                 userType: this.ruleForm.userType,//用户类型(管理员、普通用户)
-                userSex: this.ruleForm.userSex
+                userSex: this.ruleForm.userSex,
+                userBelong: this.ruleForm.userBelong,
             });
             createUser(postData).then(res => {
                 this.getUserListPage()
@@ -240,9 +276,10 @@ export default {
 
         //查询用户
         handleSearch() {
-            let postData = this.qs.stringify({
+            let postData = qs.stringify({
                 userName: this.search1,
                 userType: this.search2,
+                userBelong: this.search3,
                 page: 1,
                 size: 10,
             });
@@ -281,7 +318,8 @@ export default {
                 userName: null,//用户姓名
                 userPhone: null,//手机号码
                 userEmail: null,//邮箱
-                userSex: null
+                userSex: null,
+                userBelong: null
             };
         },
 
@@ -293,7 +331,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                let postData = this.qs.stringify({
+                let postData = qs.stringify({
                     userId: row.userId,
                 });
                 deleteUserById(postData).then(response => {
@@ -334,7 +372,7 @@ export default {
                 cancelButtonText: '取消',
                 type: 'warning'
             }).then(() => {
-                let postData = this.qs.stringify({
+                let postData = qs.stringify({
                     userIdList: userIds
                 });
                 console.log(postData);
@@ -358,13 +396,14 @@ export default {
 
         //更新用户
         updateUser() {
-            let postData = this.qs.stringify({
+            let postData = qs.stringify({
                 userId: this.ruleForm.userId,//用户 Id
                 userType: this.ruleForm.userType,//用户角色
                 userName: this.ruleForm.userName,//用户姓名
                 userPhone: this.ruleForm.userPhone,//手机号码
                 userEmail: this.ruleForm.userEmail,//邮箱
-                userSex: this.ruleForm.userSex
+                userSex: this.ruleForm.userSex,
+                userBelong: this.ruleForm.userBelong
             });
             updateUserById(postData).then(response => {
                 this.getUserListPage()
@@ -378,9 +417,14 @@ export default {
             }).catch(error => {
                 console.log(error)
             });
+        },
+        clean(){
+            this.search1=''
+            this.search2=''
+            this.search3=''
+            this.getUserListPage()
         }
     },
-
 }
 </script>
 <style scoped>
