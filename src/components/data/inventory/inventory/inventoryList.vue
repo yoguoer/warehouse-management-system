@@ -63,7 +63,7 @@
           @current-change="_page" @size-change="_pageSize"></el-pagination>
       </div>
       <inventoryEdit ref="inventoryEdit" v-if="inventoryEditVisable" :dialogVisible="inventoryEditVisable"
-        :rowData="rowData" @close="inventoryEditVisable = false" @success="success()" />
+        :rowData="rowData" @close="inventoryEditVisable = false" @success="success()"/>
       <inventoryDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" />
     </div>
   </div>

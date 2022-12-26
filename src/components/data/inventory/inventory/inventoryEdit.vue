@@ -19,11 +19,8 @@
           <el-row>
             <el-col :span="10">
               <el-form-item label="仓库类型:" prop="inventoryType">
-                <!-- <el-radio-group v-model="form.inventoryType">
-                  <el-radio label="WAREHOUSE" value="WAREHOUSE" style="margin-right: 20px">仓库</el-radio>
-                  <el-radio label="CAR" value="CAR">车辆</el-radio>
-                </el-radio-group> -->
-                <el-select size="mini" v-model="form.inventoryType" placeholder="请选择" style="width: 350px" clearable>
+                <el-select size="mini" v-model="form.inventoryType" placeholder="请选择" style="width: 350px" clearable
+                  @change="getOptions()">
                   <el-option label="供应商仓库" :value="1"></el-option>
                   <el-option label="零售商仓库" :value="2"></el-option>
                 </el-select>
@@ -44,8 +41,8 @@
               <el-form-item label="所属分类" v-model="form.categoryKey" prop="categoryKey">
                 <listBoxF style="width: 350px">
                   <template slot="content">
-                    <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list" clearable
-                      style="width:350px;" placeholder="请选择" @select="selectNode" />
+                    <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list"
+                      clearable style="width:350px;" placeholder="请选择" @select="selectNode" />
                   </template>
                 </listBoxF>
               </el-form-item>
@@ -76,7 +73,24 @@
           <el-row>
             <el-col :span="10">
               <el-form-item label="备注:" prop="description">
-                <el-input v-model="form.description" type="textarea" class="form_text" placeholder="备注" clearable></el-input>
+                <el-input v-model="form.description" type="textarea" class="form_text" placeholder="备注"
+                  clearable></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="10">
+              <el-form-item label="所属门店" prop="belongKey" v-if="form.inventoryType == 2">
+                <el-select size="middle" v-model="form.belongKey" placeholder="所属门店" style="width:100%;">
+                  <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName"
+                    :value="item.shopKey" clearable placeholder="所属门店">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="所属供应商" prop="belongKey" v-if="form.inventoryType == 1">
+                <el-select size="middle" v-model="form.belongKey" placeholder="所属供应商" style="width:100%;">
+                  <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
+                    :value="item.supplierKey" clearable placeholder="所属供应商">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -92,7 +106,7 @@
 </template>
 
 <script>
-import { inventoryUpdate, inventoryAdd, getCategoryTree } from "@/api/data";
+import { inventoryUpdate, inventoryAdd, getCategoryTree, shoplist, Supplierlist, inventorylist } from "@/api/data";
 import checkAddress from "@/components/public/checkAddress.vue";
 import listBoxF from "@/components/public/listBoxF/listBoxF.vue";
 /**
@@ -118,13 +132,16 @@ export default {
   },
   data() {
     return {
+      inventory: [],
+      list:[],
       form: {
         categoryKey: "", //分类
         contactName: "", //联系人
         inventoryCode: "", //仓库编号
         inventoryKey: "",
         inventoryName: "", //仓库名
-        inventoryType: "", //仓库类型：WAREHOUSE：仓库，CAR：车辆
+        inventoryType: "", //仓库类型
+        belongKey: "",
         status: "",
         tel: "", //电话
         zipCode: "", //邮编
@@ -141,7 +158,8 @@ export default {
         description: "", //备注
       },
       ifCreate: true,
-      list: [],
+      supplyOptions: [],
+      shopOptions: [],
       rules: {
         inventoryName: [
           { required: true, message: '请输入仓库名', trigger: 'blur' },
@@ -184,6 +202,9 @@ export default {
   },
   created() {
     this.getTree();
+    this.getinventorylist()
+    this.getshoplist()
+    this.getSupplierlist()
     if (this.rowData.contactName) {
       this.ifCreate = false;
       this.form.categoryKey = this.rowData.categoryKey;
@@ -200,7 +221,8 @@ export default {
       this.form.address.detail = this.rowData.detail;
       this.form.description = this.rowData.description;
       this.form.status = this.rowData.status;
-
+      this.form.belongKey = this.rowData.belongKey
+      this.getOptions()
       console.log(this.rowData);
     } else {
       this.ifCreate = true;
@@ -211,7 +233,57 @@ export default {
       this.value = null;
     }
   },
+  mounted() {
+
+  },
   methods: {
+    getinventorylist() {
+      inventorylist()
+        .then((res) => {
+          if (res.data.code === 200) {
+            this.inventory = res.data.data
+          } else {
+            this.$message.error(res.msg);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    getshoplist() {
+      shoplist().then(res => {
+        if (res.data.code == 200) {
+          this.shopOptions = res.data.data
+          this.inventory.forEach(t => {
+            this.shopOptions.forEach(item => {
+              if (item.shopKey == t.belongKey) {
+                let index = this.shopOptions.indexOf(item)
+                this.shopOptions.splice(index, 1)
+              }
+            })
+          })
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
+    getSupplierlist() {
+      Supplierlist().then(res => {
+        if (res.data.code == 200) {
+          this.supplyOptions = res.data.data
+          this.inventory.forEach(t => {
+            this.supplyOptions.forEach(item => {
+              if (item.supplierKey == t.belongKey) {
+                let index = this.supplyOptions.indexOf(item)
+                this.supplyOptions.splice(index, 1)
+              }
+            })
+          })
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     // 自定义参数键值名称
     normalizer(node) {
       //去掉children=[]的children属性
@@ -274,7 +346,8 @@ export default {
             district: this.form.address.district,
             detail: this.form.address.detail,
             description: this.form.description,
-            status: this.form.status
+            status: this.form.status,
+            belongKey: this.form.belongKey
           };
           inventoryUpdate(data)
             .then((res) => {
@@ -314,6 +387,7 @@ export default {
             detail: this.form.address.detail,
             status: this.form.status,
             description: this.form.description,
+            belongKey: this.form.belongKey
           };
           console.log(data);
           inventoryAdd(data)
@@ -334,7 +408,13 @@ export default {
         }
       })
     },
-
+    getOptions() {
+      if (this.form.inventoryType == 1) {
+        this.getSupplierlist()
+      } else {
+        this.getshoplist()
+      }
+    },
     reset() {
       this.form = {
         categoryKey: "", //分类
@@ -342,7 +422,8 @@ export default {
         inventoryCode: "", //仓库编号
         inventoryKey: "",
         inventoryName: "", //仓库名
-        inventoryType: "", //仓库类型：WAREHOUSE：仓库，CAR：车辆
+        inventoryType: "", //仓库类型
+        belongKey: "",
         tel: "", //电话
         zipCode: "", //邮编
         status: "",
