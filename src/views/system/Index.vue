@@ -7,17 +7,17 @@
                 </el-input>
             </el-form-item>
             <el-form-item>
-                <el-select size="small" v-model="search2" placeholder="请选择用户类型" clearable>
+                <el-select size="small" v-model="search2" placeholder="请选择用户角色" clearable>
                     <el-option label="超级管理员" value="0"></el-option>
                     <el-option label="管理员" value="1"></el-option>
                     <el-option label="用户" value="2"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item>
-                <el-select size="middle" v-model="search3" placeholder="归属于">
-                    <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName"
-                        :value="item.shopKey" clearable placeholder="归属于">
-                    </el-option>
+                <el-select size="small" v-model="search3" placeholder="请选择用户类型" clearable>
+                    <el-option label="门店用户" value="0"></el-option>
+                    <el-option label="供应商用户" value="1"></el-option>
+                    <el-option label="全局用户" value="2"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item>
@@ -27,15 +27,16 @@
                 <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
             </el-form-item>
             <el-form-item>
-                <el-button class="el-icon-circle-plus-outline" type="success" size="small" @click="dialogAdd = true">添加</el-button>
+                <el-button class="el-icon-circle-plus-outline" type="success" size="small"
+                    @click="dialogAdd = true">添加</el-button>
             </el-form-item>
             <el-form-item>
                 <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
             </el-form-item>
         </el-form>
         <!-- 表格数据 -->
-        <el-table ref="multipleTable" :data="tableData" border highlight-current-row style="width: 100%;min-height:600px;"
-            @selection-change="handleSelectionDelete">
+        <el-table ref="multipleTable" :data="tableData" border highlight-current-row
+            style="width: 100%;min-height:600px;" @selection-change="handleSelectionDelete">
             <el-table-column type="selection" width="55">
             </el-table-column>
             <el-table-column label="用户编号">
@@ -60,18 +61,24 @@
             </el-table-column>
             <el-table-column label="性别">
                 <template slot-scope="scope">
-                    <el-tag :type="scope.row.userSex == '女' ? 'danger' : 'primary'" disable-transitions>
-                        {{ scope.row.userSex }}
-                    </el-tag>
+                    {{ scope.row.userSex }}
                 </template>
             </el-table-column>
             <el-table-column label="用户角色">
                 <template slot-scope="scope">
-                    <!-- <span>{{ scope.row.userType == 'admin' ? '管理员' : '用户' || '-' }}</span> -->
                     <el-tag
                         :type="scope.row.userType == 0 ? 'danger' : (scope.row.userType == 1 ? 'primary' : 'success')"
                         disable-transitions>
                         {{ scope.row.userType == 0 ? '超级管理员' : (scope.row.userType == 1 ? '管理员' : '用户') }}
+                    </el-tag>
+                </template>
+            </el-table-column>
+            <el-table-column label="用户类型">
+                <template slot-scope="scope">
+                    <el-tag
+                        :type="scope.row.userBelong == 0 ? 'primary' : (scope.row.userBelong == 1 ? 'success' : 'danger')"
+                        disable-transitions>
+                        {{ scope.row.userBelong == 0 ? '门店用户' : (scope.row.userBelong == 1 ? '供应商用户' : '全局用户') }}
                     </el-tag>
                 </template>
             </el-table-column>
@@ -94,9 +101,9 @@
                 </el-form-item>
                 <el-form-item label="用户角色">
                     <el-select v-model="ruleForm.userType" placeholder="请选择用户角色" prop="userType" style="width:100%">
-                        <el-option label="超级管理员" value="0"></el-option>
-                        <el-option label="管理员" value="1"></el-option>
-                        <el-option label="用户" value="2"></el-option>
+                        <el-option label="超级管理员" :value="0"></el-option>
+                        <el-option label="管理员" :value="1"></el-option>
+                        <el-option label="用户" :value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="姓名">
@@ -109,17 +116,16 @@
                     <el-input v-model="ruleForm.userEmail"></el-input>
                 </el-form-item>
                 <el-form-item label="性别">
-                    <!-- <el-input v-model="ruleForm.userSex"></el-input> -->
                     <el-select size="middle" v-model="ruleForm.userSex" clearable placeholder="性别" style="width:100%">
                         <el-option label="男" value="男"></el-option>
                         <el-option label="女" value="女"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="归属于">
-                    <el-select size="middle" v-model="ruleForm.userBelong" placeholder="归属于" style="width:100%">
-                        <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName"
-                            :value="item.shopKey" clearable placeholder="归属于">
-                        </el-option>
+                <el-form-item label="用户类型">
+                    <el-select size="small" v-model="ruleForm.userBelong" placeholder="请选择用户类型" clearable style="width:100%">
+                        <el-option label="门店用户" value="0"></el-option>
+                        <el-option label="供应商用户" value="1"></el-option>
+                        <el-option label="全局用户" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <span slot="footer" class="dialog-footer">
@@ -137,9 +143,9 @@
                 </el-form-item>
                 <el-form-item label="用户角色">
                     <el-select v-model="ruleForm.userType" placeholder="请选择用户角色" prop="userType" style="width:100%">
-                        <el-option label="超级管理员" value="0"></el-option>
-                        <el-option label="管理员" value="1"></el-option>
-                        <el-option label="用户" value="2"></el-option>
+                        <el-option label="超级管理员" :value="0"></el-option>
+                        <el-option label="管理员" :value="1"></el-option>
+                        <el-option label="用户" :value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="姓名">
@@ -158,11 +164,11 @@
                         <el-option label="女" value="女"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="归属于">
-                    <el-select size="middle" v-model="ruleForm.userBelong" placeholder="归属于" style="width:100%">
-                        <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName"
-                            :value="item.shopKey" clearable placeholder="归属于">
-                        </el-option>
+                <el-form-item label="用户类型">
+                    <el-select size="small" v-model="ruleForm.userBelong" placeholder="请选择用户类型" clearable style="width:100%">
+                        <el-option label="门店用户" value="0"></el-option>
+                        <el-option label="供应商用户" value="1"></el-option>
+                        <el-option label="全局用户" value="2"></el-option>
                     </el-select>
                 </el-form-item>
                 <span slot="footer" class="dialog-footer">
@@ -179,7 +185,6 @@
 
 <script>
 import { createUser, deleteUserById, deleteUserByIdList, getUserList, updateUserById } from "../../api/api";
-import { shoplist } from '@/api/data'
 import qs from "qs";
 
 export default {
@@ -202,7 +207,7 @@ export default {
             search3: '',
             dialogAdd: false,
             dialogUpdate: false,
-            pageSize: 20,
+            pageSize: 10,
             pageNo: 1,
             total: 0,
             disablePage: false,
@@ -215,19 +220,9 @@ export default {
     created() {
         this.userInfo = JSON.parse(localStorage.getItem("userInfo"))
         this.getUserListPage()
-        this.getshoplist()
     },
 
     methods: {
-        getshoplist() {
-            shoplist().then(res => {
-                if (res.data.code == 200) {
-                    this.shopOptions = res.data.data
-                } else {
-                    this.$message.error("获取失败!");
-                }
-            });
-        },
         getUserListPage() {
             let postData = ({
                 page: this.pageNo,
@@ -418,10 +413,10 @@ export default {
                 console.log(error)
             });
         },
-        clean(){
-            this.search1=''
-            this.search2=''
-            this.search3=''
+        clean() {
+            this.search1 = ''
+            this.search2 = ''
+            this.search3 = ''
             this.getUserListPage()
         }
     },

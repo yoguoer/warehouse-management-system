@@ -8,17 +8,17 @@
         <div style="width:1000px;">
           <el-row>
             <el-col :span="8">
-              <el-form-item label="客户名称" prop="customerName">
-                <el-input v-model="ruleForm.customerName" placeholder="客户名称" clearable></el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="8">
               <el-form-item label="客户编号" prop="customerCode">
                 <el-input v-model="ruleForm.customerCode" placeholder="客户编号" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
-              <el-form-item label="所属分类" v-model="ruleForm.categoryKey">
+              <el-form-item label="客户名称" prop="customerName">
+                <el-input v-model="ruleForm.customerName" placeholder="客户名称" clearable></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="8">
+              <el-form-item label="所属分类" v-model="ruleForm.categoryKey" prop="categoryKey">
                 <listBoxF style="width:100%;">
                   <template slot="content">
                     <treeselect class="treeSelect-option" v-model="value" :multiple="multiple" :normalizer="normalizer"
@@ -327,20 +327,22 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let arr = []
-          this.tempList.forEach(item => {
-            arr.push({
-              contactName: item.contactName,
-              province: item.address.province,
-              city: item.address.city,
-              district: item.address.district,
-              detail: item.address.detail,
-              contactEmail: item.contactEmail,
-              contactTel: item.contactTel,
-              contactCustomerKey: item.contactCustomerKey,
-              contactCode: item.contactCode,
-              contactKey: item.contactKey,
+          if(this.tempList[0].contactName!=""&&this.tempList[0].contactName!=null){
+            this.tempList.forEach(item => {
+              arr.push({
+                contactName: item.contactName,
+                province: item.address.province,
+                city: item.address.city,
+                district: item.address.district,
+                detail: item.address.detail,
+                contactEmail: item.contactEmail,
+                contactTel: item.contactTel,
+                contactCustomerKey: item.contactCustomerKey,
+                contactCode: item.contactCode,
+                contactKey: item.contactKey,
+              })
             })
-          })
+          }
           let data = {
             categoryKey: this.ruleForm.categoryKey,
             customerName: this.ruleForm.customerName,
@@ -380,20 +382,22 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let arr = []
-          this.tempList.forEach(item => {
-            arr.push({
-              contactName: item.contactName,
-              province: item.address.province,
-              city: item.address.city,
-              district: item.address.district,
-              detail: item.address.detail,
-              contactEmail: item.contactEmail,
-              contactTel: item.contactTel,
-              contactCustomerKey: item.contactCustomerKey,
-              contactCode: item.contactCode,
-              contactKey: item.contactKey,
+          if(this.tempList[0].contactName!=""&&this.tempList[0].contactName!=null){
+            this.tempList.forEach(item => {
+              arr.push({
+                contactName: item.contactName,
+                province: item.address.province,
+                city: item.address.city,
+                district: item.address.district,
+                detail: item.address.detail,
+                contactEmail: item.contactEmail,
+                contactTel: item.contactTel,
+                contactCustomerKey: item.contactCustomerKey,
+                contactCode: item.contactCode,
+                contactKey: item.contactKey,
+              })
             })
-          })
+          }
           let data = {
             categoryKey: this.ruleForm.categoryKey,
             customerName: this.ruleForm.customerName,
