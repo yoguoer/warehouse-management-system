@@ -80,11 +80,13 @@ public class CustomerController {
         List<Contact> customerContactList = customer.getCustomerContactList();
         String contactCustomerKey = customer.getCustomerKey();
         //插入联系人
-        for (Contact contact : customerContactList) {
-            contact.setContactCustomerKey(contactCustomerKey);
-            Integer contactKey = random.nextInt(9000) + 1000;
-            contact.setContactKey(System.currentTimeMillis() + String.valueOf(contactKey));
-            this.contactService.insert(contact);
+        if(!customerContactList.isEmpty()){
+            for (Contact contact : customerContactList) {
+                contact.setContactCustomerKey(contactCustomerKey);
+                Integer contactKey = random.nextInt(9000) + 1000;
+                contact.setContactKey(System.currentTimeMillis() + String.valueOf(contactKey));
+                this.contactService.insert(contact);
+            }
         }
         //插入客户
         return ResponseData.success(this.customerService.insert(customer));

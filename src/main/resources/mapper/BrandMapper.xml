@@ -44,7 +44,7 @@
             <if test="brandName != null and brandName != ''">
                 and brand_name like concat('%', #{brandName}, '%')
             </if>
-            <if test="brandCode != null">
+            <if test="brandCode != null and brandCode != ''">
                 and brand_code like concat('%', #{brandCode}, '%')
             </if>
         </where>
@@ -58,13 +58,13 @@
         from brand
         <where>
             <if test="brandName != null and brandName != ''">
-                and brand_name = #{brandName}
+                and brand_name like concat('%', #{brandName}, '%')
             </if>
             <if test="brandKey != null and brandKey != ''">
                 and brand_key = #{brandKey}
             </if>
-            <if test="brandCode != null">
-                and brand_code = #{brandCode}
+            <if test="brandCode != null and brandCode != ''">
+                and brand_code like concat('%', #{brandCode}, '%')
             </if>
         </where>
     </select>
