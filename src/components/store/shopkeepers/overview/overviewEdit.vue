@@ -104,9 +104,9 @@ export default {
         goodsCode: [
           { required: true, message: '请选择商品', trigger: 'blur' },
         ],
-        positionCode: [
-          { required: true, message: '请选择货位', trigger: 'blur' },
-        ],
+        // positionCode: [
+        //   { required: true, message: '请选择货位', trigger: 'blur' },
+        // ],
         maxNum: [
           { required: true, message: '请设置库存上限', trigger: 'blur' },
         ],
@@ -134,7 +134,7 @@ export default {
   },
   created() {
     this.getshoplist()
-    this.getgoodslist()
+    // this.getgoodslist()
     if (this.rowData.shopkeeperWarehouseKey) {
       this.ruleForm.shopCode = this.rowData.shopCode
       this.ruleForm.goodsCode = this.rowData.goodsCode
@@ -166,7 +166,7 @@ export default {
           this.goodsOptions = res.data.data
           this.shopGoodsList.forEach(t=>{
             this.goodsOptions.forEach(item=>{
-              if(item.goodsCode==t.goodsCode){
+              if(item.goodsCode==t.goodsCode && t.shopCode==this.ruleForm.shopCode){
                   let index=this.goodsOptions.indexOf(t)
                   this.goodsOptions.splice(index,1)
                 }
@@ -178,6 +178,7 @@ export default {
       });
     },
     getMyPosition(){
+      this.getgoodslist()
       getByshopCode({shopCode:this.ruleForm.shopCode}).then(res => {
         if (res.data.code == 200) {
           this.inventoryKey=res.data.data.inventoryKey
