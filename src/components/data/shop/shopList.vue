@@ -1,7 +1,7 @@
 <template>
   <div>
     <reloadAndsearch ref="search" :config="searchConfig" @search="search"/>
-    <leftCard ref="leftcard" :categoryType="categoryType" :title="title" style="margin-top:0" />
+    <leftCard ref="leftcard" :categoryType="categoryType" :title="title" style="margin-top:0;height:600px" />
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table"
