@@ -51,6 +51,15 @@ return request({
 }
 
 //********************************零售商**************************************************** */
+//查询零售商仓库（shopKey）
+export function getByshopCode(data) {
+    return request({
+        url: baseUrl + "/ShopInventory/getByshopCode",
+        method: "get",
+        params: data,
+    });
+}
+
 //查询零售商仓库（分页)
 export function ShopInventoryListPage(data) {
     return request({
@@ -95,3 +104,49 @@ return request({
     data: data,
 });
 }
+
+//查询零售商商品库存（分页)
+export function shopkeeperWarehouseListPage(data) {
+    return request({
+      url: baseUrl + "/shopkeeperWarehouse/list-page",
+      method: "get",
+      params: data,
+    });
+  }
+  
+//添加零售商商品库存
+export function shopkeeperWarehouseAdd(data) {
+return request({
+    url: baseUrl + "/shopkeeperWarehouse/add",
+    method: "POST",
+    data: data,
+});
+}
+
+//更新零售商商品库存
+export function shopkeeperWarehouseUpdate(data) {
+return request({
+    url: baseUrl + "/shopkeeperWarehouse/update",
+    method: "POST",
+    data: data,
+});
+}
+
+//删除零售商商品库存
+export function shopkeeperWarehouseDelete(data) {
+return request({
+    url: baseUrl + "/shopkeeperWarehouse/delete",
+    method: "POST",
+    data: data,
+});
+}
+
+//删除零售商商品库存(列表)
+export function shopkeeperWarehouseDeleteList(data) {
+return request({
+    url: baseUrl + "/shopkeeperWarehouse/delete-list",
+    method: "POST",
+    data: data,
+});
+}
+

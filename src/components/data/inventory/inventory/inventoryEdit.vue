@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog :title="ifCreate ? '新增仓库信息' : '编辑'" :visible.sync="dialogVisible" width="1200px" :before-close="close"
+    <el-dialog :title="ifCreate ? '新增' : '编辑'" :visible.sync="dialogVisible" width="1200px" :before-close="close"
       top="25vh" :modal-append-to-body="false" :close-on-click-modal="false">
       <div class="dialog_body">
         <el-form size="middle" :model="form" :rules="rules" ref="form" :inline="true" label-width="100px">

@@ -507,6 +507,15 @@ export function goodsDeleteList(data) {
   });
 }
 
+// //查询门店（code）
+// export function getByshopCode(data) {
+//   return request({
+//       url: baseUrl + "/shop/getByshopCode",
+//       method: "get",
+//       params: data,
+//   });
+// }
+
 //查询门店
 export function shoplistPage(data) {
   return request({
@@ -728,6 +737,24 @@ export function entityList(data) {
 export function shoplist(data) {
   return request({
     url: baseUrl + "/shop/list",
+    method: "get",
+    params: data,
+  });
+}
+
+//查询商品（不分页）
+export function goodslist(data) {
+  return request({
+    url: baseUrl + "/goods/list",
+    method: "get",
+    params: data,
+  });
+}
+
+//查询货位列表（不分页）
+export function positionList(data) {
+  return request({
+    url: baseUrl + "/position/list",
     method: "get",
     params: data,
   });
