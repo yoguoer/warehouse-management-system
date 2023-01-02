@@ -3,6 +3,7 @@ package com.example.api_project.service.impl;
 import com.example.api_project.mapper.InventoryMapper;
 import com.example.api_project.mapper.ShopInventoryMapper;
 import com.example.api_project.pojo.Inventory;
+import com.example.api_project.pojo.Shop;
 import com.example.api_project.service.ShopInventoryService;
 import com.example.api_project.vo.ShopInventory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,16 @@ public class ShopInventoryImpl implements ShopInventoryService {
         inventory.setInventoryKey(inventoryKey);
         inventory.setBelongKey("");
         return this.inventoryMapper.update(inventory) > 0;
+    }
+
+    /**
+     * 通过(shopCode)查询单条数据
+     *
+     * @return 实例对象
+     */
+    @Override
+    public ShopInventory queryByshopCode(ShopInventory ShopInventory) {
+        String shopCode=ShopInventory.getShopCode();
+        return this.ShopInventoryMapper.getByshopCode(shopCode);
     }
 }

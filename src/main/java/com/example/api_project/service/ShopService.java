@@ -23,6 +23,13 @@ public interface ShopService {
     Shop queryById(String shopKey);
 
     /**
+     * 通过ID查询单条数据
+     *
+     * @return 实例对象
+     */
+    Shop queryByshopCode(Shop shop);
+
+    /**
      * 不分页查询
      */
     List<Shop> querylist();

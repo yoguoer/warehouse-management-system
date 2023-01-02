@@ -42,7 +42,7 @@
     </resultMap>
 
     <!--查询所有-->
-    <select id="getListPage" resultMap="GoodsMap">
+    <select id="getList" resultMap="GoodsMap">
         select goods_key,
                brand_code,
                goods_name,
@@ -68,7 +68,6 @@
                price_wholesaler
         from goods
         order by goods_key desc
-        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
     <!--查询单个-->

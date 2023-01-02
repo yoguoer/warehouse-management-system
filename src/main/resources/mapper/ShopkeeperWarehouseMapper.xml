@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.ShopkeeperWarehouseMapper">
+
+    <resultMap type="com.example.api_project.pojo.ShopkeeperWarehouse" id="ShopkeeperWarehouseMap">
+        <result property="shopkeeperWarehouseKey" column="shopkeeper_warehouse_key" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="positionCode" column="position_code" jdbcType="VARCHAR"/>
+        <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
+        <result property="maxNum" column="max_num" jdbcType="INTEGER"/>
+        <result property="minNum" column="min_num" jdbcType="INTEGER"/>
+        <result property="accountNum" column="account_num" jdbcType="INTEGER"/>
+        <result property="occupyNum" column="occupy_num" jdbcType="INTEGER"/>
+        <result property="availableNum" column="available_num" jdbcType="INTEGER"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ShopkeeperWarehouseMap">
+        select
+          shopkeeper_warehouse_key, goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num, available_num, description
+        from shopkeeper_warehouse
+        where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ShopkeeperWarehouseMap">
+        select
+          shopkeeper_warehouse_key, goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num, available_num, description
+        from shopkeeper_warehouse
+        <where>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code like concat('%', #{goodsCode}, '%')
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code like concat('%', #{shopCode}, '%')
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from shopkeeper_warehouse
+        <where>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code like concat('%', #{goodsCode}, '%')
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code like concat('%', #{shopCode}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num, available_num, description)
+        values (#{shopkeeperWarehouseKey},#{goodsCode}, #{positionCode}, #{shopCode}, #{maxNum}, #{minNum}, #{accountNum}, #{occupyNum}, #{availableNum}, #{description})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num, available_num, description)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum}, #{entity.minNum}, #{entity.accountNum}, #{entity.occupyNum}, #{entity.availableNum}, #{entity.description})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num, available_num, description)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum}, #{entity.minNum}, #{entity.accountNum}, #{entity.occupyNum}, #{entity.availableNum}, #{entity.description})
+        </foreach>
+        on duplicate key update
+        shopkeeper_warehouse_key=values(shopkeeper_warehouse_key),
+        goods_code = values(goods_code),
+        position_code = values(position_code),
+        shop_code = values(shop_code),
+        max_num = values(max_num),
+        min_num = values(min_num),
+        account_num = values(account_num),
+        occupy_num = values(occupy_num),
+        available_num = values(available_num),
+        description = values(description)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update shopkeeper_warehouse
+        <set>
+            <if test="goodsCode != null and goodsCode != ''">
+                goods_code = #{goodsCode},
+            </if>
+            <if test="positionCode != null and positionCode != ''">
+                position_code = #{positionCode},
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                shop_code = #{shopCode},
+            </if>
+            <if test="maxNum != null">
+                max_num = #{maxNum},
+            </if>
+            <if test="minNum != null">
+                min_num = #{minNum},
+            </if>
+            <if test="accountNum != null">
+                account_num = #{accountNum},
+            </if>
+            <if test="occupyNum != null">
+                occupy_num = #{occupyNum},
+            </if>
+            <if test="availableNum != null">
+                available_num = #{availableNum},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+        </set>
+        where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from shopkeeper_warehouse where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
+    </delete>
+
+</mapper>
+

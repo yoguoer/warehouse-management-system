@@ -1,8 +1,10 @@
 package com.example.api_project.service;
 
 import com.example.api_project.pojo.Goods;
+import com.example.api_project.pojo.Shop;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,6 +12,11 @@ import java.util.Map;
  *
  */
 public interface GoodsService {
+
+    /**
+     * 不分页查询
+     */
+    List<Goods> querylist();
 
     /**
      * 通过ID查询单条数据

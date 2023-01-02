@@ -14,6 +14,21 @@
     </resultMap>
 
     <!--查询所有-->
+    <select id="getList" resultMap="PositionMap">
+        select inventory_district_key,
+               inventory_key,
+               position_code,
+               position_type,
+               maxWeight,
+               max_capacity,
+               description,
+               position_key
+        from position
+        where inventory_key=#{inventoryKey}
+        order by position_key desc
+    </select>
+
+    <!--查询所有-->
     <select id="getListPage" resultMap="PositionMap">
         select inventory_district_key,
                inventory_key,

@@ -40,7 +40,7 @@ public class LoginController {
         if(temp!=null){
             User u = userService.findOneUser(temp);
             //给用户jwt加密生成token【//创建JWT令牌】
-            String token = JWT.sign(u, 60L* 1000L* 60L);
+            String token = JWT.sign(u, 60L* 1000L* 600L);
             //封装成对象返回给客户端
             Result responseData = new Result<>();
             responseData.putDataValue("userId", user.getUserId());

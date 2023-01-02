@@ -32,6 +32,10 @@ public class ShopServiceImpl implements ShopService {
         return this.shopMapper.queryById(shopKey);
     }
 
+    public Shop queryByshopCode(Shop shop) {
+        String shopCode=shop.getShopCode();
+        return this.shopMapper.queryByshopCode(shopCode);
+    }
     /**
      * 不分页查询
      */

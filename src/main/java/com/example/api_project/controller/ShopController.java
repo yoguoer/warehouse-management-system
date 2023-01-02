@@ -4,6 +4,7 @@ import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
 import com.example.api_project.pojo.Shop;
 import com.example.api_project.service.ShopService;
+import com.example.api_project.vo.ShopInventory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,6 +54,17 @@ public class ShopController {
     @GetMapping("/getById")
     public Result queryById(@PathVariable("shopKey") String shopKey) {
         return ResponseData.success(this.shopService.queryById(shopKey));
+    }
+
+
+    /**
+     * 通过(shopKey)查询单条数据
+     *
+     * @return 单条数据
+     */
+    @GetMapping("/getByshopCode")
+    public Result queryByshopCode(Shop shop) {
+        return ResponseData.success(this.shopService.queryByshopCode(shop));
     }
 
     /**

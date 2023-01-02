@@ -1,5 +1,6 @@
 package com.example.api_project.mapper;
 
+import com.example.api_project.pojo.Inventory;
 import com.example.api_project.pojo.Position;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,6 +12,13 @@ import java.util.List;
  *
  */
 public interface PositionMapper {
+
+    /**
+     * 查询指全部数据
+     * 不分页
+     * @return 对象列表
+     */
+    List<Position> getList(String inventoryKey);
 
     /**
      * 通过ID查询单条数据

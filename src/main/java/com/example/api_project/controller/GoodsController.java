@@ -25,6 +25,14 @@ public class GoodsController {
     private GoodsService goodsService;
 
     /**
+     * 不分页查询
+     */
+    @GetMapping("/list")
+    public Result querylist() {
+        return ResponseData.success(this.goodsService.querylist());
+    }
+
+    /**
      * 分页查询
      *
      * @return 查询结果

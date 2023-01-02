@@ -27,6 +27,14 @@ public class PositionController {
     private PositionService positionService;
 
     /**
+     * 不分页查询
+     */
+    @GetMapping("/list")
+    public Result querylist(Position position) {
+        return ResponseData.success(this.positionService.querylist(position));
+    }
+
+    /**
      * 分页查询
      *
      * @param position 筛选条件

@@ -1,8 +1,10 @@
 package com.example.api_project.service;
 
+import com.example.api_project.pojo.Inventory;
 import com.example.api_project.pojo.Position;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,6 +12,11 @@ import java.util.Map;
  *
  */
 public interface PositionService {
+
+    /**
+     * 不分页查询
+     */
+    List<Position> querylist(Position position);
 
     /**
      * 通过ID查询单条数据

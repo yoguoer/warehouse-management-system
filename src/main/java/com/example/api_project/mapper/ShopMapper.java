@@ -20,6 +20,8 @@ public interface ShopMapper {
      */
     Shop queryById(String shopKey);
 
+    Shop queryByshopCode(String shopCode);
+
     /**
      * 查询指定行数据
      *

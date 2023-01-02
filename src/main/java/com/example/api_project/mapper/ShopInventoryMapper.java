@@ -1,5 +1,6 @@
 package com.example.api_project.mapper;
 
+import com.example.api_project.pojo.Shop;
 import com.example.api_project.vo.ShopInventory;
 
 import java.util.List;
@@ -9,6 +10,14 @@ import java.util.List;
  *
  */
 public interface ShopInventoryMapper {
+
+    /**
+     * 通过(shopKey)查询单条数据
+     *
+     * @param shopCode
+     * @return 实例对象
+     */
+    ShopInventory getByshopCode(String shopCode);
 
     /**
      * 查询指全部数据

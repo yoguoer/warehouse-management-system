@@ -1,5 +1,6 @@
 package com.example.api_project.service;
 
+import com.example.api_project.pojo.Shop;
 import com.example.api_project.vo.ShopInventory;
 import org.apache.ibatis.annotations.Param;
 
@@ -27,6 +28,12 @@ public interface ShopInventoryService {
      */
     Map<String, Object> queryByPage(ShopInventory ShopInventory, @Param("startRows")Integer startRows, @Param("pageSize")Integer pageSize);
 
+    /**
+     * 通过(shopCode)查询单条数据
+     *
+     * @return 实例对象
+     */
+    ShopInventory queryByshopCode(ShopInventory ShopInventory);
 
     /**
      * 修改数据

@@ -26,6 +26,14 @@
     </select>
 
     <!--查询单个-->
+    <select id="queryByshopCode" resultMap="ShopMap">
+        select
+            shop_key, shop_code, shop_name, business_person_code, liable_person_code, shop_status, category_key, description, province, city, district, detail,cooperation_type
+        from shop
+        where shop_code = #{shopCode}
+    </select>
+
+    <!--查询单个-->
     <select id="queryById" resultMap="ShopMap">
         select
           shop_key, shop_code, shop_name, business_person_code, liable_person_code, shop_status, category_key, description, province, city, district, detail,cooperation_type

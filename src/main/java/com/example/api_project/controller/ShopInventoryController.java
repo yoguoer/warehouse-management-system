@@ -89,5 +89,15 @@ public class ShopInventoryController {
         }
         return ResponseData.success();
     }
+
+    /**
+     * 通过(shopKey)查询单条数据
+     *
+     * @return 单条数据
+     */
+    @GetMapping("/getByshopCode")
+    public Result queryByshopCode(ShopInventory ShopInventory) {
+        return ResponseData.success(this.ShopInventoryService.queryByshopCode(ShopInventory));
+    }
 }
 

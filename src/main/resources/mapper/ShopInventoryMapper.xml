@@ -28,8 +28,23 @@
         from shop join inventory on shop.shop_key=inventory.belong_key
     </select>
 
+    <!--查询单个(shopCode)-->
+    <select id="getByshopCode" resultMap="ShopInventoryMap">
+        select shop.shop_key,
+               shop.shop_code,
+               shop.shop_name,
+               inventory.inventory_key,
+               inventory.inventory_code,
+               inventory.inventory_name,
+               inventory.description,
+               inventory.status,
+               inventory.belong_key
+        from shop join inventory on shop.shop_key=inventory.belong_key
+        where shop.shop_code = #{shopCode}
+    </select>
+
     <!--查询单个-->
-    <select id="queryById" resultType="ShopInventory">
+    <select id="queryById" resultMap="ShopInventoryMap">
         select shop.shop_key,
                shop.shop_code,
                shop.shop_name,

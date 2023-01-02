@@ -1,6 +1,7 @@
 package com.example.api_project.service.impl;
 
 import com.example.api_project.mapper.PositionMapper;
+import com.example.api_project.pojo.Inventory;
 import com.example.api_project.pojo.Position;
 import com.example.api_project.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,14 @@ import java.util.Map;
 public class PositionServiceImpl implements PositionService {
     @Autowired
     private PositionMapper positionMapper;
+
+    /**
+     * 不分页查询
+     */
+    public List<Position> querylist(Position position) {
+        String inventoryKey=position.getInventoryKey();
+        return positionMapper.getList(inventoryKey);
+    }
 
     /**
      * 通过ID查询单条数据
