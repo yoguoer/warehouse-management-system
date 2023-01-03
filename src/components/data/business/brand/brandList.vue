@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-refresh" @click="reload">刷新</el-button> -->
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add">新增</el-button> -->
-    <!-- <el-divider/> -->
     <div>
       <el-input placeholder="品牌编号" v-model="brandId" type="text" size="small" :clearable="true">
         <template slot="prepend">品牌编号</template>
@@ -15,7 +12,6 @@
       <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
       <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
-      <!-- <el-button type="danger"  size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
       <el-divider />
     </div>
     <div class="list-model">

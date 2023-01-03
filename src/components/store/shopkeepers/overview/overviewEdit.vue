@@ -6,18 +6,16 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="门店" prop="shopCode">
-            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="所属门店" style="width:100%;"  @change="getMyPosition()">
-              <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName" :value="item.shopCode" 
-                clearable placeholder="门店">
+            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="所属门店" style="width:100%;"  @change="getMyPosition()" clearable>
+              <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName" :value="item.shopCode">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <el-form-item label="商品" prop="goodsCode">
-            <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;">
-              <el-option v-for="item in goodsOptions" :key="item.goodsCode" :label="item.goodsName" clearable
-                :value="item.goodsCode">
+            <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable>
+              <el-option v-for="item in goodsOptions" :key="item.goodsCode" :label="item.goodsName" :value="item.goodsCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -26,7 +24,7 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="库位" prop="positionCode">
-            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;">
+            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable>
               <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
                 :value="item.positionCode" clearable placeholder="库位">
               </el-option>
@@ -75,6 +73,7 @@
 <script>
 import { shopkeeperWarehouseUpdate, shopkeeperWarehouseAdd,getByshopCode } from '@/api/warehouse'
 import { shoplist, goodslist, positionList } from '@/api/data'
+import moment from 'moment'
 
 export default {
   name: 'guestEdit',
@@ -92,7 +91,8 @@ export default {
         occupyNum: "",
         availableNum: "",
         description: "",
-        shopkeeperWarehouseKey: ""
+        shopkeeperWarehouseKey: "",
+        operateTime:""
       },
       shopOptions: [],
       goodsOptions: [],
@@ -201,6 +201,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.ruleForm.availableNum = this.ruleForm.accountNum - this.ruleForm.occupyNum
+          this.ruleForm.operateTime=moment().format("YYYY-MM-DD HH:mm:ss");
           shopkeeperWarehouseUpdate(this.ruleForm).then(res => {
             if (res.data.code == 200) {
               this.$message.success("编辑成功!");
@@ -220,6 +221,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.ruleForm.availableNum = this.ruleForm.accountNum - this.ruleForm.occupyNum
+          this.ruleForm.operateTime=moment().format("YYYY-MM-DD HH:mm:ss");
           let data = {
             shopCode: this.ruleForm.shopCode,
             goodsCode: this.ruleForm.goodsCode,

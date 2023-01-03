@@ -23,7 +23,6 @@
         <el-form-item style="display:inline-block;float:right;margin:10px 40%">
           <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
           <el-button type="primary" @click="create('ruleForm')" v-else>立即创建</el-button>
-          <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
           <el-button @click="close()">关闭</el-button>
         </el-form-item>
       </el-row>

@@ -14,7 +14,6 @@
       <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
       <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
-      <!-- <el-button type="danger"  size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
       <el-divider />
     </div>
     <div class="list-model">

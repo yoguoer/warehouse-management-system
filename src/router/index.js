@@ -16,7 +16,6 @@ const routes = [{
     component: () => import("@/views/login"),
   },
 
-
   //*******************************仪表板*******************************
   {
     path: "/success",
@@ -49,6 +48,12 @@ const routes = [{
         path: "/HelloWorld",
         name: "HelloWorld",
         component: () => import("@/components/HelloWorld"),
+      },
+      //预警信息页
+      {
+        path: "/alertInfo/:type",
+        name: "alertInfo",
+        component: () => import("@/views/login/alertInfo/Index.vue"),
       },
 
 

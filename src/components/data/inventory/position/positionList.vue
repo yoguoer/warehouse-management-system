@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
-    <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add()">新增</el-button> -->
-    <!-- <el-divider/> -->
     <div>
       <el-input placeholder="货位编号" v-model="inputCode" clearable type="text" size="small"
         style="width: 300px; margin-right: 20px">
