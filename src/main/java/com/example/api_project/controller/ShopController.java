@@ -4,7 +4,6 @@ import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
 import com.example.api_project.pojo.Shop;
 import com.example.api_project.service.ShopService;
-import com.example.api_project.vo.ShopInventory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

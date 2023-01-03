@@ -1,6 +1,5 @@
 package com.example.api_project.service;
 
-import com.example.api_project.pojo.Shop;
 import com.example.api_project.pojo.ShopkeeperWarehouse;
 
 import java.util.List;

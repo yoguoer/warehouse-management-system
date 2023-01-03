@@ -1,6 +1,5 @@
 package com.example.api_project.service.impl;
 
-import com.example.api_project.pojo.Contact;
 import com.example.api_project.pojo.ShopkeeperWarehouse;
 import com.example.api_project.mapper.ShopkeeperWarehouseMapper;
 import com.example.api_project.service.ShopkeeperWarehouseService;
@@ -14,8 +13,6 @@ import java.util.Map;
 /**
  * 零售商商品库存表(ShopkeeperWarehouse)表服务实现类
  *
- * @author makejava
- * @since 2023-01-02 14:46:27
  */
 @Service("shopkeeperWarehouseService")
 public class ShopkeeperWarehouseServiceImpl implements ShopkeeperWarehouseService {

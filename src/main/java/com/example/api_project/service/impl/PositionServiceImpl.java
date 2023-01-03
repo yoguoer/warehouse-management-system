@@ -1,7 +1,6 @@
 package com.example.api_project.service.impl;
 
 import com.example.api_project.mapper.PositionMapper;
-import com.example.api_project.pojo.Inventory;
 import com.example.api_project.pojo.Position;
 import com.example.api_project.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;

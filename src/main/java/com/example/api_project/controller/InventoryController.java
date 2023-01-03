@@ -2,7 +2,6 @@ package com.example.api_project.controller;
 
 import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
-import com.example.api_project.pojo.Goods;
 import com.example.api_project.pojo.Inventory;
 import com.example.api_project.service.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;

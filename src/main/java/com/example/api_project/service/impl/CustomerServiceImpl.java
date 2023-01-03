@@ -4,7 +4,6 @@ import com.example.api_project.mapper.ContactMapper;
 import com.example.api_project.mapper.CustomerMapper;
 import com.example.api_project.pojo.Contact;
 import com.example.api_project.pojo.Customer;
-import com.example.api_project.pojo.Inventory;
 import com.example.api_project.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

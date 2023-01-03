@@ -1,6 +1,5 @@
 package com.example.api_project.mapper;
 
-import com.example.api_project.pojo.SupplierAddress;
 import com.example.api_project.pojo.SupplierBilling;
 import org.apache.ibatis.annotations.Param;
 

@@ -1,7 +1,6 @@
 package com.example.api_project.service;
 
 import com.example.api_project.pojo.Goods;
-import com.example.api_project.pojo.Shop;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

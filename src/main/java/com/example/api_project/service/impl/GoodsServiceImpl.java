@@ -1,9 +1,7 @@
 package com.example.api_project.service.impl;
 
 import com.example.api_project.mapper.GoodsMapper;
-import com.example.api_project.pojo.Customer;
 import com.example.api_project.pojo.Goods;
-import com.example.api_project.pojo.Shop;
 import com.example.api_project.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

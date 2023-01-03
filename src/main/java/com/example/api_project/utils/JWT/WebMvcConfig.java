@@ -33,7 +33,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/SupplierInventory/**")
                 .addPathPatterns("/api/ShopInventory/**")
                 .addPathPatterns("/api/shopkeeperWarehouse/**")
-                ;
+                .addPathPatterns("/api/alertInfo/**")
+
+        ;
     }
 }
 

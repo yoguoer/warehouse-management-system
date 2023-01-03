@@ -1,10 +1,7 @@
 package com.example.api_project.service.impl;
 
-
-import com.example.api_project.mapper.DistrictMapper;
 import com.example.api_project.mapper.VehicleMapper;
 import com.example.api_project.pojo.Vehicle;
-import com.example.api_project.service.DistrictService;
 import com.example.api_project.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

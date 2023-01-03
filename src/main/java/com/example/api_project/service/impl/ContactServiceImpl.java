@@ -2,12 +2,10 @@ package com.example.api_project.service.impl;
 
 import com.example.api_project.mapper.ContactMapper;
 import com.example.api_project.pojo.Contact;
-import com.example.api_project.pojo.Customer;
 import com.example.api_project.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

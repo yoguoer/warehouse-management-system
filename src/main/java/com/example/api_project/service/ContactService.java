@@ -1,7 +1,6 @@
 package com.example.api_project.service;
 
 import com.example.api_project.pojo.Contact;
-import com.example.api_project.pojo.Customer;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

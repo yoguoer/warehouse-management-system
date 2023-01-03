@@ -1,6 +1,5 @@
 package com.example.api_project.mapper;
 
-import com.example.api_project.pojo.Shop;
 import com.example.api_project.vo.ShopInventory;
 
 import java.util.List;

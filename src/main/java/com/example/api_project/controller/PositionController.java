@@ -2,13 +2,11 @@ package com.example.api_project.controller;
 
 import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
-import com.example.api_project.pojo.Inventory;
 import com.example.api_project.pojo.Position;
 import com.example.api_project.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 

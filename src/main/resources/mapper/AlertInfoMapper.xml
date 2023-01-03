@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.AlertInfoMapper">
+
+    <resultMap type="com.example.api_project.pojo.AlertInfo" id="AlertInfoMap">
+        <result property="alertInfoKey" column="alert_info_key" jdbcType="VARCHAR"/>
+        <result property="shopSupplierKey" column="shop_supplier_key" jdbcType="VARCHAR"/>
+        <result property="goodsKey" column="goods_key" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="alertTime" column="alert_time" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AlertInfoMap">
+        select
+          alert_info_key, shop_supplier_key, goods_key, status, alert_time, type
+        from alert_info
+        where alert_info_key = #{alertInfoKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AlertInfoMap">
+        select
+          alert_info_key, shop_supplier_key, goods_key, status, alert_time, type
+        from alert_info
+        <where>
+            <if test="shopSupplierKey != null and shopSupplierKey != ''">
+                and shop_supplier_key = #{shopSupplierKey}
+            </if>
+            <if test="goodsKey != null and goodsKey != ''">
+                and goods_key = #{goodsKey}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from alert_info
+        <where>
+            <if test="shopSupplierKey != null and shopSupplierKey != ''">
+                and shop_supplier_key = #{shopSupplierKey}
+            </if>
+            <if test="goodsKey != null and goodsKey != ''">
+                and goods_key = #{goodsKey}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="alertInfoKey" useGeneratedKeys="true">
+        insert into alert_info(shop_supplier_key, goods_key, status, alert_time, type)
+        values (#{shopSupplierKey}, #{goodsKey}, #{status}, #{alertTime}, #{type})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="alertInfoKey" useGeneratedKeys="true">
+        insert into alert_info(shop_supplier_key, goods_key, status, alert_time, type)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.shopSupplierKey}, #{entity.goodsKey}, #{entity.status}, #{entity.alertTime}, #{entity.type})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="alertInfoKey" useGeneratedKeys="true">
+        insert into alert_info(shop_supplier_key, goods_key, status, alert_time, type)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.shopSupplierKey}, #{entity.goodsKey}, #{entity.status}, #{entity.alertTime}, #{entity.type})
+        </foreach>
+        on duplicate key update
+        shop_supplier_key = values(shop_supplier_key),
+        goods_key = values(goods_key),
+        status = values(status),
+        alert_time = values(alert_time),
+        type = values(type)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update alert_info
+        <set>
+            <if test="shopSupplierKey != null and shopSupplierKey != ''">
+                shop_supplier_key = #{shopSupplierKey},
+            </if>
+            <if test="goodsKey != null and goodsKey != ''">
+                goods_key = #{goodsKey},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="alertTime != null and alertTime != ''">
+                alert_time = #{alertTime},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+        </set>
+        where alert_info_key = #{alertInfoKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from alert_info where alert_info_key = #{alertInfoKey}
+    </delete>
+
+</mapper>
+

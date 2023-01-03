@@ -1,7 +1,6 @@
 package com.example.api_project.service.impl;
 
 import com.example.api_project.mapper.SupplierAddressMapper;
-import com.example.api_project.pojo.Inventory;
 import com.example.api_project.pojo.SupplierAddress;
 import com.example.api_project.service.SupplierAddressService;
 import org.springframework.beans.factory.annotation.Autowired;

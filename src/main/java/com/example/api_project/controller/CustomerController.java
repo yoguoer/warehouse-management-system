@@ -1,6 +1,5 @@
 package com.example.api_project.controller;
 
-import com.example.api_project.mapper.ContactMapper;
 import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
 import com.example.api_project.pojo.Contact;
@@ -10,7 +9,6 @@ import com.example.api_project.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;

@@ -1,6 +1,5 @@
 package com.example.api_project.mapper;
 
-import com.example.api_project.pojo.BusinessEntity;
 import com.example.api_project.pojo.Shop;
 import org.apache.ibatis.annotations.Param;
 

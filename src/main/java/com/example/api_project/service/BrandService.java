@@ -1,7 +1,6 @@
 package com.example.api_project.service;
 
 import com.example.api_project.pojo.Brand;
-import com.example.api_project.pojo.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -10,8 +9,6 @@ import java.util.Map;
 /**
  * 品牌(Brand)表服务接口
  *
- * @author makejava
- * @since 2022-11-19 00:34:56
  */
 public interface BrandService {
 

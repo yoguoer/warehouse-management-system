@@ -1,6 +1,5 @@
 package com.example.api_project.mapper;
 
-import com.example.api_project.pojo.Brand;
 import com.example.api_project.pojo.District;
 import org.apache.ibatis.annotations.Param;
 

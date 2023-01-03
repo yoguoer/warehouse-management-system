@@ -1,7 +1,5 @@
 package com.example.api_project.mapper;
 
-import com.example.api_project.pojo.Contact;
-import com.example.api_project.pojo.Inventory;
 import com.example.api_project.pojo.SupplierAddress;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;

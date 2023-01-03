@@ -1,7 +1,5 @@
 package com.example.api_project.mapper;
 
-import com.example.api_project.pojo.District;
-import com.example.api_project.pojo.Goods;
 import com.example.api_project.pojo.Inventory;
 import org.apache.ibatis.annotations.Param;
 

@@ -3,7 +3,6 @@ package com.example.api_project.service.impl;
 import com.example.api_project.mapper.InventoryMapper;
 import com.example.api_project.mapper.ShopInventoryMapper;
 import com.example.api_project.pojo.Inventory;
-import com.example.api_project.pojo.Shop;
 import com.example.api_project.service.ShopInventoryService;
 import com.example.api_project.vo.ShopInventory;
 import org.springframework.beans.factory.annotation.Autowired;
