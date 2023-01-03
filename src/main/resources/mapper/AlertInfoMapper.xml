@@ -4,8 +4,8 @@
 
     <resultMap type="com.example.api_project.pojo.AlertInfo" id="AlertInfoMap">
         <result property="alertInfoKey" column="alert_info_key" jdbcType="VARCHAR"/>
-        <result property="shopSupplierKey" column="shop_supplier_key" jdbcType="VARCHAR"/>
-        <result property="goodsKey" column="goods_key" jdbcType="VARCHAR"/>
+        <result property="shopSupplierCode" column="shop_supplier_code" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
         <result property="alertTime" column="alert_time" jdbcType="VARCHAR"/>
         <result property="type" column="type" jdbcType="INTEGER"/>
@@ -14,7 +14,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="AlertInfoMap">
         select
-          alert_info_key, shop_supplier_key, goods_key, status, alert_time, type
+          alert_info_key, shop_supplier_code, goods_code, status, alert_time, type
         from alert_info
         where alert_info_key = #{alertInfoKey}
     </select>
@@ -22,14 +22,14 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="AlertInfoMap">
         select
-          alert_info_key, shop_supplier_key, goods_key, status, alert_time, type
+          alert_info_key, shop_supplier_code, goods_code, status, alert_time, type
         from alert_info
         <where>
-            <if test="shopSupplierKey != null and shopSupplierKey != ''">
-                and shop_supplier_key = #{shopSupplierKey}
+            <if test="shopSupplierCode != null and shopSupplierCode != ''">
+                and shop_supplier_code = #{shopSupplierCode}
             </if>
-            <if test="goodsKey != null and goodsKey != ''">
-                and goods_key = #{goodsKey}
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
             </if>
             <if test="status != null">
                 and status = #{status}
@@ -46,11 +46,11 @@
         select count(1)
         from alert_info
         <where>
-            <if test="shopSupplierKey != null and shopSupplierKey != ''">
-                and shop_supplier_key = #{shopSupplierKey}
+            <if test="shopSupplierCode != null and shopSupplierCode != ''">
+                and shop_supplier_code = #{shopSupplierCode}
             </if>
-            <if test="goodsKey != null and goodsKey != ''">
-                and goods_key = #{goodsKey}
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
             </if>
             <if test="status != null">
                 and status = #{status}
@@ -63,27 +63,27 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="alertInfoKey" useGeneratedKeys="true">
-        insert into alert_info(shop_supplier_key, goods_key, status, alert_time, type)
-        values (#{shopSupplierKey}, #{goodsKey}, #{status}, #{alertTime}, #{type})
+        insert into alert_info(alert_info_key,shop_supplier_code, goods_code, status, alert_time, type)
+        values (#{alertInfoKey},#{shopSupplierCode}, #{goodsCode}, #{status}, #{alertTime}, #{type})
     </insert>
 
     <insert id="insertBatch" keyProperty="alertInfoKey" useGeneratedKeys="true">
-        insert into alert_info(shop_supplier_key, goods_key, status, alert_time, type)
+        insert into alert_info(shop_supplier_code, goods_code, status, alert_time, type)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.shopSupplierKey}, #{entity.goodsKey}, #{entity.status}, #{entity.alertTime}, #{entity.type})
+        (#{entity.shopSupplierCode}, #{entity.goodsCode}, #{entity.status}, #{entity.alertTime}, #{entity.type})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="alertInfoKey" useGeneratedKeys="true">
-        insert into alert_info(shop_supplier_key, goods_key, status, alert_time, type)
+        insert into alert_info(shop_supplier_code, goods_code, status, alert_time, type)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.shopSupplierKey}, #{entity.goodsKey}, #{entity.status}, #{entity.alertTime}, #{entity.type})
+            (#{entity.shopSupplierCode}, #{entity.goodsCode}, #{entity.status}, #{entity.alertTime}, #{entity.type})
         </foreach>
         on duplicate key update
-        shop_supplier_key = values(shop_supplier_key),
-        goods_key = values(goods_key),
+        shop_supplier_code = values(shop_supplier_code),
+        goods_code = values(goods_code),
         status = values(status),
         alert_time = values(alert_time),
         type = values(type)
@@ -93,11 +93,11 @@
     <update id="update">
         update alert_info
         <set>
-            <if test="shopSupplierKey != null and shopSupplierKey != ''">
-                shop_supplier_key = #{shopSupplierKey},
+            <if test="shopSupplierCode != null and shopSupplierCode != ''">
+                shop_supplier_code = #{shopSupplierCode},
             </if>
-            <if test="goodsKey != null and goodsKey != ''">
-                goods_key = #{goodsKey},
+            <if test="goodsCode != null and goodsCode != ''">
+                goods_code = #{goodsCode},
             </if>
             <if test="status != null">
                 status = #{status},

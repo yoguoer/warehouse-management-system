@@ -13,11 +13,11 @@ public class AlertInfo implements Serializable {
     /**
      * 预警对象
      */
-    private String shopSupplierKey;
+    private String shopSupplierCode;
     /**
      * 预警商品
      */
-    private String goodsKey;
+    private String goodsCode;
     /**
      * 状态（0：未处理，1：已处理）
      */
@@ -40,20 +40,20 @@ public class AlertInfo implements Serializable {
         this.alertInfoKey = alertInfoKey;
     }
 
-    public String getShopSupplierKey() {
-        return shopSupplierKey;
+    public String getShopSupplierCode() {
+        return shopSupplierCode;
     }
 
-    public void setShopSupplierKey(String shopSupplierKey) {
-        this.shopSupplierKey = shopSupplierKey;
+    public void setShopSupplierCode(String shopSupplierCode) {
+        this.shopSupplierCode = shopSupplierCode;
     }
 
-    public String getGoodsKey() {
-        return goodsKey;
+    public String getGoodsCode() {
+        return goodsCode;
     }
 
-    public void setGoodsKey(String goodsKey) {
-        this.goodsKey = goodsKey;
+    public void setGoodsCode(String goodsCode) {
+        this.goodsCode = goodsCode;
     }
 
     public Integer getStatus() {

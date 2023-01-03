@@ -23,7 +23,7 @@ public interface AlertInfoMapper {
      *
      * @return 对象列表
      */
-    List<AlertInfo> queryAllByLimit(Integer type,Integer status,String shopSupplierKey,String goodsKey,Integer startRows, Integer pageSize);
+    List<AlertInfo> queryAllByLimit(Integer type,Integer status,String shopSupplierCode,String goodsCode,Integer startRows, Integer pageSize);
 
     /**
      * 统计总行数

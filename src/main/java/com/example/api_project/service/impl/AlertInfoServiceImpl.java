@@ -41,9 +41,9 @@ public class AlertInfoServiceImpl implements AlertInfoService {
         long total = this.alertInfoMapper.count(alertInfo);
         Integer type=alertInfo.getType();
         Integer status=alertInfo.getStatus();
-        String shopSupplierKey=alertInfo.getShopSupplierKey();
-        String goodsKey=alertInfo.getGoodsKey();
-        List<AlertInfo> records = alertInfoMapper.queryAllByLimit(type,status,shopSupplierKey,goodsKey,startRows, pageSize);
+        String shopSupplierCode=alertInfo.getShopSupplierCode();
+        String goodsCode=alertInfo.getGoodsCode();
+        List<AlertInfo> records = alertInfoMapper.queryAllByLimit(type,status,shopSupplierCode,goodsCode,startRows, pageSize);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

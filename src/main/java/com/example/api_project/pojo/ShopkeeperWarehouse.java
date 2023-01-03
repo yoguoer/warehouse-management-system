@@ -45,10 +45,21 @@ public class ShopkeeperWarehouse implements Serializable {
      */
     private Integer availableNum;
     /**
+     * 最后操作时间
+     */
+    private String operateTime;
+    /**
      * 描述
      */
     private String description;
 
+    public String getOperateTime() {
+        return operateTime;
+    }
+
+    public void setOperateTime(String operateTime) {
+        this.operateTime = operateTime;
+    }
 
     public String getShopkeeperWarehouseKey() {
         return shopkeeperWarehouseKey;

@@ -68,7 +68,7 @@ public class AlertInfoController {
      * @param alertInfo 实体
      * @return 编辑结果
      */
-    @PutMapping("/update")
+    @PostMapping("/update")
     public Result edit(@RequestBody AlertInfo alertInfo) {
         return ResponseData.success(this.alertInfoService.update(alertInfo));
     }
@@ -78,15 +78,15 @@ public class AlertInfoController {
      *
      * @return 删除是否成功
      */
-    @DeleteMapping("/delete")
-    public Result deleteById(@RequestBody AlertInfo AlertInfo) {
-        return ResponseData.success(this.alertInfoService.deleteById(AlertInfo));
+    @PostMapping("/delete")
+    public Result deleteById(@RequestBody AlertInfo alertInfo) {
+        return ResponseData.success(this.alertInfoService.deleteById(alertInfo));
     }
 
     @PostMapping("/delete-list")
-    public Result deleteByList(@RequestBody List<AlertInfo> AlertInfoKeys) {
-        for(AlertInfo AlertInfo: AlertInfoKeys){
-            this.alertInfoService.deleteById(AlertInfo);
+    public Result deleteByList(@RequestBody List<AlertInfo> alertInfoKeys) {
+        for(AlertInfo alertInfo: alertInfoKeys){
+            this.alertInfoService.deleteById(alertInfo);
         }
         return ResponseData.success();
     }
