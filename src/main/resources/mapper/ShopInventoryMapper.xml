@@ -12,6 +12,10 @@
         <result property="status" column="status" jdbcType="INTEGER"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="belongKey" column="belong_key" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="district" column="district" jdbcType="VARCHAR"/>
+        <result property="detail" column="detail" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询所有（不分页）-->
@@ -24,7 +28,11 @@
                inventory.inventory_name,
                inventory.description,
                inventory.status,
-               inventory.belong_key
+               inventory.belong_key,
+               inventory.province,
+               inventory.city,
+               inventory.district,
+               inventory.detail
         from shop join inventory on shop.shop_key=inventory.belong_key
     </select>
 
@@ -38,7 +46,11 @@
                inventory.inventory_name,
                inventory.description,
                inventory.status,
-               inventory.belong_key
+               inventory.belong_key,
+               inventory.province,
+               inventory.city,
+               inventory.district,
+               inventory.detail
         from shop join inventory on shop.shop_key=inventory.belong_key
         where shop.shop_code = #{shopCode}
     </select>
@@ -53,7 +65,11 @@
                inventory.inventory_name,
                inventory.description,
                inventory.status,
-               inventory.belong_key
+               inventory.belong_key,
+               inventory.province,
+               inventory.city,
+               inventory.district,
+               inventory.detail
         from shop join inventory on shop.shop_key=inventory.belong_key
         where belong_key = #{belongKey}
     </select>
@@ -68,7 +84,11 @@
         inventory.inventory_name,
         inventory.description,
         inventory.status,
-        inventory.belong_key
+        inventory.belong_key,
+        inventory.province,
+        inventory.city,
+        inventory.district,
+        inventory.detail
         from shop join inventory on shop.shop_key=inventory.belong_key
         <where>
             <if test="shopName != null and shopName != ''">
@@ -122,6 +142,18 @@
             </if>
             <if test="description != null and description != ''">
                 and inventory.description = #{description}
+            </if>
+            <if test="province != null and province != ''">
+                and inventory.province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and inventory.city = #{city}
+            </if>
+            <if test="district != null and district != ''">
+                and inventory.district = #{district}
+            </if>
+            <if test="detail != null and detail != ''">
+                and inventory.detail = #{detail}
             </if>
             and inventory.inventory_type=2
         </where>

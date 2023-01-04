@@ -16,6 +16,7 @@ public class ShopkeeperWarehouse implements Serializable {
      * 商品编码
      */
     private String goodsCode;
+    private String goodsName;//商品名称
     /**
      * 货位编码
      */
@@ -24,6 +25,7 @@ public class ShopkeeperWarehouse implements Serializable {
      * 门店编码
      */
     private String shopCode;
+    private String shopName;//门店名称
     /**
      * 库存上限
      */
@@ -41,6 +43,10 @@ public class ShopkeeperWarehouse implements Serializable {
      */
     private Integer occupyNum;
     /**
+     * 在途数
+     */
+    private Integer onwayNum;
+    /**
      * 可用数
      */
     private Integer availableNum;
@@ -52,6 +58,23 @@ public class ShopkeeperWarehouse implements Serializable {
      * 描述
      */
     private String description;
+    private String modelCode;//型号
+
+    public Integer getOnwayNum() {
+        return onwayNum;
+    }
+
+    public void setOnwayNum(Integer onwayNum) {
+        this.onwayNum = onwayNum;
+    }
+
+    public String getModelCode() {
+        return modelCode;
+    }
+
+    public void setModelCode(String modelCode) {
+        this.modelCode = modelCode;
+    }
 
     public String getOperateTime() {
         return operateTime;
@@ -59,6 +82,22 @@ public class ShopkeeperWarehouse implements Serializable {
 
     public void setOperateTime(String operateTime) {
         this.operateTime = operateTime;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
     }
 
     public String getShopkeeperWarehouseKey() {

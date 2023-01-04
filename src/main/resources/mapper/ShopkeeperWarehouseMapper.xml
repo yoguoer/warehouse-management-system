@@ -10,31 +10,37 @@
         <result property="maxNum" column="max_num" jdbcType="INTEGER"/>
         <result property="minNum" column="min_num" jdbcType="INTEGER"/>
         <result property="accountNum" column="account_num" jdbcType="INTEGER"/>
+        <result property="onwayNum" column="onway_num" jdbcType="INTEGER"/>
         <result property="occupyNum" column="occupy_num" jdbcType="INTEGER"/>
         <result property="availableNum" column="available_num" jdbcType="INTEGER"/>
         <result property="operateTime" column="operate_time" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
+        <result property="modelCode" column="model_code" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="ShopkeeperWarehouseMap">
         select
-          shopkeeper_warehouse_key, goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num, available_num,operate_time, description
-        from shopkeeper_warehouse
+          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,operate_time, shopkeeper_warehouse.description
+        from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
+                                  join goods on goods.goods_code=shopkeeper_warehouse.goods_code
         where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ShopkeeperWarehouseMap">
         select
-          shopkeeper_warehouse_key, goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num, available_num,operate_time, description
-        from shopkeeper_warehouse
+          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name,  position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,operate_time, shopkeeper_warehouse.description
+        from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
+                                  join goods on goods.goods_code=shopkeeper_warehouse.goods_code
         <where>
             <if test="goodsCode != null and goodsCode != ''">
-                and goods_code like concat('%', #{goodsCode}, '%')
+                and shopkeeper_warehouse.goods_code like concat('%', #{goodsCode}, '%')
             </if>
             <if test="shopCode != null and shopCode != ''">
-                and shop_code like concat('%', #{shopCode}, '%')
+                and shopkeeper_warehouse.shop_code like concat('%', #{shopCode}, '%')
             </if>
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -43,36 +49,37 @@
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
         select count(1)
-        from shopkeeper_warehouse
+        from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
+                                  join goods on goods.goods_code=shopkeeper_warehouse.goods_code
         <where>
             <if test="goodsCode != null and goodsCode != ''">
-                and goods_code like concat('%', #{goodsCode}, '%')
+                and shopkeeper_warehouse.goods_code like concat('%', #{goodsCode}, '%')
             </if>
             <if test="shopCode != null and shopCode != ''">
-                and shop_code like concat('%', #{shopCode}, '%')
+                and shopkeeper_warehouse.shop_code like concat('%', #{shopCode}, '%')
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
-        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num, available_num,operate_time, description)
-        values (#{shopkeeperWarehouseKey},#{goodsCode}, #{positionCode}, #{shopCode}, #{maxNum}, #{minNum}, #{accountNum}, #{occupyNum}, #{availableNum},#{operateTime}, #{description})
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,operate_time, description)
+        values (#{shopkeeperWarehouseKey},#{goodsCode}, #{positionCode}, #{shopCode}, #{maxNum}, #{minNum}, #{accountNum}, #{occupyNum},#{onwayNum}, #{availableNum},#{operateTime}, #{description})
     </insert>
 
     <insert id="insertBatch" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
-        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num, available_num,operate_time, description)
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,operate_time, description)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum}, #{entity.minNum}, #{entity.accountNum}, #{entity.occupyNum}, #{entity.availableNum}, #{entity.operateTime},#{entity.description})
+        (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum}, #{entity.minNum}, #{entity.accountNum}, #{entity.occupyNum},#{entity.onwayNum}, #{entity.availableNum}, #{entity.operateTime},#{entity.description})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
-        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num, available_num,operate_time, description)
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,operate_time, description)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum}, #{entity.minNum}, #{entity.accountNum}, #{entity.occupyNum}, #{entity.availableNum},#{entity.operateTime}, #{entity.description})
+            (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum}, #{entity.minNum}, #{entity.accountNum},#{entity.onwayNum}, #{entity.occupyNum}, #{entity.availableNum},#{entity.operateTime}, #{entity.description})
         </foreach>
         on duplicate key update
         shopkeeper_warehouse_key=values(shopkeeper_warehouse_key),
@@ -82,6 +89,7 @@
         max_num = values(max_num),
         min_num = values(min_num),
         account_num = values(account_num),
+        onway_num = values(onway_num),
         occupy_num = values(occupy_num),
         available_num = values(available_num),
         operate_time = values(operate_time)
@@ -109,6 +117,9 @@
             </if>
             <if test="accountNum != null">
                 account_num = #{accountNum},
+            </if>
+            <if test="onwayNum != null">
+                onway_num = #{onwayNum},
             </if>
             <if test="occupyNum != null">
                 occupy_num = #{occupyNum},
