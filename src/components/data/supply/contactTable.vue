@@ -20,8 +20,8 @@
       <el-form :model="contactForm" :rules="rules2" ref="contactForm" label-width="100px" class="add-ruleForm">
         <el-row>
           <el-col :span="10">
-            <el-form-item label="联系人编号" prop="contactNumber">
-              <el-input v-model="contactForm.contactNumber"></el-input>
+            <el-form-item label="联系人编号" prop="contactCode">
+              <el-input v-model="contactForm.contactCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="10">
@@ -76,7 +76,7 @@ export default {
       contactForm: {
         contactSupplierKey: "",
         contactKey: "",
-        contactNumber: "",
+        contactCode: "",
         contactName: "",
         contactEmail: "",
         contactTel: "",
@@ -88,7 +88,7 @@ export default {
         }
       },
       rules2: {
-        contactNumber: [
+        contactCode: [
           { required: true, message: '请输入联系人编号', trigger: 'blur' },
         ],
         contactName: [
@@ -117,7 +117,7 @@ export default {
   computed: {
     tableColumn() {
       return [
-        { prop: "contactNumber", label: "联系人编号" },
+        { prop: "contactCode", label: "联系人编号" },
         { prop: "contactName", label: "联系人姓名" },
         { prop: "contactTel", label: "联系电话" },
         { prop: "contactEmail", label: "联系邮箱" },
@@ -137,7 +137,7 @@ export default {
     },
     //编辑
     editRow(row) {
-      this.contactForm.contactNumber = row.contactNumber
+      this.contactForm.contactCode = row.contactCode
       this.contactForm.contactName = row.contactName
       this.contactForm.contactEmail = row.contactEmail
       this.contactForm.contactTel = row.contactTel
@@ -180,7 +180,7 @@ export default {
         contactTel: this.contactForm.contactTel,
         contactSupplierKey: this.contactForm.contactSupplierKey,
         // contactKey:this.contactForm.contactKey,
-        contactNumber: this.contactForm.contactNumber
+        contactCode: this.contactForm.contactCode
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -215,7 +215,7 @@ export default {
         contactTel: this.contactForm.contactTel,
         contactSupplierKey: this.contactForm.contactSupplierKey,
         contactKey: this.contactForm.contactKey,
-        contactNumber: this.contactForm.contactNumber
+        contactCode: this.contactForm.contactCode
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -252,7 +252,7 @@ export default {
       this.contactForm = {
         contactSupplierKey: "",
         contactKey: "",
-        contactNumber: "",
+        contactCode: "",
         contactName: "",
         contactEmail: "",
         contactTel: "",

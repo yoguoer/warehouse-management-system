@@ -135,6 +135,7 @@ export default {
   created() {
     this.getCustomer()
     this.row = this.$route.params.rowData || this.rowData
+    this.ruleForm.contactCustomerKey = this.rowData.contactCustomerKey||this.$route.params.customerKey||""
     if (this.rowData.contactKey) {
       this.ifCreate = false
       this.ruleForm.contactName = this.rowData.contactName
@@ -144,7 +145,7 @@ export default {
       this.ruleForm.address.detail = this.rowData.detail
       this.ruleForm.contactEmail = this.rowData.contactEmail
       this.ruleForm.contactTel = this.rowData.contactTel
-      this.ruleForm.contactCustomerKey = this.rowData.contactCustomerKey
+      // this.ruleForm.contactCustomerKey = this.rowData.contactCustomerKey||this.$route.params.customerKey||""
       this.ruleForm.contactCode = this.rowData.contactCode
       this.ruleForm.contactKey = this.rowData.contactKey
     } else {

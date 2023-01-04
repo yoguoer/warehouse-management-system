@@ -19,7 +19,7 @@
         </el-row>
         <el-row>
           <el-col :span="6">
-            <el-form-item label="所属分类" v-model="ruleForm.categoryKey">
+            <el-form-item label="所属分类" v-model="ruleForm.categoryKey" prop="categoryKey">
               <listBoxF style="width:100%">
                 <template slot="content">
                   <treeselect class="treeSelect-option" v-model="value" :multiple="multiple" :normalizer="normalizer"  style="width:335px"
