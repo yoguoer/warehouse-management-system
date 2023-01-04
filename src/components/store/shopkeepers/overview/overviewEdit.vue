@@ -44,8 +44,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="账面库存" prop="accountNum">
-            <el-input v-model="ruleForm.accountNum" clearable placeholder="账面库存"></el-input>
+          <el-form-item label="现存量" prop="accountNum">
+            <el-input v-model="ruleForm.accountNum" clearable placeholder="现存量"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -55,6 +55,13 @@
             <el-input v-model="ruleForm.occupyNum" clearable placeholder="占用数"></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="10">
+          <el-form-item label="在途数" prop="onwayNum">
+            <el-input v-model="ruleForm.onwayNum" clearable placeholder="在途数"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="10">
           <el-form-item label="备注" prop="description">
             <el-input v-model="ruleForm.description" clearable placeholder="备注" type="textarea"></el-input>
@@ -92,6 +99,7 @@ export default {
         availableNum: "",
         description: "",
         shopkeeperWarehouseKey: "",
+        onwayNum:"",
         operateTime:""
       },
       shopOptions: [],
@@ -104,9 +112,9 @@ export default {
         goodsCode: [
           { required: true, message: '请选择商品', trigger: 'blur' },
         ],
-        // positionCode: [
-        //   { required: true, message: '请选择货位', trigger: 'blur' },
-        // ],
+        onwayNum: [
+          { required: true, message: '请设置在途数', trigger: 'blur' },
+        ],
         maxNum: [
           { required: true, message: '请设置库存上限', trigger: 'blur' },
         ],
@@ -114,7 +122,7 @@ export default {
           { required: true, message: '请设置库存下限', trigger: 'blur' },
         ],
         accountNum: [
-          { required: true, message: '请设置账面库存', trigger: 'blur' },
+          { required: true, message: '请设置现存量', trigger: 'blur' },
         ],
         occupyNum: [
           { required: true, message: '请设置占用数', trigger: 'blur' },
@@ -146,6 +154,7 @@ export default {
       this.ruleForm.availableNum = this.rowData.availableNum
       this.ruleForm.description = this.rowData.description
       this.ruleForm.shopkeeperWarehouseKey = this.rowData.shopkeeperWarehouseKey
+      this.ruleForm.onwayNum=this.rowData.onwayNum
     } else {
       this.ifCreate = true
     }
@@ -200,7 +209,7 @@ export default {
     save(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.ruleForm.availableNum = this.ruleForm.accountNum - this.ruleForm.occupyNum
+          this.ruleForm.availableNum = this.ruleForm.accountNum + this.ruleForm.onwayNum - this.ruleForm.occupyNum
           this.ruleForm.operateTime=moment().format("YYYY-MM-DD HH:mm:ss");
           shopkeeperWarehouseUpdate(this.ruleForm).then(res => {
             if (res.data.code == 200) {
@@ -220,7 +229,7 @@ export default {
     create(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.ruleForm.availableNum = this.ruleForm.accountNum - this.ruleForm.occupyNum
+          this.ruleForm.availableNum = this.ruleForm.accountNum + this.ruleForm.onwayNum - this.ruleForm.occupyNum
           this.ruleForm.operateTime=moment().format("YYYY-MM-DD HH:mm:ss");
           let data = {
             shopCode: this.ruleForm.shopCode,
@@ -231,7 +240,8 @@ export default {
             accountNum: this.ruleForm.accountNum,
             occupyNum: this.ruleForm.occupyNum,
             availableNum: this.ruleForm.availableNum,
-            description: this.ruleForm.description
+            description: this.ruleForm.description,
+            onwayNum:this.ruleForm.onwayNum
           }
           shopkeeperWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {

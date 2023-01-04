@@ -20,10 +20,11 @@
 </template>
 
 <script>
-import { shopkeeperWarehouseListPage, shopkeeperWarehouseDelete, shopkeeperWarehouseDeleteList, shopkeeperWarehouseUpdate } from "@/api/warehouse";
+import { shopkeeperWarehouseListPage, shopkeeperWarehouseDelete, shopkeeperWarehouseDeleteList } from "@/api/warehouse";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import overviewEdit from "./overviewEdit";
+import { shoplist, goodslist } from '@/api/data'
 
 export default {
   name: "slist",
@@ -43,20 +44,23 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
+      shopOptions:[],
+      goodsOptions:[]
     };
-  },
-  created() {
-    // this.getTableData()
   },
   computed: {
     tableColumn() {
       return [
-        { prop: "shopCode", label: "门店编码" },
-        { prop: "goodsCode", label: "商品编码" },
+        // { prop: "shopCode", label: "门店编码" },
+        { prop: "shopName", label: "门店名称" },
+        // { prop: "goodsCode", label: "商品编码" },
+        { prop: "goodsName", label: "商品名称" },
+        { prop: "modelCode", label: "型号" },
         { prop: "positionCode", label: "货位编码" },
-        { prop: "maxNum", label: "仓库上限" },
-        { prop: "minNum", label: "仓库下限" },
-        { prop: "accountNum", label: "账面库存" },
+        { prop: "maxNum", label: "库存上限" },
+        { prop: "minNum", label: "库存下限" },
+        { prop: "accountNum", label: "现存量" },
+        { prop: "onwayNum", label: "在途数" },
         { prop: "occupyNum", label: "占用数" },
         { prop: "availableNum", label: "可用数" },
         { slots: { name: "column-time" }, label: "最后操作时间", fixed: "right" },
@@ -67,18 +71,20 @@ export default {
     searchConfig() {
       return [
         {
-          label: '门店编码',
-          placeholder: '请输入门店编码',
+          label: '请选择',
+          placeholder: '请选择门店',
           field: 'shopCode',
           value: '',
-          type: 'input'
+          type: "select",
+          options:this.shopOptions
         },
         {
-          label: '商品编码',
-          placeholder: '请输入商品编码',
+          label: '请选择',
+          placeholder: '请选择商品',
           field: 'goodsCode',
           value: '',
-          type: 'input'
+          type: "select",
+          options:this.goodsOptions
         },
       ];
     }
@@ -90,7 +96,35 @@ export default {
     overviewEdit,
     reloadAndsearch
   },
+  created() {
+    this.getshoplist()
+    this.getgoodslist()
+  },
   methods: {
+    getshoplist() {
+      shoplist().then(res => {
+        if (res.data.code == 200) {
+          // this.shopOptions = res.data.data
+          res.data.data.forEach(item=>{
+            this.shopOptions.push({label:item.shopName,value:item.shopCode})
+          })
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
+    getgoodslist() {
+      goodslist().then(res => {
+        if (res.data.code == 200) {
+          // this.goodsOptions = res.data.data
+          res.data.data.forEach(item=>{
+            this.goodsOptions.push({label:item.goodsName,value:item.goodsCode})
+          })
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     getTableData(pageNo = 1, pageSize) {
       this.query.pageNo = pageNo;
       if (pageSize) {

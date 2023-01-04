@@ -8,6 +8,9 @@
             <el-tag type="success" size="medium" v-if=" props.row.status == 1">正常</el-tag>
             <el-tag type="danger" size="medium" v-if="props.row.status == 2">关仓</el-tag>
           </template>
+          <template v-slot:column-address="props">
+            <span>{{props.row.province}}{{props.row.city}}{{props.row.district}}{{props.row.detail}}</span>
+          </template>
           <template v-slot:column-todo="props">
             <el-button class="prohibitclick" @click="setClose(props.row)" type="text" size="small" v-if="props.row.status == 1" icon="el-icon-moon">设为关仓</el-button>
             <el-button class="prohibitclick" @click="setOpen(props.row)" type="text" size="small" v-if="props.row.status == 2"  icon="el-icon-sunny">设为正常</el-button>
@@ -63,6 +66,7 @@ import configEdit from "./configEdit";
           { prop: "shopName", label: "门店名称" },
           { prop: "inventoryCode", label: "仓库编码" },
           { prop: "inventoryName", label: "仓库名称" },
+          { slots: { name: "column-address" }, label: "仓库地址" },
           { slots: { name: "column-status" }, label: "状态" },
           { prop: "description", label: "备注" },
           { slots: { name: "column-todo" }, label: "操作", fixed: "right" },
