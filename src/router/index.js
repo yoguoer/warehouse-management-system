@@ -358,7 +358,8 @@ const routes = [{
       {
         path: '/purchasing/purchasingBusiness/purchasingOrders',
         name: 'purchasingOrders',
-        component: () => import('@/views/purchasing/purchasingBusiness/purchasingOrders/Index.vue')
+        component: () => import('@/components/purchasing/purchasingBusiness/purchasingOrders/purchasingOrdersList.vue')
+        
       },
       //采购-采购业务-回货管理
       {
