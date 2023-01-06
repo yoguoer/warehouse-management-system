@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.InputWarehouseMapper">
+
+    <resultMap type="com.example.api_project.pojo.InputWarehouse" id="InputWarehouseMap">
+        <result property="inputWarehouseKey" column="input_warehouse_key" jdbcType="VARCHAR"/>
+        <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
+        <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
+        <result property="inputPlan" column="input_plan" jdbcType="INTEGER"/>
+        <result property="inputPrice" column="input_price" jdbcType="INTEGER"/>
+        <result property="inputActual" column="input_actual" jdbcType="INTEGER"/>
+        <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
+        <result property="positionCode" column="position_code" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="deadlineTime" column="deadline_time" jdbcType="VARCHAR"/>
+        <result property="vehicleCode" column="vehicle_code" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="shopPeopleCode" column="shop_people_code" jdbcType="VARCHAR"/>
+        <result property="inventoryPeopleCode" column="inventory_people_code" jdbcType="VARCHAR"/>
+        <result property="returnReason" column="return_reason" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询全部-->
+    <select id="getList" resultMap="InputWarehouseMap">
+        select
+            input_warehouse_key, shop_code, shop_name, goods_code, goods_name, supplier_code, supplier_name, input_plan, input_price, input_actual, inventory_code, position_code, create_time, deadline_time, vehicle_code, status, type, shop_people_code, inventory_people_code, return_reason
+        from input_warehouse
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="InputWarehouseMap">
+        select
+          input_warehouse_key, shop_code, shop_name, goods_code, goods_name, supplier_code, supplier_name, input_plan, input_price, input_actual, inventory_code, position_code, create_time, deadline_time, vehicle_code, status, type, shop_people_code, inventory_people_code, return_reason
+        from input_warehouse
+        where input_warehouse_key = #{inputWarehouseKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="InputWarehouseMap">
+        select
+          input_warehouse_key, shop_code, shop_name, goods_code, goods_name, supplier_code, supplier_name, input_plan, input_price, input_actual, inventory_code, position_code, create_time, deadline_time, vehicle_code, status, type, shop_people_code, inventory_people_code, return_reason
+        from input_warehouse
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
+            </if>
+            <if test="inventoryCode != null and inventoryCode != ''">
+                and inventory_code = #{inventoryCode}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from input_warehouse
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
+            </if>
+            <if test="inventoryCode != null and inventoryCode != ''">
+                and inventory_code = #{inventoryCode}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="inputWarehouseKey" useGeneratedKeys="true">
+        insert into input_warehouse(input_warehouse_key,shop_code, shop_name, goods_code, goods_name, supplier_code, supplier_name, input_plan, input_price, input_actual, inventory_code, position_code, create_time, deadline_time, vehicle_code, status, type, shop_people_code, inventory_people_code, return_reason)
+        values (#{inputWarehouseKey},#{shopCode}, #{shopName}, #{goodsCode}, #{goodsName}, #{supplierCode}, #{supplierName}, #{inputPlan}, #{inputPrice}, #{inputActual}, #{inventoryCode}, #{positionCode}, #{createTime}, #{deadlineTime}, #{vehicleCode}, #{status}, #{type}, #{shopPeopleCode}, #{inventoryPeopleCode}, #{returnReason})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="inputWarehouseKey" useGeneratedKeys="true">
+        insert into input_warehouse(shop_code, shop_name, goods_code, goods_name, supplier_code, supplier_name, input_plan, input_price, input_actual, inventory_code, position_code, create_time, deadline_time, vehicle_code, status, type, shop_people_code, inventory_people_code, return_reason)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.shopCode}, #{entity.shopName}, #{entity.goodsCode}, #{entity.goodsName}, #{entity.supplierCode}, #{entity.supplierName}, #{entity.inputPlan}, #{entity.inputPrice}, #{entity.inputActual}, #{entity.inventoryCode}, #{entity.positionCode}, #{entity.createTime}, #{entity.deadlineTime}, #{entity.vehicleCode}, #{entity.status}, #{entity.type}, #{entity.shopPeopleCode}, #{entity.inventoryPeopleCode}, #{entity.returnReason})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="inputWarehouseKey" useGeneratedKeys="true">
+        insert into input_warehouse(shop_code, shop_name, goods_code, goods_name, supplier_code, supplier_name, input_plan, input_price, input_actual, inventory_code, position_code, create_time, deadline_time, vehicle_code, status, type, shop_people_code, inventory_people_code, return_reason)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.shopCode}, #{entity.shopName}, #{entity.goodsCode}, #{entity.goodsName}, #{entity.supplierCode}, #{entity.supplierName}, #{entity.inputPlan}, #{entity.inputPrice}, #{entity.inputActual}, #{entity.inventoryCode}, #{entity.positionCode}, #{entity.createTime}, #{entity.deadlineTime}, #{entity.vehicleCode}, #{entity.status}, #{entity.type}, #{entity.shopPeopleCode}, #{entity.inventoryPeopleCode}, #{entity.returnReason})
+        </foreach>
+        on duplicate key update
+        shop_code = values(shop_code),
+        shop_name = values(shop_name),
+        goods_code = values(goods_code),
+        goods_name = values(goods_name),
+        supplier_code = values(supplier_code),
+        supplier_name = values(supplier_name),
+        input_plan = values(input_plan),
+        input_price = values(input_price),
+        input_actual = values(input_actual),
+        inventory_code = values(inventory_code),
+        position_code = values(position_code),
+        create_time = values(create_time),
+        deadline_time = values(deadline_time),
+        vehicle_code = values(vehicle_code),
+        status = values(status),
+        type = values(type),
+        shop_people_code = values(shop_people_code),
+        inventory_people_code = values(inventory_people_code),
+        return_reason = values(return_reason)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update input_warehouse
+        <set>
+            <if test="shopCode != null and shopCode != ''">
+                shop_code = #{shopCode},
+            </if>
+            <if test="shopName != null and shopName != ''">
+                shop_name = #{shopName},
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                goods_code = #{goodsCode},
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                goods_name = #{goodsName},
+            </if>
+            <if test="supplierCode != null and supplierCode != ''">
+                supplier_code = #{supplierCode},
+            </if>
+            <if test="supplierName != null and supplierName != ''">
+                supplier_name = #{supplierName},
+            </if>
+            <if test="inputPlan != null">
+                input_plan = #{inputPlan},
+            </if>
+            <if test="inputPrice != null">
+                input_price = #{inputPrice},
+            </if>
+            <if test="inputActual != null">
+                input_actual = #{inputActual},
+            </if>
+            <if test="inventoryCode != null and inventoryCode != ''">
+                inventory_code = #{inventoryCode},
+            </if>
+            <if test="positionCode != null and positionCode != ''">
+                position_code = #{positionCode},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                create_time = #{createTime},
+            </if>
+            <if test="deadlineTime != null and deadlineTime != ''">
+                deadline_time = #{deadlineTime},
+            </if>
+            <if test="vehicleCode != null and vehicleCode != ''">
+                vehicle_code = #{vehicleCode},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="shopPeopleCode != null and shopPeopleCode != ''">
+                shop_people_code = #{shopPeopleCode},
+            </if>
+            <if test="inventoryPeopleCode != null and inventoryPeopleCode != ''">
+                inventory_people_code = #{inventoryPeopleCode},
+            </if>
+            <if test="returnReason != null and returnReason != ''">
+                return_reason = #{returnReason},
+            </if>
+        </set>
+        where input_warehouse_key = #{inputWarehouseKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from input_warehouse where input_warehouse_key = #{inputWarehouseKey}
+    </delete>
+
+</mapper>
+
