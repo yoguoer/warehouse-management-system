@@ -234,6 +234,7 @@ export default {
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPropleCode = this.rowData.inventoryPropleCode
       this.ruleForm.returnReason = this.rowData.returnReason
+      this.value2=[this.rowData.createTime,this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
     }
