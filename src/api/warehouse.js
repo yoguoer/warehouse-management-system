@@ -63,12 +63,21 @@ export function getByshopCode(data) {
 //查询零售商仓库（分页)
 export function ShopInventoryListPage(data) {
     return request({
-      url: baseUrl + "/ShopInventory/list-page",
-      method: "get",
-      params: data,
+        url: baseUrl + "/ShopInventory/list-page",
+        method: "get",
+        params: data,
     });
-  }
+}
   
+//查询零售商仓库（不分页)
+export function ShopInventoryList(data) {
+    return request({
+        url: baseUrl + "/ShopInventory/list",
+        method: "get",
+        params: data,
+    });
+}
+
 //添加零售商仓库
 export function ShopInventoryAdd(data) {
 return request({

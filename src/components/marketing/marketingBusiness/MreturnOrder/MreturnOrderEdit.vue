@@ -110,7 +110,8 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
-import { shoplist, goodslist, inventorylist, Supplierlist, positionList } from '@/api/data'
+import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
+import { ShopInventoryList } from '@/api/warehouse'
 
 export default {
   name: 'guestEdit',
@@ -211,7 +212,7 @@ export default {
     this.getshoplist()
     this.getgoodslist()
     this.getSupplierlist()
-    this.getinventorylist();
+    // this.getinventorylist();
     if (this.rowData.inputWarehouseKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -266,29 +267,43 @@ export default {
         }
       });
     },
-    getinventorylist() {
-      inventorylist()
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.inventoryOptions = res.data.data
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    getShopInventoryList(item) {
+      ShopInventoryList({shopCode:item}).then(res => {
+        if (res.data.code == 200) {
+          this.inventoryOptions = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
     },
+    // getinventorylist() {
+    //   inventorylist()
+    //     .then((res) => {
+    //       if (res.data.code === 200) {
+    //         this.inventoryOptions = res.data.data
+    //       } else {
+    //         this.$message.error(res.msg);
+    //       }
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+    // },
     setShopName() {
+      // console.log(this.$refs.selection.selectedLabel)
+      this.getShopInventoryList(this.ruleForm.shopCode)
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
     },
     setSupplierName() {
+      // console.log(this.$refs.supplierSelect.selectedLabel)
       this.ruleForm.supplierName = this.$refs.supplierSelect.selectedLabel
     },
     setGoodsName() {
+      // console.log(this.$refs.goodsSelect.selectedLabel)
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
     },
     setPosition(e) {
+      // console.log(this.$refs.inventorySelect.selectedLabel)
       this.ruleForm.inventoryName = this.$refs.inventorySelect.selectedLabel
       let choosenItem = this.inventoryOptions.filter(item => {
         return item.inventoryCode == e

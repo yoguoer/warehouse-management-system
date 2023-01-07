@@ -114,6 +114,7 @@
 <script>
 import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
 import { shoplist, goodslist, inventorylist, CustomerList, positionList } from '@/api/data'
+import { ShopInventoryList } from '@/api/warehouse'
 
 export default {
   name: 'guestEdit',
@@ -270,20 +271,30 @@ export default {
     //     }
     //   });
     // },
-    getinventorylist() {
-      inventorylist()
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.inventoryOptions = res.data.data
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    getShopInventoryList(item) {
+      ShopInventoryList({shopCode:item}).then(res => {
+        if (res.data.code == 200) {
+          this.inventoryOptions = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
     },
+    // getinventorylist() {
+    //   inventorylist()
+    //     .then((res) => {
+    //       if (res.data.code === 200) {
+    //         this.inventoryOptions = res.data.data
+    //       } else {
+    //         this.$message.error(res.msg);
+    //       }
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+    // },
     setShopName() {
+      this.getShopInventoryList(this.ruleForm.shopCode)
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
     },
     setCustomerName() {
