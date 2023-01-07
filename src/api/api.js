@@ -8,6 +8,14 @@ import request from "../utils/request";
  */
 let baseURL = "/api"
 
+// 用户列表（根据类型查询）
+export function UserList(params) {
+  return request({
+    url: baseURL + "/user/list" ,
+    method: "get",
+    params: qs.parse(params),
+  });
+}
 
 // 用户列表
 export function getUserList(params) {

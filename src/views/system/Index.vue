@@ -9,7 +9,7 @@
             <el-form-item>
                 <el-select size="small" v-model="search2" placeholder="请选择用户角色" clearable>
                     <el-option label="超级管理员" value="0"></el-option>
-                    <el-option label="管理员" value="1"></el-option>
+                    <el-option label="仓库管理员" value="1"></el-option>
                     <el-option label="用户" value="2"></el-option>
                 </el-select>
             </el-form-item>
@@ -69,7 +69,7 @@
                     <el-tag
                         :type="scope.row.userType == 0 ? 'danger' : (scope.row.userType == 1 ? 'primary' : 'success')"
                         disable-transitions>
-                        {{ scope.row.userType == 0 ? '超级管理员' : (scope.row.userType == 1 ? '管理员' : '用户') }}
+                        {{ scope.row.userType == 0 ? '超级管理员' : (scope.row.userType == 1 ? '仓库管理员' : '用户') }}
                     </el-tag>
                 </template>
             </el-table-column>
@@ -102,7 +102,7 @@
                 <el-form-item label="用户角色">
                     <el-select v-model="ruleForm.userType" placeholder="请选择用户角色" prop="userType" style="width:100%">
                         <el-option label="超级管理员" :value="0"></el-option>
-                        <el-option label="管理员" :value="1"></el-option>
+                        <el-option label="仓库管理员" :value="1"></el-option>
                         <el-option label="用户" :value="2"></el-option>
                     </el-select>
                 </el-form-item>
@@ -144,7 +144,7 @@
                 <el-form-item label="用户角色">
                     <el-select v-model="ruleForm.userType" placeholder="请选择用户角色" prop="userType" style="width:100%">
                         <el-option label="超级管理员" :value="0"></el-option>
-                        <el-option label="管理员" :value="1"></el-option>
+                        <el-option label="仓库管理员" :value="1"></el-option>
                         <el-option label="用户" :value="2"></el-option>
                     </el-select>
                 </el-form-item>
@@ -253,7 +253,7 @@ export default {
                 userName: this.ruleForm.userName,//用户姓名
                 userEmail: this.ruleForm.userEmail,//邮箱
                 userPhone: this.ruleForm.userPhone,//手机号码
-                userType: this.ruleForm.userType,//用户类型(管理员、普通用户)
+                userType: this.ruleForm.userType,//用户类型
                 userSex: this.ruleForm.userSex,
                 userBelong: this.ruleForm.userBelong,
             });

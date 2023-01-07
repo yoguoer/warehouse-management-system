@@ -7,8 +7,9 @@
         <el-col :span="10">
           <el-form-item label="门店" prop="shopCode">
             <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable
-              @change="setShopName" ref="selection">
-              <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName" :value="item.shopCode">
+              ref="selection">
+              <el-option @click.native="setShopName" v-for="item in shopOptions" :key="item.shopKey"
+                :label="item.shopName" :value="item.shopCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -16,9 +17,9 @@
         <el-col :span="10">
           <el-form-item label="商品" prop="goodsCode">
             <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable
-              @change="setGoodsName" ref="goodsSelect">
-              <el-option v-for="item in goodsOptions" :key="item.goodsCode" :label="item.goodsName"
-                :value="item.goodsCode">
+              ref="goodsSelect">
+              <el-option @click.native="setGoodsName" v-for="item in goodsOptions" :key="item.goodsCode"
+                :label="item.goodsName" :value="item.goodsCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -28,9 +29,9 @@
         <el-col :span="10">
           <el-form-item label="客户" prop="customerCode">
             <el-select size="middle" v-model="ruleForm.customerCode" placeholder="客户" style="width:100%;" clearable
-              @change="setCustomerName" ref="customerSelect">
-              <el-option v-for="item in customerOptions" :key="item.customerKey" :label="item.customerName"
-                :value="item.customerCode">
+              ref="customerSelect">
+              <el-option @click.native="setCustomerName" v-for="item in customerOptions" :key="item.customerKey"
+                :label="item.customerName" :value="item.customerCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -38,9 +39,9 @@
         <el-col :span="10">
           <el-form-item label="仓库" prop="inventoryCode">
             <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
-              @change="setPosition" ref="inventorySelect">
-              <el-option v-for="item in inventoryOptions" :key="item.inventoryKey" :label="item.inventoryName"
-                :value="item.inventoryCode">
+              ref="inventorySelect">
+              <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
+                :label="item.inventoryName" :value="item.inventoryCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -82,20 +83,25 @@
         <!-- 还没完成呢！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！ -->
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
-            <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input>
+            <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable>
+              <el-option v-for="item in userOptions" :key="item.userId"
+                :label="item.userName" :value="item.userId">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <span style="margin-left: 8%;">起始日期</span>
-          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right" size="large" unlink-panels
-            range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期" :picker-options="pickerOptions"
-            @change="setTime" value-format="yyyy-MM-dd HH:mm:ss">
+          <span style="margin-left: 8%;">起止日期</span>
+          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right"
+            size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
+            :picker-options="pickerOptions" @change="setTime" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="退货出库原因" prop="returnReason" v-if="ruleForm.type == 2">
+          <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 2">
             <el-input v-model="ruleForm.returnReason" clearable placeholder="退货出库原因" type="textarea"></el-input>
           </el-form-item>
         </el-col>
@@ -113,6 +119,7 @@
 import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
 import { shoplist, goodslist, inventorylist, CustomerList, positionList } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
+import { UserList } from '@/api/api'
 
 export default {
   name: 'guestEdit',
@@ -147,6 +154,7 @@ export default {
       positionOptions: [],
       customerOptions: [],
       inventoryOptions: [],
+      userOptions:[],
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -214,7 +222,8 @@ export default {
     this.getshoplist()
     this.getgoodslist()
     this.getCustomerList()
-    this.getinventorylist();
+    this.getUserList()
+    // this.getinventorylist();
     if (this.rowData.outputWarehouseKey) {
       this.ruleForm.outputWarehouseKey = this.rowData.outputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -236,12 +245,20 @@ export default {
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPropleCode = this.rowData.inventoryPropleCode
       this.ruleForm.returnReason = this.rowData.returnReason
-      this.value2=[this.rowData.createTime,this.rowData.deadlineTime]
+      this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
     }
   },
   methods: {
+    getUserList() {
+      UserList({userType: 2}).then(res => {
+        this.userOptions = res.data.data
+        this.$forceUpdate()
+      }).catch(err => {
+        console.log(err)
+      });
+    },
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
@@ -270,7 +287,7 @@ export default {
       });
     },
     getShopInventoryList(item) {
-      ShopInventoryList({shopCode:item}).then(res => {
+      ShopInventoryList({ shopCode: item }).then(res => {
         if (res.data.code == 200) {
           this.inventoryOptions = res.data.data
         } else {
@@ -301,10 +318,10 @@ export default {
     setGoodsName() {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
     },
-    setPosition(e) {
+    setPosition() {
       this.ruleForm.inventoryName = this.$refs.inventorySelect.selectedLabel
       let choosenItem = this.inventoryOptions.filter(item => {
-        return item.inventoryCode == e
+        return item.inventoryCode == this.ruleForm.inventoryCode
       });
       this.getpositionList(choosenItem[0].inventoryKey)
     },

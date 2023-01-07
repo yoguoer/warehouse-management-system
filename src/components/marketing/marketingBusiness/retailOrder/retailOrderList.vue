@@ -88,7 +88,7 @@ export default {
         { prop: "customerName", label: "客户名称" },
         { prop: "outputPlan", label: "计划出库数" },
         { prop: "outputPrice", label: "出库价格" },
-        // { prop: "outputActual", label: "实际出库数" },
+        { prop: "outputActual", label: "实际出库数" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
         // { prop: "vehicleCode", label: "车辆编码" },
@@ -98,7 +98,7 @@ export default {
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPropleCode", label: "仓库操作员" },
-        // { prop: "returnReason", label: "退货出库原因" },
+        // { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },

@@ -1,293 +1,364 @@
 {
     "menu": {
         "menu": [
-            
-        {
-            "name": "销售",
-            "icon": "",
-            "level": 0,
-            "componentName": "marketing",
-            "children": [{
-                "name": "销售业务",
+            {
+                "name": "数据集成",
                 "icon": "",
-                "level": 2,
-                "componentName": "marketingBusiness",
-                "children": [{
-                    "name": "零售单",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "retailOrder"
-                }, {
-                    "name": "销售订单",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "salesOrder"
-
-                },{
-                    "name": "销售退货单",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "MreturnOrder"
-
-                }]
-            }, {
-                "name": "销售查询",
+                "level": 0,
+                "componentName": "dataIntegrate",
+                "children": [
+                    {
+                        "name": "销售统计",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "dataIntegrate"
+                    },
+                    {
+                        "name": "采购统计",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "dataIntegrate"
+                    }
+                ]
+            },
+            {
+                "name": "销售",
                 "icon": "",
-                "level": 2,
-                "componentName": "marketingQueries",
-                "children": [{
-                    "name": "销售单据查询",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "bills"
-                }, {
-                    "name": "销售明细查询",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "details"
-                }]
-            }]
-        },
-
-
-        {
-            "name": "采购",
-            "icon": "",
-            "level": 0,
-            "componentName": "purchasing",
-            "children": [{
-                "name": "采购策略",
+                "level": 0,
+                "componentName": "marketing",
+                "children": [
+                    {
+                        "name": "销售业务",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "marketingBusiness",
+                        "children": [
+                            {
+                                "name": "零售单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "retailOrder"
+                            },
+                            {
+                                "name": "销售订单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "salesOrder"
+                            },
+                            {
+                                "name": "销售退货单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "MreturnOrder"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "销售查询",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "marketingQueries",
+                        "children": [
+                            {
+                                "name": "销售单据查询",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "bills"
+                            },
+                            {
+                                "name": "销售明细查询",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "details"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "采购",
                 "icon": "",
-                "level": 2,
-                "componentName": "purchasingStrategy",
-                "children": [{
-                    "name": "库存预警补货",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "warning"
-                }, {
-                    "name": "缺货补货",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "lack"
-                }, {
-                    "name": "智能补货",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "smart"
-                }]
-            }, {
-                "name": "采购业务",
+                "level": 0,
+                "componentName": "purchasing",
+                "children": [
+                    {
+                        "name": "采购策略",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "purchasingStrategy",
+                        "children": [
+                            {
+                                "name": "库存预警补货",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "warning"
+                            },
+                            {
+                                "name": "缺货补货",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "lack"
+                            },
+                            {
+                                "name": "智能补货",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "smart"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "采购业务",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "purchasingBusiness",
+                        "children": [
+                            {
+                                "name": "采购订单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "purchasingOrder"
+                            },
+                            {
+                                "name": "采购退货单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "PreturnOrder"
+                            },
+                            {
+                                "name": "回货管理",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "returnCargo"
+                            },
+                            {
+                                "name": "采购入库单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "enterWarehouse"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "采购查询",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "purchasingQueries",
+                        "children": [
+                            {
+                                "name": "采购单据查询",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "bills"
+                            },
+                            {
+                                "name": "采购明细查询",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "details"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "库存",
                 "icon": "",
-                "level": 2,
-                "componentName": "purchasingBusiness",
-                "children": [{
-                    "name": "采购订单",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "purchasingOrder"
-                },{
-                    "name": "采购退货单",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "PreturnOrder"
-
-                }, {
-                    "name": "回货管理",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "returnCargo"
-                }, {
-                    "name": "采购入库单",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "enterWarehouse"
-                }]
-            }, {
-                "name": "采购查询",
+                "level": 0,
+                "componentName": "store",
+                "children": [
+                    {
+                        "name": "供应商库存",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "suppliers",
+                        "children": [
+                            {
+                                "name": "供应商库存配置",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "configuration"
+                            },
+                            {
+                                "name": "供应商库存管理",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "stockManagement"
+                            },
+                            {
+                                "name": "供应商库存流水",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "stockFlow"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "零售商库存",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "shopkeepers",
+                        "children": [
+                            {
+                                "name": "仓库配置",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "configure"
+                            },
+                            {
+                                "name": "库存总览",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "overview"
+                            },
+                            {
+                                "name": "在单库存",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "inOrder"
+                            },
+                            {
+                                "name": "仓库库存",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "warehouse"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "配货",
                 "icon": "",
-                "level": 2,
-                "componentName": "purchasingQueries",
-                "children": [{
-                    "name": "采购单据查询",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "bills"
-                }, {
-                    "name": "采购明细查询",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "details"
-                }]
-            }]
-        }, 
-
-
-        {
-            "name": "库存",
-            "icon": "",
-            "level": 0,
-            "componentName": "store",
-            "children": [{
-                "name": "供应商库存",
+                "level": 0,
+                "componentName": "distribution",
+                "children": [
+                    {
+                        "name": "需求管理",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "demandManagement",
+                        "children": [
+                            {
+                                "name": "需求单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "requirementList"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "配货管理",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "distributionManagement",
+                        "children": [
+                            {
+                                "name": "任务清单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "taskLlist"
+                            },
+                            {
+                                "name": "建议单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "adviceList"
+                            },
+                            {
+                                "name": "计划单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "planLlist"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "门店配货",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "outletDistribution"
+                    }
+                ]
+            },
+            {
+                "name": "资料",
                 "icon": "",
-                "level": 2,
-                "componentName": "suppliers",
-                "children": [{
-                    "name": "供应商库存配置",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "configuration"
-                }, {
-                    "name": "供应商库存管理",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "stockManagement"
-                }, {
-                    "name": "供应商库存流水",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "stockFlow"
-                }]
-            }, {
-                "name": "零售商库存",
-                "icon": "",
-                "level": 2,
-                "componentName": "shopkeepers",
-                "children": [{
-                    "name": "仓库配置",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "configure"
-                },{
-                    "name": "库存总览",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "overview"
-                }, {
-                    "name": "在单库存",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "inOrder"
-                }, {
-                    "name": "仓库库存",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "warehouse"
-                }]
-            }]
-        }, 
-        
-        
-        {
-            "name": "配货",
-            "icon": "",
-            "level": 0,
-            "componentName": "distribution",
-            "children": [{
-                "name": "需求管理",
-                "icon": "",
-                "level": 2,
-                "componentName": "demandManagement",
-                "children": [{
-                    "name": "需求单",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "requirementList"
-                }]
-            }, {
-                "name": "配货管理",
-                "icon": "",
-                "level": 2,
-                "componentName": "distributionManagement",
-                "children": [{
-                    "name": "任务清单",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "taskLlist"
-                }, {
-                    "name": "建议单",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "adviceList"
-                }, {
-                    "name": "计划单",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "planLlist"
-                }]
-            }, {
-                "name": "门店配货",
-                "icon": "",
-                "level": 2,
-                "componentName": "outletDistribution"
-            }]
-        }, 
-        
-        
-        {
-            "name": "资料",
-            "icon": "",
-            "level": 0,
-            "componentName": "data",
-            "children": [{
-                "name": "业务实体",
-                "icon": "",
-                "level": 1,
-                "componentName": "business",
-                "children": [{
-                    "name": "业务主体",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "entity"
-                }, {
-                    "name": "车辆",
-                    "icon": "",
-                    "level": 3,
-                    "componentName": "car"
-                }, {
-                    "name": "品牌",
-                    "icon": "",
-                    "level": 2,
-                    "componentName": "brand"
-                }]
-            }, {
-                "name": "财务账户",
-                "icon": "",
-                "level": 1,
-                "componentName": "finance",
-                "children": [{
-                    "name": "银行",
-                    "icon": "",
-                    "level": 2,
-                    "componentName": "bank"
-                }]
-            }, {
-                "name": "商品管理",
-                "icon": "",
-                "level": 1,
-                "componentName": "goods"
-            },{
-                "name": "门店管理",
-                "icon": "",
-                "level": 1,
-                "componentName": "shop"
-            }, {
-                "name": "仓库管理",
-                "icon": "",
-                "level": 1,
-                "componentName": "inventory"
-            }, {
-                "name": "供应商",
-                "icon": "",
-                "level": 1,
-                "componentName": "supply"
-            }, {
-                "name": "客户管理",
-                "icon": "",
-                "level": 1,
-                "componentName": "customer"
-            }]
-        }]
+                "level": 0,
+                "componentName": "data",
+                "children": [
+                    {
+                        "name": "业务实体",
+                        "icon": "",
+                        "level": 1,
+                        "componentName": "business",
+                        "children": [
+                            {
+                                "name": "业务主体",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "entity"
+                            },
+                            {
+                                "name": "车辆",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "car"
+                            },
+                            {
+                                "name": "品牌",
+                                "icon": "",
+                                "level": 2,
+                                "componentName": "brand"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "财务账户",
+                        "icon": "",
+                        "level": 1,
+                        "componentName": "finance",
+                        "children": [
+                            {
+                                "name": "银行",
+                                "icon": "",
+                                "level": 2,
+                                "componentName": "bank"
+                            }
+                        ]
+                    },
+                    {
+                        "name": "商品管理",
+                        "icon": "",
+                        "level": 1,
+                        "componentName": "goods"
+                    },
+                    {
+                        "name": "门店管理",
+                        "icon": "",
+                        "level": 1,
+                        "componentName": "shop"
+                    },
+                    {
+                        "name": "仓库管理",
+                        "icon": "",
+                        "level": 1,
+                        "componentName": "inventory"
+                    },
+                    {
+                        "name": "供应商",
+                        "icon": "",
+                        "level": 1,
+                        "componentName": "supply"
+                    },
+                    {
+                        "name": "客户管理",
+                        "icon": "",
+                        "level": 1,
+                        "componentName": "customer"
+                    }
+                ]
+            }
+        ]
     }
 }

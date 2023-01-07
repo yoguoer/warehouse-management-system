@@ -98,7 +98,7 @@ export default {
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPropleCode", label: "仓库操作员" },
-        // { prop: "returnReason", label: "退货出库原因" },
+        // { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
