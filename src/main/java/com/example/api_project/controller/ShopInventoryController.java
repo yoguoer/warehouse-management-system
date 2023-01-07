@@ -26,8 +26,8 @@ public class ShopInventoryController {
      * 不分页查询
      */
     @GetMapping("/list")
-    public Result querylist() {
-        return ResponseData.success(this.ShopInventoryService.querylist());
+    public Result querylist(ShopInventory ShopInventory) {
+        return ResponseData.success(this.ShopInventoryService.querylist(ShopInventory));
     }
 
     /**

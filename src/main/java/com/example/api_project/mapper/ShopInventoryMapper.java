@@ -23,7 +23,7 @@ public interface ShopInventoryMapper {
      * 不分页
      * @return 对象列表
      */
-    List<ShopInventory> getList();
+    List<ShopInventory> getList(String shopCode);
 
 
     /**

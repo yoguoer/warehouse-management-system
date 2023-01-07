@@ -16,7 +16,7 @@ public interface ShopInventoryService {
     /**
      * 不分页查询
      */
-    List<ShopInventory> querylist();
+    List<ShopInventory> querylist(ShopInventory ShopInventory);
 
     /**
      * 分页查询

@@ -19,7 +19,7 @@
     </resultMap>
 
     <!--查询所有（不分页）-->
-    <select id="getList" resultType="ShopInventory">
+    <select id="getList" resultMap="ShopInventoryMap">
         select shop.shop_key,
                shop.shop_code,
                shop.shop_name,
@@ -34,6 +34,7 @@
                inventory.district,
                inventory.detail
         from shop join inventory on shop.shop_key=inventory.belong_key
+        where shop.shop_code = #{shopCode}
     </select>
 
     <!--查询单个(shopCode)-->

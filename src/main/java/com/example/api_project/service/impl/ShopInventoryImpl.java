@@ -27,8 +27,9 @@ public class ShopInventoryImpl implements ShopInventoryService {
     /**
      * 不分页查询
      */
-    public List<ShopInventory> querylist() {
-        return ShopInventoryMapper.getList();
+    public List<ShopInventory> querylist(ShopInventory ShopInventory) {
+        String shopCode=ShopInventory.getShopCode();
+        return ShopInventoryMapper.getList(shopCode);
     }
     /**
      * 分页查询
