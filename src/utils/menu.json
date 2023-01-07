@@ -23,6 +23,12 @@
                     "level": 3,
                     "componentName": "salesOrder"
 
+                },{
+                    "name": "销售退货单",
+                    "icon": "",
+                    "level": 3,
+                    "componentName": "MreturnOrder"
+
                 }]
             }, {
                 "name": "销售查询",
@@ -80,6 +86,12 @@
                     "icon": "",
                     "level": 3,
                     "componentName": "purchasingOrder"
+                },{
+                    "name": "采购退货单",
+                    "icon": "",
+                    "level": 3,
+                    "componentName": "PreturnOrder"
+
                 }, {
                     "name": "回货管理",
                     "icon": "",

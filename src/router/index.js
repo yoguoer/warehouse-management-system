@@ -312,6 +312,12 @@ const routes = [{
         name: 'salesOrder',
         component: () => import('@/components/marketing/marketingBusiness/salesOrder/salesOrderList.vue')
       },
+      //销售-销售业务-销售退货单
+      {
+        path: '/marketing/marketingBusiness/MreturnOrder',
+        name: 'MreturnOrder',
+        component: () => import('@/components/marketing/marketingBusiness/MreturnOrder/MreturnOrderList.vue')
+      },
       //销售-销售查询
       {
         path: '/marketing/marketingQueries',
@@ -359,6 +365,13 @@ const routes = [{
         path: '/purchasing/purchasingBusiness/purchasingOrder',
         name: 'purchasingOrder',
         component: () => import('@/components/purchasing/purchasingBusiness/purchasingOrder/purchasingOrderList.vue')
+        
+      },
+      //采购-采购业务-采购退货单
+      {
+        path: '/purchasing/purchasingBusiness/PreturnOrder',
+        name: 'PreturnOrder',
+        component: () => import('@/components/purchasing/purchasingBusiness/PreturnOrder/PreturnOrderList.vue')
         
       },
       //采购-采购业务-回货管理

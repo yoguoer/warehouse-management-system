@@ -137,7 +137,7 @@ export default {
         createTime: "",
         deadlineTime: "",
         vehicleCode: "",
-        status: "",
+        status: 5,
         type: 0,
         shopPeopleCode: "",
         inventoryPropleCode: "",
@@ -232,8 +232,8 @@ export default {
       this.ruleForm.createTime = this.rowData.createTime
       this.ruleForm.deadlineTime = this.rowData.deadlineTime
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
-      this.ruleForm.status = this.rowData.status
-      this.ruleForm.type = this.rowData.type
+      // this.ruleForm.status = this.rowData.status
+      // this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPropleCode = this.rowData.inventoryPropleCode
       this.ruleForm.returnReason = this.rowData.returnReason
@@ -335,7 +335,7 @@ export default {
             createTime: this.ruleForm.createTime,
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
-            status: 0,
+            status: this.ruleForm.status,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPropleCode: this.ruleForm.inventoryPropleCode,
@@ -376,7 +376,7 @@ export default {
             createTime: this.ruleForm.createTime,
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
-            status: 0,
+            status: this.ruleForm.status,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPropleCode: this.ruleForm.inventoryPropleCode,

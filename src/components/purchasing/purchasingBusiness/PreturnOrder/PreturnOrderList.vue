@@ -15,6 +15,7 @@
           }}</span>
         </template>
         <template v-slot:column-type="props">
+          
           <el-tag type="success" size="medium" v-if="props.row.type == 0">零售出库</el-tag>
           <el-tag type="warning" size="medium" v-if="props.row.type == 1">客户订购出库</el-tag>
           <el-tag type="danger" size="medium" v-if="props.row.type == 2">退货出库</el-tag>
@@ -32,7 +33,7 @@
         </template>
       </TableList>
     </div>
-    <salesOrderEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"/>
+    <PreturnOrderEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"/>
   </div>
 </template>
 
@@ -40,7 +41,7 @@
 import { outputWarehouseListPage, outputWarehouseDelete, outputWarehouseDeleteList } from "@/api/marketing";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import salesOrderEdit from "./salesOrderEdit";
+import PreturnOrderEdit from "./PreturnOrderEdit";
 import { shoplist, goodslist, inventorylist, CustomerList } from '@/api/data'
 
 export default {
@@ -98,7 +99,7 @@ export default {
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPropleCode", label: "仓库操作员" },
-        // { prop: "returnReason", label: "退货出库原因" },
+        { prop: "returnReason", label: "退货出库原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
@@ -159,7 +160,7 @@ export default {
   },
   components: {
     TableList,
-    salesOrderEdit,
+    PreturnOrderEdit,
     reloadAndsearch
   },
   created() {
@@ -239,7 +240,7 @@ export default {
         customerCode: "",
         inventoryCode: "",
         status: "",
-        type: 1
+        type: 2
       };
       outputWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
@@ -268,7 +269,7 @@ export default {
         customerCode: searchData.customerCode,
         inventoryCode: searchData.inventoryCode,
         status: searchData.status,
-        type: 1
+        type: 2
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;

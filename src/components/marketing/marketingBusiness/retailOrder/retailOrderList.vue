@@ -62,14 +62,14 @@ export default {
       shopOptions: [],
       goodsOptions: [],
       inventoryOptions: [],
-      customerOptions: [],
-      statusOptions: [
-        { label: "在单", value: 0 },
-        { label: "生产", value: 1 },
-        { label: "在途", value: 2 },
-        { label: "入库", value: 3 },
-        { label: "占用", value: 4 },
-        { label: "出库", value: 5 }],
+      // customerOptions: [],
+      // statusOptions: [
+      //   { label: "在单", value: 0 },
+      //   { label: "生产", value: 1 },
+      //   { label: "在途", value: 2 },
+      //   { label: "入库", value: 3 },
+      //   { label: "占用", value: 4 },
+      //   { label: "出库", value: 5 }],
       // typeOptions: [
       //   { label: "零售出库", value: 0 },
       //   { label: "客户订购出库", value: 1 },
@@ -98,7 +98,7 @@ export default {
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPropleCode", label: "仓库操作员" },
-        { prop: "returnReason", label: "退货出库原因" },
+        // { prop: "returnReason", label: "退货出库原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
@@ -128,22 +128,22 @@ export default {
           type: "select",
           options: this.inventoryOptions
         },
-        {
-          label: '请选择',
-          placeholder: '请选择客户',
-          field: 'customerCode',
-          value: '',
-          type: "select",
-          options: this.customerOptions
-        },
-        {
-          label: '请选择',
-          placeholder: '请选择状态',
-          field: 'status',
-          value: '',
-          type: "select",
-          options: this.statusOptions
-        },
+        // {
+        //   label: '请选择',
+        //   placeholder: '请选择客户',
+        //   field: 'customerCode',
+        //   value: '',
+        //   type: "select",
+        //   options: this.customerOptions
+        // },
+        // {
+        //   label: '请选择',
+        //   placeholder: '请选择状态',
+        //   field: 'status',
+        //   value: '',
+        //   type: "select",
+        //   options: this.statusOptions
+        // },
         // {
         //   label: '请选择',
         //   placeholder: '请选择类型',
@@ -165,23 +165,23 @@ export default {
   created() {
     this.getshoplist()
     this.getgoodslist()
-    this.getCustomerList()
+    // this.getCustomerList()
     this.getinventorylist();
   },
   methods: {
-    getCustomerList() {
-      CustomerList().then(res => {
-        if (res.data.code == 200) {
-          // this.customerOptions = res.data.data
-          this.customerOptions = []
-          res.data.data.forEach(item => {
-            this.customerOptions.push({ label: item.customerName, value: item.customerCode })
-          });
-        } else {
-          this.$message.error("获取失败!");
-        }
-      });
-    },
+    // getCustomerList() {
+    //   CustomerList().then(res => {
+    //     if (res.data.code == 200) {
+    //       // this.customerOptions = res.data.data
+    //       this.customerOptions = []
+    //       res.data.data.forEach(item => {
+    //         this.customerOptions.push({ label: item.customerName, value: item.customerCode })
+    //       });
+    //     } else {
+    //       this.$message.error("获取失败!");
+    //     }
+    //   });
+    // },
     getinventorylist() {
       inventorylist()
         .then((res) => {
