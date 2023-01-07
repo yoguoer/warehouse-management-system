@@ -1,6 +1,6 @@
 <template>
     <div>
-       销售订单
+        <router-view></router-view>
     </div>
 </template>
 

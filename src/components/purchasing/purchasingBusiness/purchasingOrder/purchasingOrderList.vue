@@ -30,8 +30,7 @@
         </template>
       </TableList>
     </div>
-    <purchasingOrdersEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"
-      :shopGoodsList="tableData" />
+    <purchasingOrderEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"/>
   </div>
 </template>
 
@@ -39,7 +38,7 @@
 import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList } from "@/api/purchasing";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import purchasingOrdersEdit from "./purchasingOrdersEdit";
+import purchasingOrderEdit from "./purchasingOrderEdit";
 import { shoplist, goodslist,inventorylist,Supplierlist } from '@/api/data'
 
 export default {
@@ -69,9 +68,9 @@ export default {
         {label:"入库",value:3},      
         {label:"占用",value:4},
         {label:"出库",value:5}],
-      typeOptions:[
-        {label:"采购入库",value:0},
-        {label:"退货入库",value:1}]
+    //   typeOptions:[
+    //     {label:"采购入库",value:0},
+    //     {label:"退货入库",value:1}]
     };
   },
   computed: {
@@ -89,7 +88,7 @@ export default {
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
         // { prop: "vehicleCode", label: "车辆编码" },
-        { slots: { name: "column-status" }, label: "状态" },
+        { slots: { name: "column-status" }, label: "状态"},
         { slots: { name: "column-type" }, label: "入库类型" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期"},
@@ -141,14 +140,14 @@ export default {
           type: "select",
           options:this.statusOptions
         },
-        {
-          label: '请选择',
-          placeholder: '请选择类型',
-          field: 'type',
-          value: '',
-          type: "select",
-          options:this.typeOptions
-        },
+        // {
+        //   label: '请选择',
+        //   placeholder: '请选择类型',
+        //   field: 'type',
+        //   value: '',
+        //   type: "select",
+        //   options:this.typeOptions
+        // },
       ];
     }
   },
@@ -156,7 +155,7 @@ export default {
   },
   components: {
     TableList,
-    purchasingOrdersEdit,
+    purchasingOrderEdit,
     reloadAndsearch
   },
   created() {
@@ -236,7 +235,7 @@ export default {
         supplierCode: "",
         inventoryCode: "",
         status: "",
-        type: ""
+        type: 0
       };
       inputWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
@@ -265,7 +264,7 @@ export default {
         supplierCode: searchData.supplierCode,
         inventoryCode: searchData.inventoryCode,
         status: searchData.status,
-        type: searchData.type
+        type: 0
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;

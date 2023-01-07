@@ -79,7 +79,7 @@
                     "name": "采购订单",
                     "icon": "",
                     "level": 3,
-                    "componentName": "purchasingOrders"
+                    "componentName": "purchasingOrder"
                 }, {
                     "name": "回货管理",
                     "icon": "",
