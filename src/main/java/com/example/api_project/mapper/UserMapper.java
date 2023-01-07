@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface UserMapper {
 
+    List<User> getList(String userType);
+
     int deleteByPrimaryKey(String userId);
 
     int insert(User user);

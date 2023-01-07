@@ -17,6 +17,15 @@
     user_id, user_name, user_sex, user_email, user_pwd, user_phone, user_type,user_belong
   </sql>
 
+  <!--  根据类别查找用户-->
+  <select id="getList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_type = #{userType,jdbcType=VARCHAR}
+    and user_belong=0
+  </select>
+
 <!--  根据id查找用户-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select

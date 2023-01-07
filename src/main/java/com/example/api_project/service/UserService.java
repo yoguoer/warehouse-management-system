@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface UserService {
 
+    List<User> getList(@Param("userType")String userType);
+
     /**
      * 分页查询 User 带条件
      * @param userName

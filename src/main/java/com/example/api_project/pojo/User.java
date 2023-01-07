@@ -7,7 +7,7 @@ public class User {
     private String userEmail;//邮箱
     private String passWord;//密码
     private String userPhone;//手机号码
-    private Integer userType;//用户类型(0超级管理员、1管理员、2普通用户)
+    private Integer userType;//用户类型(0超级管理员、1仓库管理员、2普通用户)
     private String userBelong;//归属于
 
     public String getUserBelong() {

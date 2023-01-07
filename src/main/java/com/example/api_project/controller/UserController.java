@@ -22,6 +22,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @RequestMapping("/list")
+    @ResponseBody
+    public Result getList(String userType) {
+        return ResponseData.success(userService.getList(userType));
+    }
+
     @RequestMapping("/selectUserPage")
     @ResponseBody
     public Result selectUserPage(String userName, String userType,String userBelong, Integer page,Integer size) {

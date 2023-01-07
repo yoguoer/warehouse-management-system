@@ -3,6 +3,7 @@ package com.example.api_project.service.impl;
 import com.example.api_project.mapper.UserMapper;
 import com.example.api_project.pojo.User;
 import com.example.api_project.service.UserService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,10 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+    @Override
+    public List<User> getList(String userType){
+        return userMapper.getList(userType);
+    }
 
     @Override
     public List<User> selectUserPage(String userName, String userType,String userBelong, Integer startRows,Integer pageSize) {
