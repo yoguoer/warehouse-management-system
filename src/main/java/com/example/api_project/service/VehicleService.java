@@ -1,7 +1,9 @@
 package com.example.api_project.service;
 
+import com.example.api_project.pojo.Brand;
 import com.example.api_project.pojo.Vehicle;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,6 +11,11 @@ import java.util.Map;
  *
  */
 public interface VehicleService {
+
+    /**
+     * 不分页查询
+     */
+    List<Vehicle> querylist();
 
     /**
      * 通过ID查询单条数据

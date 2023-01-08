@@ -24,6 +24,14 @@ public class VehicleController {
     private VehicleService vehicleService;
 
     /**
+     * 不分页查询
+     */
+    @GetMapping("/list")
+    public Result querylist() {
+        return ResponseData.success(this.vehicleService.querylist());
+    }
+
+    /**
      * 分页查询
      *
      * @param vehicle 筛选条件

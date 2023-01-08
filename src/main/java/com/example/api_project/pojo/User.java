@@ -9,6 +9,15 @@ public class User {
     private String userPhone;//手机号码
     private Integer userType;//用户类型(0超级管理员、1仓库管理员、2普通用户)
     private String userBelong;//归属于
+    private String userCode;//工号
+
+    public String getUserCode() {
+        return userCode;
+    }
+
+    public void setUserCode(String userCode) {
+        this.userCode = userCode;
+    }
 
     public String getUserBelong() {
         return userBelong;

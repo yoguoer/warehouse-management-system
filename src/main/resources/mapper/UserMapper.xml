@@ -11,10 +11,11 @@
     <result property="userPhone" column="user_phone" jdbcType="VARCHAR" /><!--手机号码-->
     <result property="userBelong" column="user_belong" jdbcType="VARCHAR" /><!--归属于-->
     <result property="userType" column="user_type" jdbcType="INTEGER" /><!--户类型(1管理员、0普通用户)-->
+    <result property="userCode" column="user_code" jdbcType="INTEGER" /><!--户类型(1管理员、0普通用户)-->
   </resultMap>
 
   <sql id="Base_Column_List" >
-    user_id, user_name, user_sex, user_email, user_pwd, user_phone, user_type,user_belong
+    user_id, user_name, user_sex, user_email, user_pwd, user_phone, user_type,user_belong,user_code
   </sql>
 
   <!--  根据类别查找用户-->
@@ -42,8 +43,9 @@
 
 <!--  插入新用户-->
   <insert id="insert" parameterType="com.example.api_project.pojo.User" >
-    insert into user (user_id, user_name, user_sex, user_phone, user_email, user_type,user_belong,user_pwd)
+    insert into user (user_id, user_code,user_name, user_sex, user_phone, user_email, user_type,user_belong,user_pwd)
     values (#{userId,jdbcType=VARCHAR},
+            #{userCode,jdbcType=VARCHAR},
             #{userName,jdbcType=VARCHAR},
             #{userSex,jdbcType=VARCHAR},
             #{userPhone,jdbcType=VARCHAR},
@@ -59,6 +61,9 @@
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
         user_id,
+      </if>
+      <if test="userCode != null" >
+        user_code,
       </if>
       <if test="userName != null" >
         user_Name,
@@ -82,6 +87,9 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="userId != null" >
         #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userCode != null" >
+        #{userCode,jdbcType=VARCHAR},
       </if>
       <if test="userName != null" >
         #{userName,jdbcType=VARCHAR},
@@ -108,6 +116,9 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.example.api_project.pojo.User" >
     update user
     <set >
+      <if test="userCode != null and userCode !=''" >
+        user_code = #{userCode,jdbcType=VARCHAR},
+      </if>
       <if test="userName != null and userName !=''" >
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
@@ -136,7 +147,8 @@
 <!--  按照id更新用户-->
   <update id="updateByPrimaryKey" parameterType="com.example.api_project.pojo.User" >
     update user
-    set user_name = #{userName,jdbcType=VARCHAR},
+    set user_code = #{userCode,jdbcType=VARCHAR}
+      user_name = #{userName,jdbcType=VARCHAR},
       user_email = #{userEmail,jdbcType=VARCHAR},
       user_sex = #{userSex,jdbcType=VARCHAR},
       user_phone = #{userPhone,jdbcType=VARCHAR},

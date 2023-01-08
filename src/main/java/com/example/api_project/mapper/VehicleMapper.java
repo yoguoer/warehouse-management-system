@@ -1,4 +1,5 @@
 package com.example.api_project.mapper;
+import com.example.api_project.pojo.Brand;
 import com.example.api_project.pojo.Vehicle;
 import org.apache.ibatis.annotations.Param;
 
@@ -9,6 +10,13 @@ import java.util.List;
  *
  */
 public interface VehicleMapper {
+
+    /**
+     * 查询指全部数据
+     * 不分页
+     * @return 对象列表
+     */
+    List<Vehicle> getList();
 
     /**
      * 通过ID查询单条数据

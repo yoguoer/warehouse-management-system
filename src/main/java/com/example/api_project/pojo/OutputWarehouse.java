@@ -84,7 +84,18 @@ public class OutputWarehouse implements Serializable {
      * 退货出库原因
      */
     private String returnReason;
+    /**
+     * 车辆编码
+     */
+    private String vehicleCode;
 
+    public String getVehicleCode() {
+        return vehicleCode;
+    }
+
+    public void setVehicleCode(String vehicleCode) {
+        this.vehicleCode = vehicleCode;
+    }
 
     public String getOutputWarehouseKey() {
         return outputWarehouseKey;

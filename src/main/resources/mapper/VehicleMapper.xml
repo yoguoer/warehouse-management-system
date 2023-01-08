@@ -12,6 +12,19 @@
         <result property="vehicleCode" column="vehicle_code" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <!--不分页查询所有-->
+    <select id="getList" resultMap="VehicleMap">
+        select max_weight,
+               max_capacity,
+               detail,
+               vehicle_key,
+               vehicle_type,
+               description,
+               vehicle_code
+        from vehicle
+        order by vehicle_key
+    </select>
+
     <!--查询所有-->
     <select id="getListPage" resultMap="VehicleMap">
         select max_weight,
@@ -22,7 +35,7 @@
                description,
                vehicle_code
         from vehicle
-        order by vehicle_key desc
+        order by vehicle_key
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
