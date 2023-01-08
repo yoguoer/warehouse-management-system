@@ -1,11 +1,11 @@
 <template>
     <div>
-        采购入库单
+        <router-view></router-view>
     </div>
-</template>
-
-<script>
-export default {
+  </template>
+  
+  <script>
+  export default {
     
-}
-</script>
+  }
+  </script>

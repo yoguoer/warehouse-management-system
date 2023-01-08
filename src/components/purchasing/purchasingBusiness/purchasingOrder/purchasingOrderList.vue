@@ -88,8 +88,8 @@ export default {
         { prop: "inputPlan", label: "计划数" },
         { prop: "inputPrice", label: "入库价格" },
         // { prop: "inputActual", label: "实际数" },
-        { prop: "inventoryCode", label: "仓库编码" },
-        { prop: "positionCode", label: "货位编码" },
+        // { prop: "inventoryCode", label: "仓库编码" },
+        // { prop: "positionCode", label: "货位编码" },
         // { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status" }, label: "状态" },
         { slots: { name: "column-type" }, label: "入库类型" },
@@ -97,7 +97,7 @@ export default {
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
-        { prop: "returnReason", label: "退货原因" },
+        // { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
@@ -119,14 +119,14 @@ export default {
           type: "select",
           options: this.goodsOptions
         },
-        {
-          label: '请选择',
-          placeholder: '请选择仓库',
-          field: 'inventoryCode',
-          value: '',
-          type: "select",
-          options: this.inventoryOptions
-        },
+        // {
+        //   label: '请选择',
+        //   placeholder: '请选择仓库',
+        //   field: 'inventoryCode',
+        //   value: '',
+        //   type: "select",
+        //   options: this.inventoryOptions
+        // },
         {
           label: '请选择',
           placeholder: '请选择供应商',
@@ -165,7 +165,7 @@ export default {
     this.getshoplist()
     this.getgoodslist()
     this.getSupplierlist()
-    this.getinventorylist();
+    // this.getinventorylist();
     let user = JSON.parse(localStorage.getItem("userInfo"))
     this.userType = user.userType
   },
@@ -183,24 +183,24 @@ export default {
         }
       });
     },
-    getinventorylist() {
-      inventorylist()
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.inventoryOptions = []
-            res.data.data.forEach(item => {
-              if (item.inventoryType == '2' && item.belongKey != null || item.belongKey != "") {
-                this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
-              }
-            });
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+    // getinventorylist() {
+    //   inventorylist()
+    //     .then((res) => {
+    //       if (res.data.code === 200) {
+    //         this.inventoryOptions = []
+    //         res.data.data.forEach(item => {
+    //           if (item.inventoryType == '2' && item.belongKey != null || item.belongKey != "") {
+    //             this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
+    //           }
+    //         });
+    //       } else {
+    //         this.$message.error(res.msg);
+    //       }
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+    // },
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
@@ -268,7 +268,7 @@ export default {
         shopCode: searchData.shopCode,
         goodsCode: searchData.goodsCode,
         supplierCode: searchData.supplierCode,
-        inventoryCode: searchData.inventoryCode,
+        inventoryCode: "",
         status: searchData.status,
         isDeleted: 0,
         type: 0
@@ -291,7 +291,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+      inputWarehouseDelete({ isDeleted:0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -321,7 +321,7 @@ export default {
       if (this.multipleSelection.length > 0) {
         let inputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          inputWarehouseKeys.push({ inputWarehouseKey: item.inputWarehouseKey })
+          inputWarehouseKeys.push({ isDeleted:0, inputWarehouseKey: item.inputWarehouseKey })
         })
         console.log(inputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {

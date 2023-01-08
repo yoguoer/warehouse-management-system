@@ -293,7 +293,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      outputWarehouseDelete({ outputWarehouseKey: row.outputWarehouseKey }).then(res => {
+      outputWarehouseDelete({ isDeleted:0, outputWarehouseKey: row.outputWarehouseKey }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -323,7 +323,7 @@ export default {
       if (this.multipleSelection.length > 0) {
         let outputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          outputWarehouseKeys.push({ outputWarehouseKey: item.outputWarehouseKey })
+          outputWarehouseKeys.push({ isDeleted:0, outputWarehouseKey: item.outputWarehouseKey })
         })
         console.log(outputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {

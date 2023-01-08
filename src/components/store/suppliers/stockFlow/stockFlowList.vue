@@ -1,6 +1,6 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden"  :hidden1="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden"/>
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
@@ -22,6 +22,7 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
+          <el-button v-if="props.row.status > 2" type="text"> </el-button>
           <el-button v-if="props.row.type == 1" @click="editRow(props.row)" type="text">处理退货</el-button>
           <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
             type="text">接收订单</el-button>
@@ -30,7 +31,7 @@
         </template>
       </TableList>
     </div>
-    <stockManagementEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
+    <stockFlowEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
       @success="success()" />
   </div>
 </template>
@@ -39,7 +40,7 @@
 import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList } from "@/api/purchasing";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import stockManagementEdit from "./stockManagementEdit";
+import stockFlowEdit from "./stockFlowEdit";
 import { shoplist, goodslist, inventorylist, Supplierlist } from '@/api/data'
 
 export default {
@@ -156,7 +157,7 @@ export default {
   },
   components: {
     TableList,
-    stockManagementEdit,
+    stockFlowEdit,
     reloadAndsearch
   },
   created() {
@@ -244,13 +245,13 @@ export default {
       inputWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
-          // this.tableData = res.data.data.records;
-          this.tableData=[]
-          res.data.data.records.forEach(item=>{
-            if(item.status<2){
-              this.tableData.push(item)
-            }
-          })
+          this.tableData = res.data.data.records;
+          // this.tableData=[]
+          // res.data.data.records.forEach(item=>{
+          //   if(item.status<2){
+          //     this.tableData.push(item)
+          //   }
+          // })
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -279,13 +280,13 @@ export default {
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
-          // this.tableData = res.data.data.records;
-          this.tableData=[]
-          res.data.data.records.forEach(item=>{
-            if(item.status<2){
-              this.tableData.push(item)
-            }
-          })
+          this.tableData = res.data.data.records;
+          // this.tableData=[]
+          // res.data.data.records.forEach(item=>{
+          //   if(item.status<2){
+          //     this.tableData.push(item)
+          //   }
+          // })
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -301,7 +302,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey,isDeleted:1 }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()

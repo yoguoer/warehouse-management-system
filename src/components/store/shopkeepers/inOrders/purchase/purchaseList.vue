@@ -1,19 +1,22 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden"  :hidden1="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" />
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-status="props">
           <span>{{
             props.row.status == '0' ? '在单'
               : (props.row.status == '1' ? '生产'
-                : (props.row.status == '2' ? '在途': '已被接收'))
+                : (props.row.status == '2' ? '在途'
+                  : (props.row.status == '3' ? '入库'
+                    : (props.row.status == '4' ? '占用'
+                      : (props.row.status == '5' ? '出库' : '-')))))
           }}</span>
         </template>
         <template v-slot:column-type="props">
-          <span v-if="props.row.type == 0">采购</span>
-          <span v-if="props.row.type == 1">退货</span>
+          <span v-if="props.row.type == 0">采购入库</span>
+          <span v-if="props.row.type == 1">采购退货</span>
         </template>
         <template v-slot:column-createTime="props">
           <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
@@ -22,15 +25,13 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="props.row.type == 1" @click="editRow(props.row)" type="text">处理退货</el-button>
-          <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
-            type="text">接收订单</el-button>
-          <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
-            type="text">发出货物</el-button>
+          <el-button v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
+          <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
+            icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
     </div>
-    <stockManagementEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
+    <purchaseEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
       @success="success()" />
   </div>
 </template>
@@ -39,7 +40,7 @@
 import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList } from "@/api/purchasing";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import stockManagementEdit from "./stockManagementEdit";
+import purchaseEdit from "./purchaseEdit";
 import { shoplist, goodslist, inventorylist, Supplierlist } from '@/api/data'
 
 export default {
@@ -48,8 +49,6 @@ export default {
     return {
       total: null,
       drawer: false,
-      hidden:true,
-      multiCheck:false,
       rowData: {},
       tableData: [],
       multipleSelection: [],
@@ -65,10 +64,13 @@ export default {
       goodsOptions: [],
       inventoryOptions: [],
       supplierOptions: [],
-      statusOptions: [
-        { label: "在单", value: 0 },
-        { label: "生产", value: 1 },
-        { label: "在途", value: 2 }],
+      // statusOptions: [
+      //   { label: "在单", value: 0 },
+      //   { label: "生产", value: 1 },
+      //   { label: "在途", value: 2 },
+      //   { label: "入库", value: 3 },
+      //   { label: "占用", value: 4 },
+      //   { label: "出库", value: 5 }],
       //   typeOptions:[
       //     {label:"采购入库",value:0},
       //     {label:"退货入库",value:1}]
@@ -84,19 +86,19 @@ export default {
         { prop: "supplierCode", label: "供应商编码" },
         { prop: "supplierName", label: "供应商名称" },
         { prop: "inputPlan", label: "计划数" },
-        { prop: "inputPrice", label: "订购价格" },
-        { prop: "inputActual", label: "实际数" },
+        { prop: "inputPrice", label: "入库价格" },
+        // { prop: "inputActual", label: "实际数" },
         // { prop: "inventoryCode", label: "仓库编码" },
         // { prop: "positionCode", label: "货位编码" },
+        // { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status" }, label: "状态" },
-        { slots: { name: "column-type" }, label: "类型" },
-        { prop: "vehicleCode", label: "车辆编码" },
+        { slots: { name: "column-type" }, label: "入库类型" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
-        // { prop: "shopPeopleCode", label: "门店操作员" },
+        { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
         // { prop: "returnReason", label: "退货原因" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
     searchConfig() {
@@ -133,14 +135,14 @@ export default {
           type: "select",
           options: this.supplierOptions
         },
-        {
-          label: '请选择',
-          placeholder: '请选择状态',
-          field: 'status',
-          value: '',
-          type: "select",
-          options: this.statusOptions
-        },
+        // {
+        //   label: '请选择',
+        //   placeholder: '请选择状态',
+        //   field: 'status',
+        //   value: '',
+        //   type: "select",
+        //   options: this.statusOptions
+        // },
         // {
         //   label: '请选择',
         //   placeholder: '请选择类型',
@@ -156,14 +158,14 @@ export default {
   },
   components: {
     TableList,
-    stockManagementEdit,
+    purchaseEdit,
     reloadAndsearch
   },
   created() {
     this.getshoplist()
     this.getgoodslist()
     this.getSupplierlist()
-    this.getinventorylist();
+    // this.getinventorylist();
     let user = JSON.parse(localStorage.getItem("userInfo"))
     this.userType = user.userType
   },
@@ -181,28 +183,29 @@ export default {
         }
       });
     },
-    getinventorylist() {
-      inventorylist()
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.inventoryOptions = []
-            res.data.data.forEach(item => {
-              if (item.inventoryType == '2' && item.belongKey != null || item.belongKey != "") {
-                this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
-              }
-            });
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
+    // getinventorylist() {
+    //   inventorylist()
+    //     .then((res) => {
+    //       if (res.data.code === 200) {
+    //         this.inventoryOptions = []
+    //         res.data.data.forEach(item => {
+    //           if (item.inventoryType == '2' && item.belongKey != null || item.belongKey != "") {
+    //             this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
+    //           }
+    //         });
+    //       } else {
+    //         this.$message.error(res.msg);
+    //       }
+    //     })
+    //     .catch((e) => {
+    //       console.log(e);
+    //     });
+    // },
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
           // this.shopOptions = res.data.data
+          this.shopOptions=[]
           res.data.data.forEach(item => {
             this.shopOptions.push({ label: item.shopName, value: item.shopCode })
           })
@@ -215,6 +218,7 @@ export default {
       goodslist().then(res => {
         if (res.data.code == 200) {
           // this.goodsOptions = res.data.data
+          this.goodsOptions=[]
           res.data.data.forEach(item => {
             this.goodsOptions.push({ label: item.goodsName, value: item.goodsCode })
           })
@@ -239,18 +243,19 @@ export default {
         inventoryCode: "",
         status: "",
         isDeleted: 0,
-        type: ""
+        type: 0
       };
       inputWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
-          this.total = res.data.data.total;
+          // this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
-            if(item.status<2){
+            if(item.status<3){
               this.tableData.push(item)
             }
           })
+          this.total=this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -272,20 +277,21 @@ export default {
         shopCode: searchData.shopCode,
         goodsCode: searchData.goodsCode,
         supplierCode: searchData.supplierCode,
-        inventoryCode: "",
-        status: searchData.status,
+        inventoryCode: searchData.inventoryCode,
+        status: 0,
         isDeleted: 0,
-        type: ""
+        type: 0
       }).then((res) => {
         if (res.data.code === 200) {
-          this.total = res.data.data.total;
+          // this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
-            if(item.status<2){
+            if(item.status<3){
               this.tableData.push(item)
             }
           })
+          this.total=this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -301,7 +307,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey,isDeleted:row.isDeleted }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -331,7 +337,7 @@ export default {
       if (this.multipleSelection.length > 0) {
         let inputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          inputWarehouseKeys.push({ inputWarehouseKey: item.inputWarehouseKey })
+          inputWarehouseKeys.push({ inputWarehouseKey: item.inputWarehouseKey,isDeleted:row.isDeleted })
         })
         console.log(inputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {

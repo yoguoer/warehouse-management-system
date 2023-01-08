@@ -1,6 +1,6 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" />
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden"/>
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
@@ -59,17 +59,18 @@ export default {
         pageSize: 10,
       },
       userType: "",
+      hidden:true,
       shopOptions: [],
       goodsOptions: [],
       inventoryOptions: [],
       supplierOptions: [],
-      statusOptions: [
-        { label: "在单", value: 0 },
-        { label: "生产", value: 1 },
-        { label: "在途", value: 2 },
-        { label: "入库", value: 3 },
-        { label: "占用", value: 4 },
-        { label: "出库", value: 5 }],
+      // statusOptions: [
+      //   { label: "在单", value: 0 },
+      //   { label: "生产", value: 1 },
+      //   { label: "在途", value: 2 },
+      //   { label: "入库", value: 3 },
+      //   { label: "占用", value: 4 },
+      //   { label: "出库", value: 5 }],
       //   typeOptions:[
       //     {label:"采购入库",value:0},
       //     {label:"退货入库",value:1}]
@@ -86,16 +87,16 @@ export default {
         { prop: "supplierName", label: "供应商名称" },
         { prop: "inputPlan", label: "计划数" },
         { prop: "inputPrice", label: "入库价格" },
-        // { prop: "inputActual", label: "实际数" },
+        { prop: "inputActual", label: "实际数" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
-        // { prop: "vehicleCode", label: "车辆编码" },
+        { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status" }, label: "状态" },
         { slots: { name: "column-type" }, label: "入库类型" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
-        // { prop: "inventoryPeopleCode", label: "仓库操作员" },
+        { prop: "inventoryPeopleCode", label: "仓库操作员" },
         { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
@@ -134,14 +135,14 @@ export default {
           type: "select",
           options: this.supplierOptions
         },
-        {
-          label: '请选择',
-          placeholder: '请选择状态',
-          field: 'status',
-          value: '',
-          type: "select",
-          options: this.statusOptions
-        },
+        // {
+        //   label: '请选择',
+        //   placeholder: '请选择状态',
+        //   field: 'status',
+        //   value: '',
+        //   type: "select",
+        //   options: this.statusOptions
+        // },
         // {
         //   label: '请选择',
         //   placeholder: '请选择类型',
@@ -268,7 +269,7 @@ export default {
         goodsCode: searchData.goodsCode,
         supplierCode: searchData.supplierCode,
         inventoryCode: searchData.inventoryCode,
-        status: searchData.status,
+        status:  "",
         isDeleted: 0,
         type: 1
       }).then((res) => {
@@ -290,7 +291,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+      inputWarehouseDelete({ isDeleted:0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -320,7 +321,7 @@ export default {
       if (this.multipleSelection.length > 0) {
         let inputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          inputWarehouseKeys.push({ inputWarehouseKey: item.inputWarehouseKey })
+          inputWarehouseKeys.push({ isDeleted:0, inputWarehouseKey: item.inputWarehouseKey })
         })
         console.log(inputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {

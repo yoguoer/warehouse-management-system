@@ -179,6 +179,7 @@ export default {
         type: "",
         shopPeopleCode: "",
         inventoryPeopleCode: "",
+        isDeleted:"",
         returnReason: ""
       },
       statusOptions: [
@@ -278,6 +279,7 @@ export default {
       this.ruleForm.inputActual = this.rowData.inputActual
       this.ruleForm.inventoryCode = this.rowData.inventoryCode
       this.ruleForm.positionCode = this.rowData.positionCode
+      this.ruleForm.isDeleted=this.rowData.isDeleted
       this.ruleForm.createTime = this.rowData.createTime
       this.ruleForm.deadlineTime = this.rowData.deadlineTime
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
@@ -408,6 +410,7 @@ export default {
             shopName: this.ruleForm.shopName,
             goodsCode: this.ruleForm.goodsCode,
             goodsName: this.ruleForm.goodsName,
+            isDeleted:this.ruleForm.isDeleted,
             supplierCode: this.ruleForm.supplierCode,
             supplierName: this.ruleForm.supplierName,
             inputPlan: this.ruleForm.inputPlan,
@@ -461,6 +464,7 @@ export default {
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
             status: this.ruleForm.status,
+            isDeleted:this.ruleForm.isDeleted,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,

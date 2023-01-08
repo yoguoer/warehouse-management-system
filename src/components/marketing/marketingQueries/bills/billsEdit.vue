@@ -182,12 +182,13 @@ export default {
         shopPeopleCode: "",
         inventoryPeopleCode: "",
         returnReason: "",
+        isDeleted:"",
         vehicleCode: "",
       },
       statusOptions: [
-        { label: "在单", value: 0 },
-        { label: "生产", value: 1 },
-        { label: "在途", value: 2 },
+        // { label: "在单", value: 0 },
+        // { label: "生产", value: 1 },
+        // { label: "在途", value: 2 },
         { label: "入库", value: 3 },
         { label: "占用", value: 4 },
         { label: "出库", value: 5 }],
@@ -282,6 +283,7 @@ export default {
       this.ruleForm.outputActual = this.rowData.outputActual
       this.ruleForm.inventoryCode = this.rowData.inventoryCode
       this.ruleForm.positionCode = this.rowData.positionCode
+      this.ruleForm.isDeleted=this.rowData.isDeleted
       this.ruleForm.createTime = this.rowData.createTime
       this.ruleForm.deadlineTime = this.rowData.deadlineTime
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
@@ -413,6 +415,7 @@ export default {
             shopName: this.ruleForm.shopName,
             goodsCode: this.ruleForm.goodsCode,
             goodsName: this.ruleForm.goodsName,
+            isDeleted:this.ruleForm.isDeleted,
             customerCode: this.ruleForm.customerCode,
             customerName: this.ruleForm.customerName,
             outputPlan: this.ruleForm.outputPlan,
@@ -455,6 +458,7 @@ export default {
             shopCode: this.ruleForm.shopCode,
             shopName: this.ruleForm.shopName,
             goodsCode: this.ruleForm.goodsCode,
+            isDeleted:this.ruleForm.isDeleted,
             goodsName: this.ruleForm.goodsName,
             customerCode: this.ruleForm.customerCode,
             customerName: this.ruleForm.customerName,

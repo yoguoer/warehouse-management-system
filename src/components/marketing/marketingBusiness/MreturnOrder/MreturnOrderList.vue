@@ -26,9 +26,10 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
+          <!-- <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
-            icon="el-icon-document">删除</el-button>
+            icon="el-icon-document">删除</el-button> -->
+            <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text">处理退货</el-button>
         </template>
       </TableList>
     </div>
@@ -293,7 +294,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      outputWarehouseDelete({ outputWarehouseKey: row.outputWarehouseKey }).then(res => {
+      outputWarehouseDelete({ isDeleted:0,outputWarehouseKey: row.outputWarehouseKey }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -323,7 +324,7 @@ export default {
       if (this.multipleSelection.length > 0) {
         let outputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          outputWarehouseKeys.push({ outputWarehouseKey: item.outputWarehouseKey })
+          outputWarehouseKeys.push({ isDeleted:0,outputWarehouseKey: item.outputWarehouseKey })
         })
         console.log(outputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {

@@ -51,8 +51,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="入库价格" prop="inputPrice">
-            <el-input v-model="ruleForm.inputPrice" clearable placeholder="入库价格" disabled></el-input>
+          <el-form-item label="订购价格" prop="inputPrice">
+            <el-input v-model="ruleForm.inputPrice" clearable placeholder="订购价格" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -73,6 +73,15 @@
       </el-row>
       <el-row>
         <el-col :span="10">
+          <el-form-item label="车辆" prop="vehicleCode" v-if="ruleForm.status == 2">
+            <el-select size="middle" v-model="ruleForm.vehicleCode" placeholder="车辆" style="width:100%;" clearable>
+              <el-option v-for="item in vehicleOptions" :key="item.vehicleKey" :label="item.vehicleCode"
+                :value="item.vehicleCode">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
           <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 1">
             <el-input v-model="ruleForm.returnReason" clearable placeholder="退货入库原因" type="textarea" disabled></el-input>
           </el-form-item>
@@ -89,7 +98,7 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
-import { shoplist, goodslist, inventorylist, Supplierlist, positionList } from '@/api/data'
+import { shoplist, goodslist, inventorylist, Supplierlist, positionList,vehicleList } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 
@@ -119,13 +128,15 @@ export default {
         type: "",
         shopPeopleCode: "",
         inventoryPeopleCode: "",
-        returnReason: ""
+        returnReason: "",
+        isDeleted:""
       },
       shopOptions: [],
       goodsOptions: [],
       positionOptions: [],
       supplierOptions: [],
       inventoryOptions: [],
+      vehicleOptions:[],
       // userOptions:[],
       statusOptions: [
         { label: "在单", value: 0 },
@@ -188,6 +199,7 @@ export default {
     this.getshoplist()
     this.getgoodslist()
     this.getSupplierlist()
+    this.getvehicleList()
     // this.getUserList()
     // this.getinventorylist();
     if (this.rowData.inputWarehouseKey) {
@@ -210,6 +222,7 @@ export default {
       this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
+      this.ruleForm.isDeleted=this.rowData.isDeleted
       this.ruleForm.returnReason = this.rowData.returnReason
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
@@ -217,6 +230,15 @@ export default {
     }
   },
   methods: {
+    getvehicleList() {
+      vehicleList().then(res => {
+        if (res.data.code == 200) {
+          this.vehicleOptions = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     // getUserList() {
     //   UserList({userType: 2}).then(res => {
     //     this.userOptions = res.data.data
@@ -333,6 +355,7 @@ export default {
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
+            isDeleted:this.ruleForm.isDeleted,
             inputWarehouseKey: this.ruleForm.inputWarehouseKey
           }
           inputWarehouseUpdate(data).then(res => {
@@ -371,6 +394,7 @@ export default {
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
             status: this.ruleForm.status,
+            isDeleted:this.ruleForm.isDeleted,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,

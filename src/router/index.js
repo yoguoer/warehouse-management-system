@@ -378,13 +378,13 @@ const routes = [{
       {
         path: '/purchasing/purchasingBusiness/returnCargo',
         name: 'returnCargo',
-        component: () => import('@/views/purchasing/purchasingBusiness/returnCargo/Index.vue')
+        component: () => import('@/components/purchasing/purchasingBusiness/returnCargo/returnCargoList.vue')
       },
       //采购-采购业务-采购入库单
       {
         path: '/purchasing/purchasingBusiness/enterWarehouse',
         name: 'enterWarehouse',
-        component: () => import('@/views/purchasing/purchasingBusiness/enterWarehouse/Index.vue')
+        component: () => import('@/components/purchasing/purchasingBusiness/enterWarehouse/enterWarehouseList.vue')
       },
       //采购-采购查询
       {
@@ -464,9 +464,9 @@ const routes = [{
       },
       //库存-供应商库存-供应商库存流水
       {
-        path: '/store/suppliers/records',
+        path: '/store/suppliers/stockFlow',
         name: 'stockFlow',
-        component: () => import('@/views/store/suppliers/stockFlow/Index.vue')
+        component: () => import('@/components/store/suppliers/stockFlow/stockFlowList.vue')
       },
       //库存-供应商库存-供应商仓库配置
       {

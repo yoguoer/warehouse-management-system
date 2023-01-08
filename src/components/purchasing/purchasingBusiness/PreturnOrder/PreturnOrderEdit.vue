@@ -142,10 +142,11 @@ export default {
         createTime: "",
         deadlineTime: "",
         vehicleCode: "",
-        status: "",
+        status: 3,
         type: 1,
         shopPeopleCode: "",
         inventoryPeopleCode: "",
+        isDeleted:"",
         returnReason: ""
       },
       shopOptions: [],
@@ -241,10 +242,11 @@ export default {
       this.ruleForm.createTime = this.rowData.createTime
       this.ruleForm.deadlineTime = this.rowData.deadlineTime
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
-      this.ruleForm.status = this.rowData.status
+      // this.ruleForm.status = this.rowData.status
       // this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
+      this.ruleForm.isDeleted=this.rowData.isDeleted
       this.ruleForm.returnReason = this.rowData.returnReason
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
@@ -367,7 +369,8 @@ export default {
             createTime: this.ruleForm.createTime,
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
-            status: 0,
+            isDeleted:this.ruleForm.isDeleted,
+            status: this.ruleForm.status,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
@@ -405,11 +408,12 @@ export default {
             inputPrice: this.ruleForm.inputPrice,
             inputActual: this.ruleForm.inputActual,
             inventoryCode: this.ruleForm.inventoryCode,
+            isDeleted:this.ruleForm.isDeleted,
             positionCode: this.ruleForm.positionCode,
             createTime: this.ruleForm.createTime,
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
-            status: 0,
+            status: this.ruleForm.status,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
