@@ -16,8 +16,8 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="商品" prop="goodsCode">
-            <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable disabled
-              ref="goodsSelect">
+            <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable
+              disabled ref="goodsSelect">
               <el-option @click.native="setGoodsName" v-for="item in goodsOptions" :key="item.goodsCode"
                 :label="item.goodsName" :value="item.goodsCode">
               </el-option>
@@ -28,8 +28,8 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="供应商" prop="supplierCode">
-            <el-select size="middle" v-model="ruleForm.supplierCode" placeholder="供应商" style="width:100%;" clearable disabled
-              ref="supplierSelect">
+            <el-select size="middle" v-model="ruleForm.supplierCode" placeholder="供应商" style="width:100%;" clearable
+              disabled ref="supplierSelect">
               <el-option @click.native="setSupplierName" v-for="item in supplierOptions" :key="item.supplierKey"
                 :label="item.supplierName" :value="item.supplierCode">
               </el-option>
@@ -38,8 +38,8 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="仓库" prop="inventoryCode">
-            <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable disabled
-              ref="inventorySelect">
+            <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
+              disabled ref="inventorySelect">
               <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
                 :label="item.inventoryName" :value="item.inventoryCode">
               </el-option>
@@ -50,7 +50,8 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="库位" prop="positionCode">
-            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable disabled>
+            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable
+              disabled>
               <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
                 :value="item.positionCode" clearable placeholder="库位">
               </el-option>
@@ -81,17 +82,17 @@
       <el-row>
         <el-col :span="10">
           <span style="margin-left: 8%;">起止日期</span>
-          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right" disabled
-            size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
+          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right"
+            disabled size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
             :picker-options="pickerOptions" @click.native="setTime" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-col>
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
             <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable disabled>
-              <el-option v-for="item in userOptions" :key="item.userId"
-                :label="item.userName" :value="item.userCode">
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable
+              disabled>
+              <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -112,11 +113,13 @@
             <el-input v-model="ruleForm.inputActual" clearable placeholder="实际数"></el-input>
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="10">
-          <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 1">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货入库原因" type="textarea"></el-input>
+      </el-row>
+      <el-row>
+        <el-col :span="10">
+          <el-form-item label="退货原因" prop="returnReason">
+            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea"></el-input>
           </el-form-item>
-        </el-col> -->
+        </el-col>
       </el-row>
     </el-form>
     <div class="dialog_footer">
@@ -159,7 +162,7 @@ export default {
         type: 2,
         shopPeopleCode: "",
         inventoryPeopleCode: "",
-        isDeleted:"",
+        isDeleted: "",
         returnReason: ""
       },
       shopOptions: [],
@@ -167,8 +170,8 @@ export default {
       positionOptions: [],
       supplierOptions: [],
       inventoryOptions: [],
-      userOptions:[],
-      userOptions1:[],
+      userOptions: [],
+      userOptions1: [],
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -259,7 +262,7 @@ export default {
       // this.ruleForm.status = this.rowData.status
       // this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
-      this.ruleForm.isDeleted=this.rowData.isDeleted
+      this.ruleForm.isDeleted = this.rowData.isDeleted
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.returnReason = this.rowData.returnReason
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
@@ -269,7 +272,7 @@ export default {
   },
   methods: {
     getUserList() {
-      UserList({userType: 2}).then(res => {
+      UserList({ userType: 2 }).then(res => {
         this.userOptions = res.data.data
         this.$forceUpdate()
       }).catch(err => {
@@ -378,7 +381,7 @@ export default {
             shopCode: this.ruleForm.shopCode,
             shopName: this.ruleForm.shopName,
             goodsCode: this.ruleForm.goodsCode,
-            isDeleted:this.ruleForm.isDeleted,
+            isDeleted: this.ruleForm.isDeleted,
             goodsName: this.ruleForm.goodsName,
             supplierCode: this.ruleForm.supplierCode,
             supplierName: this.ruleForm.supplierName,
@@ -431,7 +434,7 @@ export default {
             positionCode: this.ruleForm.positionCode,
             createTime: this.ruleForm.createTime,
             deadlineTime: this.ruleForm.deadlineTime,
-            isDeleted:this.ruleForm.isDeleted,
+            isDeleted: this.ruleForm.isDeleted,
             vehicleCode: this.ruleForm.vehicleCode,
             status: this.ruleForm.status,
             type: this.ruleForm.type,

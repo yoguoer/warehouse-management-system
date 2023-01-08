@@ -65,7 +65,7 @@
         <el-col :span="10">
           <el-form-item label="接收状态" prop="status">
             <el-select size="middle" v-model="ruleForm.status" placeholder="接收状态" style="width:100%;" clearable>
-              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
+              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
               </el-option>
             </el-select>
           </el-form-item>
@@ -139,9 +139,12 @@ export default {
       vehicleOptions:[],
       // userOptions:[],
       statusOptions: [
-        { label: "在单", value: 0 },
-        { label: "生产", value: 1 },
-        { label: "在途", value: 2 }],
+        { label: "在单", value: 0,disabled:false },
+        { label: "生产", value: 1,disabled:false },
+        { label: "在途", value: 2,disabled:false },
+        { label: "入库", value: 3,disabled:true },
+        { label: "占用", value: 4,disabled:true },
+        { label: "出库", value: 5,disabled:true },],
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',

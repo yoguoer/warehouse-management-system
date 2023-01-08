@@ -95,7 +95,7 @@ export default {
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         // { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
-        // { prop: "returnReason", label: "退货原因" },
+        { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
       ];
     },
@@ -243,14 +243,15 @@ export default {
       };
       inputWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
-          this.total = res.data.data.total;
+          // this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
-            if(item.status<2){
+            if(item.status<2||item.type==1){
               this.tableData.push(item)
             }
           })
+          this.total=this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -278,14 +279,15 @@ export default {
         type: ""
       }).then((res) => {
         if (res.data.code === 200) {
-          this.total = res.data.data.total;
+          // this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
-            if(item.status<2){
+            if(item.status<2||item.type==1){
               this.tableData.push(item)
             }
           })
+          this.total=this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");

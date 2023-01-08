@@ -2,10 +2,10 @@
     <div class="wrap-definition">
         <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
             <el-tab-pane label="销售" name="sales">
-                <salesList ref="sales" />
+                <!-- <salesList ref="sales" /> -->
             </el-tab-pane>
             <el-tab-pane label="采购" name="purchase">
-                <purchaseList ref="purchase" />
+                <!-- <purchaseList ref="purchase" /> -->
             </el-tab-pane>
             <router-view></router-view>
         </el-tabs>
@@ -13,8 +13,6 @@
 </template>
 
 <script>
-import salesList from '@/components/store/shopkeepers/inOrders/sales/salesList.vue'
-import purchaseList from '@/components/store/shopkeepers/inOrders/purchase/purchaseList.vue'
 
 export default {
     name: 'sales',
@@ -25,10 +23,12 @@ export default {
     },
     props: {},
     methods: {
-        //换tabs
-        handleClick(v) {
-            this.activeName = v.name
-        },
+    //换tabs
+    handleClick(v) {
+      this.activeName = v.name
+      this.$router.push({ name: this.activeName })
+      this.$forceUpdate();
+    },
     },
     watch: {},
     created() {
@@ -42,8 +42,6 @@ export default {
     beforeDestroy() {
     },
     components: {
-        salesList,
-        purchaseList
     }
 }
 </script>

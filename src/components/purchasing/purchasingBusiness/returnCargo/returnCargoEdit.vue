@@ -37,27 +37,6 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="仓库" prop="inventoryCode">
-            <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable disabled
-              ref="inventorySelect">
-              <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
-                :label="item.inventoryName" :value="item.inventoryCode">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10">
-          <el-form-item label="库位" prop="positionCode">
-            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable disabled>
-              <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
-                :value="item.positionCode" clearable placeholder="库位">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
           <el-form-item label="计划数" prop="inputPlan">
             <el-input v-model="ruleForm.inputPlan" clearable placeholder="计划数" disabled></el-input>
           </el-form-item>
@@ -80,13 +59,6 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <span style="margin-left: 8%;">起止日期</span>
-          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right" disabled
-            size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
-            :picker-options="pickerOptions" @click.native="setTime" value-format="yyyy-MM-dd HH:mm:ss">
-          </el-date-picker>
-        </el-col>
-        <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
             <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
             <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable disabled>
@@ -95,6 +67,13 @@
               </el-option>
             </el-select>
           </el-form-item>
+        </el-col>
+        <el-col :span="10">
+          <span style="margin-left: 8%;">起止日期</span>
+          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right" disabled
+            size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
+            :picker-options="pickerOptions" @click.native="setTime" value-format="yyyy-MM-dd HH:mm:ss">
+          </el-date-picker>
         </el-col>
       </el-row>
       <el-row>
@@ -118,6 +97,27 @@
           </el-form-item>
         </el-col> -->
       </el-row>
+      <el-row>
+        <el-col :span="10">
+          <el-form-item label="仓库" prop="inventoryCode">
+            <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
+              ref="inventorySelect">
+              <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
+                :label="item.inventoryName" :value="item.inventoryCode">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
+          <el-form-item label="库位" prop="positionCode">
+            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable>
+              <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
+                :value="item.positionCode" clearable placeholder="库位">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
     </el-form>
     <div class="dialog_footer">
       <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
@@ -129,7 +129,7 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
-import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
+import { shoplist, goodslist, Supplierlist, positionList,inventorylist } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 
@@ -219,8 +219,11 @@ export default {
         type: [
           { required: true, message: '请设置入库类型', trigger: 'blur' },
         ],
-        returnReason: [
-          { required: true, message: '请设置退货原因', trigger: 'blur' },
+        inventoryPeopleCode: [
+          { required: true, message: '请选择仓库操作员', trigger: 'blur' },
+        ],
+        inputActual: [
+          { required: true, message: '请设置实际数', trigger: 'blur' },
         ],
       }
     }
@@ -239,7 +242,7 @@ export default {
     this.getgoodslist()
     this.getSupplierlist()
     this.getUserList()
-    // this.getinventorylist();
+    this.getinventorylist();
     if (this.rowData.inputWarehouseKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -318,19 +321,19 @@ export default {
         }
       });
     },
-    // getinventorylist() {
-    //   inventorylist()
-    //     .then((res) => {
-    //       if (res.data.code === 200) {
-    //         this.inventoryOptions = res.data.data
-    //       } else {
-    //         this.$message.error(res.msg);
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // },
+    getinventorylist() {
+      inventorylist()
+        .then((res) => {
+          if (res.data.code === 200) {
+            this.inventoryOptions = res.data.data
+          } else {
+            this.$message.error(res.msg);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
     setShopName() {
       // console.log(this.$refs.selection.selectedLabel)
       this.getShopInventoryList(this.ruleForm.shopCode)

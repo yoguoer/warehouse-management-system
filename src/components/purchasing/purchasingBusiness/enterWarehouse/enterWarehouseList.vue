@@ -1,8 +1,8 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" />
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search"  :hidden="hidden" :hidden1="hidden" />
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-status="props">
           <span>{{
@@ -60,6 +60,8 @@ export default {
         pageSize: 10,
       },
       userType: "",
+      hidden:true,
+      multiCheck:false,
       shopOptions: [],
       goodsOptions: [],
       inventoryOptions: [],

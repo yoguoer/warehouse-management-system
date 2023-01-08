@@ -235,9 +235,6 @@ export default {
         supplierCode: [
           { required: true, message: '请选择供应商', trigger: 'blur' },
         ],
-        inventoryCode: [
-          { required: true, message: '请选择仓库', trigger: 'blur' },
-        ],
         inputPlan: [
           { required: true, message: '请设置计划入库数', trigger: 'blur' },
         ],
@@ -265,7 +262,7 @@ export default {
     this.getSupplierlist()
     this.getUserList()
     this.getvehicleList()
-    // this.getinventorylist();
+    this.getinventorylist();
     if (this.rowData.inputWarehouseKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -353,19 +350,19 @@ export default {
         }
       });
     },
-    // getinventorylist() {
-    //   inventorylist()
-    //     .then((res) => {
-    //       if (res.data.code === 200) {
-    //         this.inventoryOptions = res.data.data
-    //       } else {
-    //         this.$message.error(res.msg);
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // },
+    getinventorylist() {
+      inventorylist()
+        .then((res) => {
+          if (res.data.code === 200) {
+            this.inventoryOptions = res.data.data
+          } else {
+            this.$message.error(res.msg);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
     setShopName() {
       this.getShopInventoryList(this.ruleForm.shopCode)
       this.ruleForm.shopName = this.$refs.selection.selectedLabel

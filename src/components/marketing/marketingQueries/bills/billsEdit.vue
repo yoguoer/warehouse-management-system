@@ -238,9 +238,6 @@ export default {
         customerCode: [
           { required: true, message: '请选择客户', trigger: 'blur' },
         ],
-        inventoryCode: [
-          { required: true, message: '请选择仓库', trigger: 'blur' },
-        ],
         outputPlan: [
           { required: true, message: '请设置计划数', trigger: 'blur' },
         ],

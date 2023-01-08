@@ -57,12 +57,14 @@ const routes = [{
       },
 
 
-//*******************************资料模块*******************************
+      //*******************************资料模块*******************************
       //资料
       {
         path: '/data',
         name: 'data',
-        redirect: {name: "customer"},
+        redirect: {
+          name: "customer"
+        },
         component: () => import('@/views/data/Index.vue'),
         children: [
 
@@ -281,7 +283,7 @@ const routes = [{
       },
 
 
-//*******************************销售模块*******************************
+      //*******************************销售模块*******************************
       //销售
       {
         path: '/marketing',
@@ -341,7 +343,7 @@ const routes = [{
       },
 
 
-//*******************************采购模块*******************************
+      //*******************************采购模块*******************************
       //采购
       {
         path: '/purchasing',
@@ -365,14 +367,14 @@ const routes = [{
         path: '/purchasing/purchasingBusiness/purchasingOrder',
         name: 'purchasingOrder',
         component: () => import('@/components/purchasing/purchasingBusiness/purchasingOrder/purchasingOrderList.vue')
-        
+
       },
       //采购-采购业务-采购退货单
       {
         path: '/purchasing/purchasingBusiness/PreturnOrder',
         name: 'PreturnOrder',
         component: () => import('@/components/purchasing/purchasingBusiness/PreturnOrder/PreturnOrderList.vue')
-        
+
       },
       //采购-采购业务-回货管理
       {
@@ -436,7 +438,7 @@ const routes = [{
       },
 
 
-//*******************************库存模块*******************************
+      //*******************************库存模块*******************************
       //库存
       {
         path: '/store',
@@ -495,7 +497,24 @@ const routes = [{
       {
         path: '/store/shopkeepers/inOrder',
         name: 'inOrder',
-        component: () => import('@/views/store/shopkeepers/inOrder/Index.vue')
+        component: () => import('@/views/store/shopkeepers/inOrder/Index.vue'),
+        redirect: {
+          name: "sales"
+        },
+        children: [
+          //库存-零售商库存-在单库存-销售  
+          {
+            path: '/store/inOrder/sales',
+            name: 'sales',
+            component: () => import('@/components/store/shopkeepers/inOrders/sales/salesList.vue')
+          },
+          //库存-零售商库存-在单库存-采购  
+          {
+            path: '/store/inOrder/purchase',
+            name: 'purchase',
+            component: () => import('@/components/store/shopkeepers/inOrders/purchase/purchaseList.vue')
+          },
+        ]
       },
       //库存-零售商库存-仓库库存  
       {
@@ -511,7 +530,7 @@ const routes = [{
       },
 
 
-//*******************************配货模块*******************************
+      //*******************************配货模块*******************************
       //配货
       {
         path: '/distribution',

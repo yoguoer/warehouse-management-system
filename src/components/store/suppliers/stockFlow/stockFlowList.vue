@@ -1,6 +1,6 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden"/>
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
@@ -22,11 +22,11 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="props.row.status > 2" type="text"> </el-button>
+          <el-button type="text" style="visiable:hidden"></el-button>
           <el-button v-if="props.row.type == 1" @click="editRow(props.row)" type="text">处理退货</el-button>
-          <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
+          <el-button v-if="props.row.status < 2 && props.row.type == 0" @click="editRow(props.row)"
             type="text">接收订单</el-button>
-          <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
+          <el-button v-if="props.row.status < 2 && props.row.type == 0" @click="editRow(props.row)"
             type="text">发出货物</el-button>
         </template>
       </TableList>
@@ -96,7 +96,7 @@ export default {
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         // { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
-        // { prop: "returnReason", label: "退货原因" },
+        { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
       ];
     },
