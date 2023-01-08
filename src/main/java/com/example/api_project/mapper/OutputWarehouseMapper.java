@@ -23,7 +23,7 @@ public interface OutputWarehouseMapper {
      *
      * @return 对象列表
      */
-    List<OutputWarehouse> queryAllByLimit(String shopCode,String goodsCode,String customerCode,String inventoryCode,Integer status,Integer type, Integer startRows, Integer pageSize);
+    List<OutputWarehouse> queryAllByLimit(String shopCode,String goodsCode,String customerCode,String inventoryCode,Integer status,Integer type,Integer isDeleted, Integer startRows, Integer pageSize);
 
     /**
      * 统计总行数

@@ -30,7 +30,7 @@ public interface InputWarehouseMapper {
      *
      * @return 对象列表
      */
-    List<InputWarehouse> queryAllByLimit(String shopCode,String goodsCode,String supplierCode,String inventoryCode,Integer status,Integer type, Integer startRows, Integer pageSize);
+    List<InputWarehouse> queryAllByLimit(String shopCode,String goodsCode,String supplierCode,String inventoryCode,Integer status,Integer type,Integer isDeleted, Integer startRows, Integer pageSize);
 
     /**
      * 统计总行数

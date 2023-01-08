@@ -67,6 +67,8 @@ public class InputWarehouseController {
         Random random = new Random();
         Integer number = random.nextInt(9000) + 1000;
         inputWarehouse.setInputWarehouseKey(System.currentTimeMillis() + String.valueOf(number));
+        Integer isDeleted=0;
+        inputWarehouse.setIsDeleted(isDeleted);
         return ResponseData.success(this.inputWarehouseService.insert(inputWarehouse));
     }
 
@@ -78,6 +80,8 @@ public class InputWarehouseController {
      */
     @PostMapping("/update")
     public Result edit(@RequestBody  InputWarehouse inputWarehouse) {
+        Integer isDeleted=0;
+        inputWarehouse.setIsDeleted(isDeleted);
         return ResponseData.success(this.inputWarehouseService.update(inputWarehouse));
     }
 
@@ -89,13 +93,37 @@ public class InputWarehouseController {
      */
     @PostMapping("/delete")
     public Result deleteById(@RequestBody InputWarehouse inputWarehouse) {
-        return ResponseData.success(this.inputWarehouseService.deleteById(inputWarehouse));
+        if(inputWarehouse.getIsDeleted()==1){
+            return ResponseData.success(this.inputWarehouseService.deleteById(inputWarehouse));
+        }else{
+            String inputWarehouseKey=inputWarehouse.getInputWarehouseKey();
+            Integer isDeleted=this.inputWarehouseService.queryById(inputWarehouseKey).getIsDeleted();
+            if(isDeleted==0){
+                Integer newDeleted=1;
+                inputWarehouse.setIsDeleted(newDeleted);
+                return ResponseData.success(this.inputWarehouseService.update(inputWarehouse));
+            }else{
+                return ResponseData.success(this.inputWarehouseService.deleteById(inputWarehouse));
+            }
+        }
     }
 
     @PostMapping("/delete-list")
     public Result deleteByList(@RequestBody List<InputWarehouse> inputWarehouseKeys) {
         for(InputWarehouse inputWarehouse: inputWarehouseKeys){
-            this.inputWarehouseService.deleteById(inputWarehouse);
+            if(inputWarehouse.getIsDeleted()==1){
+                return ResponseData.success(this.inputWarehouseService.deleteById(inputWarehouse));
+            }else{
+                String inputWarehouseKey=inputWarehouse.getInputWarehouseKey();
+                Integer isDeleted=this.inputWarehouseService.queryById(inputWarehouseKey).getIsDeleted();
+                if(isDeleted==0){
+                    Integer newDeleted=1;
+                    inputWarehouse.setIsDeleted(newDeleted);
+                    return ResponseData.success(this.inputWarehouseService.update(inputWarehouse));
+                }else{
+                    return ResponseData.success(this.inputWarehouseService.deleteById(inputWarehouse));
+                }
+            }
         }
         return ResponseData.success();
     }

@@ -45,7 +45,8 @@ public class OutputWarehouseServiceImpl implements OutputWarehouseService {
         String inventoryCode=outputWarehouse.getInventoryCode();
         Integer status=outputWarehouse.getStatus();
         Integer type=outputWarehouse.getType();
-        List<OutputWarehouse> records = this.outputWarehouseMapper.queryAllByLimit(shopCode,goodsCode,customerCode,inventoryCode,status,type,startRows,  pageSize);
+        Integer isDeleted=outputWarehouse.getIsDeleted();
+        List<OutputWarehouse> records = this.outputWarehouseMapper.queryAllByLimit(shopCode,goodsCode,customerCode,inventoryCode,status,type,isDeleted,startRows,  pageSize);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

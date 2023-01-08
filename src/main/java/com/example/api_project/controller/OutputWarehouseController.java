@@ -59,6 +59,8 @@ public class OutputWarehouseController {
         Random random = new Random();
         Integer number = random.nextInt(9000) + 1000;
         outputWarehouse.setOutputWarehouseKey(System.currentTimeMillis() + String.valueOf(number));
+        Integer isDeleted=0;
+        outputWarehouse.setIsDeleted(isDeleted);
         return ResponseData.success(this.outputWarehouseService.insert(outputWarehouse));
     }
 
@@ -70,6 +72,8 @@ public class OutputWarehouseController {
      */
     @PostMapping("/update")
     public Result edit(@RequestBody OutputWarehouse outputWarehouse) {
+        Integer isDeleted=0;
+        outputWarehouse.setIsDeleted(isDeleted);
         return ResponseData.success(this.outputWarehouseService.update(outputWarehouse));
     }
 
@@ -80,13 +84,37 @@ public class OutputWarehouseController {
      */
     @PostMapping("/delete")
     public Result deleteById(@RequestBody OutputWarehouse outputWarehouse) {
-        return ResponseData.success(this.outputWarehouseService.deleteById(outputWarehouse));
+        if(outputWarehouse.getIsDeleted()==1){
+            return ResponseData.success(this.outputWarehouseService.deleteById(outputWarehouse));
+        }else{
+            String outputWarehouseKey=outputWarehouse.getOutputWarehouseKey();
+            Integer isDeleted=this.outputWarehouseService.queryById(outputWarehouseKey).getIsDeleted();
+            if(isDeleted==0){
+                Integer newDeleted=1;
+                outputWarehouse.setIsDeleted(newDeleted);
+                return ResponseData.success(this.outputWarehouseService.update(outputWarehouse));
+            }else{
+                return ResponseData.success(this.outputWarehouseService.deleteById(outputWarehouse));
+            }
+        }
     }
 
     @PostMapping("/delete-list")
     public Result deleteByList(@RequestBody List<OutputWarehouse> outputWarehouseKeys) {
         for(OutputWarehouse outputWarehouse: outputWarehouseKeys){
-            this.outputWarehouseService.deleteById(outputWarehouse);
+            if(outputWarehouse.getIsDeleted()==1){
+                return ResponseData.success(this.outputWarehouseService.deleteById(outputWarehouse));
+            }else{
+                String outputWarehouseKey=outputWarehouse.getOutputWarehouseKey();
+                Integer isDeleted=this.outputWarehouseService.queryById(outputWarehouseKey).getIsDeleted();
+                if(isDeleted==0){
+                    Integer newDeleted=1;
+                    outputWarehouse.setIsDeleted(newDeleted);
+                    return ResponseData.success(this.outputWarehouseService.update(outputWarehouse));
+                }else{
+                    return ResponseData.success(this.outputWarehouseService.deleteById(outputWarehouse));
+                }
+            }
         }
         return ResponseData.success();
     }

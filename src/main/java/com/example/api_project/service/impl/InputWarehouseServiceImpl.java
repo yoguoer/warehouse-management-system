@@ -52,7 +52,8 @@ public class InputWarehouseServiceImpl implements InputWarehouseService {
         String inventoryCode=inputWarehouse.getInventoryCode();
         Integer status=inputWarehouse.getStatus();
         Integer type=inputWarehouse.getType();
-        List<InputWarehouse> records = this.inputWarehouseMapper.queryAllByLimit(shopCode,goodsCode,supplierCode,inventoryCode,status,type,startRows,  pageSize);
+        Integer isDeleted=inputWarehouse.getIsDeleted();
+        List<InputWarehouse> records = this.inputWarehouseMapper.queryAllByLimit(shopCode,goodsCode,supplierCode,inventoryCode,status,type,isDeleted,startRows,  pageSize);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

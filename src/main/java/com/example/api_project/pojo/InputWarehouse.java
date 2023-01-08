@@ -73,6 +73,10 @@ public class InputWarehouse implements Serializable {
      */
     private Integer status;
     /**
+     * 是否删除
+     */
+    private Integer isDeleted;
+    /**
      * 入库类型(正常入库、退货入库)
      */
     private Integer type;
@@ -89,6 +93,13 @@ public class InputWarehouse implements Serializable {
      */
     private String returnReason;
 
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 
     public String getInputWarehouseKey() {
         return inputWarehouseKey;
