@@ -460,7 +460,7 @@ const routes = [{
       {
         path: '/store/suppliers/stockManagement',
         name: 'stockManagement',
-        component: () => import('@/views/store/suppliers/stockManagement/Index.vue')
+        component: () => import('@/components/store/suppliers/stockManagement/stockManagementList.vue')
       },
       //库存-供应商库存-供应商库存流水
       {

@@ -15,8 +15,8 @@
           }}</span>
         </template>
         <template v-slot:column-type="props">
-          <span v-if="props.row.type == 0">采购入库</span>
-          <span v-if="props.row.type == 1">采购退货</span>
+          <span v-if="props.row.type == 0">采购</span>
+          <span v-if="props.row.type == 1">退货</span>
         </template>
         <template v-slot:column-createTime="props">
           <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
@@ -25,13 +25,15 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
-          <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
-            icon="el-icon-document">删除</el-button>
+          <el-button v-if="props.row.type == 1" @click="editRow(props.row)" type="text">处理退货</el-button>
+          <el-button v-if="props.row.status != 2 && props.row.type == 0" @click="editRow(props.row)"
+            type="text">接收订单</el-button>
+          <el-button v-if="props.row.status != 2 && props.row.type == 0" @click="editRow(props.row)"
+            type="text">发出货物</el-button>
         </template>
       </TableList>
     </div>
-    <purchasingOrderEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
+    <stockManagementEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
       @success="success()" />
   </div>
 </template>
@@ -40,7 +42,7 @@
 import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList } from "@/api/purchasing";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import purchasingOrderEdit from "./purchasingOrderEdit";
+import stockManagementEdit from "./stockManagementEdit";
 import { shoplist, goodslist, inventorylist, Supplierlist } from '@/api/data'
 
 export default {
@@ -67,10 +69,7 @@ export default {
       statusOptions: [
         { label: "在单", value: 0 },
         { label: "生产", value: 1 },
-        { label: "在途", value: 2 },
-        { label: "入库", value: 3 },
-        { label: "占用", value: 4 },
-        { label: "出库", value: 5 }],
+        { label: "在途", value: 2 }],
       //   typeOptions:[
       //     {label:"采购入库",value:0},
       //     {label:"退货入库",value:1}]
@@ -87,18 +86,18 @@ export default {
         { prop: "supplierName", label: "供应商名称" },
         { prop: "inputPlan", label: "计划数" },
         { prop: "inputPrice", label: "入库价格" },
-        // { prop: "inputActual", label: "实际数" },
-        { prop: "inventoryCode", label: "仓库编码" },
-        { prop: "positionCode", label: "货位编码" },
+        { prop: "inputActual", label: "实际数" },
+        // { prop: "inventoryCode", label: "仓库编码" },
+        // { prop: "positionCode", label: "货位编码" },
         // { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status" }, label: "状态" },
-        { slots: { name: "column-type" }, label: "入库类型" },
+        { slots: { name: "column-type" }, label: "类型" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
-        { prop: "shopPeopleCode", label: "门店操作员" },
+        // { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
-        { prop: "returnReason", label: "退货原因" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
+        // { prop: "returnReason", label: "退货原因" },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
       ];
     },
     searchConfig() {
@@ -119,14 +118,14 @@ export default {
           type: "select",
           options: this.goodsOptions
         },
-        {
-          label: '请选择',
-          placeholder: '请选择仓库',
-          field: 'inventoryCode',
-          value: '',
-          type: "select",
-          options: this.inventoryOptions
-        },
+        // {
+        //   label: '请选择',
+        //   placeholder: '请选择仓库',
+        //   field: 'inventoryCode',
+        //   value: '',
+        //   type: "select",
+        //   options: this.inventoryOptions
+        // },
         {
           label: '请选择',
           placeholder: '请选择供应商',
@@ -158,7 +157,7 @@ export default {
   },
   components: {
     TableList,
-    purchasingOrderEdit,
+    stockManagementEdit,
     reloadAndsearch
   },
   created() {
@@ -241,7 +240,7 @@ export default {
         inventoryCode: "",
         status: "",
         isDeleted: 0,
-        type: 0
+        type: ""
       };
       inputWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
@@ -268,10 +267,10 @@ export default {
         shopCode: searchData.shopCode,
         goodsCode: searchData.goodsCode,
         supplierCode: searchData.supplierCode,
-        inventoryCode: searchData.inventoryCode,
+        inventoryCode: "",
         status: searchData.status,
         isDeleted: 0,
-        type: 0
+        type: ""
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;

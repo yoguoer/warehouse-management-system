@@ -15,9 +15,9 @@
           }}</span>
         </template>
         <template v-slot:column-type="props">
-          <el-tag type="success" size="medium" v-if="props.row.type == 0">零售</el-tag>
-          <el-tag type="warning" size="medium" v-if="props.row.type == 1">客户订购</el-tag>
-          <el-tag type="danger" size="medium" v-if="props.row.type == 2">销售退货</el-tag>
+          <span v-if="props.row.type == 0">零售</span>
+          <span v-if="props.row.type == 1">客户订购</span>
+          <span v-if="props.row.type == 2">销售退货</span>
         </template>
         <template v-slot:column-createTime="props">
           <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>

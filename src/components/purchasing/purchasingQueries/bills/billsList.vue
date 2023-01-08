@@ -15,8 +15,8 @@
           }}</span>
         </template>
         <template v-slot:column-type="props">
-          <el-tag type="success" size="medium" v-if="props.row.type == 0">采购入库</el-tag>
-          <el-tag type="danger" size="medium" v-if="props.row.type == 1">采购退货</el-tag>
+          <span v-if="props.row.type == 0">采购入库</span>
+          <span v-if="props.row.type == 1">采购退货</span>
         </template>
         <template v-slot:column-createTime="props">
           <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
@@ -307,7 +307,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey,isDeleted:1 }).then(res => {
+      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey, isDeleted: 1 }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -337,7 +337,7 @@ export default {
       if (this.multipleSelection.length > 0) {
         let inputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          inputWarehouseKeys.push({ inputWarehouseKey: item.inputWarehouseKey,isDeleted:1  })
+          inputWarehouseKeys.push({ inputWarehouseKey: item.inputWarehouseKey, isDeleted: 1 })
         })
         console.log(inputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
