@@ -24,9 +24,13 @@
         <template v-slot:column-deadlineTime="props">
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
+        <template v-slot:column-isDeleted="props">
+          <span>{{ props.row.isDeleted == '0' ? '否' : (props.row.isDeleted == '1' ? '是' : '-') }}</span>
+        </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
-          <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
+          <el-button v-if="userType == 0 && props.row.isDeleted == 0" @click="editRow(props.row)" type="text"
+            icon="el-icon-edit">编辑</el-button>
+          <el-button v-if="userType == 0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
@@ -72,7 +76,11 @@ export default {
         { label: "出库", value: 5 }],
       typeOptions: [
         { label: "采购入库", value: 0 },
-        { label: "退货入库", value: 1 }]
+        { label: "退货入库", value: 1 }],
+      deletedOptions: [
+        { label: "否", value: 0 },
+        { label: "是", value: 1 }
+      ]
     };
   },
   computed: {
@@ -97,6 +105,7 @@ export default {
         { prop: "shopPeopleCode", label: "门店操作员" },
         { prop: "inventoryPeopleCode", label: "仓库操作员" },
         { prop: "returnReason", label: "退货原因" },
+        { slots: { name: "column-isDeleted" }, label: "是否删除" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
@@ -149,6 +158,14 @@ export default {
           value: '',
           type: "select",
           options: this.typeOptions
+        },
+        {
+          label: '请选择',
+          placeholder: '是否删除',
+          field: 'isDeleted',
+          value: '',
+          type: "select",
+          options: this.deletedOptions
         },
       ];
     }
@@ -239,6 +256,7 @@ export default {
         supplierCode: "",
         inventoryCode: "",
         status: "",
+        isDeleted: "",
         type: ""
       };
       inputWarehouseListPage(params).then((res) => {
@@ -269,6 +287,7 @@ export default {
         inventoryCode: searchData.inventoryCode,
         status: searchData.status,
         type: searchData.type,
+        isDeleted: searchData.isDeleted,
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
@@ -288,7 +307,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey,isDeleted:1 }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -318,7 +337,7 @@ export default {
       if (this.multipleSelection.length > 0) {
         let inputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          inputWarehouseKeys.push({ inputWarehouseKey: item.inputWarehouseKey })
+          inputWarehouseKeys.push({ inputWarehouseKey: item.inputWarehouseKey,isDeleted:1  })
         })
         console.log(inputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {

@@ -25,14 +25,18 @@
         <template v-slot:column-deadlineTime="props">
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
+        <template v-slot:column-isDeleted="props">
+          <span>{{ props.row.isDeleted == '0' ? '否' : (props.row.isDeleted == '1' ? '是' : '-') }}</span>
+        </template>
         <template v-slot:column-todo="props">
-          <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
-          <el-button  v-if="userType == 0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
+          <el-button v-if="userType == 0 && props.row.isDeleted == 0" @click="editRow(props.row)" type="text"
+            icon="el-icon-edit">编辑</el-button>
+          <el-button v-if="userType == 0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
     </div>
-    <billsEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"/>
+    <billsEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
   </div>
 </template>
 
@@ -59,7 +63,7 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
-      userType:"",
+      userType: "",
       shopOptions: [],
       goodsOptions: [],
       inventoryOptions: [],
@@ -75,6 +79,10 @@ export default {
         { label: "零售出库", value: 0 },
         { label: "客户订购出库", value: 1 },
         { label: "退货出库", value: 2 },
+      ],
+      deletedOptions: [
+        { label: "否", value: 0 },
+        { label: "是", value: 1 }
       ]
     };
   },
@@ -93,13 +101,14 @@ export default {
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
         { prop: "vehicleCode", label: "车辆编码" },
-        { slots: { name: "column-status" }, label: "状态"},
+        { slots: { name: "column-status" }, label: "状态" },
         { slots: { name: "column-type" }, label: "出库类型" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         { prop: "inventoryPeopleCode", label: "仓库操作员" },
         { prop: "returnReason", label: "退货原因" },
+        { slots: { name: "column-isDeleted" }, label: "是否删除" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
@@ -152,6 +161,14 @@ export default {
           value: '',
           type: "select",
           options: this.typeOptions
+        },
+        {
+          label: '请选择',
+          placeholder: '是否删除',
+          field: 'isDeleted',
+          value: '',
+          type: "select",
+          options: this.deletedOptions
         },
       ];
     }
@@ -242,6 +259,7 @@ export default {
         customerCode: "",
         inventoryCode: "",
         status: "",
+        isDeleted: "",
         type: ""
       };
       outputWarehouseListPage(params).then((res) => {
@@ -271,6 +289,7 @@ export default {
         customerCode: searchData.customerCode,
         inventoryCode: searchData.inventoryCode,
         status: searchData.status,
+        isDeleted: searchData.isDeleted,
         type: searchData.type
       }).then((res) => {
         if (res.data.code === 200) {
@@ -291,7 +310,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      outputWarehouseDelete({ outputWarehouseKey: row.outputWarehouseKey }).then(res => {
+      outputWarehouseDelete({ outputWarehouseKey: row.outputWarehouseKey,isDeleted:1  }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -321,7 +340,7 @@ export default {
       if (this.multipleSelection.length > 0) {
         let outputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          outputWarehouseKeys.push({ outputWarehouseKey: item.outputWarehouseKey })
+          outputWarehouseKeys.push({ outputWarehouseKey: item.outputWarehouseKey,isDeleted:1  })
         })
         console.log(outputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {

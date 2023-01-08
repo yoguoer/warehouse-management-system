@@ -238,7 +238,8 @@ export default {
         supplierCode: "",
         inventoryCode: "",
         status: "",
-        type: 1
+        type: 1,
+        isDeleted:0,
       };
       inputWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
@@ -267,6 +268,7 @@ export default {
         supplierCode: searchData.supplierCode,
         inventoryCode: searchData.inventoryCode,
         status: searchData.status,
+        isDeleted:0,
         type: 1
       }).then((res) => {
         if (res.data.code === 200) {

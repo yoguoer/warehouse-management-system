@@ -242,6 +242,7 @@ export default {
         customerCode: "",
         inventoryCode: "",
         status: "",
+        isDeleted:0,
         type: 0
       };
       outputWarehouseListPage(params).then((res) => {
@@ -271,6 +272,7 @@ export default {
         customerCode: searchData.customerCode,
         inventoryCode: searchData.inventoryCode,
         status: searchData.status,
+        isDeleted:0,
         type: 0
       }).then((res) => {
         if (res.data.code === 200) {
