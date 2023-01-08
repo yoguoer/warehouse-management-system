@@ -59,8 +59,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="计划出库数" prop="outputPlan">
-            <el-input v-model="ruleForm.outputPlan" clearable placeholder="计划出库数"></el-input>
+          <el-form-item label="计划数" prop="outputPlan">
+            <el-input v-model="ruleForm.outputPlan" clearable placeholder="计划数"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -74,8 +74,8 @@
           <el-form-item label="出库类型" prop="type">
             <!-- <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable>
               <el-option label="零售出库" :value="0"></el-option>
-              <el-option label="客户订购出库" :value="1"></el-option>
-              <el-option label="退货出库" :value="2"></el-option>
+              <el-option label="客户订购单" :value="1"></el-option>
+              <el-option label="销售退货单" :value="2"></el-option>
             </el-select> -->
             <el-input value="零售出库" clearable placeholder="出库类型" disabled></el-input>
           </el-form-item>
@@ -88,18 +88,18 @@
             <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
             <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable>
               <el-option v-for="item in userOptions" :key="item.userId"
-                :label="item.userName" :value="item.userId">
+                :label="item.userName" :value="item.userCode">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="10">
+        <!-- <el-col :span="10">
           <span style="margin-left: 8%;">起止日期</span>
           <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right"
             size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
             :picker-options="pickerOptions" @click.native="setTime" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
-        </el-col>
+        </el-col> -->
       </el-row>
       <el-row>
         <el-col :span="10">
@@ -122,6 +122,7 @@ import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
 import { shoplist, goodslist, inventorylist, CustomerList, positionList } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
 import { UserList } from '@/api/api'
+import moment from 'moment'
 
 export default {
   name: 'guestEdit',
@@ -148,7 +149,7 @@ export default {
         status: 5,
         type: 0,
         shopPeopleCode: "",
-        inventoryPropleCode: "",
+        inventoryPeopleCode: "",
         returnReason: ""
       },
       shopOptions: [],
@@ -157,34 +158,34 @@ export default {
       customerOptions: [],
       inventoryOptions: [],
       userOptions:[],
-      pickerOptions: {
-        shortcuts: [{
-          text: '最近一周',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近一个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
-            picker.$emit('pick', [start, end]);
-          }
-        }, {
-          text: '最近三个月',
-          onClick(picker) {
-            const end = new Date();
-            const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
-            picker.$emit('pick', [start, end]);
-          }
-        }]
-      },
-      value2: '',
+      // pickerOptions: {
+      //   shortcuts: [{
+      //     text: '最近一周',
+      //     onClick(picker) {
+      //       const end = new Date();
+      //       const start = new Date();
+      //       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+      //       picker.$emit('pick', [start, end]);
+      //     }
+      //   }, {
+      //     text: '最近一个月',
+      //     onClick(picker) {
+      //       const end = new Date();
+      //       const start = new Date();
+      //       start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+      //       picker.$emit('pick', [start, end]);
+      //     }
+      //   }, {
+      //     text: '最近三个月',
+      //     onClick(picker) {
+      //       const end = new Date();
+      //       const start = new Date();
+      //       start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+      //       picker.$emit('pick', [start, end]);
+      //     }
+      //   }]
+      // },
+      // value2: '',
       rules: {
         shopCode: [
           { required: true, message: '请选择门店', trigger: 'blur' },
@@ -199,7 +200,7 @@ export default {
           { required: true, message: '请选择仓库', trigger: 'blur' },
         ],
         outputPlan: [
-          { required: true, message: '请设置计划出库数', trigger: 'blur' },
+          { required: true, message: '请设置计划数', trigger: 'blur' },
         ],
         outputPrice: [
           { required: true, message: '请设置出库价格', trigger: 'blur' },
@@ -245,9 +246,9 @@ export default {
       // this.ruleForm.status = this.rowData.status
       // this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
-      this.ruleForm.inventoryPropleCode = this.rowData.inventoryPropleCode
+      this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.returnReason = this.rowData.returnReason
-      this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
+      // this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
     }
@@ -336,16 +337,18 @@ export default {
         }
       });
     },
-    setTime() {
-      this.ruleForm.createTime = this.value2[0]
-      this.ruleForm.deadlineTime = this.value2[1]
-      console.log(this.ruleForm.createTime, this.ruleForm);
-    },
+    // setTime() {
+    //   this.ruleForm.createTime = this.value2[0]
+    //   this.ruleForm.deadlineTime = this.value2[1]
+    //   // console.log(this.ruleForm.createTime, this.ruleForm);
+    // },
     close() {
       this.$parent.drawer = false
     },
     save(formName) {
       this.ruleForm.outputActual = this.ruleForm.outputPlan
+      this.ruleForm.createTime = moment().format("YYYY-MM-DD HH:mm:ss");
+      this.ruleForm.deadlineTime = moment().format("YYYY-MM-DD HH:mm:ss");
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = {
@@ -366,7 +369,7 @@ export default {
             status: this.ruleForm.status,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
-            inventoryPropleCode: this.ruleForm.inventoryPropleCode,
+            inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
             outputWarehouseKey: this.ruleForm.outputWarehouseKey
           }
@@ -387,6 +390,8 @@ export default {
     },
     create(formName) {
       this.ruleForm.outputActual = this.ruleForm.outputPlan
+      this.ruleForm.createTime = moment().format("YYYY-MM-DD HH:mm:ss");
+      this.ruleForm.deadlineTime = moment().format("YYYY-MM-DD HH:mm:ss");
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = {
@@ -407,7 +412,7 @@ export default {
             status: this.ruleForm.status,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
-            inventoryPropleCode: this.ruleForm.inventoryPropleCode,
+            inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason
           }
           outputWarehouseAdd(data).then(res => {

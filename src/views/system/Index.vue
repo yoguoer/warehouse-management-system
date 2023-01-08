@@ -39,9 +39,9 @@
             style="width: 100%;min-height:600px;" @selection-change="handleSelectionDelete">
             <el-table-column type="selection" width="55">
             </el-table-column>
-            <el-table-column label="用户编号">
+            <el-table-column label="工号">
                 <template slot-scope="scope">
-                    <span>{{ scope.row.userId || '-' }}</span>
+                    <span>{{ scope.row.userCode || '-' }}</span>
                 </template>
             </el-table-column>
             <el-table-column label="姓名">
@@ -96,8 +96,8 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="70px" class="demo-ruleForm" size="medium">
             <el-dialog title="添加" :append-to-body='true' :visible.sync="dialogAdd" :before-close="handleClose"
                 width="500px">
-                <el-form-item label="编号" style="display:none">
-                    <el-input v-model="ruleForm.userId"></el-input>
+                <el-form-item label="工号">
+                    <el-input v-model="ruleForm.userCode"></el-input>
                 </el-form-item>
                 <el-form-item label="用户角色">
                     <el-select v-model="ruleForm.userType" placeholder="请选择用户角色" prop="userType" style="width:100%">
@@ -138,8 +138,8 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="70px" class="demo-ruleForm" size="medium">
             <el-dialog title="编辑" :append-to-body='true' :visible.sync="dialogUpdate" :before-close="handleClose"
                 width="500px">
-                <el-form-item label="编号" style="display:none">
-                    <el-input v-model="ruleForm.userId"></el-input>
+                <el-form-item label="工号">
+                    <el-input v-model="ruleForm.userCode"></el-input>
                 </el-form-item>
                 <el-form-item label="用户角色">
                     <el-select v-model="ruleForm.userType" placeholder="请选择用户角色" prop="userType" style="width:100%">
@@ -193,6 +193,7 @@ export default {
         return {
             ruleForm: {
                 userId: null,//用户id
+                userCode:null,//工号
                 userType: null,//用户角色
                 userName: null,//用户姓名
                 userPhone: null,//手机号码
@@ -251,6 +252,7 @@ export default {
         addUser() {
             let postData = ({
                 userName: this.ruleForm.userName,//用户姓名
+                userCode: this.ruleForm.userCode,//工号
                 userEmail: this.ruleForm.userEmail,//邮箱
                 userPhone: this.ruleForm.userPhone,//手机号码
                 userType: this.ruleForm.userType,//用户类型
@@ -309,6 +311,7 @@ export default {
             this.dialogUpdate = false
             this.ruleForm = {
                 userId: null,//用户id
+                userCode: null,//工号
                 userType: null,//用户角色
                 userName: null,//用户姓名
                 userPhone: null,//手机号码
@@ -393,6 +396,7 @@ export default {
         updateUser() {
             let postData = qs.stringify({
                 userId: this.ruleForm.userId,//用户 Id
+                userCode: this.ruleForm.userCode,//工号
                 userType: this.ruleForm.userType,//用户角色
                 userName: this.ruleForm.userName,//用户姓名
                 userPhone: this.ruleForm.userPhone,//手机号码

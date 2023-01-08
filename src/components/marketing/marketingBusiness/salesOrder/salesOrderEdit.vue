@@ -86,7 +86,7 @@
             <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
             <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable>
               <el-option v-for="item in userOptions" :key="item.userId"
-                :label="item.userName" :value="item.userId">
+                :label="item.userName" :value="item.userCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -146,7 +146,7 @@ export default {
         status: "",
         type: 1,
         shopPeopleCode: "",
-        inventoryPropleCode: "",
+        inventoryPeopleCode: "",
         returnReason: ""
       },
       shopOptions: [],
@@ -243,7 +243,7 @@ export default {
       this.ruleForm.status = this.rowData.status
       // this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
-      this.ruleForm.inventoryPropleCode = this.rowData.inventoryPropleCode
+      this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.returnReason = this.rowData.returnReason
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
@@ -337,12 +337,14 @@ export default {
     setTime() {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
-      console.log(this.ruleForm.createTime, this.ruleForm);
+      // console.log(this.ruleForm.createTime, this.ruleForm);
     },
     close() {
       this.$parent.drawer = false
     },
     save(formName) {
+      this.ruleForm.createTime = this.value2[0]
+      this.ruleForm.deadlineTime = this.value2[1]
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = {
@@ -363,7 +365,7 @@ export default {
             status: 0,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
-            inventoryPropleCode: this.ruleForm.inventoryPropleCode,
+            inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
             outputWarehouseKey: this.ruleForm.outputWarehouseKey
           }
@@ -383,6 +385,8 @@ export default {
       })
     },
     create(formName) {
+      this.ruleForm.createTime = this.value2[0]
+      this.ruleForm.deadlineTime = this.value2[1]
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = {
@@ -403,7 +407,7 @@ export default {
             status: 0,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
-            inventoryPropleCode: this.ruleForm.inventoryPropleCode,
+            inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason
           }
           outputWarehouseAdd(data).then(res => {

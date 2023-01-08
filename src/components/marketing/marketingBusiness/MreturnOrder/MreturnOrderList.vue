@@ -5,7 +5,8 @@
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-status="props">
-          <span>{{ props.row.status == '0' ? '在单'
+          <span>{{
+            props.row.status == '0' ? '在单'
               : (props.row.status == '1' ? '生产'
                 : (props.row.status == '2' ? '在途'
                   : (props.row.status == '3' ? '入库'
@@ -14,9 +15,10 @@
           }}</span>
         </template>
         <template v-slot:column-type="props">
-            <el-tag type="success" size="medium" v-if=" props.row.type == 0">采购入库</el-tag>
-            <el-tag type="danger" size="medium" v-if="props.row.type == 1">退货入库</el-tag>
-          </template>
+          <el-tag type="success" size="medium" v-if="props.row.type == 0">零售</el-tag>
+          <el-tag type="warning" size="medium" v-if="props.row.type == 1">客户订购</el-tag>
+          <el-tag type="danger" size="medium" v-if="props.row.type == 2">销售退货</el-tag>
+        </template>
         <template v-slot:column-createTime="props">
           <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
@@ -24,7 +26,7 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
+          <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
@@ -35,11 +37,11 @@
 </template>
 
 <script>
-import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList } from "@/api/purchasing";
+import { outputWarehouseListPage, outputWarehouseDelete, outputWarehouseDeleteList } from "@/api/marketing";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import MreturnOrderEdit from "./MreturnOrderEdit";
-import { shoplist, goodslist,inventorylist,Supplierlist } from '@/api/data'
+import { shoplist, goodslist, inventorylist, CustomerList } from '@/api/data'
 
 export default {
   name: "slist",
@@ -57,20 +59,23 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
-      shopOptions:[],
-      goodsOptions:[],
-      inventoryOptions:[],
-      supplierOptions:[],
-      statusOptions:[
-        {label:"在单",value:0},
-        {label:"生产",value:1},
-        {label:"在途",value:2},
-        {label:"入库",value:3},      
-        {label:"占用",value:4},
-        {label:"出库",value:5}],
-    //   typeOptions:[
-    //     {label:"采购入库",value:0},
-    //     {label:"退货入库",value:1}]
+      userType:"",
+      shopOptions: [],
+      goodsOptions: [],
+      inventoryOptions: [],
+      customerOptions: [],
+      statusOptions: [
+        { label: "在单", value: 0 },
+        { label: "生产", value: 1 },
+        { label: "在途", value: 2 },
+        { label: "入库", value: 3 },
+        { label: "占用", value: 4 },
+        { label: "出库", value: 5 }],
+      // typeOptions: [
+      //   { label: "零售出库", value: 0 },
+      //   { label: "客户订购出库", value: 1 },
+      //   { label: "退货出库", value: 2 },
+      // ]
     };
   },
   computed: {
@@ -80,22 +85,22 @@ export default {
         { prop: "shopName", label: "门店名称" },
         { prop: "goodsCode", label: "商品编码" },
         { prop: "goodsName", label: "商品名称" },
-        { prop: "supplierCode", label: "供应商编码" },
-        { prop: "supplierName", label: "供应商名称" },
-        { prop: "inputPlan", label: "计划入库数" },
-        { prop: "inputPrice", label: "入库价格" },
-        // { prop: "inputActual", label: "实际入库数" },
+        { prop: "customerCode", label: "客户编码" },
+        { prop: "customerName", label: "客户名称" },
+        { prop: "outputPlan", label: "计划数" },
+        { prop: "outputPrice", label: "出库价格" },
+        // { prop: "outputActual", label: "实际数" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
         // { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status" }, label: "状态"},
-        { slots: { name: "column-type" }, label: "入库类型" },
+        { slots: { name: "column-type" }, label: "出库类型" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
-        { slots: { name: "column-deadlineTime" }, label: "最迟日期"},
+        { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
-        // { prop: "inventoryPropleCode", label: "仓库操作员" },
+        // { prop: "inventoryPeopleCode", label: "仓库操作员" },
         { prop: "returnReason", label: "退货原因" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right",width:150 },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
     searchConfig() {
@@ -106,7 +111,7 @@ export default {
           field: 'shopCode',
           value: '',
           type: "select",
-          options:this.shopOptions
+          options: this.shopOptions
         },
         {
           label: '请选择',
@@ -114,7 +119,7 @@ export default {
           field: 'goodsCode',
           value: '',
           type: "select",
-          options:this.goodsOptions
+          options: this.goodsOptions
         },
         {
           label: '请选择',
@@ -122,15 +127,15 @@ export default {
           field: 'inventoryCode',
           value: '',
           type: "select",
-          options:this.inventoryOptions
+          options: this.inventoryOptions
         },
         {
           label: '请选择',
-          placeholder: '请选择供应商',
-          field: 'supplierCode',
+          placeholder: '请选择客户',
+          field: 'customerCode',
           value: '',
           type: "select",
-          options:this.supplierOptions
+          options: this.customerOptions
         },
         {
           label: '请选择',
@@ -138,7 +143,7 @@ export default {
           field: 'status',
           value: '',
           type: "select",
-          options:this.statusOptions
+          options: this.statusOptions
         },
         // {
         //   label: '请选择',
@@ -146,7 +151,7 @@ export default {
         //   field: 'type',
         //   value: '',
         //   type: "select",
-        //   options:this.typeOptions
+        //   options: this.typeOptions
         // },
       ];
     }
@@ -161,18 +166,20 @@ export default {
   created() {
     this.getshoplist()
     this.getgoodslist()
-    this.getSupplierlist()
+    this.getCustomerList()
     this.getinventorylist();
+    let user = JSON.parse(localStorage.getItem("userInfo"))
+    this.userType = user.userType
   },
   methods: {
-    getSupplierlist() {
-      Supplierlist().then(res => {
+    getCustomerList() {
+      CustomerList().then(res => {
         if (res.data.code == 200) {
-          // this.supplierOptions = res.data.data
-          this.supplierOptions =[]
-            res.data.data.forEach(item => {
-                this.supplierOptions.push({label:item.supplierName, value:item.supplierCode})
-            });
+          // this.customerOptions = res.data.data
+          this.customerOptions = []
+          res.data.data.forEach(item => {
+            this.customerOptions.push({ label: item.customerName, value: item.customerCode })
+          });
         } else {
           this.$message.error("获取失败!");
         }
@@ -182,10 +189,10 @@ export default {
       inventorylist()
         .then((res) => {
           if (res.data.code === 200) {
-            this.inventoryOptions =[]
+            this.inventoryOptions = []
             res.data.data.forEach(item => {
-              if (item.inventoryType=='2'&&item.belongKey != null||item.belongKey!="") {
-                this.inventoryOptions.push({label:item.inventoryName, value:item.inventoryCode})
+              if (item.inventoryType == '2' && item.belongKey != null || item.belongKey != "") {
+                this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
               }
             });
           } else {
@@ -200,8 +207,8 @@ export default {
       shoplist().then(res => {
         if (res.data.code == 200) {
           // this.shopOptions = res.data.data
-          res.data.data.forEach(item=>{
-            this.shopOptions.push({label:item.shopName,value:item.shopCode})
+          res.data.data.forEach(item => {
+            this.shopOptions.push({ label: item.shopName, value: item.shopCode })
           })
         } else {
           this.$message.error("获取失败!");
@@ -212,8 +219,8 @@ export default {
       goodslist().then(res => {
         if (res.data.code == 200) {
           // this.goodsOptions = res.data.data
-          res.data.data.forEach(item=>{
-            this.goodsOptions.push({label:item.goodsName,value:item.goodsCode})
+          res.data.data.forEach(item => {
+            this.goodsOptions.push({ label: item.goodsName, value: item.goodsCode })
           })
         } else {
           this.$message.error("获取失败!");
@@ -232,12 +239,12 @@ export default {
         size: this.query.pageSize,
         shopCode: "",
         goodsCode: "",
-        supplierCode: "",
+        customerCode: "",
         inventoryCode: "",
         status: "",
-        type: 1
+        type: 2
       };
-      inputWarehouseListPage(params).then((res) => {
+      outputWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
@@ -256,15 +263,15 @@ export default {
         this.query.pageSize = pageSize;
       }
       const searchData = this.$refs.search.search
-      inputWarehouseListPage({
+      outputWarehouseListPage({
         page: this.query.pageNo,
         size: this.query.pageSize,
         shopCode: searchData.shopCode,
         goodsCode: searchData.goodsCode,
-        supplierCode: searchData.supplierCode,
+        customerCode: searchData.customerCode,
         inventoryCode: searchData.inventoryCode,
         status: searchData.status,
-        type: 1
+        type: 2
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
@@ -284,7 +291,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+      outputWarehouseDelete({ outputWarehouseKey: row.outputWarehouseKey }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -312,17 +319,17 @@ export default {
     },
     handleDeleteList() {
       if (this.multipleSelection.length > 0) {
-        let inputWarehouseKeys = [];
+        let outputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          inputWarehouseKeys.push({ inputWarehouseKey: item.inputWarehouseKey })
+          outputWarehouseKeys.push({ outputWarehouseKey: item.outputWarehouseKey })
         })
-        console.log(inputWarehouseKeys);
+        console.log(outputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          inputWarehouseDeleteList(inputWarehouseKeys).then(() => {
+          outputWarehouseDeleteList(outputWarehouseKeys).then(() => {
             this.getTableData();
             this.$message({
               type: 'success',
@@ -368,4 +375,3 @@ export default {
   margin-top: 20px;
 }
 </style>
-  

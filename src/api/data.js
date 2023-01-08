@@ -759,3 +759,12 @@ export function positionList(data) {
     params: data,
   });
 }
+
+//查询车辆（不分页）
+export function vehicleList(data) {
+  return request({
+    url: baseUrl + "/vehicle/list",
+    method: "get",
+    params: data,
+  });
+}

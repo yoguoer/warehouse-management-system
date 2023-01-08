@@ -63,13 +63,13 @@
                                 "name": "销售单据查询",
                                 "icon": "",
                                 "level": 3,
-                                "componentName": "bills"
+                                "componentName": "Mbills"
                             },
                             {
                                 "name": "销售明细查询",
                                 "icon": "",
                                 "level": 3,
-                                "componentName": "details"
+                                "componentName": "Mdetails"
                             }
                         ]
                     }
@@ -149,13 +149,13 @@
                                 "name": "采购单据查询",
                                 "icon": "",
                                 "level": 3,
-                                "componentName": "bills"
+                                "componentName": "Pbills"
                             },
                             {
                                 "name": "采购明细查询",
                                 "icon": "",
                                 "level": 3,
-                                "componentName": "details"
+                                "componentName": "Pdetails"
                             }
                         ]
                     }

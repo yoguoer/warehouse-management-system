@@ -1,6 +1,6 @@
 <template>
     <div>
-        采购单据查询
+        <router-view></router-view>
     </div>
 </template>
 

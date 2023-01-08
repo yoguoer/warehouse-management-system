@@ -15,9 +15,9 @@
           }}</span>
         </template>
         <template v-slot:column-type="props">
-          <el-tag type="success" size="medium" v-if="props.row.type == 0">零售出库</el-tag>
-          <el-tag type="warning" size="medium" v-if="props.row.type == 1">客户订购出库</el-tag>
-          <el-tag type="danger" size="medium" v-if="props.row.type == 2">退货出库</el-tag>
+          <el-tag type="success" size="medium" v-if="props.row.type == 0">零售</el-tag>
+          <el-tag type="warning" size="medium" v-if="props.row.type == 1">客户订购</el-tag>
+          <el-tag type="danger" size="medium" v-if="props.row.type == 2">销售退货</el-tag>
         </template>
         <template v-slot:column-createTime="props">
           <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
@@ -26,7 +26,7 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
+          <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
@@ -62,6 +62,7 @@ export default {
       shopOptions: [],
       goodsOptions: [],
       inventoryOptions: [],
+      userType:"",
       // customerOptions: [],
       // statusOptions: [
       //   { label: "在单", value: 0 },
@@ -86,9 +87,9 @@ export default {
         { prop: "goodsName", label: "商品名称" },
         { prop: "customerCode", label: "客户编码" },
         { prop: "customerName", label: "客户名称" },
-        { prop: "outputPlan", label: "计划出库数" },
+        { prop: "outputPlan", label: "计划数" },
         { prop: "outputPrice", label: "出库价格" },
-        { prop: "outputActual", label: "实际出库数" },
+        { prop: "outputActual", label: "实际数" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
         // { prop: "vehicleCode", label: "车辆编码" },
@@ -97,7 +98,7 @@ export default {
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
-        // { prop: "inventoryPropleCode", label: "仓库操作员" },
+        // { prop: "inventoryPeopleCode", label: "仓库操作员" },
         // { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
@@ -167,6 +168,8 @@ export default {
     this.getgoodslist()
     // this.getCustomerList()
     this.getinventorylist();
+    let user = JSON.parse(localStorage.getItem("userInfo"))
+    this.userType = user.userType
   },
   methods: {
     // getCustomerList() {

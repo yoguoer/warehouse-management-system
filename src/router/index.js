@@ -323,20 +323,20 @@ const routes = [{
         path: '/marketing/marketingQueries',
         name: 'marketingQueries',
         redirect: {
-          name: "bills"
+          name: "Mbills"
         },
         component: () => import('@/views/marketing/marketingQueries/Index.vue')
       },
       //销售-销售查询-销售单据查询
       {
         path: '/marketing/marketingQueries/bills',
-        name: 'bills',
-        component: () => import('@/views/marketing/marketingQueries/bills/Index.vue')
+        name: 'Mbills',
+        component: () => import('@/components/marketing/marketingQueries/bills/billsList.vue')
       },
       //销售-销售查询-销售明细查询
       {
         path: '/marketing/marketingQueries/details',
-        name: 'details',
+        name: 'Mdetails',
         component: () => import('@/views/marketing/marketingQueries/details/Index.vue')
       },
 
@@ -391,20 +391,20 @@ const routes = [{
         path: '/purchasing/purchasingQueries',
         name: 'purchasingQueries',
         redirect: {
-          name: "bills"
+          name: "Pbills"
         },
         component: () => import('@/views/purchasing/purchasingQueries/Index.vue')
       },
       //采购-采购查询-采购单据查询
       {
         path: '/purchasing/purchasingQueries/bills',
-        name: 'bills',
-        component: () => import('@/views/purchasing/purchasingQueries/bills/Index.vue')
+        name: 'Pbills',
+        component: () => import('@/components/purchasing/purchasingQueries/bills/billsList.vue')
       },
       //采购-采购查询-采购明细查询
       {
         path: '/purchasing/purchasingQueries/details',
-        name: 'details',
+        name: 'Pdetails',
         component: () => import('@/views/purchasing/purchasingQueries/details/Index.vue')
       },
       //采购-采购策略
