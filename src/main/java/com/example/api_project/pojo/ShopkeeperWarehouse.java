@@ -17,6 +17,7 @@ public class ShopkeeperWarehouse implements Serializable {
      */
     private String goodsCode;
     private String goodsName;//商品名称
+    private Integer rejectsNum;//残品数
     /**
      * 货位编码
      */
@@ -59,6 +60,14 @@ public class ShopkeeperWarehouse implements Serializable {
      */
     private String description;
     private String modelCode;//型号
+
+    public Integer getRejectsNum() {
+        return rejectsNum;
+    }
+
+    public void setRejectsNum(Integer rejectsNum) {
+        this.rejectsNum = rejectsNum;
+    }
 
     public Integer getOnwayNum() {
         return onwayNum;

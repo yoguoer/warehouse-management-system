@@ -3,14 +3,31 @@ package com.example.api_project.pojo;
 import java.io.Serializable;
 
 /**
- * 入库表(InputWarehouse)实体类
+ * 退货审批表(ReturnCheck)实体类
  *
  */
-public class InputWarehouse implements Serializable {
-    private static final long serialVersionUID = 187245813833868391L;
+public class ReturnCheck implements Serializable {
+    private static final long serialVersionUID = 195442094154610015L;
     /**
      * 主键
      */
+    private String returnCheckKey;
+    /**
+     * 订单编码
+     */
+    private String inputOutputKey;
+    /**
+     * 审批状态
+     */
+    private Integer checkStatus;
+
+    private String happenTime;
+    private String checkTime;
+    /**
+     * 说明
+     */
+    private String description;
+
     private String inputWarehouseKey;
     /**
      * 门店编号
@@ -40,6 +57,7 @@ public class InputWarehouse implements Serializable {
      * 计划入库数
      */
     private Integer inputPlan;
+    private Integer checkNum;
     /**
      * 入库价格
      */
@@ -96,21 +114,34 @@ public class InputWarehouse implements Serializable {
      * 退货数
      */
     private Integer returnNum;
+    /**
+     * 客户编码
+     */
+    private String customerCode;
+    /**
+     * 客户名称
+     */
+    private String customerName;
+    /**
+     * 计划出库数
+     */
+    private Integer outputPlan;
+    /**
+     * 出库价格
+     */
+    private Long outputPrice;
+    /**
+     * 实际出库数
+     */
+    private Integer outputActual;
+    private Integer checkType;
 
-    public Integer getReturnNum() {
-        return returnNum;
+    public Integer getCheckType() {
+        return checkType;
     }
 
-    public void setReturnNum(Integer returnNum) {
-        this.returnNum = returnNum;
-    }
-
-    public Integer getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(Integer isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setCheckType(Integer checkType) {
+        this.checkType = checkType;
     }
 
     public String getInputWarehouseKey() {
@@ -119,6 +150,14 @@ public class InputWarehouse implements Serializable {
 
     public void setInputWarehouseKey(String inputWarehouseKey) {
         this.inputWarehouseKey = inputWarehouseKey;
+    }
+
+    public String getCheckTime() {
+        return checkTime;
+    }
+
+    public void setCheckTime(String checkTime) {
+        this.checkTime = checkTime;
     }
 
     public String getShopCode() {
@@ -131,6 +170,14 @@ public class InputWarehouse implements Serializable {
 
     public String getShopName() {
         return shopName;
+    }
+
+    public Integer getCheckNum() {
+        return checkNum;
+    }
+
+    public void setCheckNum(Integer checkNum) {
+        this.checkNum = checkNum;
     }
 
     public void setShopName(String shopName) {
@@ -241,6 +288,14 @@ public class InputWarehouse implements Serializable {
         this.status = status;
     }
 
+    public Integer getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Integer isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
     public Integer getType() {
         return type;
     }
@@ -271,6 +326,94 @@ public class InputWarehouse implements Serializable {
 
     public void setReturnReason(String returnReason) {
         this.returnReason = returnReason;
+    }
+
+    public Integer getReturnNum() {
+        return returnNum;
+    }
+
+    public void setReturnNum(Integer returnNum) {
+        this.returnNum = returnNum;
+    }
+
+    public String getCustomerCode() {
+        return customerCode;
+    }
+
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public Integer getOutputPlan() {
+        return outputPlan;
+    }
+
+    public void setOutputPlan(Integer outputPlan) {
+        this.outputPlan = outputPlan;
+    }
+
+    public Long getOutputPrice() {
+        return outputPrice;
+    }
+
+    public void setOutputPrice(Long outputPrice) {
+        this.outputPrice = outputPrice;
+    }
+
+    public Integer getOutputActual() {
+        return outputActual;
+    }
+
+    public void setOutputActual(Integer outputActual) {
+        this.outputActual = outputActual;
+    }
+
+    public Integer getCheckStatus() {
+        return checkStatus;
+    }
+
+    public void setCheckStatus(Integer checkStatus) {
+        this.checkStatus = checkStatus;
+    }
+
+    public String getReturnCheckKey() {
+        return returnCheckKey;
+    }
+
+    public void setReturnCheckKey(String returnCheckKey) {
+        this.returnCheckKey = returnCheckKey;
+    }
+
+    public String getInputOutputKey() {
+        return inputOutputKey;
+    }
+
+    public void setInputOutputKey(String inputOutputKey) {
+        this.inputOutputKey = inputOutputKey;
+    }
+
+    public String getHappenTime() {
+        return happenTime;
+    }
+
+    public void setHappenTime(String happenTime) {
+        this.happenTime = happenTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 }

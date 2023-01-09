@@ -19,6 +19,7 @@
         <result property="deadlineTime" column="deadline_time" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
         <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="returnNum" column="return_num" jdbcType="INTEGER"/>
         <result property="isDeleted" column="is_deleted" jdbcType="INTEGER"/>
         <result property="shopPeopleCode" column="shop_people_code" jdbcType="VARCHAR"/>
         <result property="inventoryPeopleCode" column="inventory_people_code" jdbcType="VARCHAR"/>
@@ -29,7 +30,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="OutputWarehouseMap">
         select
-          output_warehouse_key, shop_code, shop_name, goods_code, goods_name, customer_code, customer_name, output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code, return_reason,vehicle_code,is_deleted
+          output_warehouse_key, shop_code, shop_name, goods_code, goods_name, customer_code, customer_name, output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code, return_reason,vehicle_code,is_deleted,return_num
         from output_warehouse
         where output_warehouse_key = #{outputWarehouseKey}
     </select>
@@ -37,7 +38,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="OutputWarehouseMap">
         select
-          output_warehouse_key, shop_code, shop_name, goods_code, goods_name, customer_code, customer_name, output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code, return_reason,vehicle_code,is_deleted
+          output_warehouse_key, shop_code, shop_name, goods_code, goods_name, customer_code, customer_name, output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code, return_reason,vehicle_code,is_deleted,return_num
         from output_warehouse
         <where>
             <if test="shopCode != null and shopCode != ''">
@@ -97,23 +98,23 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="outputWarehouseKey" useGeneratedKeys="true">
-        insert into output_warehouse(output_warehouse_key,shop_code, shop_name, goods_code, goods_name, customer_code, customer_name, output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code, return_reason,vehicle_code,is_deleted)
-        values (#{outputWarehouseKey},#{shopCode}, #{shopName}, #{goodsCode}, #{goodsName}, #{customerCode}, #{customerName}, #{outputPlan}, #{outputPrice}, #{outputActual}, #{inventoryCode}, #{positionCode}, #{createTime}, #{deadlineTime}, #{status}, #{type}, #{shopPeopleCode}, #{inventoryPeopleCode}, #{returnReason},#{vehicleCode},#{isDeleted})
+        insert into output_warehouse(output_warehouse_key,shop_code, shop_name, goods_code, goods_name, customer_code, customer_name, output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code, return_reason,vehicle_code,is_deleted,return_num)
+        values (#{outputWarehouseKey},#{shopCode}, #{shopName}, #{goodsCode}, #{goodsName}, #{customerCode}, #{customerName}, #{outputPlan}, #{outputPrice}, #{outputActual}, #{inventoryCode}, #{positionCode}, #{createTime}, #{deadlineTime}, #{status}, #{type}, #{shopPeopleCode}, #{inventoryPeopleCode}, #{returnReason},#{vehicleCode},#{isDeleted},#{returnNum})
     </insert>
 
     <insert id="insertBatch" keyProperty="outputWarehouseKey" useGeneratedKeys="true">
-        insert into output_warehouse(shop_code, shop_name, goods_code, goods_name, customer_code, customer_name, output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code, return_reason,vehicle_code,is_deleted)
+        insert into output_warehouse(shop_code, shop_name, goods_code, goods_name, customer_code, customer_name, output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code, return_reason,vehicle_code,is_deleted,return_num)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.shopCode}, #{entity.shopName}, #{entity.goodsCode}, #{entity.goodsName}, #{entity.customerCode}, #{entity.customerName}, #{entity.outputPlan}, #{entity.outputPrice}, #{entity.outputActual}, #{entity.inventoryCode}, #{entity.positionCode}, #{entity.createTime}, #{entity.deadlineTime}, #{entity.status}, #{entity.type}, #{entity.shopPeopleCode}, #{entity.inventoryPeopleCode}, #{entity.returnReason},#{entity.vehicleCode},#{entity.isDeleted})
+        (#{entity.shopCode}, #{entity.shopName}, #{entity.goodsCode}, #{entity.goodsName}, #{entity.customerCode}, #{entity.customerName}, #{entity.outputPlan}, #{entity.outputPrice}, #{entity.outputActual}, #{entity.inventoryCode}, #{entity.positionCode}, #{entity.createTime}, #{entity.deadlineTime}, #{entity.status}, #{entity.type}, #{entity.shopPeopleCode}, #{entity.inventoryPeopleCode}, #{entity.returnReason},#{entity.vehicleCode},#{entity.isDeleted},#{entity.returnNum})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="outputWarehouseKey" useGeneratedKeys="true">
-        insert into output_warehouse(shop_code, shop_name, goods_code, goods_name, customer_code, customer_name, output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code, return_reason,vehicle_code,is_deleted)
+        insert into output_warehouse(shop_code, shop_name, goods_code, goods_name, customer_code, customer_name, output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code, return_reason,vehicle_code,is_deleted,return_num)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.shopCode}, #{entity.shopName}, #{entity.goodsCode}, #{entity.goodsName}, #{entity.customerCode}, #{entity.customerName}, #{entity.outputPlan}, #{entity.outputPrice}, #{entity.outputActual}, #{entity.inventoryCode}, #{entity.positionCode}, #{entity.createTime}, #{entity.deadlineTime}, #{entity.status}, #{entity.type}, #{entity.shopPeopleCode}, #{entity.inventoryPeopleCode}, #{entity.returnReason},#{entity.vehicleCode},#{entity.isDeleted})
+            (#{entity.shopCode}, #{entity.shopName}, #{entity.goodsCode}, #{entity.goodsName}, #{entity.customerCode}, #{entity.customerName}, #{entity.outputPlan}, #{entity.outputPrice}, #{entity.outputActual}, #{entity.inventoryCode}, #{entity.positionCode}, #{entity.createTime}, #{entity.deadlineTime}, #{entity.status}, #{entity.type}, #{entity.shopPeopleCode}, #{entity.inventoryPeopleCode}, #{entity.returnReason},#{entity.vehicleCode},#{entity.isDeleted},#{entity.returnNum})
         </foreach>
         on duplicate key update
         shop_code = values(shop_code),
@@ -136,6 +137,7 @@
         return_reason = values(return_reason),
         vehicle_code = values(vehicle_code),
         is_deleted = values(is_deleted),
+        return_num=values(return_num)
     </insert>
 
     <!--通过主键修改数据-->
@@ -201,6 +203,9 @@
             </if>
             <if test="isDeleted != null and isDeleted != ''">
                 is_deleted = #{isDeleted},
+            </if>
+            <if test="returnNum != null and returnNum != ''">
+                return_num = #{returnNum},
             </if>
         </set>
         where output_warehouse_key = #{outputWarehouseKey}

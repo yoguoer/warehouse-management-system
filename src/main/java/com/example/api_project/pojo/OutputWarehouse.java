@@ -92,6 +92,18 @@ public class OutputWarehouse implements Serializable {
      * 是否删除
      */
     private Integer isDeleted;
+    /**
+     * 退货数
+     */
+    private Integer returnNum;
+
+    public Integer getReturnNum() {
+        return returnNum;
+    }
+
+    public void setReturnNum(Integer returnNum) {
+        this.returnNum = returnNum;
+    }
 
     public Integer getIsDeleted() {
         return isDeleted;
