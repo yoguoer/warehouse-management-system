@@ -105,7 +105,7 @@
     <!--新增所有列-->
     <insert id="insert" keyProperty="inputWarehouseKey" useGeneratedKeys="true">
         insert into input_warehouse(input_warehouse_key,shop_code, shop_name, goods_code, goods_name, supplier_code, supplier_name, input_plan, input_price, input_actual, inventory_code, position_code, create_time, deadline_time, vehicle_code, status, type, shop_people_code, inventory_people_code, return_reason,is_deleted,return_num)
-        values (#{inputWarehouseKey},#{shopCode}, #{shopName}, #{goodsCode}, #{goodsName}, #{supplierCode}, #{supplierName}, #{inputPlan}, #{inputPrice}, #{inputActual}, #{inventoryCode}, #{positionCode}, #{createTime}, #{deadlineTime}, #{vehicleCode}, #{status}, #{type}, #{shopPeopleCode}, #{inventoryPeopleCode}, #{returnReason},#{isDeleted}.#{returnNum})
+        values (#{inputWarehouseKey},#{shopCode}, #{shopName}, #{goodsCode}, #{goodsName}, #{supplierCode}, #{supplierName}, #{inputPlan}, #{inputPrice}, #{inputActual}, #{inventoryCode}, #{positionCode}, #{createTime}, #{deadlineTime}, #{vehicleCode}, #{status}, #{type}, #{shopPeopleCode}, #{inventoryPeopleCode}, #{returnReason},#{isDeleted},#{returnNum})
     </insert>
 
     <insert id="insertBatch" keyProperty="inputWarehouseKey" useGeneratedKeys="true">
