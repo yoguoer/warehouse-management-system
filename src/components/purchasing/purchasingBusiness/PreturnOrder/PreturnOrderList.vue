@@ -6,12 +6,9 @@
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-status="props">
           <span>{{
-            props.row.status == '0' ? '在单'
-              : (props.row.status == '1' ? '生产'
-                : (props.row.status == '2' ? '在途'
-                  : (props.row.status == '3' ? '入库'
-                    : (props.row.status == '4' ? '占用'
-                      : (props.row.status == '5' ? '出库' : '-')))))
+            props.row.checkStatus == '0' ? '未审批'
+              : (props.row.checkStatus == '1' ? '同意'
+                : (props.row.checkStatus == '2' ? '驳回':"-"))
           }}</span>
         </template>
         <template v-slot:column-type="props">
@@ -25,7 +22,8 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
+          <el-button type="text" style="visibility:hidden"></el-button>
+          <el-button v-if="props.row.checkStatus!=2" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
@@ -36,7 +34,7 @@
 </template>
 
 <script>
-import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList } from "@/api/purchasing";
+import { returnCheckListPage, returnCheckDelete, returnCheckDeleteList } from "@/api/purchasing";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import PreturnOrderEdit from "./PreturnOrderEdit";
@@ -91,13 +89,14 @@ export default {
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
         { prop: "vehicleCode", label: "车辆编码" },
-        { slots: { name: "column-status" }, label: "状态" },
-        { slots: { name: "column-type" }, label: "入库类型" },
-        { slots: { name: "column-createTime" }, label: "预计日期" },
-        { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
+        { prop: "checkNum", label: "退货数" },
+        { prop: "returnReason", label: "退货原因" },
+        { slots: { name: "column-status" }, label: "审批状态" },
+        { prop: "description", label: "审批意见" },
+        // { slots: { name: "column-createTime" }, label: "预计日期" },
+        // { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         { prop: "inventoryPeopleCode", label: "仓库操作员" },
-        { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
@@ -235,15 +234,14 @@ export default {
       let params = {
         page: this.query.pageNo,
         size: this.query.pageSize,
-        shopCode: "",
-        goodsCode: "",
-        supplierCode: "",
-        inventoryCode: "",
-        status: "",
-        type: 1,
-        isDeleted: 0,
+        // shopCode: "",
+        // goodsCode: "",
+        // supplierCode: "",
+        // inventoryCode: "",
+        checkStatus: "",
+        checkType: 0,
       };
-      inputWarehouseListPage(params).then((res) => {
+      returnCheckListPage(params).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
@@ -262,16 +260,16 @@ export default {
         this.query.pageSize = pageSize;
       }
       const searchData = this.$refs.search.search
-      inputWarehouseListPage({
+      returnCheckListPage({
         page: this.query.pageNo,
         size: this.query.pageSize,
-        shopCode: searchData.shopCode,
-        goodsCode: searchData.goodsCode,
-        supplierCode: searchData.supplierCode,
-        inventoryCode: searchData.inventoryCode,
-        status:  "",
-        isDeleted: 0,
-        type: 1
+        // shopCode: searchData.shopCode,
+        // goodsCode: searchData.goodsCode,
+        // supplierCode: searchData.supplierCode,
+        // inventoryCode: searchData.inventoryCode,
+        checkStatus:  "",
+        // isDeleted: 0,
+        checkType: 0,
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
@@ -291,7 +289,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      inputWarehouseDelete({ isDeleted:0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+      returnCheckDelete({ returnCheckKey: row.returnCheckKey }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -319,17 +317,17 @@ export default {
     },
     handleDeleteList() {
       if (this.multipleSelection.length > 0) {
-        let inputWarehouseKeys = [];
+        let returnCheckKeys = [];
         this.multipleSelection.forEach(item => {
-          inputWarehouseKeys.push({ isDeleted:0, inputWarehouseKey: item.inputWarehouseKey })
+          returnCheckKeys.push({ returnCheckKey: item.returnCheckKey })
         })
-        console.log(inputWarehouseKeys);
+        console.log(returnCheckKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          inputWarehouseDeleteList(inputWarehouseKeys).then(() => {
+          returnCheckDeleteList(returnCheckKeys).then(() => {
             this.getTableData();
             this.$message({
               type: 'success',

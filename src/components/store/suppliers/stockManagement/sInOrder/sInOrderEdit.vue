@@ -4,7 +4,7 @@
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-row>
         <el-col :span="10">
-          <el-form-item label="门店" prop="shopCode"> 
+          <el-form-item label="门店" prop="shopCode">
             <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable disabled
               ref="selection">
               <el-option @click.native="setShopName" v-for="item in shopOptions" :key="item.shopKey"
@@ -15,8 +15,8 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="商品" prop="goodsCode">
-            <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable disabled
-              ref="goodsSelect">
+            <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable
+              disabled ref="goodsSelect">
               <el-option @click.native="setGoodsName" v-for="item in goodsOptions" :key="item.goodsCode"
                 :label="item.goodsName" :value="item.goodsCode">
               </el-option>
@@ -28,8 +28,8 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="供应商" prop="supplierCode">
-            <el-select size="middle" v-model="ruleForm.supplierCode" placeholder="供应商" style="width:100%;" clearable disabled
-              ref="supplierSelect">
+            <el-select size="middle" v-model="ruleForm.supplierCode" placeholder="供应商" style="width:100%;" clearable
+              disabled ref="supplierSelect">
               <el-option @click.native="setSupplierName" v-for="item in supplierOptions" :key="item.supplierKey"
                 :label="item.supplierName" :value="item.supplierCode">
               </el-option>
@@ -38,8 +38,8 @@
         </el-col>
         <el-col :span="10">
           <span style="margin-left: 8%;">起止日期</span>
-          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right" disabled
-            size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
+          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right"
+            disabled size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
             :picker-options="pickerOptions" @click.native="setTime" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-col>
@@ -63,15 +63,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="接收状态" prop="status">
+          <el-form-item label="退货数" prop="returnNum" v-if="ruleForm.type == 1">
+            <el-input v-model="ruleForm.returnNum" clearable placeholder="退货数"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
+          <el-form-item label="接收状态" prop="status"  v-if="ruleForm.status <3">
             <el-select size="middle" v-model="ruleForm.status" placeholder="接收状态" style="width:100%;" clearable>
-              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
+              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="10">
           <el-form-item label="车辆" prop="vehicleCode" v-if="ruleForm.status == 2">
             <el-select size="middle" v-model="ruleForm.vehicleCode" placeholder="车辆" style="width:100%;" clearable>
@@ -81,9 +84,12 @@
             </el-select>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="10">
           <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 1">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货入库原因" type="textarea" disabled></el-input>
+            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货入库原因" type="textarea"
+              disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -98,7 +104,7 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
-import { shoplist, goodslist, inventorylist, Supplierlist, positionList,vehicleList } from '@/api/data'
+import { shoplist, goodslist, inventorylist, Supplierlist, positionList, vehicleList } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 
@@ -129,22 +135,20 @@ export default {
         shopPeopleCode: "",
         inventoryPeopleCode: "",
         returnReason: "",
-        isDeleted:""
+        isDeleted: "",
+        returnNum: ""
       },
       shopOptions: [],
       goodsOptions: [],
       positionOptions: [],
       supplierOptions: [],
       inventoryOptions: [],
-      vehicleOptions:[],
+      vehicleOptions: [],
       // userOptions:[],
       statusOptions: [
-        { label: "在单", value: 0,disabled:false },
-        { label: "生产", value: 1,disabled:false },
-        { label: "在途", value: 2,disabled:false },
-        { label: "入库", value: 3,disabled:true },
-        { label: "占用", value: 4,disabled:true },
-        { label: "出库", value: 5,disabled:true },],
+        { label: "在单", value: 0, disabled: false },
+        { label: "生产", value: 1, disabled: false },
+        { label: "在途", value: 2, disabled: false }],
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -225,8 +229,9 @@ export default {
       this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
-      this.ruleForm.isDeleted=this.rowData.isDeleted
+      this.ruleForm.isDeleted = this.rowData.isDeleted
       this.ruleForm.returnReason = this.rowData.returnReason
+      this.ruleForm.returnNum = this.rowData.returnNum
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -358,7 +363,8 @@ export default {
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
-            isDeleted:this.ruleForm.isDeleted,
+            returnNum: this.ruleForm.returnNum,
+            isDeleted: this.ruleForm.isDeleted,
             inputWarehouseKey: this.ruleForm.inputWarehouseKey
           }
           inputWarehouseUpdate(data).then(res => {
@@ -379,6 +385,7 @@ export default {
     create(formName) {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
+      this.ruleForm.deadlineTime = this.value2[1]
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = {
@@ -397,11 +404,12 @@ export default {
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
             status: this.ruleForm.status,
-            isDeleted:this.ruleForm.isDeleted,
+            isDeleted: this.ruleForm.isDeleted,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
-            returnReason: this.ruleForm.returnReason
+            returnReason: this.ruleForm.returnReason,
+            returnNum: this.ruleForm.returnNum
           }
           inputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {

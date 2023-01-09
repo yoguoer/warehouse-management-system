@@ -71,45 +71,58 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
+          <el-form-item label="出库类型" prop="type">
+            <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable disabled>
+              <el-option label="零售出库" :value="0"></el-option>
+              <el-option label="客户订购单" :value="1"></el-option>
+              <el-option label="销售退货单" :value="2"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="10">
           <span style="margin-left: 8%;">起止日期</span>
           <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right"
             disabled size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
             :picker-options="pickerOptions" @click.native="setTime" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
-            <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;"
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" disabled
               clearable>
               <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="10">
-          <!-- <el-form-item label="出库类型" prop="type">
-            <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable disabled>
-              <el-option label="零售出库" :value="0"></el-option>
-              <el-option label="客户订购出库" :value="1"></el-option>
-              <el-option label="退货出库" :value="2"></el-option>
-            </el-select>
-          </el-form-item> -->
-          <el-form-item label="状态" prop="status">
-            <el-select size="middle" v-model="ruleForm.status" placeholder="状态" style="width:100%;" clearable>
-              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
+          <el-form-item label="仓库操作员" prop="inventoryPeopleCode">
+            <el-select size="middle" v-model="ruleForm.inventoryPeopleCode" placeholder="仓库操作员" style="width:100%;"
+              clearable>
+              <el-option v-for="item in userOptions1" :key="item.userId" :label="item.userName" :value="item.userCode">
               </el-option>
             </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
+          <el-form-item label="实际数" prop="inputActual">
+            <el-input v-model="ruleForm.inputActual" clearable placeholder="实际数"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
+          <el-form-item label="退货数" prop="returnNum">
+            <el-input v-model="ruleForm.returnNum" clearable placeholder="退货数"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
           <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 2">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货出库原因" type="textarea"
-              disabled></el-input>
+            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货出库原因" type="textarea"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -154,7 +167,8 @@ export default {
         shopPeopleCode: "",
         inventoryPeopleCode: "",
         returnReason: "",
-        isDeleted:"",
+        returnNum: "",
+        isDeleted: "",
       },
       shopOptions: [],
       goodsOptions: [],
@@ -162,6 +176,7 @@ export default {
       customerOptions: [],
       inventoryOptions: [],
       userOptions: [],
+      userOptions1: [],
       statusOptions: [
         // { label: "在单", value: 0 },
         // { label: "生产", value: 1 },
@@ -222,6 +237,9 @@ export default {
         returnReason: [
           { required: true, message: '请设置退货原因', trigger: 'blur' },
         ],
+        returnNum: [
+          { required: true, message: '请设置退货数', trigger: 'blur' },
+        ],
       }
     }
   },
@@ -262,7 +280,8 @@ export default {
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.returnReason = this.rowData.returnReason
-      this.ruleForm.isDeleted=this.rowData.isDeleted
+      this.ruleForm.returnNum = this.rowData.returnNum
+      this.ruleForm.isDeleted = this.rowData.isDeleted
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -272,6 +291,12 @@ export default {
     getUserList() {
       UserList({ userType: 2 }).then(res => {
         this.userOptions = res.data.data
+        this.$forceUpdate()
+      }).catch(err => {
+        console.log(err)
+      });
+      UserList({ userType: 1 }).then(res => {
+        this.userOptions1 = res.data.data
         this.$forceUpdate()
       }).catch(err => {
         console.log(err)
@@ -363,7 +388,7 @@ export default {
             customerCode: this.ruleForm.customerCode,
             customerName: this.ruleForm.customerName,
             outputPlan: this.ruleForm.outputPlan,
-            isDeleted:this.ruleForm.isDeleted,
+            isDeleted: this.ruleForm.isDeleted,
             outputPrice: this.ruleForm.outputPrice,
             outputActual: this.ruleForm.outputActual,
             inventoryCode: this.ruleForm.inventoryCode,
@@ -376,6 +401,7 @@ export default {
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
+            returnNum: this.ruleForm.returnNum,
             outputWarehouseKey: this.ruleForm.outputWarehouseKey
           }
           outputWarehouseUpdate(data).then(res => {
@@ -407,7 +433,7 @@ export default {
             customerName: this.ruleForm.customerName,
             outputPlan: this.ruleForm.outputPlan,
             outputPrice: this.ruleForm.outputPrice,
-            isDeleted:this.ruleForm.isDeleted,
+            isDeleted: this.ruleForm.isDeleted,
             outputActual: this.ruleForm.outputActual,
             inventoryCode: this.ruleForm.inventoryCode,
             positionCode: this.ruleForm.positionCode,
@@ -418,7 +444,8 @@ export default {
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
-            returnReason: this.ruleForm.returnReason
+            returnReason: this.ruleForm.returnReason,
+            returnNum: this.ruleForm.returnNum
           }
           outputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {

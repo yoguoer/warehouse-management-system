@@ -247,7 +247,7 @@ export default {
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
-            if(item.status<3){
+            if(item.status<2){
               this.tableData.push(item)
             }
           })
@@ -283,7 +283,7 @@ export default {
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
-            if(item.status<3){
+            if(item.status<2){
               this.tableData.push(item)
             }
           })

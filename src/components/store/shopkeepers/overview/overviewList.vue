@@ -7,6 +7,9 @@
         <template v-slot:column-time="props">
           <span>{{ props.row.operateTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
+        <template v-slot:column-ok="props">
+          <span>{{  ((props.row.accountNum-props.row.rejectsNum)/props.row.accountNum).toFixed(2)*100 }}%</span>
+        </template>
         <template v-slot:column-todo="props">
           <el-button @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
@@ -63,9 +66,11 @@ export default {
         { prop: "onwayNum", label: "在途数" },
         { prop: "occupyNum", label: "占用数" },
         { prop: "availableNum", label: "可用数" },
+        { prop: "rejectsNum", label: "残品数" },
+        { slots: { name: "column-ok" }, label: "合格率"},
         { slots: { name: "column-time" }, label: "最后操作时间"},
         { prop: "description", label: "备注" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right" },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right",width:"150px" },
       ];
     },
     searchConfig() {

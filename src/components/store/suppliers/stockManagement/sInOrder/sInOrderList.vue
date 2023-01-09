@@ -8,7 +8,7 @@
           <span>{{
             props.row.status == '0' ? '在单'
               : (props.row.status == '1' ? '生产'
-                : (props.row.status == '2' ? '在途': '已被接收'))
+                : (props.row.status == '2' ? '在途' : '-'))
           }}</span>
         </template>
         <template v-slot:column-type="props">
@@ -22,7 +22,8 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="props.row.type == 1" @click="editRow(props.row)" type="text">处理退货</el-button>
+          <el-button type="text" style="visibility:hidden"></el-button>
+          <el-button v-if="props.row.type == 1 && props.row.status!=6" @click="editRow(props.row)" type="text">处理退货</el-button>
           <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
             type="text">接收订单</el-button>
           <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
@@ -30,7 +31,7 @@
         </template>
       </TableList>
     </div>
-    <stockManagementEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
+    <sInOrderEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
       @success="success()" />
   </div>
 </template>
@@ -39,7 +40,7 @@
 import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList } from "@/api/purchasing";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import stockManagementEdit from "./stockManagementEdit";
+import sInOrderEdit from "./sInOrderEdit";
 import { shoplist, goodslist, inventorylist, Supplierlist } from '@/api/data'
 
 export default {
@@ -95,6 +96,7 @@ export default {
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         // { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
+        { prop: "returnNum", label: "退货数" },
         { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
       ];
@@ -156,7 +158,7 @@ export default {
   },
   components: {
     TableList,
-    stockManagementEdit,
+    sInOrderEdit,
     reloadAndsearch
   },
   created() {
@@ -247,7 +249,7 @@ export default {
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
-            if(item.status<2||item.type==1){
+            if(item.status<2||(item.type==1)){
               this.tableData.push(item)
             }
           })
@@ -283,7 +285,7 @@ export default {
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
-            if(item.status<2||item.type==1){
+            if(item.status<2||(item.type==1)){
               this.tableData.push(item)
             }
           })

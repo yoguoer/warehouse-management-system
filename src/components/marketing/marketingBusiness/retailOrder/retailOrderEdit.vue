@@ -72,12 +72,12 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="出库类型" prop="type">
-            <!-- <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable>
+            <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable>
               <el-option label="零售出库" :value="0"></el-option>
-              <el-option label="客户订购单" :value="1"></el-option>
+              <!-- <el-option label="客户订购单" :value="1"></el-option> -->
               <el-option label="销售退货单" :value="2"></el-option>
-            </el-select> -->
-            <el-input value="零售出库" clearable placeholder="出库类型" disabled></el-input>
+            </el-select>
+            <!-- <el-input value="零售出库" clearable placeholder="出库类型" disabled></el-input> -->
           </el-form-item>
         </el-col>
       </el-row>
@@ -147,11 +147,12 @@ export default {
         deadlineTime: "",
         vehicleCode: "",
         status: 5,
-        type: 0,
+        type: "",
         shopPeopleCode: "",
         inventoryPeopleCode: "",
         returnReason: "",
-        isDeleted:""
+        isDeleted:"",
+        returnNum:""
       },
       shopOptions: [],
       goodsOptions: [],
@@ -245,11 +246,12 @@ export default {
       this.ruleForm.deadlineTime = this.rowData.deadlineTime
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
       // this.ruleForm.status = this.rowData.status
-      // this.ruleForm.type = this.rowData.type
+      this.ruleForm.type = this.rowData.type
       this.ruleForm.isDeleted=this.rowData.isDeleted
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.returnReason = this.rowData.returnReason
+      this.ruleForm.returnNum=this.rowData.returnNum
       // this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -374,6 +376,7 @@ export default {
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
+            returnNum:this.ruleForm.returnNum,
             outputWarehouseKey: this.ruleForm.outputWarehouseKey
           }
           outputWarehouseUpdate(data).then(res => {
@@ -417,6 +420,7 @@ export default {
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
+            returnNum:this.ruleForm.returnNum,
             returnReason: this.ruleForm.returnReason
           }
           outputWarehouseAdd(data).then(res => {

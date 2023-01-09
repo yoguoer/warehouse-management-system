@@ -63,6 +63,11 @@
       </el-row>
       <el-row>
         <el-col :span="10">
+          <el-form-item label="残品数" prop="rejectsNum">
+            <el-input v-model="ruleForm.rejectsNum" clearable placeholder="残品数"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
           <el-form-item label="备注" prop="description">
             <el-input v-model="ruleForm.description" clearable placeholder="备注" type="textarea"></el-input>
           </el-form-item>
@@ -97,6 +102,7 @@ export default {
         accountNum: "",
         occupyNum: "",
         availableNum: "",
+        rejectsNum:"",
         description: "",
         shopkeeperWarehouseKey: "",
         onwayNum:"",
@@ -152,6 +158,7 @@ export default {
       this.ruleForm.accountNum = this.rowData.accountNum
       this.ruleForm.occupyNum = this.rowData.occupyNum
       this.ruleForm.availableNum = this.rowData.availableNum
+      this.ruleForm.rejectsNum=this.rowData.rejectsNum
       this.ruleForm.description = this.rowData.description
       this.ruleForm.shopkeeperWarehouseKey = this.rowData.shopkeeperWarehouseKey
       this.ruleForm.onwayNum=this.rowData.onwayNum
@@ -240,6 +247,7 @@ export default {
             accountNum: this.ruleForm.accountNum,
             occupyNum: this.ruleForm.occupyNum,
             availableNum: this.ruleForm.availableNum,
+            rejectsNum:this.ruleForm.rejectsNum,
             description: this.ruleForm.description,
             onwayNum:this.ruleForm.onwayNum
           }
