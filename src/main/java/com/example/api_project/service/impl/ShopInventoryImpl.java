@@ -86,7 +86,7 @@ public class ShopInventoryImpl implements ShopInventoryService {
      * @return 实例对象
      */
     @Override
-    public ShopInventory queryByshopCode(ShopInventory ShopInventory) {
+    public List<ShopInventory> queryByshopCode(ShopInventory ShopInventory) {
         String shopCode=ShopInventory.getShopCode();
         return this.ShopInventoryMapper.getByshopCode(shopCode);
     }

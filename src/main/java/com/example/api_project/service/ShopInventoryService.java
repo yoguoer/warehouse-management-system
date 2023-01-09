@@ -33,7 +33,7 @@ public interface ShopInventoryService {
      *
      * @return 实例对象
      */
-    ShopInventory queryByshopCode(ShopInventory ShopInventory);
+    List<ShopInventory> queryByshopCode(ShopInventory ShopInventory);
 
     /**
      * 修改数据

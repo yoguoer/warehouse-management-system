@@ -34,10 +34,9 @@
                inventory.district,
                inventory.detail
         from shop join inventory on shop.shop_key=inventory.belong_key
-        where shop.shop_code = #{shopCode}
     </select>
 
-    <!--查询单个(shopCode)-->
+    <!--查询(shopCode)-->
     <select id="getByshopCode" resultMap="ShopInventoryMap">
         select shop.shop_key,
                shop.shop_code,
@@ -53,7 +52,11 @@
                inventory.district,
                inventory.detail
         from shop join inventory on shop.shop_key=inventory.belong_key
-        where shop.shop_code = #{shopCode}
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop.shop_code = #{shopCode}
+            </if>
+        </where>
     </select>
 
     <!--查询单个-->

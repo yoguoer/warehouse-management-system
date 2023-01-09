@@ -16,7 +16,7 @@ public interface ShopInventoryMapper {
      * @param shopCode
      * @return 实例对象
      */
-    ShopInventory getByshopCode(String shopCode);
+    List<ShopInventory> getByshopCode(String shopCode);
 
     /**
      * 查询指全部数据
