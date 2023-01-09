@@ -38,7 +38,7 @@ import { returnCheckListPage, returnCheckDelete, returnCheckDeleteList } from "@
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import sReturnEdit from "./sReturnEdit";
-import { shoplist, goodslist, inventorylist, Supplierlist } from '@/api/data'
+import { shoplist, goodslist, Supplierlist } from '@/api/data'
 
 export default {
   name: "slist",
@@ -61,15 +61,11 @@ export default {
       multiCheck:false,
       shopOptions: [],
       goodsOptions: [],
-      inventoryOptions: [],
       supplierOptions: [],
-      // statusOptions: [
-      //   { label: "在单", value: 0 },
-      //   { label: "生产", value: 1 },
-      //   { label: "在途", value: 2 },
-      //   { label: "入库", value: 3 },
-      //   { label: "占用", value: 4 },
-      //   { label: "出库", value: 5 }],
+      statusOptions: [
+        { label: "未审批", value: 0 },
+        { label: "同意", value: 1 },
+        { label: "驳回", value: 2 },],
       //   typeOptions:[
       //     {label:"采购入库",value:0},
       //     {label:"调货入库",value:1}]
@@ -104,46 +100,38 @@ export default {
     },
     searchConfig() {
       return [
-        {
-          label: '请选择',
-          placeholder: '请选择门店',
-          field: 'shopCode',
-          value: '',
-          type: "select",
-          options: this.shopOptions
-        },
-        {
-          label: '请选择',
-          placeholder: '请选择商品',
-          field: 'goodsCode',
-          value: '',
-          type: "select",
-          options: this.goodsOptions
-        },
-        {
-          label: '请选择',
-          placeholder: '请选择仓库',
-          field: 'inventoryCode',
-          value: '',
-          type: "select",
-          options: this.inventoryOptions
-        },
-        {
-          label: '请选择',
-          placeholder: '请选择供应商',
-          field: 'supplierCode',
-          value: '',
-          type: "select",
-          options: this.supplierOptions
-        },
         // {
         //   label: '请选择',
-        //   placeholder: '请选择状态',
-        //   field: 'status',
+        //   placeholder: '请选择门店',
+        //   field: 'shopCode',
         //   value: '',
         //   type: "select",
-        //   options: this.statusOptions
+        //   options: this.shopOptions
         // },
+        // {
+        //   label: '请选择',
+        //   placeholder: '请选择商品',
+        //   field: 'goodsCode',
+        //   value: '',
+        //   type: "select",
+        //   options: this.goodsOptions
+        // },
+        // {
+        //   label: '请选择',
+        //   placeholder: '请选择供应商',
+        //   field: 'supplierCode',
+        //   value: '',
+        //   type: "select",
+        //   options: this.supplierOptions
+        // },
+        {
+          label: '请选择',
+          placeholder: '请选择审批状态',
+          field: 'checkStatus',
+          value: '',
+          type: "select",
+          options: this.statusOptions
+        },
         // {
         //   label: '请选择',
         //   placeholder: '请选择类型',
@@ -183,24 +171,6 @@ export default {
           this.$message.error("获取失败!");
         }
       });
-    },
-    getinventorylist() {
-      inventorylist()
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.inventoryOptions = []
-            res.data.data.forEach(item => {
-              if (item.inventoryType == '2' && item.belongKey != null || item.belongKey != "") {
-                this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
-              }
-            });
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
     },
     getshoplist() {
       shoplist().then(res => {
@@ -269,7 +239,7 @@ export default {
         // goodsCode: searchData.goodsCode,
         // supplierCode: searchData.supplierCode,
         // inventoryCode: searchData.inventoryCode,
-        checkStatus:  "",
+        checkStatus:  searchData.checkStatus,
         // isDeleted: 0,
         checkType: 0,
       }).then((res) => {

@@ -153,7 +153,7 @@
 <script>
 import { returnCheckUpdate, returnCheckAdd,inputWarehouseUpdate } from '@/api/purchasing'
 import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
-import { ShopInventoryList } from '@/api/warehouse'
+import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import moment from 'moment'
 
@@ -272,7 +272,6 @@ export default {
     this.getgoodslist()
     this.getSupplierlist()
     this.getUserList()
-    // this.getinventorylist();
     if (this.rowData.inputWarehouseKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.returnCheckKey = this.rowData.returnCheckKey
@@ -304,6 +303,7 @@ export default {
     } else {
       this.ifCreate = true
     }
+    this.getInventoryByshopCode()
   },
   methods: {
     getUserList() {
@@ -347,31 +347,19 @@ export default {
         }
       });
     },
-    getShopInventoryList(item) {
-      ShopInventoryList({ shopCode: item }).then(res => {
+    getInventoryByshopCode() {
+      getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
         if (res.data.code == 200) {
           this.inventoryOptions = res.data.data
+          this.getpositionList()
         } else {
           this.$message.error("获取失败!");
         }
       });
     },
-    // getinventorylist() {
-    //   inventorylist()
-    //     .then((res) => {
-    //       if (res.data.code === 200) {
-    //         this.inventoryOptions = res.data.data
-    //       } else {
-    //         this.$message.error(res.msg);
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // },
     setShopName() {
       // console.log(this.$refs.selection.selectedLabel)
-      this.getShopInventoryList(this.ruleForm.shopCode)
+      this.getInventoryByshopCode()
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
     },
     setSupplierName() {
@@ -382,22 +370,18 @@ export default {
       // console.log(this.$refs.goodsSelect.selectedLabel)
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
     },
-    setPosition() {
-      // console.log(this.$refs.inventorySelect.selectedLabel)
-      this.ruleForm.inventoryName = this.$refs.inventorySelect.selectedLabel
-      let choosenItem = this.inventoryOptions.filter(item => {
-        return item.inventoryCode == this.ruleForm.inventoryCode
-      });
-      this.getpositionList(choosenItem[0].inventoryKey)
-    },
-    getpositionList(inventoryKey) {
-      positionList({ inventoryKey: inventoryKey }).then(res => {
-        if (res.data.code == 200) {
-          this.positionOptions = res.data.data
-        } else {
-          this.$message.error("获取失败!");
+    getpositionList() {
+      this.inventoryOptions.forEach(item => {
+        if (item.inventoryCode == this.ruleForm.inventoryCode) {
+          positionList({ inventoryKey: item.inventoryKey }).then(res => {
+            if (res.data.code == 200) {
+              this.positionOptions = res.data.data
+            } else {
+              this.$message.error("获取失败!");
+            }
+          });
         }
-      });
+      })
     },
     setTime() {
       this.ruleForm.createTime = this.value2[0]

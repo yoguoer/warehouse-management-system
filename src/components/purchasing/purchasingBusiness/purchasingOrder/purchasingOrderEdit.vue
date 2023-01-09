@@ -114,7 +114,7 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
-import { shoplist, goodslist, inventorylist, Supplierlist, positionList } from '@/api/data'
+import { shoplist, goodslist, Supplierlist } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 
@@ -220,7 +220,6 @@ export default {
     this.getgoodslist()
     this.getSupplierlist()
     this.getUserList()
-    // this.getinventorylist();
     if (this.rowData.inputWarehouseKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -284,30 +283,7 @@ export default {
         }
       });
     },
-    getShopInventoryList(item) {
-      ShopInventoryList({ shopCode: item }).then(res => {
-        if (res.data.code == 200) {
-          this.inventoryOptions = res.data.data
-        } else {
-          this.$message.error("获取失败!");
-        }
-      });
-    },
-    // getinventorylist() {
-    //   inventorylist()
-    //     .then((res) => {
-    //       if (res.data.code === 200) {
-    //         this.inventoryOptions = res.data.data
-    //       } else {
-    //         this.$message.error(res.msg);
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // },
     setShopName() {
-      this.getShopInventoryList(this.ruleForm.shopCode)
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
     },
     setSupplierName() {
@@ -316,22 +292,7 @@ export default {
     setGoodsName() {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
     },
-    setPosition() {
-      this.ruleForm.inventoryName = this.$refs.inventorySelect.selectedLabel
-      let choosenItem = this.inventoryOptions.filter(item => {
-        return item.inventoryCode == this.ruleForm.inventoryCode
-      });
-      this.getpositionList(choosenItem[0].inventoryKey)
-    },
-    getpositionList(inventoryKey) {
-      positionList({ inventoryKey: inventoryKey }).then(res => {
-        if (res.data.code == 200) {
-          this.positionOptions = res.data.data
-        } else {
-          this.$message.error("获取失败!");
-        }
-      });
-    },
+   
     setTime() {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]

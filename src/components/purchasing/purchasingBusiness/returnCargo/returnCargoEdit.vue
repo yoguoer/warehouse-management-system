@@ -16,8 +16,8 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="商品" prop="goodsCode">
-            <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable disabled
-              ref="goodsSelect">
+            <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable
+              disabled ref="goodsSelect">
               <el-option @click.native="setGoodsName" v-for="item in goodsOptions" :key="item.goodsCode"
                 :label="item.goodsName" :value="item.goodsCode">
               </el-option>
@@ -28,8 +28,8 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="供应商" prop="supplierCode">
-            <el-select size="middle" v-model="ruleForm.supplierCode" placeholder="供应商" style="width:100%;" clearable disabled
-              ref="supplierSelect">
+            <el-select size="middle" v-model="ruleForm.supplierCode" placeholder="供应商" style="width:100%;" clearable
+              disabled ref="supplierSelect">
               <el-option @click.native="setSupplierName" v-for="item in supplierOptions" :key="item.supplierKey"
                 :label="item.supplierName" :value="item.supplierCode">
               </el-option>
@@ -61,17 +61,17 @@
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
             <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable disabled>
-              <el-option v-for="item in userOptions" :key="item.userId"
-                :label="item.userName" :value="item.userCode">
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable
+              disabled>
+              <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <span style="margin-left: 8%;">起止日期</span>
-          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right" disabled
-            size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
+          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right"
+            disabled size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
             :picker-options="pickerOptions" @click.native="setTime" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-col>
@@ -129,8 +129,8 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
-import { shoplist, goodslist, Supplierlist, positionList,inventorylist } from '@/api/data'
-import { ShopInventoryList } from '@/api/warehouse'
+import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
+import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 
 export default {
@@ -158,7 +158,7 @@ export default {
         status: 3,
         type: 0,
         shopPeopleCode: "",
-        isDeleted:"",
+        isDeleted: "",
         inventoryPeopleCode: "",
         returnReason: ""
       },
@@ -167,8 +167,8 @@ export default {
       positionOptions: [],
       supplierOptions: [],
       inventoryOptions: [],
-      userOptions:[],
-      userOptions1:[],
+      userOptions: [],
+      userOptions1: [],
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -242,7 +242,6 @@ export default {
     this.getgoodslist()
     this.getSupplierlist()
     this.getUserList()
-    this.getinventorylist();
     if (this.rowData.inputWarehouseKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -263,16 +262,17 @@ export default {
       // this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
-      this.ruleForm.isDeleted=this.rowData.isDeleted
+      this.ruleForm.isDeleted = this.rowData.isDeleted
       this.ruleForm.returnReason = this.rowData.returnReason
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
     }
+    this.getInventoryByshopCode()
   },
   methods: {
     getUserList() {
-      UserList({userType: 2}).then(res => {
+      UserList({ userType: 2 }).then(res => {
         this.userOptions = res.data.data
         this.$forceUpdate()
       }).catch(err => {
@@ -312,31 +312,19 @@ export default {
         }
       });
     },
-    getShopInventoryList(item) {
-      ShopInventoryList({ shopCode: item }).then(res => {
+    getInventoryByshopCode() {
+      getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
         if (res.data.code == 200) {
           this.inventoryOptions = res.data.data
+          this.getpositionList()
         } else {
           this.$message.error("获取失败!");
         }
       });
     },
-    getinventorylist() {
-      inventorylist()
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.inventoryOptions = res.data.data
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
     setShopName() {
       // console.log(this.$refs.selection.selectedLabel)
-      this.getShopInventoryList(this.ruleForm.shopCode)
+      this.getInventoryByshopCode()
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
     },
     setSupplierName() {
@@ -347,22 +335,18 @@ export default {
       // console.log(this.$refs.goodsSelect.selectedLabel)
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
     },
-    setPosition() {
-      // console.log(this.$refs.inventorySelect.selectedLabel)
-      this.ruleForm.inventoryName = this.$refs.inventorySelect.selectedLabel
-      let choosenItem = this.inventoryOptions.filter(item => {
-        return item.inventoryCode == this.ruleForm.inventoryCode
-      });
-      this.getpositionList(choosenItem[0].inventoryKey)
-    },
-    getpositionList(inventoryKey) {
-      positionList({ inventoryKey: inventoryKey }).then(res => {
-        if (res.data.code == 200) {
-          this.positionOptions = res.data.data
-        } else {
-          this.$message.error("获取失败!");
+    getpositionList() {
+      this.inventoryOptions.forEach(item => {
+        if (item.inventoryCode == this.ruleForm.inventoryCode) {
+          positionList({ inventoryKey: item.inventoryKey }).then(res => {
+            if (res.data.code == 200) {
+              this.positionOptions = res.data.data
+            } else {
+              this.$message.error("获取失败!");
+            }
+          });
         }
-      });
+      })
     },
     setTime() {
       this.ruleForm.createTime = this.value2[0]
@@ -382,7 +366,7 @@ export default {
             shopName: this.ruleForm.shopName,
             goodsCode: this.ruleForm.goodsCode,
             goodsName: this.ruleForm.goodsName,
-            isDeleted:this.ruleForm.isDeleted,
+            isDeleted: this.ruleForm.isDeleted,
             supplierCode: this.ruleForm.supplierCode,
             supplierName: this.ruleForm.supplierName,
             inputPlan: this.ruleForm.inputPlan,
@@ -431,7 +415,7 @@ export default {
             inputPrice: this.ruleForm.inputPrice,
             inputActual: this.ruleForm.inputActual,
             inventoryCode: this.ruleForm.inventoryCode,
-            isDeleted:this.ruleForm.isDeleted,
+            isDeleted: this.ruleForm.isDeleted,
             positionCode: this.ruleForm.positionCode,
             createTime: this.ruleForm.createTime,
             deadlineTime: this.ruleForm.deadlineTime,

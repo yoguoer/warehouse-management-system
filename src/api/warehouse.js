@@ -51,7 +51,7 @@ return request({
 }
 
 //********************************零售商**************************************************** */
-//查询零售商仓库（shopKey）
+//查询零售商仓库（getByshopCode）
 export function getByshopCode(data) {
     return request({
         url: baseUrl + "/ShopInventory/getByshopCode",

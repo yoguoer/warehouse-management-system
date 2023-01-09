@@ -1,8 +1,8 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden"/>
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-status="props">
           <span>{{
@@ -38,7 +38,8 @@ import { returnCheckListPage, returnCheckDelete, returnCheckDeleteList } from "@
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import PreturnOrderEdit from "./PreturnOrderEdit";
-import { shoplist, goodslist, inventorylist, Supplierlist } from '@/api/data'
+import { shoplist, goodslist, Supplierlist } from '@/api/data'
+import { ShopInventoryList } from '@/api/warehouse'
 
 export default {
   name: "slist",
@@ -58,17 +59,11 @@ export default {
       },
       userType: "",
       hidden:true,
+      multiCheck:false,
       shopOptions: [],
       goodsOptions: [],
       inventoryOptions: [],
       supplierOptions: [],
-      // statusOptions: [
-      //   { label: "在单", value: 0 },
-      //   { label: "生产", value: 1 },
-      //   { label: "在途", value: 2 },
-      //   { label: "入库", value: 3 },
-      //   { label: "占用", value: 4 },
-      //   { label: "出库", value: 5 }],
       //   typeOptions:[
       //     {label:"采购入库",value:0},
       //     {label:"调货入库",value:1}]
@@ -136,14 +131,6 @@ export default {
         },
         // {
         //   label: '请选择',
-        //   placeholder: '请选择状态',
-        //   field: 'status',
-        //   value: '',
-        //   type: "select",
-        //   options: this.statusOptions
-        // },
-        // {
-        //   label: '请选择',
         //   placeholder: '请选择类型',
         //   field: 'type',
         //   value: '',
@@ -164,7 +151,7 @@ export default {
     this.getshoplist()
     this.getgoodslist()
     this.getSupplierlist()
-    this.getinventorylist();
+    this.getShopInventoryList()
     let user = JSON.parse(localStorage.getItem("userInfo"))
     this.userType = user.userType
   },
@@ -182,23 +169,17 @@ export default {
         }
       });
     },
-    getinventorylist() {
-      inventorylist()
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.inventoryOptions = []
-            res.data.data.forEach(item => {
-              if (item.inventoryType == '2' && item.belongKey != null || item.belongKey != "") {
-                this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
-              }
-            });
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    getShopInventoryList(){
+      ShopInventoryList().then(res => {
+        if (res.data.code == 200) {
+          this.inventoryOptions = []
+          res.data.data.forEach(item => {
+            this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
+          });
+        } else {
+          this.$message.error("获取失败!");
+        }
+      })
     },
     getshoplist() {
       shoplist().then(res => {

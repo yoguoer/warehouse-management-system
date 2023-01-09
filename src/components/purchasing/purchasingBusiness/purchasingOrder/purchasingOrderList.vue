@@ -26,7 +26,7 @@
         </template>
         <template v-slot:column-todo="props">
           <el-button v-if="props.row.status==0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
-          <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
+          <el-button v-if="props.row.status==0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
@@ -41,7 +41,7 @@ import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList 
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import purchasingOrderEdit from "./purchasingOrderEdit";
-import { shoplist, goodslist, inventorylist, Supplierlist } from '@/api/data'
+import { shoplist, goodslist, Supplierlist } from '@/api/data'
 
 export default {
   name: "slist",
@@ -165,7 +165,6 @@ export default {
     this.getshoplist()
     this.getgoodslist()
     this.getSupplierlist()
-    // this.getinventorylist();
     let user = JSON.parse(localStorage.getItem("userInfo"))
     this.userType = user.userType
   },
@@ -183,24 +182,6 @@ export default {
         }
       });
     },
-    // getinventorylist() {
-    //   inventorylist()
-    //     .then((res) => {
-    //       if (res.data.code === 200) {
-    //         this.inventoryOptions = []
-    //         res.data.data.forEach(item => {
-    //           if (item.inventoryType == '2' && item.belongKey != null || item.belongKey != "") {
-    //             this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
-    //           }
-    //         });
-    //       } else {
-    //         this.$message.error(res.msg);
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // },
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {

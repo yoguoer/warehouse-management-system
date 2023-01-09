@@ -1,9 +1,10 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden" />
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
-        :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
+        :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
+        :loading="loadings.table">
         <template v-slot:column-status="props">
           <span>{{
             props.row.status == '0' ? '在单'
@@ -41,7 +42,7 @@ import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList 
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import returnCargoEdit from "./returnCargoEdit";
-import { shoplist, goodslist, inventorylist, Supplierlist } from '@/api/data'
+import { shoplist, goodslist, Supplierlist } from '@/api/data'
 
 export default {
   name: "slist",
@@ -52,8 +53,8 @@ export default {
       rowData: {},
       tableData: [],
       multipleSelection: [],
-      hidden:true,
-      multiCheck:false,
+      hidden: true,
+      multiCheck: false,
       loadings: {
         table: true,
       },
@@ -66,16 +67,6 @@ export default {
       goodsOptions: [],
       inventoryOptions: [],
       supplierOptions: [],
-      // statusOptions: [
-      //   { label: "在单", value: 0 },
-      //   { label: "生产", value: 1 },
-      //   { label: "在途", value: 2 },
-      //   { label: "入库", value: 3 },
-      //   { label: "占用", value: 4 },
-      //   { label: "出库", value: 5 }],
-      //   typeOptions:[
-      //     {label:"采购入库",value:0},
-      //     {label:"调货入库",value:1}]
     };
   },
   computed: {
@@ -123,28 +114,12 @@ export default {
         },
         {
           label: '请选择',
-          placeholder: '请选择仓库',
-          field: 'inventoryCode',
-          value: '',
-          type: "select",
-          options: this.inventoryOptions
-        },
-        {
-          label: '请选择',
           placeholder: '请选择供应商',
           field: 'supplierCode',
           value: '',
           type: "select",
           options: this.supplierOptions
         },
-        // {
-        //   label: '请选择',
-        //   placeholder: '请选择状态',
-        //   field: 'status',
-        //   value: '',
-        //   type: "select",
-        //   options: this.statusOptions
-        // },
         // {
         //   label: '请选择',
         //   placeholder: '请选择类型',
@@ -167,7 +142,6 @@ export default {
     this.getshoplist()
     this.getgoodslist()
     this.getSupplierlist()
-    this.getinventorylist();
     let user = JSON.parse(localStorage.getItem("userInfo"))
     this.userType = user.userType
   },
@@ -184,24 +158,6 @@ export default {
           this.$message.error("获取失败!");
         }
       });
-    },
-    getinventorylist() {
-      inventorylist()
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.inventoryOptions = []
-            res.data.data.forEach(item => {
-              if (item.inventoryType == '2' && item.belongKey != null || item.belongKey != "") {
-                this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
-              }
-            });
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
     },
     getshoplist() {
       shoplist().then(res => {
@@ -293,7 +249,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      inputWarehouseDelete({ isDeleted:0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+      inputWarehouseDelete({ isDeleted: 0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -323,7 +279,7 @@ export default {
       if (this.multipleSelection.length > 0) {
         let inputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          inputWarehouseKeys.push({ isDeleted:0, inputWarehouseKey: item.inputWarehouseKey })
+          inputWarehouseKeys.push({ isDeleted: 0, inputWarehouseKey: item.inputWarehouseKey })
         })
         console.log(inputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {

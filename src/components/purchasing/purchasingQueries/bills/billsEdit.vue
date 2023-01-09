@@ -154,8 +154,8 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
-import { shoplist, goodslist, inventorylist, Supplierlist, positionList, vehicleList } from '@/api/data'
-import { ShopInventoryList } from '@/api/warehouse'
+import { shoplist, goodslist, Supplierlist, positionList, vehicleList } from '@/api/data'
+import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 
 export default {
@@ -269,7 +269,6 @@ export default {
     this.getSupplierlist()
     this.getUserList()
     this.getvehicleList()
-    this.getinventorylist();
     if (this.rowData.inputWarehouseKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -297,6 +296,7 @@ export default {
     } else {
       this.ifCreate = true
     }
+    this.getShopInventoryList()
   },
   methods: {
     getvehicleList() {
@@ -349,27 +349,15 @@ export default {
         }
       });
     },
-    getShopInventoryList(item) {
-      ShopInventoryList({ shopCode: item }).then(res => {
+    getShopInventoryList() {
+      getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
         if (res.data.code == 200) {
           this.inventoryOptions = res.data.data
+          this.getpositionList()
         } else {
           this.$message.error("获取失败!");
         }
       });
-    },
-    getinventorylist() {
-      inventorylist()
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.inventoryOptions = res.data.data
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
     },
     setShopName() {
       this.getShopInventoryList(this.ruleForm.shopCode)
@@ -388,14 +376,18 @@ export default {
       });
       this.getpositionList(choosenItem[0].inventoryKey)
     },
-    getpositionList(inventoryKey) {
-      positionList({ inventoryKey: inventoryKey }).then(res => {
-        if (res.data.code == 200) {
-          this.positionOptions = res.data.data
-        } else {
-          this.$message.error("获取失败!");
+    getpositionList() {
+      this.inventoryOptions.forEach(item => {
+        if (item.inventoryCode == this.ruleForm.inventoryCode) {
+          positionList({ inventoryKey: item.inventoryKey }).then(res => {
+            if (res.data.code == 200) {
+              this.positionOptions = res.data.data
+            } else {
+              this.$message.error("获取失败!");
+            }
+          });
         }
-      });
+      })
     },
     setTime() {
       this.ruleForm.createTime = this.value2[0]

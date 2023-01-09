@@ -45,7 +45,8 @@ import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList 
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import billsEdit from "./billsEdit";
-import { shoplist, goodslist, inventorylist, Supplierlist } from '@/api/data'
+import { shoplist, goodslist, Supplierlist } from '@/api/data'
+import { ShopInventoryList } from '@/api/warehouse'
 
 export default {
   name: "slist",
@@ -202,22 +203,16 @@ export default {
       });
     },
     getinventorylist() {
-      inventorylist()
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.inventoryOptions = []
-            res.data.data.forEach(item => {
-              if (item.inventoryType == '2' && item.belongKey != null || item.belongKey != "") {
-                this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
-              }
-            });
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      ShopInventoryList().then(res => {
+        if (res.data.code == 200) {
+          this.inventoryOptions = []
+          res.data.data.forEach(item => {
+            this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
+          });
+        } else {
+          this.$message.error("获取失败!");
+        }
+      })
     },
     getshoplist() {
       shoplist().then(res => {
