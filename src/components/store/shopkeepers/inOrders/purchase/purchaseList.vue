@@ -69,7 +69,7 @@ export default {
         { label: "生产", value: 1 }],
       //   typeOptions:[
       //     {label:"采购入库",value:0},
-      //     {label:"退货入库",value:1}]
+      //     {label:"调货入库",value:1}]
     };
   },
   computed: {

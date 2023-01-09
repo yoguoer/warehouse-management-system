@@ -2,10 +2,10 @@
   <div class="wrap-definition">
       <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="在单" name="sInOrder">
-              <!-- <salesList ref="sales" /> -->
+          </el-tab-pane>
+          <el-tab-pane label="已发货" name="sOutput">
           </el-tab-pane>
           <el-tab-pane label="退货" name="sReturn">
-              <!-- <purchaseList ref="purchase" /> -->
           </el-tab-pane>
           <router-view></router-view>
       </el-tabs>

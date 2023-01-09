@@ -40,7 +40,7 @@
           <el-form-item label="入库类型" prop="type">
             <el-select size="small" v-model="ruleForm.type" placeholder="入库类型" clearable disabled>
               <el-option label="采购入库" :value="0"></el-option>
-              <el-option label="退货入库" :value="1"></el-option>
+              <el-option label="调货入库" :value="1"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -99,7 +99,7 @@
       <el-row>
         <!-- <el-col :span="10">
           <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 1">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货入库原因" type="textarea"></el-input>
+            <el-input v-model="ruleForm.returnReason" clearable placeholder="调货入库原因" type="textarea"></el-input>
           </el-form-item>
         </el-col> -->
       </el-row>

@@ -74,7 +74,7 @@
           <el-form-item label="入库类型" prop="type">
             <el-select size="small" v-model="ruleForm.type" placeholder="入库类型" clearable disabled>
               <el-option label="采购入库" :value="0"></el-option>
-              <el-option label="退货入库" :value="1"></el-option>
+              <el-option label="调货入库" :value="1"></el-option>
             </el-select>
           </el-form-item>
         </el-col>

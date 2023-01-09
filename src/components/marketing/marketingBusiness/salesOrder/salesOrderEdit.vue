@@ -74,7 +74,7 @@
             <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable disabled>
               <el-option label="零售出库" :value="0"></el-option>
               <el-option label="客户订购出库" :value="1"></el-option>
-              <el-option label="退货出库" :value="2"></el-option>
+              <el-option label="退货出库单" :value="2"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -102,7 +102,7 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 2">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货出库原因" type="textarea"></el-input>
+            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

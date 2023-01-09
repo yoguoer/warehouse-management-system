@@ -8,12 +8,8 @@
           <span>{{
             props.row.status == '0' ? '在单'
               : (props.row.status == '1' ? '生产'
-                : (props.row.status == '2' ? '在途' : '-'))
+                : (props.row.status == '2' ? '在途' : '已接收'))
           }}</span>
-        </template>
-        <template v-slot:column-type="props">
-          <span v-if="props.row.type == 0">采购</span>
-          <span v-if="props.row.type == 1">退货</span>
         </template>
         <template v-slot:column-createTime="props">
           <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
@@ -24,14 +20,16 @@
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
           <el-button v-if="props.row.type == 1 " @click="editRow(props.row)" type="text">处理退货</el-button>
-          <el-button v-if="props.row.status < 2 && props.row.type == 0" @click="editRow(props.row)"
+          <el-button v-if="props.row.status < 2 && props.row.type == 0" @click="editRow1(props.row)"
             type="text">接收订单</el-button>
-          <el-button v-if="props.row.status < 2 && props.row.type == 0" @click="editRow(props.row)"
+          <el-button v-if="props.row.status < 2 && props.row.type == 0" @click="editRow1(props.row)"
             type="text">发出货物</el-button>
         </template>
       </TableList>
     </div>
-    <stockFlowEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
+    <sReturnEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
+      @success="success()" />
+      <sInOrderEdit v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false"
       @success="success()" />
   </div>
 </template>
@@ -40,7 +38,8 @@
 import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList } from "@/api/purchasing";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import stockFlowEdit from "./stockFlowEdit";
+import sReturnEdit from "@/components/store/suppliers/stockManagement/sReturn/sReturnEdit.vue";
+import sInOrderEdit from "@/components/store/suppliers/stockManagement/sInOrder/sInOrderEdit.vue";
 import { shoplist, goodslist, inventorylist, Supplierlist } from '@/api/data'
 
 export default {
@@ -49,9 +48,11 @@ export default {
     return {
       total: null,
       drawer: false,
+      drawer1:false,
       hidden:true,
       multiCheck:false,
       rowData: {},
+      rowData1: {},
       tableData: [],
       multipleSelection: [],
       loadings: {
@@ -72,7 +73,7 @@ export default {
         { label: "在途", value: 2 }],
       //   typeOptions:[
       //     {label:"采购入库",value:0},
-      //     {label:"退货入库",value:1}]
+      //     {label:"调货入库",value:1}]
     };
   },
   computed: {
@@ -90,7 +91,6 @@ export default {
         // { prop: "inventoryCode", label: "仓库编码" },
         // { prop: "positionCode", label: "货位编码" },
         { slots: { name: "column-status" }, label: "状态" },
-        { slots: { name: "column-type" }, label: "类型" },
         { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
@@ -98,7 +98,7 @@ export default {
         // { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
         { prop: "returnReason", label: "退货原因" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 200 },
       ];
     },
     searchConfig() {
@@ -158,7 +158,8 @@ export default {
   },
   components: {
     TableList,
-    stockFlowEdit,
+    sReturnEdit,
+    sInOrderEdit,
     reloadAndsearch
   },
   created() {
@@ -297,6 +298,10 @@ export default {
           this.loadings.table = false;
         });
     },
+    editRow1(row) {
+      this.rowData1 = row;
+      this.drawer1 = true;
+    },
     editRow(row) {
       this.rowData = row;
       this.drawer = true;
@@ -316,6 +321,8 @@ export default {
     success() {
       this.drawer = false;
       this.rowData = {};
+      this.drawer1 = false;
+      this.rowData1 = {};
       this.getTableData();
     },
     reload() {

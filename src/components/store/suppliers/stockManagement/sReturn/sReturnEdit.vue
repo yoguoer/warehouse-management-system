@@ -69,7 +69,7 @@
           <el-form-item label="入库类型" prop="type">
             <el-select size="small" v-model="ruleForm.type" placeholder="入库类型" clearable disabled>
               <el-option label="采购入库" :value="0"></el-option>
-              <el-option label="退货入库" :value="1"></el-option>
+              <el-option label="调货入库" :value="1"></el-option>
             </el-select>
           </el-form-item>
         </el-col> -->
@@ -166,6 +166,7 @@ export default {
       ruleForm: {
         returnCheckKey: "",
         inputWarehouseKey: "",
+        inputOutputKey:"",
         shopCode: "",
         shopName: "",
         goodsCode: "",
@@ -279,6 +280,7 @@ export default {
       this.ruleForm.description = this.rowData.description
       this.ruleForm.checkType = this.rowData.checkType
       this.ruleForm.checkNum = this.rowData.checkNum
+      this.ruleForm.inputOutputKey = this.rowData.inputOutputKey
       this.ruleForm.checkStatus = this.rowData.checkStatus
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
@@ -396,7 +398,7 @@ export default {
             this.$message.error("请选择同意或驳回!");
           } else {
             let data = {
-              returnCheckKey: this.ruleForm.returnCheckKey,
+              returnCheckKey: this.ruleForm.inputOutputKey,
               description: this.ruleForm.description,
               checkType: this.ruleForm.checkType,
               inputOutputKey: this.ruleForm.inputWarehouseKey,
@@ -466,7 +468,7 @@ export default {
               returnCheckKey: this.ruleForm.returnCheckKey,
               description: this.ruleForm.description,
               checkType: this.ruleForm.checkType,
-              inputOutputKey: this.ruleForm.inputWarehouseKey,
+              inputOutputKey: this.ruleForm.inputOutputKey,
               checkStatus: this.ruleForm.checkStatus,
               happenTime: this.ruleForm.happenTime,
               checkNum: this.ruleForm.checkNum,

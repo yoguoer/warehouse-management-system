@@ -407,7 +407,7 @@ const routes = [{
       {
         path: '/purchasing/purchasingQueries/details',
         name: 'Pdetails',
-        component: () => import('@/views/purchasing/purchasingQueries/details/Index.vue')
+        component: () => import('@/components/purchasing/purchasingQueries/details/detailsList.vue')
       },
       //采购-采购策略
       {
@@ -463,6 +463,9 @@ const routes = [{
         path: '/store/suppliers/stockManagement',
         name: 'stockManagement',
         component: () => import('@/views/store/suppliers/stockManagement/Index.vue'),
+        redirect: {
+          name: "sInOrder"
+        },
         children: [
           //库存-供应商库存-供应商库存管理-在单  
           {
@@ -475,6 +478,12 @@ const routes = [{
             path: '/store/stockManagement/sReturn',
             name: 'sReturn',
             component: () => import('@/components/store/suppliers/stockManagement/sReturn/sReturnList.vue')
+          },
+          //库存-供应商库存-供应商库存管理-已发货
+          {
+            path: '/store/stockManagement/sOutput',
+            name: 'sOutput',
+            component: () => import('@/components/store/suppliers/stockManagement/sOutput/sOutputList.vue')
           },
         ]
       },

@@ -88,7 +88,7 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 1">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货入库原因" type="textarea"
+            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea"
               disabled></el-input>
           </el-form-item>
         </el-col>

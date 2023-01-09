@@ -16,7 +16,7 @@
         </template>
         <template v-slot:column-type="props">
           <span v-if="props.row.type == 0">采购入库</span>
-          <span v-if="props.row.type == 1">采购退货</span>
+          <span v-if="props.row.type == 1">调货入库</span>
         </template>
         <template v-slot:column-createTime="props">
           <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
@@ -77,7 +77,7 @@ export default {
         { label: "出库", value: 5 }],
       typeOptions: [
         { label: "采购入库", value: 0 },
-        { label: "采购退货", value: 1 }],
+        { label: "调货入库", value: 1 }],
       deletedOptions: [
         { label: "否", value: 0 },
         { label: "是", value: 1 }
@@ -93,20 +93,20 @@ export default {
         { prop: "goodsName", label: "商品名称" },
         { prop: "supplierCode", label: "供应商编码" },
         { prop: "supplierName", label: "供应商名称" },
-        { prop: "inputPlan", label: "计划数" },
-        { prop: "inputPrice", label: "入库价格" },
-        { prop: "inputActual", label: "实际数" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
         { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status" }, label: "状态" },
         { slots: { name: "column-type" }, label: "入库类型" },
-        { slots: { name: "column-createTime" }, label: "预计日期" },
-        { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         { prop: "inventoryPeopleCode", label: "仓库操作员" },
+        { prop: "inputPlan", label: "计划数" },
+        { prop: "inputPrice", label: "入库价格" },
+        { prop: "inputActual", label: "实际数" },
         { prop: "returnNum", label: "退货数" },
         { prop: "returnReason", label: "退货原因" },
+        { slots: { name: "column-createTime" }, label: "预计日期" },
+        { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         // { slots: { name: "column-isDeleted" }, label: "是否删除" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];

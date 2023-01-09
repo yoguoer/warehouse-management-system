@@ -15,15 +15,15 @@
           <span v-if="props.row.type == 0">采购入库</span>
           <span v-if="props.row.type == 1">采购退货</span>
         </template>
-        <template v-slot:column-createTime="props">
-          <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+        <template v-slot:column-happenTime="props">
+          <span>{{ props.row.happenTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
-        <template v-slot:column-deadlineTime="props">
-          <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+        <template v-slot:column-checkTime="props">
+          <span>{{ props.row.checkTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
-          <el-button v-if="props.row.checkStatus!=2" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
+          <el-button v-if="props.row.checkStatus!=1" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
@@ -71,7 +71,7 @@ export default {
       //   { label: "出库", value: 5 }],
       //   typeOptions:[
       //     {label:"采购入库",value:0},
-      //     {label:"退货入库",value:1}]
+      //     {label:"调货入库",value:1}]
     };
   },
   computed: {
@@ -91,10 +91,10 @@ export default {
         { prop: "vehicleCode", label: "车辆编码" },
         { prop: "checkNum", label: "退货数" },
         { prop: "returnReason", label: "退货原因" },
+        { slots: { name: "column-happenTime" }, label: "申请时间" },
         { slots: { name: "column-status" }, label: "审批状态" },
         { prop: "description", label: "审批意见" },
-        // { slots: { name: "column-createTime" }, label: "预计日期" },
-        // { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
+        { slots: { name: "column-checkTime" }, label: "审批时间" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         { prop: "inventoryPeopleCode", label: "仓库操作员" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },

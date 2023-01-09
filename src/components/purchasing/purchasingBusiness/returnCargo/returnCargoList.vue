@@ -16,7 +16,7 @@
         </template>
         <template v-slot:column-type="props">
           <span v-if="props.row.type == 0">采购入库</span>
-          <span v-if="props.row.type == 1">采购退货</span>
+          <span v-if="props.row.type == 1">调货入库</span>
         </template>
         <template v-slot:column-createTime="props">
           <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
@@ -75,7 +75,7 @@ export default {
       //   { label: "出库", value: 5 }],
       //   typeOptions:[
       //     {label:"采购入库",value:0},
-      //     {label:"退货入库",value:1}]
+      //     {label:"调货入库",value:1}]
     };
   },
   computed: {

@@ -23,7 +23,7 @@
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
-          <el-button v-if="props.row.type == 1 && props.row.status!=6" @click="editRow(props.row)" type="text">处理退货</el-button>
+          <!-- <el-button v-if="props.row.type == 1 && props.row.status!=6" @click="editRow(props.row)" type="text">处理退货</el-button> -->
           <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
             type="text">接收订单</el-button>
           <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
@@ -72,7 +72,7 @@ export default {
         { label: "在途", value: 2 }],
       //   typeOptions:[
       //     {label:"采购入库",value:0},
-      //     {label:"退货入库",value:1}]
+      //     {label:"调货入库",value:1}]
     };
   },
   computed: {
@@ -96,8 +96,8 @@ export default {
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         // { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
-        { prop: "returnNum", label: "退货数" },
-        { prop: "returnReason", label: "退货原因" },
+        // { prop: "returnNum", label: "退货数" },
+        // { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
       ];
     },
@@ -249,7 +249,7 @@ export default {
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
-            if(item.status<2||(item.type==1)){
+            if(item.status<2){
               this.tableData.push(item)
             }
           })
@@ -285,7 +285,7 @@ export default {
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
-            if(item.status<2||(item.type==1)){
+            if(item.status<2){
               this.tableData.push(item)
             }
           })

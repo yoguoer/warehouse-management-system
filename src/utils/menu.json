@@ -120,12 +120,6 @@
                                 "componentName": "purchasingOrder"
                             },
                             {
-                                "name": "采购退货单",
-                                "icon": "",
-                                "level": 3,
-                                "componentName": "PreturnOrder"
-                            },
-                            {
                                 "name": "回货管理",
                                 "icon": "",
                                 "level": 3,
@@ -136,7 +130,13 @@
                                 "icon": "",
                                 "level": 3,
                                 "componentName": "enterWarehouse"
-                            }
+                            },
+                            {
+                                "name": "采购退货单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "PreturnOrder"
+                            },
                         ]
                     },
                     {
