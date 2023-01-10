@@ -29,6 +29,8 @@ public class ReturnCheck implements Serializable {
     private String description;
 
     private String inputWarehouseKey;
+
+    private String outputWarehouseKey;
     /**
      * 门店编号
      */
@@ -142,6 +144,14 @@ public class ReturnCheck implements Serializable {
 
     public InputWarehouse getInputWarehouse() {
         return inputWarehouse;
+    }
+
+    public String getOutputWarehouseKey() {
+        return outputWarehouseKey;
+    }
+
+    public void setOutputWarehouseKey(String outputWarehouseKey) {
+        this.outputWarehouseKey = outputWarehouseKey;
     }
 
     public void setInputWarehouse(InputWarehouse inputWarehouse) {
