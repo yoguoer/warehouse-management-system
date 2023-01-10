@@ -119,8 +119,8 @@
 
 <script>
 import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
-import { shoplist, goodslist, inventorylist, CustomerList, positionList } from '@/api/data'
-import { ShopInventoryList } from '@/api/warehouse'
+import { shoplist, goodslist,  CustomerList, positionList } from '@/api/data'
+import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import moment from 'moment'
 
@@ -227,8 +227,6 @@ export default {
     this.getshoplist()
     this.getgoodslist()
     this.getUserList()
-    // this.getCustomerList()
-    // this.getinventorylist();
     if (this.rowData.outputWarehouseKey) {
       this.ruleForm.outputWarehouseKey = this.rowData.outputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -256,6 +254,7 @@ export default {
     } else {
       this.ifCreate = true
     }
+    this.getShopInventoryList()
   },
   methods: {
     getUserList() {
@@ -284,45 +283,34 @@ export default {
         }
       });
     },
-    // getCustomerList() {
-    //   CustomerList().then(res => {
-    //     if (res.data.code == 200) {
-    //       this.customerOptions = res.data.data
-    //     } else {
-    //       this.$message.error("获取失败!");
-    //     }
-    //   });
-    // },
-    getShopInventoryList(item) {
-      ShopInventoryList({ shopCode: item }).then(res => {
+    getCustomerList() {
+      CustomerList().then(res => {
         if (res.data.code == 200) {
-          this.inventoryOptions = res.data.data
+          this.customerOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
         }
       });
     },
-    // getinventorylist() {
-    //   inventorylist()
-    //     .then((res) => {
-    //       if (res.data.code === 200) {
-    //         this.inventoryOptions = res.data.data
-    //       } else {
-    //         this.$message.error(res.msg);
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // },
+    getShopInventoryList() {
+      getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
+        if (res.data.code == 200) {
+          this.inventoryOptions = res.data.data
+          this.getpositionList()
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     setShopName() {
-      this.getShopInventoryList(this.ruleForm.shopCode)
+      this.getShopInventoryList()
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
     },
     setCustomerName() {
       this.ruleForm.customerName = this.$refs.customerSelect.selectedLabel
     },
     setGoodsName() {
+      console.log(this.$refs.goodsSelect.selectedLabel)
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
     },
     setPosition() {
@@ -332,14 +320,18 @@ export default {
       });
       this.getpositionList(choosenItem[0].inventoryKey)
     },
-    getpositionList(inventoryKey) {
-      positionList({ inventoryKey: inventoryKey }).then(res => {
-        if (res.data.code == 200) {
-          this.positionOptions = res.data.data
-        } else {
-          this.$message.error("获取失败!");
+    getpositionList() {
+      this.inventoryOptions.forEach(item => {
+        if (item.inventoryCode == this.ruleForm.inventoryCode) {
+          positionList({ inventoryKey: item.inventoryKey }).then(res => {
+            if (res.data.code == 200) {
+              this.positionOptions = res.data.data
+            } else {
+              this.$message.error("获取失败!");
+            }
+          });
         }
-      });
+      })
     },
     // setTime() {
     //   this.ruleForm.createTime = this.value2[0]
@@ -419,7 +411,7 @@ export default {
             status: this.ruleForm.status,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
-            inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
+            inventoryPeopleCode: this.ruleForm.shopPeopleCode,
             returnNum: this.ruleForm.returnNum,
             returnReason: this.ruleForm.returnReason
           }

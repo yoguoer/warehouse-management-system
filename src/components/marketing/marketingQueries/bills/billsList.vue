@@ -75,7 +75,6 @@ export default {
       typeOptions: [
         { label: "零售出库", value: 0 },
         { label: "客户订购出库", value: 1 },
-        { label: "退货出库", value: 2 },
       ],
     };
   },

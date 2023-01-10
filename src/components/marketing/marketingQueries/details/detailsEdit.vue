@@ -304,7 +304,6 @@ export default {
     } else {
       this.ifCreate = true
     }
-    // this.getShopInventoryList()
   },
   methods: {
     getUserList() {

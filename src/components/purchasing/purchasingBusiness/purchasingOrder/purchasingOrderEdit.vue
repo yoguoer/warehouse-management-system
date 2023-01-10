@@ -115,7 +115,6 @@
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
 import { shoplist, goodslist, Supplierlist } from '@/api/data'
-import { ShopInventoryList } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 
 export default {

@@ -79,6 +79,7 @@
         </el-col>
       </el-row>
       <el-row>
+        <!-- 还没完成呢！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！ -->
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
             <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
@@ -97,7 +98,7 @@
           </el-date-picker>
         </el-col>
       </el-row>
-      <el-row v-if="output">
+      <el-row>
         <el-col :span="10">
           <el-form-item label="仓库操作员" prop="inventoryPeopleCode">
             <el-select size="middle" v-model="ruleForm.inventoryPeopleCode" placeholder="仓库操作员" style="width:100%;"
@@ -113,7 +114,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-if="output">
+      <el-row>
         <el-col :span="10">
           <el-form-item label="车辆" prop="vehicleCode">
             <el-select size="middle" v-model="ruleForm.vehicleCode" placeholder="车辆" style="width:100%;" clearable>
@@ -135,7 +136,7 @@
 
 <script>
 import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
-import { shoplist, goodslist, CustomerList, positionList, vehicleList } from '@/api/data'
+import { shoplist, goodslist, CustomerList, positionList,vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 
@@ -161,7 +162,7 @@ export default {
         createTime: "",
         deadlineTime: "",
         vehicleCode: "",
-        status: "",
+        status: 5,
         type: 1,
         shopPeopleCode: "",
         inventoryPeopleCode: "",
@@ -173,9 +174,9 @@ export default {
       goodsOptions: [],
       positionOptions: [],
       customerOptions: [],
-      vehicleOptions: [],
       inventoryOptions: [],
       userOptions: [],
+      vehicleOptions:[],
       userOptions1: [],
       pickerOptions: {
         shortcuts: [{
@@ -235,19 +236,17 @@ export default {
       default: true,
     },
     rowData: {},
-    output: {
-      default: false,
-    },
+    shopGoodsList: []
   },
   watch: {
 
   },
   created() {
+    this.getvehicleList()
     this.getshoplist()
     this.getgoodslist()
     this.getCustomerList()
     this.getUserList()
-    this.getvehicleList()
     if (this.rowData.outputWarehouseKey) {
       this.ruleForm.outputWarehouseKey = this.rowData.outputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -265,7 +264,7 @@ export default {
       this.ruleForm.deadlineTime = this.rowData.deadlineTime
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
       this.ruleForm.isDeleted = this.rowData.isDeleted
-      this.ruleForm.status = this.rowData.status
+      // this.ruleForm.status = this.rowData.status
       // this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
@@ -380,9 +379,6 @@ export default {
     save(formName) {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
-      if (this.output = true) {
-        this.ruleForm.status = 5
-      }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = {
@@ -427,9 +423,6 @@ export default {
     create(formName) {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
-      if (this.output = true) {
-        this.ruleForm.status = 5
-      }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = {

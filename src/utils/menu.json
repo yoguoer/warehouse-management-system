@@ -46,6 +46,12 @@
                                 "componentName": "salesOrder"
                             },
                             {
+                                "name": "发货单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "outputOrder"
+                            },
+                            {
                                 "name": "销售退货单",
                                 "icon": "",
                                 "level": 3,

@@ -85,13 +85,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row>
-        <el-col :span="10">
-          <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 1">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea" disabled></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
     </el-form>
     <div class="dialog_footer">
       <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
@@ -103,9 +96,8 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
-import { shoplist, goodslist, inventorylist, Supplierlist, positionList, vehicleList } from '@/api/data'
+import { shoplist, goodslist, Supplierlist, vehicleList } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
-import { UserList } from '@/api/api'
 
 export default {
   name: 'guestEdit',
@@ -143,7 +135,10 @@ export default {
       supplierOptions: [],
       inventoryOptions: [],
       vehicleOptions: [],
-      // userOptions:[],
+      statusOptions: [
+        { label: "在单", value: 0, disabled: false },
+        { label: "生产", value: 1, disabled: false },
+        { label: "在途", value: 2, disabled: false },],
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -202,8 +197,6 @@ export default {
     this.getgoodslist()
     this.getSupplierlist()
     this.getvehicleList()
-    // this.getUserList()
-    // this.getinventorylist();
     if (this.rowData.inputWarehouseKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -242,14 +235,6 @@ export default {
         }
       });
     },
-    // getUserList() {
-    //   UserList({userType: 2}).then(res => {
-    //     this.userOptions = res.data.data
-    //     this.$forceUpdate()
-    //   }).catch(err => {
-    //     console.log(err)
-    //   });
-    // },
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
@@ -286,21 +271,7 @@ export default {
         }
       });
     },
-    // getinventorylist() {
-    //   inventorylist()
-    //     .then((res) => {
-    //       if (res.data.code === 200) {
-    //         this.inventoryOptions = res.data.data
-    //       } else {
-    //         this.$message.error(res.msg);
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // },
     setShopName() {
-      this.getShopInventoryList(this.ruleForm.shopCode)
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
     },
     setSupplierName() {
@@ -308,22 +279,6 @@ export default {
     },
     setGoodsName() {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
-    },
-    setPosition() {
-      this.ruleForm.inventoryName = this.$refs.inventorySelect.selectedLabel
-      let choosenItem = this.inventoryOptions.filter(item => {
-        return item.inventoryCode == this.ruleForm.inventoryCode
-      });
-      this.getpositionList(choosenItem[0].inventoryKey)
-    },
-    getpositionList(inventoryKey) {
-      positionList({ inventoryKey: inventoryKey }).then(res => {
-        if (res.data.code == 200) {
-          this.positionOptions = res.data.data
-        } else {
-          this.$message.error("获取失败!");
-        }
-      });
     },
     setTime() {
       this.ruleForm.createTime = this.value2[0]
