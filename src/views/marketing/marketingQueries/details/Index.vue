@@ -1,6 +1,6 @@
 <template>
     <div>
-       销售明细查询
+        <router-view></router-view>
     </div>
 </template>
 

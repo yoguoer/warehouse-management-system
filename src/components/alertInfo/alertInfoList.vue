@@ -15,7 +15,6 @@
       <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
       <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
-      <!-- <el-button type="danger"  size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
       <el-divider />
     </div>
     <div class="list-model">
@@ -27,8 +26,6 @@
         </el-table-column>
         <el-table-column prop="goodsCode" label="预警商品" width="180" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="alertTime" label="预警时间" :show-overflow-tooltip="true">
-        </el-table-column>
         <el-table-column prop="status" label="状态" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span style="color:#2d8bf0">{{ scope.row.status == 1 ? '已处理' : '未处理' }}</span>
@@ -39,8 +36,11 @@
             <span>{{ scope.row.type == 0 ? '连续未动销预警' : (scope.row.type == 1 ? '满仓预警' : '缺货预警') }}</span>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" width="200px" label="操作">
+        <el-table-column prop="alertTime" label="预警时间" :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column fixed="right" width="250px" label="操作">
           <template slot-scope="scope">
+            <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">去处理</el-button>
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
             <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
               icon="el-icon-delete">删除</el-button>

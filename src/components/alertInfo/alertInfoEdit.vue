@@ -26,8 +26,8 @@
         <el-col :span="10">
           <el-form-item label="状态" prop="status">
             <el-select size="mini" v-model="ruleForm.status" placeholder="请选择" style="width:100%;" clearable>
-                  <el-option label="已处理" :value="1"></el-option>
                   <el-option label="未处理" :value="0"></el-option>
+                  <el-option label="已处理" :value="1"></el-option>
                 </el-select>
           </el-form-item>
         </el-col>

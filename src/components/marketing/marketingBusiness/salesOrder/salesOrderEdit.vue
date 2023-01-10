@@ -71,7 +71,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="出库类型" prop="type">
-            <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable disabled>
+            <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable>
               <el-option label="零售出库" :value="0"></el-option>
               <el-option label="客户订购出库" :value="1"></el-option>
               <el-option label="退货出库单" :value="2"></el-option>
@@ -299,19 +299,6 @@ export default {
         }
       });
     },
-    // getinventorylist() {
-    //   inventorylist()
-    //     .then((res) => {
-    //       if (res.data.code === 200) {
-    //         this.inventoryOptions = res.data.data
-    //       } else {
-    //         this.$message.error(res.msg);
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // },
     setShopName() {
       this.getShopInventoryList(this.ruleForm.shopCode)
       this.ruleForm.shopName = this.$refs.selection.selectedLabel

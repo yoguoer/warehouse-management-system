@@ -339,7 +339,7 @@ const routes = [{
       {
         path: '/marketing/marketingQueries/details',
         name: 'Mdetails',
-        component: () => import('@/views/marketing/marketingQueries/details/Index.vue')
+        component: () => import('@/components/marketing/marketingQueries/details/detailsList.vue')
       },
 
 

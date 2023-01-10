@@ -147,7 +147,7 @@ export default {
         deadlineTime: "",
         vehicleCode: "",
         status: 5,
-        type: "",
+        type: 0,
         shopPeopleCode: "",
         inventoryPeopleCode: "",
         returnReason: "",

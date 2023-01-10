@@ -37,24 +37,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="仓库" prop="inventoryCode">
-            <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
-              disabled ref="inventorySelect">
-              <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
-                :label="item.inventoryName" :value="item.inventoryCode">
-              </el-option>
-            </el-select>
+          <el-form-item label="出库价格" prop="outputPrice">
+            <el-input v-model="ruleForm.outputPrice" clearable placeholder="出库价格" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="库位" prop="positionCode">
-            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable
-              disabled>
-              <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
-                :value="item.positionCode" clearable placeholder="库位">
-              </el-option>
+          <el-form-item label="出库类型" prop="type">
+            <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable disabled>
+              <el-option label="零售出库" :value="0"></el-option>
+              <el-option label="客户订购单" :value="1"></el-option>
+              <el-option label="销售退货单" :value="2"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -66,19 +60,25 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="出库价格" prop="outputPrice">
-            <el-input v-model="ruleForm.outputPrice" clearable placeholder="出库价格" disabled></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item label="出库类型" prop="type">
-            <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable disabled>
-              <el-option label="零售出库" :value="0"></el-option>
-              <el-option label="客户订购单" :value="1"></el-option>
-              <el-option label="销售退货单" :value="2"></el-option>
+          <el-form-item label="仓库" prop="inventoryCode">
+            <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
+             ref="inventorySelect">
+              <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
+                :label="item.inventoryName" :value="item.inventoryCode">
+              </el-option>
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="10">
+          <el-form-item label="库位" prop="positionCode">
+            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable>
+              <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
+                :value="item.positionCode" clearable placeholder="库位">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+
       </el-row>
       <el-row>
         <el-col :span="10">
@@ -90,8 +90,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" disabled
-              clearable>
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable>
               <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
               </el-option>
             </el-select>

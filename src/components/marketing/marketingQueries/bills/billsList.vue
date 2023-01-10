@@ -29,7 +29,7 @@
           <span>{{ props.row.isDeleted == '0' ? '否' : (props.row.isDeleted == '1' ? '是' : '-') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button type="text" style="visibility:hidden"></el-button>
+          <el-button  v-if="props.row.status==5 && props.row.isDeleted == 0" @click="editRow(props.row)" type="text" icon="el-icon-truck">退货</el-button>
           <el-button v-if="userType == 0 && props.row.isDeleted == 0" @click="editRow(props.row)" type="text"
             icon="el-icon-edit">编辑</el-button>
           <el-button v-if="userType == 0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
@@ -70,10 +70,6 @@ export default {
       inventoryOptions: [],
       customerOptions: [],
       statusOptions: [
-        { label: "在单", value: 0 },
-        { label: "生产", value: 1 },
-        { label: "在途", value: 2 },
-        { label: "入库", value: 3 },
         { label: "占用", value: 4 },
         { label: "出库", value: 5 }],
       typeOptions: [
@@ -81,10 +77,6 @@ export default {
         { label: "客户订购出库", value: 1 },
         { label: "退货出库", value: 2 },
       ],
-      deletedOptions: [
-        { label: "否", value: 0 },
-        { label: "是", value: 1 }
-      ]
     };
   },
   computed: {
@@ -96,21 +88,22 @@ export default {
         { prop: "goodsName", label: "商品名称" },
         { prop: "customerCode", label: "客户编码" },
         { prop: "customerName", label: "客户名称" },
-        { prop: "outputPlan", label: "计划数" },
-        { prop: "outputPrice", label: "出库价格" },
-        { prop: "outputActual", label: "实际数" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
         { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status" }, label: "状态" },
         { slots: { name: "column-type" }, label: "出库类型" },
-        { slots: { name: "column-createTime" }, label: "预计日期" },
-        { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         { prop: "inventoryPeopleCode", label: "仓库操作员" },
+        { prop: "outputPlan", label: "计划数" },
+        { prop: "outputPrice", label: "出库价格" },
+        { prop: "outputActual", label: "实际数" },
+        { prop: "returnNum", label: "退货数" },
         { prop: "returnReason", label: "退货原因" },
-        { slots: { name: "column-isDeleted" }, label: "是否删除" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
+        { slots: { name: "column-createTime" }, label: "预计日期" },
+        { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
+        // { slots: { name: "column-isDeleted" }, label: "是否删除" },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
       ];
     },
     searchConfig() {
@@ -162,14 +155,6 @@ export default {
           value: '',
           type: "select",
           options: this.typeOptions
-        },
-        {
-          label: '请选择',
-          placeholder: '是否删除',
-          field: 'isDeleted',
-          value: '',
-          type: "select",
-          options: this.deletedOptions
         },
       ];
     }
@@ -260,7 +245,7 @@ export default {
         customerCode: "",
         inventoryCode: "",
         status: "",
-        isDeleted: "",
+        isDeleted: 0,
         type: ""
       };
       outputWarehouseListPage(params).then((res) => {
@@ -290,7 +275,7 @@ export default {
         customerCode: searchData.customerCode,
         inventoryCode: searchData.inventoryCode,
         status: searchData.status,
-        isDeleted: searchData.isDeleted,
+        isDeleted: 0,
         type: searchData.type
       }).then((res) => {
         if (res.data.code === 200) {

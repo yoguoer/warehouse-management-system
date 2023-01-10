@@ -179,24 +179,6 @@ export default {
         }
       });
     },
-    // getinventorylist() {
-    //   inventorylist()
-    //     .then((res) => {
-    //       if (res.data.code === 200) {
-    //         this.inventoryOptions = []
-    //         res.data.data.forEach(item => {
-    //           if (item.inventoryType == '2' && item.belongKey != null || item.belongKey != "") {
-    //             this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
-    //           }
-    //         });
-    //       } else {
-    //         this.$message.error(res.msg);
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // },
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {

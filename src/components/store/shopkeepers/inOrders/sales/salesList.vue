@@ -26,13 +26,14 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
+          <el-button  v-if="props.row.status==5" @click="editRow(props.row)" type="text" icon="el-icon-truck">退货</el-button>
+          <el-button v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
     </div>
-    <salesEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"/>
+    <salesEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
   </div>
 </template>
 
@@ -59,11 +60,11 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
-      userType:"",
       shopOptions: [],
       goodsOptions: [],
       inventoryOptions: [],
-      customerOptions: [],
+      userType: "",
+      // customerOptions: [],
       // statusOptions: [
       //   { label: "在单", value: 0 },
       //   { label: "生产", value: 1 },
@@ -89,19 +90,18 @@ export default {
         { prop: "customerName", label: "客户名称" },
         { prop: "outputPlan", label: "计划数" },
         { prop: "outputPrice", label: "出库价格" },
-        // { prop: "outputActual", label: "实际数" },
+        { prop: "outputActual", label: "实际数" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
         // { prop: "vehicleCode", label: "车辆编码" },
-        { slots: { name: "column-status" }, label: "状态"},
+        { slots: { name: "column-status" }, label: "状态" },
         { slots: { name: "column-type" }, label: "出库类型" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
-        { prop: "returnNum", label: "退货数" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
         // { prop: "returnReason", label: "退货原因" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 200 },
       ];
     },
     searchConfig() {
@@ -208,7 +208,6 @@ export default {
       shoplist().then(res => {
         if (res.data.code == 200) {
           // this.shopOptions = res.data.data
-          this.shopOptions=[]
           res.data.data.forEach(item => {
             this.shopOptions.push({ label: item.shopName, value: item.shopCode })
           })
@@ -221,7 +220,6 @@ export default {
       goodslist().then(res => {
         if (res.data.code == 200) {
           // this.goodsOptions = res.data.data
-          this.goodsOptions=[]
           res.data.data.forEach(item => {
             this.goodsOptions.push({ label: item.goodsName, value: item.goodsCode })
           })
@@ -245,8 +243,8 @@ export default {
         customerCode: "",
         inventoryCode: "",
         status: 4,
-        isDeleted:0,
-        type: 1
+        isDeleted: 0,
+        type: ""
       };
       outputWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
@@ -270,13 +268,13 @@ export default {
       outputWarehouseListPage({
         page: this.query.pageNo,
         size: this.query.pageSize,
-        shopCode: searchData.shopCode,
-        goodsCode: searchData.goodsCode,
-        customerCode: searchData.customerCode,
-        inventoryCode: searchData.inventoryCode,
+        shopCode: searchData.shopCode||"",
+        goodsCode: searchData.goodsCode||"",
+        customerCode: searchData.customerCode||"",
+        inventoryCode: searchData.inventoryCode||"",
         status: 4,
-        isDeleted:0,
-        type: 1
+        isDeleted: 0,
+        type: ""
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
@@ -296,7 +294,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      outputWarehouseDelete({ outputWarehouseKey: row.outputWarehouseKey,isDeleted:row.isDeleted }).then(res => {
+      outputWarehouseDelete({ isDeleted: 0, outputWarehouseKey: row.outputWarehouseKey }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -326,7 +324,7 @@ export default {
       if (this.multipleSelection.length > 0) {
         let outputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          outputWarehouseKeys.push({ outputWarehouseKey: item.outputWarehouseKey,isDeleted:row.isDeleted })
+          outputWarehouseKeys.push({ isDeleted: 0, outputWarehouseKey: item.outputWarehouseKey })
         })
         console.log(outputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
