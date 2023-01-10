@@ -215,10 +215,10 @@ export default {
       let params = {
         page: this.query.pageNo,
         size: this.query.pageSize,
-        // shopCode: "",
-        // goodsCode: "",
-        // supplierCode: "",
-        // inventoryCode: "",
+        shopCode: "",
+        goodsCode: "",
+        supplierCode: "",
+        inventoryCode: "",
         checkStatus: "",
         checkType: 0,
       };
@@ -244,12 +244,11 @@ export default {
       returnCheckListPage({
         page: this.query.pageNo,
         size: this.query.pageSize,
-        // shopCode: searchData.shopCode,
-        // goodsCode: searchData.goodsCode,
-        // supplierCode: searchData.supplierCode,
-        // inventoryCode: searchData.inventoryCode,
+        shopCode: searchData.shopCode,
+        goodsCode: searchData.goodsCode,
+        supplierCode: searchData.supplierCode,
+        inventoryCode: searchData.inventoryCode,
         checkStatus:  "",
-        // isDeleted: 0,
         checkType: 0,
       }).then((res) => {
         if (res.data.code === 200) {

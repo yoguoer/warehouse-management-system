@@ -154,7 +154,6 @@ export default {
     this.getshoplist()
     this.getgoodslist()
     this.getSupplierlist()
-    this.getinventorylist();
     let user = JSON.parse(localStorage.getItem("userInfo"))
     this.userType = user.userType
   },

@@ -132,7 +132,7 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="申请退货数" prop="checkNum">
-            <el-input v-model="ruleForm.checkNum" clearable placeholder="申请退货数" ></el-input>
+            <el-input v-model="ruleForm.checkNum" clearable placeholder="申请退货数"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -151,7 +151,7 @@
 </template>
 
 <script>
-import { returnCheckUpdate, returnCheckAdd,inputWarehouseUpdate } from '@/api/purchasing'
+import { returnCheckUpdate, returnCheckAdd, inputWarehouseUpdate } from '@/api/purchasing'
 import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
@@ -191,6 +191,7 @@ export default {
         isDeleted: "",
         returnReason: "",
         returnNum: "",
+        checkType:""
       },
       shopOptions: [],
       goodsOptions: [],
@@ -272,7 +273,7 @@ export default {
     this.getgoodslist()
     this.getSupplierlist()
     this.getUserList()
-    if (this.rowData.inputWarehouseKey) {
+    if (this.rowData.returnCheckKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.returnCheckKey = this.rowData.returnCheckKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -299,6 +300,7 @@ export default {
       this.ruleForm.checkStatus = this.rowData.checkStatus
       this.ruleForm.description = this.rowData.description
       this.ruleForm.returnNum = this.rowData.returnNum
+      this.ruleForm.checkType=this.rowData.checkType
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -405,46 +407,40 @@ export default {
             happenTime: moment().format("YYYY-MM-DD HH:mm:ss"),
             checkTime: this.ruleForm.checkTime,
             checkNum: this.ruleForm.checkNum,
+            inputWarehouse: {
+              inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+              shopCode: this.ruleForm.shopCode,
+              shopName: this.ruleForm.shopName,
+              goodsCode: this.ruleForm.goodsCode,
+              goodsName: this.ruleForm.goodsName,
+              supplierCode: this.ruleForm.supplierCode,
+              supplierName: this.ruleForm.supplierName,
+              inputPlan: this.ruleForm.inputPlan,
+              inputPrice: this.ruleForm.inputPrice,
+              inputActual: this.ruleForm.inputActual,
+              inventoryCode: this.ruleForm.inventoryCode,
+              positionCode: this.ruleForm.positionCode,
+              createTime: this.ruleForm.createTime,
+              deadlineTime: this.ruleForm.deadlineTime,
+              isDeleted: this.ruleForm.isDeleted,
+              vehicleCode: this.ruleForm.vehicleCode,
+              status: this.ruleForm.status,
+              type: this.ruleForm.type,
+              shopPeopleCode: this.ruleForm.shopPeopleCode,
+              inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
+              returnReason: this.ruleForm.returnReason,
+              returnNum: this.ruleForm.returnNum
+            }
           }
           returnCheckUpdate(data).then(res => {
             if (res.data.code == 200) {
-              let param = {
-                inputWarehouseKey:this.ruleForm.inputWarehouseKey,
-                shopCode: this.ruleForm.shopCode,
-                shopName: this.ruleForm.shopName,
-                goodsCode: this.ruleForm.goodsCode,
-                goodsName: this.ruleForm.goodsName,
-                supplierCode: this.ruleForm.supplierCode,
-                supplierName: this.ruleForm.supplierName,
-                inputPlan: this.ruleForm.inputPlan,
-                inputPrice: this.ruleForm.inputPrice,
-                inputActual: this.ruleForm.inputActual,
-                inventoryCode: this.ruleForm.inventoryCode,
-                positionCode: this.ruleForm.positionCode,
-                createTime: this.ruleForm.createTime,
-                deadlineTime: this.ruleForm.deadlineTime,
-                isDeleted: this.ruleForm.isDeleted,
-                vehicleCode: this.ruleForm.vehicleCode,
-                status: this.ruleForm.status,
-                type: this.ruleForm.type,
-                shopPeopleCode: this.ruleForm.shopPeopleCode,
-                inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
-                returnReason: this.ruleForm.returnReason,
-                returnNum: this.ruleForm.returnNum
-              }
-              inputWarehouseUpdate(param).then(res => {
-                if (res.data.code == 200) {
-                  this.$message.success("编辑成功!");
-                  this.$parent.success()
-                  this.$forceUpdate()
-                } else {
-                  this.$message.error("编辑失败!");
-                }
-              })
+              this.$message.success("编辑成功!");
+              this.$parent.success()
+              this.$forceUpdate()
             } else {
               this.$message.error("编辑失败!");
             }
-          });
+          })
         } else {
           console.log('error submit!!');
           return false;
@@ -465,46 +461,40 @@ export default {
             happenTime: moment().format("YYYY-MM-DD HH:mm:ss"),
             checkTime: this.ruleForm.checkTime,
             checkNum: this.ruleForm.checkNum,
+            inputWarehouse: {
+              inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+              shopCode: this.ruleForm.shopCode,
+              shopName: this.ruleForm.shopName,
+              goodsCode: this.ruleForm.goodsCode,
+              goodsName: this.ruleForm.goodsName,
+              supplierCode: this.ruleForm.supplierCode,
+              supplierName: this.ruleForm.supplierName,
+              inputPlan: this.ruleForm.inputPlan,
+              inputPrice: this.ruleForm.inputPrice,
+              inputActual: this.ruleForm.inputActual,
+              inventoryCode: this.ruleForm.inventoryCode,
+              positionCode: this.ruleForm.positionCode,
+              createTime: this.ruleForm.createTime,
+              deadlineTime: this.ruleForm.deadlineTime,
+              isDeleted: this.ruleForm.isDeleted,
+              vehicleCode: this.ruleForm.vehicleCode,
+              status: this.ruleForm.status,
+              type: this.ruleForm.type,
+              shopPeopleCode: this.ruleForm.shopPeopleCode,
+              inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
+              returnReason: this.ruleForm.returnReason,
+              returnNum: this.ruleForm.returnNum
+            }
           }
           returnCheckUpdate(data).then(res => {
             if (res.data.code == 200) {
-              let param = {
-                inputWarehouseKey:this.ruleForm.inputWarehouseKey,
-                shopCode: this.ruleForm.shopCode,
-                shopName: this.ruleForm.shopName,
-                goodsCode: this.ruleForm.goodsCode,
-                goodsName: this.ruleForm.goodsName,
-                supplierCode: this.ruleForm.supplierCode,
-                supplierName: this.ruleForm.supplierName,
-                inputPlan: this.ruleForm.inputPlan,
-                inputPrice: this.ruleForm.inputPrice,
-                inputActual: this.ruleForm.inputActual,
-                inventoryCode: this.ruleForm.inventoryCode,
-                positionCode: this.ruleForm.positionCode,
-                createTime: this.ruleForm.createTime,
-                deadlineTime: this.ruleForm.deadlineTime,
-                isDeleted: this.ruleForm.isDeleted,
-                vehicleCode: this.ruleForm.vehicleCode,
-                status: this.ruleForm.status,
-                type: this.ruleForm.type,
-                shopPeopleCode: this.ruleForm.shopPeopleCode,
-                inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
-                returnReason: this.ruleForm.returnReason,
-                returnNum: this.ruleForm.returnNum
-              }
-              inputWarehouseUpdate(param).then(res => {
-                if (res.data.code == 200) {
-                  this.$message.success("编辑成功!");
-                  this.$parent.success()
-                  this.$forceUpdate()
-                } else {
-                  this.$message.error("编辑失败!");
-                }
-              })
+              this.$message.success("编辑成功!");
+              this.$parent.success()
+              this.$forceUpdate()
             } else {
               this.$message.error("编辑失败!");
             }
-          });
+          })
         } else {
           console.log('error submit!!');
           return false;
