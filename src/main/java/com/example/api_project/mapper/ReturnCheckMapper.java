@@ -1,6 +1,5 @@
 package com.example.api_project.mapper;
 
-import com.example.api_project.pojo.Brand;
 import com.example.api_project.pojo.ReturnCheck;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -32,7 +31,7 @@ public interface ReturnCheckMapper {
      * @param checkStatus
      * @return 对象列表
      */
-    List<ReturnCheck> queryAllByLimitInput(Integer checkStatus,Integer startRows, Integer pageSize);
+    List<ReturnCheck> queryAllByLimitInput(String shopCode,String goodsCode,String supplierCode,String inventoryCode,Integer checkStatus,Integer startRows, Integer pageSize);
 
     List<ReturnCheck> queryAllByLimitOutput(Integer checkStatus,Integer startRows, Integer pageSize);
 
@@ -42,7 +41,9 @@ public interface ReturnCheckMapper {
      * @param returnCheck 查询条件
      * @return 总行数
      */
-    long count(ReturnCheck returnCheck);
+    long countInput(ReturnCheck returnCheck);
+
+    long countOutput(ReturnCheck returnCheck);
 
     /**
      * 新增数据

@@ -3,9 +3,9 @@ package com.example.api_project.service.impl;
 import com.example.api_project.pojo.OutputWarehouse;
 import com.example.api_project.mapper.OutputWarehouseMapper;
 import com.example.api_project.service.OutputWarehouseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +16,7 @@ import java.util.Map;
  */
 @Service("outputWarehouseService")
 public class OutputWarehouseServiceImpl implements OutputWarehouseService {
-    @Resource
+    @Autowired
     private OutputWarehouseMapper outputWarehouseMapper;
 
     /**

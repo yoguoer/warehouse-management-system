@@ -136,6 +136,26 @@ public class ReturnCheck implements Serializable {
     private Integer outputActual;
     private Integer checkType;
 
+    private InputWarehouse inputWarehouse;
+
+    private OutputWarehouse outputWarehouse;
+
+    public InputWarehouse getInputWarehouse() {
+        return inputWarehouse;
+    }
+
+    public void setInputWarehouse(InputWarehouse inputWarehouse) {
+        this.inputWarehouse = inputWarehouse;
+    }
+
+    public OutputWarehouse getOutputWarehouse() {
+        return outputWarehouse;
+    }
+
+    public void setOutputWarehouse(OutputWarehouse outputWarehouse) {
+        this.outputWarehouse = outputWarehouse;
+    }
+
     public Integer getCheckType() {
         return checkType;
     }

@@ -71,6 +71,18 @@
         <include refid="Base_Column_input" />
         from return_check join input_warehouse on input_warehouse.input_warehouse_key=return_check.input_output_key
         <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
+            </if>
+            <if test="inventoryCode != null and inventoryCode != ''">
+                and inventory_code = #{inventoryCode}
+            </if>
             <if test="checkStatus != null">
                 and check_status = #{checkStatus}
             </if>
@@ -93,10 +105,33 @@
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
-    <!--统计总行数-->
-    <select id="count" resultType="java.lang.Long">
+    <!--统计总行数(采购)-->
+    <select id="countInput" resultType="java.lang.Long">
         select count(1)
-        from return_check
+        from return_check join input_warehouse on input_warehouse.input_warehouse_key=return_check.input_output_key
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
+            </if>
+            <if test="inventoryCode != null and inventoryCode != ''">
+                and inventory_code = #{inventoryCode}
+            </if>
+            <if test="checkStatus != null">
+                and check_status = #{checkStatus}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数(销售)-->
+    <select id="countOutput" resultType="java.lang.Long">
+        select count(1)
+        from return_check join output_warehouse on output_warehouse.output_warehouse_key=return_check.input_output_key
         <where>
             <if test="checkStatus != null">
                 and check_status = #{checkStatus}

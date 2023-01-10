@@ -1,12 +1,15 @@
 package com.example.api_project.service.impl;
 
+import com.example.api_project.mapper.InputWarehouseMapper;
+import com.example.api_project.mapper.OutputWarehouseMapper;
+import com.example.api_project.pojo.InputWarehouse;
+import com.example.api_project.pojo.OutputWarehouse;
 import com.example.api_project.pojo.ReturnCheck;
 import com.example.api_project.mapper.ReturnCheckMapper;
 import com.example.api_project.service.ReturnCheckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +22,12 @@ import java.util.Map;
 public class ReturnCheckServiceImpl implements ReturnCheckService {
     @Autowired
     private ReturnCheckMapper returnCheckMapper;
+
+    @Autowired
+    private InputWarehouseMapper inputWarehouseMapper;
+
+    @Autowired
+    private OutputWarehouseMapper outputWarehouseMapper;
 
     /**
      * 不分页查询
@@ -45,13 +54,19 @@ public class ReturnCheckServiceImpl implements ReturnCheckService {
      */
     @Override
     public Map<String, Object> queryByPage(ReturnCheck returnCheck, Integer startRows, Integer pageSize) {
-        long total = this.returnCheckMapper.count(returnCheck);
+        long total;
         Integer checkStatus=returnCheck.getCheckStatus();
         Integer checkType=returnCheck.getCheckType();
         List<ReturnCheck> records;
         if(checkType==0){
-            records = returnCheckMapper.queryAllByLimitInput(checkStatus,startRows, pageSize);
+            String shopCode=returnCheck.getShopCode();
+            String goodsCode=returnCheck.getGoodsCode();
+            String supplierCode=returnCheck.getSupplierCode();
+            String inventoryCode=returnCheck.getInventoryCode();
+            total = this.returnCheckMapper.countInput(returnCheck);
+            records = returnCheckMapper.queryAllByLimitInput(shopCode,goodsCode,supplierCode,inventoryCode,checkStatus,startRows, pageSize);
         }else{
+            total = this.returnCheckMapper.countOutput(returnCheck);
             records = returnCheckMapper.queryAllByLimitOutput(checkStatus,startRows, pageSize);
         }
         Map<String,Object> res = new HashMap<>();
@@ -80,6 +95,15 @@ public class ReturnCheckServiceImpl implements ReturnCheckService {
      */
     @Override
     public ReturnCheck update(ReturnCheck returnCheck) {
+        Integer checkStatus=returnCheck.getCheckStatus();
+        Integer checkType=returnCheck.getCheckType();
+        if(checkType==0){
+            InputWarehouse inputWarehouse=returnCheck.getInputWarehouse();
+            this.inputWarehouseMapper.update(inputWarehouse);
+        }else if(checkType==1){
+            OutputWarehouse outputWarehouse=returnCheck.getOutputWarehouse();
+            this.outputWarehouseMapper.update(outputWarehouse);
+        }
         this.returnCheckMapper.update(returnCheck);
         return this.queryById(returnCheck.getReturnCheckKey());
     }
