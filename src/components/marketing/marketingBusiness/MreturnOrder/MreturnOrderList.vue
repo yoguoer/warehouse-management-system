@@ -29,7 +29,7 @@
           <!-- <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button> -->
-            <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text">处理退货</el-button>
+            <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-check">处理退货</el-button>
         </template>
       </TableList>
     </div>

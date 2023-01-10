@@ -104,9 +104,8 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
-import { shoplist, goodslist, inventorylist, Supplierlist, positionList, vehicleList } from '@/api/data'
+import { shoplist, goodslist, Supplierlist, positionList, vehicleList } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
-import { UserList } from '@/api/api'
 
 export default {
   name: 'guestEdit',
@@ -206,8 +205,6 @@ export default {
     this.getgoodslist()
     this.getSupplierlist()
     this.getvehicleList()
-    // this.getUserList()
-    // this.getinventorylist();
     if (this.rowData.inputWarehouseKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -245,14 +242,6 @@ export default {
         }
       });
     },
-    // getUserList() {
-    //   UserList({userType: 2}).then(res => {
-    //     this.userOptions = res.data.data
-    //     this.$forceUpdate()
-    //   }).catch(err => {
-    //     console.log(err)
-    //   });
-    // },
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
@@ -289,21 +278,7 @@ export default {
         }
       });
     },
-    // getinventorylist() {
-    //   inventorylist()
-    //     .then((res) => {
-    //       if (res.data.code === 200) {
-    //         this.inventoryOptions = res.data.data
-    //       } else {
-    //         this.$message.error(res.msg);
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // },
     setShopName() {
-      this.getShopInventoryList(this.ruleForm.shopCode)
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
     },
     setSupplierName() {
@@ -314,10 +289,6 @@ export default {
     },
     setPosition() {
       this.ruleForm.inventoryName = this.$refs.inventorySelect.selectedLabel
-      let choosenItem = this.inventoryOptions.filter(item => {
-        return item.inventoryCode == this.ruleForm.inventoryCode
-      });
-      this.getpositionList(choosenItem[0].inventoryKey)
     },
     getpositionList(inventoryKey) {
       positionList({ inventoryKey: inventoryKey }).then(res => {
@@ -331,7 +302,6 @@ export default {
     setTime() {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
-      // console.log(this.ruleForm.createTime, this.ruleForm);
     },
     close() {
       this.$parent.drawer = false

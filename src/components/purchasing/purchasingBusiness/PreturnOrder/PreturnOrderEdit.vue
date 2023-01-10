@@ -117,9 +117,21 @@
         <el-col :span="10">
           <el-form-item label="审批结果" prop="checkStatus">
             <el-select size="small" v-model="ruleForm.checkStatus" placeholder="审批结果" clearable disabled>
-              <el-option label="未审批" :value="0" disabled></el-option>
-              <el-option label="同意" :value="1"></el-option>
-              <el-option label="驳回" :value="2"></el-option>
+              <el-option label="未审批" :value="0" disabled>
+                <span style="float: left">
+                  <i class="el-icon-minus"></i>  未审批
+                </span>
+              </el-option>
+              <el-option label="同意" :value="1">
+                <span style="float: left">
+                  <i class="el-icon-check"></i>  同意
+                </span>
+              </el-option>
+              <el-option label="驳回" :value="2">
+                <span style="float: left">
+                  <i class="el-icon-close"></i>  驳回
+                </span>
+              </el-option>
             </el-select>
           </el-form-item>
         </el-col>

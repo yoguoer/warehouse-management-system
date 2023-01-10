@@ -41,67 +41,8 @@
             <el-input v-model="ruleForm.inputPlan" clearable placeholder="计划数" disabled></el-input>
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="10">
-          <el-form-item label="仓库" prop="inventoryCode">
-            <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
-              disabled ref="inventorySelect">
-              <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
-                :label="item.inventoryName" :value="item.inventoryCode">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col> -->
       </el-row>
       <el-row>
-        <!-- <el-col :span="10">
-          <el-form-item label="库位" prop="positionCode">
-            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable
-              disabled>
-              <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
-                :value="item.positionCode" clearable placeholder="库位">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col> -->
-      </el-row>
-      <el-row>
-        <!-- <el-col :span="10">
-          <el-form-item label="入库类型" prop="type">
-            <el-select size="small" v-model="ruleForm.type" placeholder="入库类型" clearable disabled>
-              <el-option label="采购入库" :value="0"></el-option>
-              <el-option label="调货入库" :value="1"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col> -->
-      </el-row>
-      <el-row>
-        <!-- <el-col :span="10">
-          <span style="margin-left: 8%;">起止日期</span>
-          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right"
-            disabled size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
-            :picker-options="pickerOptions" @click.native="setTime" value-format="yyyy-MM-dd HH:mm:ss">
-          </el-date-picker>
-        </el-col> -->
-        <!-- <el-col :span="10">
-          <el-form-item label="门店操作员" prop="shopPeopleCode">
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable
-              disabled>
-              <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col> -->
-      </el-row>
-      <el-row>
-        <!-- <el-col :span="10">
-          <el-form-item label="仓库操作员" prop="inventoryPeopleCode">
-            <el-select size="middle" v-model="ruleForm.inventoryPeopleCode" placeholder="仓库操作员" style="width:100%;"
-              clearable>
-              <el-option v-for="item in userOptions1" :key="item.userId" :label="item.userName" :value="item.userCode">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col> -->
         <el-col :span="10">
           <el-form-item label="入库价格" prop="inputPrice">
             <el-input v-model="ruleForm.inputPrice" clearable placeholder="入库价格" disabled></el-input>
@@ -129,9 +70,21 @@
         <el-col :span="10">
           <el-form-item label="审批" prop="checkStatus">
             <el-select size="small" v-model="ruleForm.checkStatus" placeholder="审批" clearable>
-              <el-option label="未审批" :value="0" disabled></el-option>
-              <el-option label="同意" :value="1"></el-option>
-              <el-option label="驳回" :value="2"></el-option>
+              <el-option label="未审批" :value="0" disabled>
+                <span style="float: left">
+                  <i class="el-icon-minus"></i>  未审批
+                </span>
+              </el-option>
+              <el-option label="同意" :value="1">
+                <span style="float: left">
+                  <i class="el-icon-check"></i>  同意
+                </span>
+              </el-option>
+              <el-option label="驳回" :value="2">
+                <span style="float: left">
+                  <i class="el-icon-close"></i>  驳回
+                </span>
+              </el-option>
             </el-select>
           </el-form-item>
         </el-col>
@@ -252,7 +205,6 @@ export default {
     this.getgoodslist()
     this.getSupplierlist()
     this.getUserList()
-    // this.getinventorylist();
     if (this.rowData.returnCheckKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.returnCheckKey = this.rowData.returnCheckKey
@@ -386,6 +338,7 @@ export default {
           } else {
             if (this.ruleForm.checkStatus == 1) {
               this.ruleForm.returnNum = this.ruleForm.checkNum
+              this.ruleForm.inputActual = this.ruleForm.inputActual -  this.ruleForm.checkNum
             }
             let data = {
               returnCheckKey: this.ruleForm.returnCheckKey,
@@ -449,6 +402,7 @@ export default {
           } else {
             if (this.ruleForm.checkStatus == 1) {
               this.ruleForm.returnNum = this.ruleForm.checkNum
+              this.ruleForm.inputActual = this.ruleForm.inputActual -  this.ruleForm.checkNum
             }
             let data = {
               returnCheckKey: this.ruleForm.returnCheckKey,

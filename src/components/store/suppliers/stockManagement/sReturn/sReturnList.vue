@@ -23,9 +23,9 @@
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
-          <el-button v-if="props.row.checkStatus!=1" @click="editRow(props.row)" type="text" icon="el-icon-edit">审批</el-button>
+          <el-button v-if="props.row.checkStatus!=1" @click="editRow(props.row)" type="text" icon="el-icon-s-check">审批</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
-            icon="el-icon-document">删除</el-button>
+            icon="el-icon-delete">删除</el-button>
         </template>
       </TableList>
     </div>
@@ -100,30 +100,30 @@ export default {
     },
     searchConfig() {
       return [
-        // {
-        //   label: '请选择',
-        //   placeholder: '请选择门店',
-        //   field: 'shopCode',
-        //   value: '',
-        //   type: "select",
-        //   options: this.shopOptions
-        // },
-        // {
-        //   label: '请选择',
-        //   placeholder: '请选择商品',
-        //   field: 'goodsCode',
-        //   value: '',
-        //   type: "select",
-        //   options: this.goodsOptions
-        // },
-        // {
-        //   label: '请选择',
-        //   placeholder: '请选择供应商',
-        //   field: 'supplierCode',
-        //   value: '',
-        //   type: "select",
-        //   options: this.supplierOptions
-        // },
+        {
+          label: '请选择',
+          placeholder: '请选择门店',
+          field: 'shopCode',
+          value: '',
+          type: "select",
+          options: this.shopOptions
+        },
+        {
+          label: '请选择',
+          placeholder: '请选择商品',
+          field: 'goodsCode',
+          value: '',
+          type: "select",
+          options: this.goodsOptions
+        },
+        {
+          label: '请选择',
+          placeholder: '请选择供应商',
+          field: 'supplierCode',
+          value: '',
+          type: "select",
+          options: this.supplierOptions
+        },
         {
           label: '请选择',
           placeholder: '请选择审批状态',
@@ -132,14 +132,6 @@ export default {
           type: "select",
           options: this.statusOptions
         },
-        // {
-        //   label: '请选择',
-        //   placeholder: '请选择类型',
-        //   field: 'type',
-        //   value: '',
-        //   type: "select",
-        //   options:this.typeOptions
-        // },
       ];
     }
   },
@@ -205,10 +197,10 @@ export default {
       let params = {
         page: this.query.pageNo,
         size: this.query.pageSize,
-        // shopCode: "",
-        // goodsCode: "",
-        // supplierCode: "",
-        // inventoryCode: "",
+        shopCode: "",
+        goodsCode: "",
+        supplierCode: "",
+        inventoryCode: "",
         checkStatus: "",
         checkType: 0,
       };
@@ -234,10 +226,10 @@ export default {
       returnCheckListPage({
         page: this.query.pageNo,
         size: this.query.pageSize,
-        // shopCode: searchData.shopCode,
-        // goodsCode: searchData.goodsCode,
-        // supplierCode: searchData.supplierCode,
-        // inventoryCode: searchData.inventoryCode,
+        shopCode: searchData.shopCode,
+        goodsCode: searchData.goodsCode,
+        supplierCode: searchData.supplierCode,
+        inventoryCode: searchData.inventoryCode,
         checkStatus:  searchData.checkStatus,
         // isDeleted: 0,
         checkType: 0,

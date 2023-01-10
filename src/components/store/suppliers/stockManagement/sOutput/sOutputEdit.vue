@@ -209,7 +209,7 @@ export default {
     this.getvehicleList()
     // this.getUserList()
     // this.getinventorylist();
-    if (this.rowData.inputWarehouseKey) {
+    if (this.rowData.returnCheckKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
       this.ruleForm.shopName = this.rowData.shopName

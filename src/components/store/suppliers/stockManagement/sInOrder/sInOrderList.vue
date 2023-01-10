@@ -23,11 +23,11 @@
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
-          <!-- <el-button v-if="props.row.type == 1 && props.row.status!=6" @click="editRow(props.row)" type="text">处理退货</el-button> -->
+          <!-- <el-button v-if="props.row.type == 1 && props.row.status!=6" @click="editRow(props.row)" type="text"  icon="el-icon-s-check">审批 </el-button> -->
           <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
-            type="text">接收订单</el-button>
+            type="text" icon="el-icon-s-ticket">接收订单</el-button>
           <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
-            type="text">发出货物</el-button>
+            type="text" icon="el-icon-s-promotion">发出货物</el-button>
         </template>
       </TableList>
     </div>
@@ -68,11 +68,7 @@ export default {
       supplierOptions: [],
       statusOptions: [
         { label: "在单", value: 0 },
-        { label: "生产", value: 1 },
-        { label: "在途", value: 2 }],
-      //   typeOptions:[
-      //     {label:"采购入库",value:0},
-      //     {label:"调货入库",value:1}]
+        { label: "生产", value: 1 }],
     };
   },
   computed: {
@@ -119,14 +115,6 @@ export default {
           type: "select",
           options: this.goodsOptions
         },
-        // {
-        //   label: '请选择',
-        //   placeholder: '请选择仓库',
-        //   field: 'inventoryCode',
-        //   value: '',
-        //   type: "select",
-        //   options: this.inventoryOptions
-        // },
         {
           label: '请选择',
           placeholder: '请选择供应商',
@@ -143,14 +131,6 @@ export default {
           type: "select",
           options: this.statusOptions
         },
-        // {
-        //   label: '请选择',
-        //   placeholder: '请选择类型',
-        //   field: 'type',
-        //   value: '',
-        //   type: "select",
-        //   options:this.typeOptions
-        // },
       ];
     }
   },

@@ -11,10 +11,6 @@
                 : (props.row.status == '2' ? '在途' : '已接收'))
           }}</span>
         </template>
-        <template v-slot:column-type="props">
-          <span v-if="props.row.type == 0">采购</span>
-          <span v-if="props.row.type == 1">退货</span>
-        </template>
         <template v-slot:column-createTime="props">
           <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
@@ -23,9 +19,9 @@
         </template>
         <!-- <template v-slot:column-todo="props">
           <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
-            type="text">接收订单</el-button>
+            type="text" icon="el-icon-s-ticket">接收订单</el-button>
           <el-button v-if="props.row.status < 3 && props.row.type == 0" @click="editRow(props.row)"
-            type="text">发出货物</el-button>
+            type="text" icon="el-icon-s-promotion">发出货物</el-button>
         </template> -->
       </TableList>
     </div>
@@ -83,13 +79,13 @@ export default {
         { prop: "inputActual", label: "实际数" },
         // { prop: "inventoryCode", label: "仓库编码" },
         // { prop: "positionCode", label: "货位编码" },
-        { slots: { name: "column-status" }, label: "状态" },
-        { slots: { name: "column-type" }, label: "类型" },
-        { prop: "vehicleCode", label: "车辆编码" },
+        // { slots: { name: "column-type" }, label: "类型" },
         // { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
         { prop: "returnNum", label: "退货数" },
         { prop: "returnReason", label: "退货原因" },
+        { prop: "vehicleCode", label: "车辆编码" },
+        { slots: { name: "column-status" }, label: "状态" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         // { slots: { name: "column-todo" }, label: "操作", fixed: "right"},

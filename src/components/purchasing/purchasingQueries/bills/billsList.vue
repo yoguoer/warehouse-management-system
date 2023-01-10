@@ -29,9 +29,9 @@
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
-          <el-button v-if="props.row.status!=6 && props.row.isDeleted == 0" @click="editRow(props.row)" type="text"
+          <el-button v-if="userType==0" @click="editRow(props.row)" type="text"
             icon="el-icon-edit">编辑</el-button>
-          <el-button v-if="props.row.status!=6" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
+          <el-button v-if="userType==0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
       </TableList>

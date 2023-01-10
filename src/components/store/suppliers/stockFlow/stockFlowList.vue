@@ -1,9 +1,10 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden" />
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
-        :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
+        :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
+        :loading="loadings.table">
         <template v-slot:column-status="props">
           <span>{{
             props.row.status == '0' ? '在单'
@@ -19,23 +20,22 @@
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
-          <el-button v-if="props.row.returnReason " @click="editRow(props.row)" type="text">处理退货</el-button>
-          <el-button v-if="props.row.status < 2 && props.row.type == 0" @click="editRow1(props.row)"
-            type="text">接收订单</el-button>
-          <el-button v-if="props.row.status < 2 && props.row.type == 0" @click="editRow1(props.row)"
-            type="text">发出货物</el-button>
+          <el-button v-if="props.row.returnReason" @click="editRow(props.row)" type="text"
+            icon="el-icon-s-check">审批</el-button>
+          <el-button v-if="props.row.status < 2 && props.row.type == 0" @click="editRow1(props.row)" type="text"
+            icon="el-icon-s-ticket">接收订单</el-button>
+          <el-button v-if="props.row.status < 2 && props.row.type == 0" @click="editRow1(props.row)" type="text"
+            icon="el-icon-s-promotion">发出货物</el-button>
         </template>
       </TableList>
     </div>
-    <sReturnEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
-      @success="success()" />
-      <sInOrderEdit v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false"
-      @success="success()" />
+    <sReturnEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
+    <sInOrderEdit v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false" @success="success()" />
   </div>
 </template>
 
 <script>
-import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList } from "@/api/purchasing";
+import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList,returnCheckByKey } from "@/api/purchasing";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import sReturnEdit from "@/components/store/suppliers/stockManagement/sReturn/sReturnEdit.vue";
@@ -48,9 +48,9 @@ export default {
     return {
       total: null,
       drawer: false,
-      drawer1:false,
-      hidden:true,
-      multiCheck:false,
+      drawer1: false,
+      hidden: true,
+      multiCheck: false,
       rowData: {},
       rowData1: {},
       tableData: [],
@@ -98,7 +98,7 @@ export default {
         // { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
         { prop: "returnReason", label: "退货原因" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 200 },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
       ];
     },
     searchConfig() {
@@ -119,14 +119,6 @@ export default {
           type: "select",
           options: this.goodsOptions
         },
-        // {
-        //   label: '请选择',
-        //   placeholder: '请选择仓库',
-        //   field: 'inventoryCode',
-        //   value: '',
-        //   type: "select",
-        //   options: this.inventoryOptions
-        // },
         {
           label: '请选择',
           placeholder: '请选择供应商',
@@ -143,14 +135,6 @@ export default {
           type: "select",
           options: this.statusOptions
         },
-        // {
-        //   label: '请选择',
-        //   placeholder: '请选择类型',
-        //   field: 'type',
-        //   value: '',
-        //   type: "select",
-        //   options:this.typeOptions
-        // },
       ];
     }
   },
@@ -174,7 +158,6 @@ export default {
     getSupplierlist() {
       Supplierlist().then(res => {
         if (res.data.code == 200) {
-          // this.supplierOptions = res.data.data
           this.supplierOptions = []
           res.data.data.forEach(item => {
             this.supplierOptions.push({ label: item.supplierName, value: item.supplierCode })
@@ -248,12 +231,6 @@ export default {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
-          // this.tableData=[]
-          // res.data.data.records.forEach(item=>{
-          //   if(item.status<2){
-          //     this.tableData.push(item)
-          //   }
-          // })
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -283,12 +260,6 @@ export default {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
-          // this.tableData=[]
-          // res.data.data.records.forEach(item=>{
-          //   if(item.status<2){
-          //     this.tableData.push(item)
-          //   }
-          // })
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -303,12 +274,19 @@ export default {
       this.drawer1 = true;
     },
     editRow(row) {
-      this.rowData = row;
-      this.drawer = true;
+      returnCheckByKey({ checkType:0,inputOutputKey:row.inputWarehouseKey}).then(res => {
+        if (res.data.code == 200) {
+          this.rowData=res.data.data
+          console.log(this.rowData)
+          this.drawer = true;
+        } else {
+          this.$message.error("获取失败!");
+        }
+      })
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey,isDeleted:1 }).then(res => {
+      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey, isDeleted: 1 }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()

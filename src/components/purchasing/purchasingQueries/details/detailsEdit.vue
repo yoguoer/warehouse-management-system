@@ -470,12 +470,13 @@ export default {
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
             status: this.ruleForm.status,
-            isDeleted:0,
+            isDeleted:this.ruleForm.isDeleted,
             returnNum:this.ruleForm.returnNum,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
-            returnReason: this.ruleForm.returnReason
+            returnReason: this.ruleForm.returnReason,
+            inputWarehouseKey: this.ruleForm.inputWarehouseKey
           }
           inputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {

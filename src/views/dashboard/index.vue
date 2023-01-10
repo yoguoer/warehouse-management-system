@@ -11,7 +11,7 @@
           <div class="title-container">
             <a>
               <el-image :src="logo" alt="1" />
-              <span class="title" style="cursor: pointer;" @click="goDefault()">智能库存管理系统</span>
+              <span class="title" style="cursor: pointer;" @click="goDefault()">商品库存管理系统</span>
             </a>
             <div class="nav-box">
               <div class="clearfix list" v-for="(item, index) in menuList" :key="index"

@@ -3,7 +3,7 @@
     <div class="login-header">
       <div class="logo">
         <el-image :src="logoimg"></el-image>
-        <div>智能库存管理系统</div>
+        <div>商品库存管理系统</div>
       </div>
     </div>
     <div class="login-main clearfix">
@@ -33,7 +33,7 @@
                 @keyup.enter.native="submitform('ruleForm', tabval)" maxlength="20" />
             </el-form-item>
             <el-form-item prop="userSex">
-              <el-select size="middle" v-model="formdata.userSex" clearable placeholder="性别" style="width:100%">
+              <el-select size="middle" v-model="formdata.userSex" clearable placeholder="性别" style="width:100%;">
                 <el-option label="男" value="男"></el-option>
                 <el-option label="女" value="女"></el-option>
               </el-select>
@@ -318,6 +318,12 @@ export default {
       color: #fff;
       width: 294px;
       border-radius: 30px;
+    }
+    .el-select{
+      /deep/.el-input__inner {
+        width: 100%;
+        border-radius: 30px;
+      }
     }
 
     .el-input {

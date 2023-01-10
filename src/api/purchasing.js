@@ -92,4 +92,13 @@ export function returnCheckDeleteList(data) {
         method: "POST",
         data: data,
     });
-    }
+}
+
+//查询采购退货单inputOutputKey
+export function returnCheckByKey(data) {
+    return request({
+      url: baseUrl + "/returnCheck/getById",
+      method: "get",
+      params: data,
+    });
+  }

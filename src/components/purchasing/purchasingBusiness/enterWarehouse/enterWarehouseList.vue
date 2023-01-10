@@ -25,7 +25,7 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-show="userType == 0" @click="editRow(props.row)" type="text">申请退货</el-button>
+          <el-button v-show="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-truck">申请退货</el-button>
           <!-- <el-button v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button> -->
