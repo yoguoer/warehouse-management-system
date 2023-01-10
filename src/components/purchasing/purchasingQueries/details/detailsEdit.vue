@@ -134,7 +134,7 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="申请退货数" prop="returnNum">
-            <el-input v-model="ruleForm.returnNum" clearable placeholder="申请退货数" ></el-input>
+            <el-input v-model="ruleForm.returnNum" clearable placeholder="申请退货数"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -184,8 +184,8 @@ export default {
         type: "",
         shopPeopleCode: "",
         inventoryPeopleCode: "",
-        isDeleted:"",
-        returnNum:"",
+        isDeleted: "",
+        returnNum: "",
         returnReason: ""
       },
       statusOptions: [
@@ -207,7 +207,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 7);
             picker.$emit('pick', [start, end]);
           }
         }, {
@@ -215,7 +215,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
             picker.$emit('pick', [start, end]);
           }
         }, {
@@ -223,7 +223,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
             picker.$emit('pick', [start, end]);
           }
         }]
@@ -283,8 +283,8 @@ export default {
       this.ruleForm.inputActual = this.rowData.inputActual
       this.ruleForm.inventoryCode = this.rowData.inventoryCode
       this.ruleForm.positionCode = this.rowData.positionCode
-      this.ruleForm.isDeleted=this.rowData.isDeleted
-      this.ruleForm.returnNum=this.rowData.returnNum
+      this.ruleForm.isDeleted = this.rowData.isDeleted
+      this.ruleForm.returnNum = this.rowData.returnNum
       this.ruleForm.createTime = this.rowData.createTime
       this.ruleForm.deadlineTime = this.rowData.deadlineTime
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
@@ -415,8 +415,8 @@ export default {
             shopName: this.ruleForm.shopName,
             goodsCode: this.ruleForm.goodsCode,
             goodsName: this.ruleForm.goodsName,
-            isDeleted:this.ruleForm.isDeleted,
-            returnNum:this.ruleForm.returnNum,
+            isDeleted: this.ruleForm.isDeleted,
+            returnNum: this.ruleForm.returnNum,
             supplierCode: this.ruleForm.supplierCode,
             supplierName: this.ruleForm.supplierName,
             inputPlan: this.ruleForm.inputPlan,
@@ -470,8 +470,8 @@ export default {
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
             status: this.ruleForm.status,
-            isDeleted:this.ruleForm.isDeleted,
-            returnNum:this.ruleForm.returnNum,
+            isDeleted: this.ruleForm.isDeleted,
+            returnNum: this.ruleForm.returnNum,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,

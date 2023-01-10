@@ -68,7 +68,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="接收状态" prop="status"  v-if="ruleForm.status <3">
+          <el-form-item label="接收状态" prop="status" v-if="ruleForm.status < 3">
             <el-select size="middle" v-model="ruleForm.status" placeholder="接收状态" style="width:100%;" clearable>
               <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
@@ -88,8 +88,7 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 1">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea"
-              disabled></el-input>
+            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -145,17 +144,13 @@ export default {
       inventoryOptions: [],
       vehicleOptions: [],
       // userOptions:[],
-      statusOptions: [
-        { label: "在单", value: 0, disabled: false },
-        { label: "生产", value: 1, disabled: false },
-        { label: "在途", value: 2, disabled: false }],
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 7);
             picker.$emit('pick', [start, end]);
           }
         }, {
@@ -163,7 +158,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
             picker.$emit('pick', [start, end]);
           }
         }, {
@@ -171,7 +166,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
             picker.$emit('pick', [start, end]);
           }
         }]

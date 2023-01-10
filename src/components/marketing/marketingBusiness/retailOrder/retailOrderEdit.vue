@@ -86,9 +86,9 @@
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
             <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable>
-              <el-option v-for="item in userOptions" :key="item.userId"
-                :label="item.userName" :value="item.userCode">
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;"
+              clearable>
+              <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -151,22 +151,22 @@ export default {
         shopPeopleCode: "",
         inventoryPeopleCode: "",
         returnReason: "",
-        isDeleted:"",
-        returnNum:""
+        isDeleted: "",
+        returnNum: ""
       },
       shopOptions: [],
       goodsOptions: [],
       positionOptions: [],
       customerOptions: [],
       inventoryOptions: [],
-      userOptions:[],
+      userOptions: [],
       // pickerOptions: {
       //   shortcuts: [{
       //     text: '最近一周',
       //     onClick(picker) {
       //       const end = new Date();
       //       const start = new Date();
-      //       start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+      //       end.setTime(end.getTime() + 3600 * 1000 * 24 * 7);
       //       picker.$emit('pick', [start, end]);
       //     }
       //   }, {
@@ -174,7 +174,7 @@ export default {
       //     onClick(picker) {
       //       const end = new Date();
       //       const start = new Date();
-      //       start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+      //       end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
       //       picker.$emit('pick', [start, end]);
       //     }
       //   }, {
@@ -182,7 +182,7 @@ export default {
       //     onClick(picker) {
       //       const end = new Date();
       //       const start = new Date();
-      //       start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+      //       end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
       //       picker.$emit('pick', [start, end]);
       //     }
       //   }]
@@ -247,11 +247,11 @@ export default {
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
       // this.ruleForm.status = this.rowData.status
       this.ruleForm.type = this.rowData.type
-      this.ruleForm.isDeleted=this.rowData.isDeleted
+      this.ruleForm.isDeleted = this.rowData.isDeleted
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.returnReason = this.rowData.returnReason
-      this.ruleForm.returnNum=this.rowData.returnNum
+      this.ruleForm.returnNum = this.rowData.returnNum
       // this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -259,7 +259,7 @@ export default {
   },
   methods: {
     getUserList() {
-      UserList({userType: 2}).then(res => {
+      UserList({ userType: 2 }).then(res => {
         this.userOptions = res.data.data
         this.$forceUpdate()
       }).catch(err => {
@@ -371,12 +371,12 @@ export default {
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
             status: this.ruleForm.status,
-            isDeleted:this.ruleForm.isDeleted,
+            isDeleted: this.ruleForm.isDeleted,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
-            returnNum:this.ruleForm.returnNum,
+            returnNum: this.ruleForm.returnNum,
             outputWarehouseKey: this.ruleForm.outputWarehouseKey
           }
           outputWarehouseUpdate(data).then(res => {
@@ -415,12 +415,12 @@ export default {
             createTime: this.ruleForm.createTime,
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
-            isDeleted:this.ruleForm.isDeleted,
+            isDeleted: this.ruleForm.isDeleted,
             status: this.ruleForm.status,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
-            returnNum:this.ruleForm.returnNum,
+            returnNum: this.ruleForm.returnNum,
             returnReason: this.ruleForm.returnReason
           }
           outputWarehouseAdd(data).then(res => {

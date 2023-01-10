@@ -119,17 +119,17 @@
             <el-select size="small" v-model="ruleForm.checkStatus" placeholder="审批结果" clearable disabled>
               <el-option label="未审批" :value="0" disabled>
                 <span style="float: left">
-                  <i class="el-icon-minus"></i>  未审批
+                  <i class="el-icon-minus"></i> 未审批
                 </span>
               </el-option>
               <el-option label="同意" :value="1">
                 <span style="float: left">
-                  <i class="el-icon-check"></i>  同意
+                  <i class="el-icon-check"></i> 同意
                 </span>
               </el-option>
               <el-option label="驳回" :value="2">
                 <span style="float: left">
-                  <i class="el-icon-close"></i>  驳回
+                  <i class="el-icon-close"></i> 驳回
                 </span>
               </el-option>
             </el-select>
@@ -203,7 +203,7 @@ export default {
         isDeleted: "",
         returnReason: "",
         returnNum: "",
-        checkType:""
+        checkType: ""
       },
       shopOptions: [],
       goodsOptions: [],
@@ -218,7 +218,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 7);
             picker.$emit('pick', [start, end]);
           }
         }, {
@@ -226,7 +226,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
             picker.$emit('pick', [start, end]);
           }
         }, {
@@ -234,7 +234,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
             picker.$emit('pick', [start, end]);
           }
         }]
@@ -312,7 +312,7 @@ export default {
       this.ruleForm.checkStatus = this.rowData.checkStatus
       this.ruleForm.description = this.rowData.description
       this.ruleForm.returnNum = this.rowData.returnNum
-      this.ruleForm.checkType=this.rowData.checkType
+      this.ruleForm.checkType = this.rowData.checkType
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true

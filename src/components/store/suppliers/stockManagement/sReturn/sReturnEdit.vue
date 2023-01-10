@@ -72,17 +72,17 @@
             <el-select size="small" v-model="ruleForm.checkStatus" placeholder="审批" clearable>
               <el-option label="未审批" :value="0" disabled>
                 <span style="float: left">
-                  <i class="el-icon-minus"></i>  未审批
+                  <i class="el-icon-minus"></i> 未审批
                 </span>
               </el-option>
               <el-option label="同意" :value="1">
                 <span style="float: left">
-                  <i class="el-icon-check"></i>  同意
+                  <i class="el-icon-check"></i> 同意
                 </span>
               </el-option>
               <el-option label="驳回" :value="2">
                 <span style="float: left">
-                  <i class="el-icon-close"></i>  驳回
+                  <i class="el-icon-close"></i> 驳回
                 </span>
               </el-option>
             </el-select>
@@ -159,7 +159,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 7);
             picker.$emit('pick', [start, end]);
           }
         }, {
@@ -167,7 +167,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
             picker.$emit('pick', [start, end]);
           }
         }, {
@@ -175,7 +175,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
             picker.$emit('pick', [start, end]);
           }
         }]
@@ -338,7 +338,7 @@ export default {
           } else {
             if (this.ruleForm.checkStatus == 1) {
               this.ruleForm.returnNum = this.ruleForm.checkNum
-              this.ruleForm.inputActual = this.ruleForm.inputActual -  this.ruleForm.checkNum
+              this.ruleForm.inputActual = this.ruleForm.inputActual - this.ruleForm.checkNum
             }
             let data = {
               returnCheckKey: this.ruleForm.returnCheckKey,
@@ -402,7 +402,7 @@ export default {
           } else {
             if (this.ruleForm.checkStatus == 1) {
               this.ruleForm.returnNum = this.ruleForm.checkNum
-              this.ruleForm.inputActual = this.ruleForm.inputActual -  this.ruleForm.checkNum
+              this.ruleForm.inputActual = this.ruleForm.inputActual - this.ruleForm.checkNum
             }
             let data = {
               returnCheckKey: this.ruleForm.returnCheckKey,

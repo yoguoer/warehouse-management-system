@@ -61,7 +61,7 @@
         <el-col :span="10">
           <el-form-item label="仓库" prop="inventoryCode">
             <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
-             ref="inventorySelect">
+              ref="inventorySelect">
               <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
                 :label="item.inventoryName" :value="item.inventoryCode">
               </el-option>
@@ -88,7 +88,8 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable>
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;"
+              clearable>
               <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
               </el-option>
             </el-select>
@@ -168,7 +169,7 @@ export default {
         isDeleted: "",
         returnReason: "",
         returnNum: "",
-        checkNum:""
+        checkNum: ""
       },
       shopOptions: [],
       goodsOptions: [],
@@ -183,7 +184,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 7);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 7);
             picker.$emit('pick', [start, end]);
           }
         }, {
@@ -191,7 +192,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 30);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
             picker.$emit('pick', [start, end]);
           }
         }, {
@@ -199,7 +200,7 @@ export default {
           onClick(picker) {
             const end = new Date();
             const start = new Date();
-            start.setTime(start.getTime() - 3600 * 1000 * 24 * 90);
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
             picker.$emit('pick', [start, end]);
           }
         }]
@@ -381,10 +382,10 @@ export default {
             checkTime: this.ruleForm.checkTime,
             checkNum: this.ruleForm.checkNum,
           }
-            returnCheckAdd(data).then(res => {
+          returnCheckAdd(data).then(res => {
             if (res.data.code == 200) {
               let param = {
-                inputWarehouseKey:this.ruleForm.inputWarehouseKey,
+                inputWarehouseKey: this.ruleForm.inputWarehouseKey,
                 shopCode: this.ruleForm.shopCode,
                 shopName: this.ruleForm.shopName,
                 goodsCode: this.ruleForm.goodsCode,
@@ -444,7 +445,7 @@ export default {
           returnCheckAdd(data).then(res => {
             if (res.data.code == 200) {
               let param = {
-                inputWarehouseKey:this.ruleForm.inputWarehouseKey,
+                inputWarehouseKey: this.ruleForm.inputWarehouseKey,
                 shopCode: this.ruleForm.shopCode,
                 shopName: this.ruleForm.shopName,
                 goodsCode: this.ruleForm.goodsCode,
