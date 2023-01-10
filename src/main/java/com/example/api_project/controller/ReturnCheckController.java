@@ -52,8 +52,8 @@ public class ReturnCheckController {
      * @return 单条数据
      */
     @GetMapping("/getById")
-    public Result queryById(@PathVariable("returnCheckKey") String returnCheckKey) {
-        return ResponseData.success(this.returnCheckService.queryById(returnCheckKey));
+    public Result queryById(ReturnCheck returnCheck) {
+        return ResponseData.success(this.returnCheckService.queryById(returnCheck));
     }
 
     /**

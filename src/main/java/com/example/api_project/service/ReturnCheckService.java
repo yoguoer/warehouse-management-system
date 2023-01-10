@@ -20,10 +20,9 @@ public interface ReturnCheckService {
     /**
      * 通过ID查询单条数据
      *
-     * @param  returnCheckKey
      * @return 实例对象
      */
-    ReturnCheck queryById( String returnCheckKey);
+    ReturnCheck queryById(ReturnCheck returnCheck);
 
     /**
      * 分页查询

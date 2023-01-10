@@ -20,10 +20,16 @@ public interface ReturnCheckMapper {
     /**
      * 通过ID查询单条数据
      *
-     * @param  returnCheckKey
      * @return 实例对象
      */
-    ReturnCheck queryById(String returnCheckKey );
+    ReturnCheck queryByIdIn(String inputOutputKey );
+
+    /**
+     * 通过ID查询单条数据
+     *
+     * @return 实例对象
+     */
+    ReturnCheck queryByIdOut(String inputOutputKey );
 
     /**
      * 查询指定行数据

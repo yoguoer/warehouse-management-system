@@ -58,11 +58,27 @@
     </select>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="ReturnCheckMap">
+    <select id="queryByIdIn" resultMap="ReturnCheckMap">
         select
-          return_check_key, input_output_key, check_status,check_type,check_num, happen_time,check_time, description
-        from return_check
-        where  return_check_key= #{returnCheckKey}
+        <include refid="Base_Column_input" />
+        from return_check join input_warehouse on input_warehouse.input_warehouse_key=return_check.input_output_key
+        <where>
+            <if test="inputOutputKey != null and inputOutputKey != ''">
+                and input_output_key = #{inputOutputKey}
+            </if>
+        </where>
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByIdOut" resultMap="ReturnCheckMap">
+        select
+        <include refid="Base_Column_output" />
+        from return_check join output_warehouse on output_warehouse.output_warehouse_key=return_check.input_output_key
+        <where>
+            <if test="inputOutputKey != null and inputOutputKey != ''">
+                and input_output_key = #{inputOutputKey}
+            </if>
+        </where>
     </select>
 
     <!--查询指定行数据(采购)-->

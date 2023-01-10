@@ -38,12 +38,17 @@ public class ReturnCheckServiceImpl implements ReturnCheckService {
     /**
      * 通过ID查询单条数据
      *
-     * @param  returnCheckKey
      * @return 实例对象
      */
     @Override
-    public ReturnCheck queryById(String returnCheckKey ) {
-        return this.returnCheckMapper.queryById(returnCheckKey);
+    public ReturnCheck queryById(ReturnCheck returnCheck) {
+        String inputOutputKey=returnCheck.getInputOutputKey();
+        Integer checkType=returnCheck.getCheckType();
+        if(checkType==0){
+            return this.returnCheckMapper.queryByIdIn(inputOutputKey);
+        }else{
+            return this.returnCheckMapper.queryByIdOut(inputOutputKey);
+        }
     }
 
     /**
@@ -95,7 +100,6 @@ public class ReturnCheckServiceImpl implements ReturnCheckService {
      */
     @Override
     public ReturnCheck update(ReturnCheck returnCheck) {
-        Integer checkStatus=returnCheck.getCheckStatus();
         Integer checkType=returnCheck.getCheckType();
         if(checkType==0){
             InputWarehouse inputWarehouse=returnCheck.getInputWarehouse();
@@ -105,7 +109,7 @@ public class ReturnCheckServiceImpl implements ReturnCheckService {
             this.outputWarehouseMapper.update(outputWarehouse);
         }
         this.returnCheckMapper.update(returnCheck);
-        return this.queryById(returnCheck.getReturnCheckKey());
+        return this.queryById(returnCheck);
     }
 
     /**
