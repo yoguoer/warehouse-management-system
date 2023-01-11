@@ -29,8 +29,7 @@
           <span>{{ props.row.isDeleted == '0' ? '否' : (props.row.isDeleted == '1' ? '是' : '-') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button  v-if="props.row.status==5 && props.row.isDeleted == 0" @click="editRow(props.row)" type="text" icon="el-icon-truck">退货</el-button>
-          <el-button v-if="userType == 0 && props.row.isDeleted == 0" @click="editRow(props.row)" type="text"
+          <el-button v-if="userType == 0&&props.row.isDeleted==0" @click="editRow(props.row)" type="text"
             icon="el-icon-edit">编辑</el-button>
           <el-button v-if="userType == 0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
@@ -106,7 +105,7 @@ export default {
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { slots: { name: "column-isDeleted" }, label: "是否删除" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
     searchConfig() {
@@ -189,7 +188,6 @@ export default {
     getCustomerList() {
       CustomerList().then(res => {
         if (res.data.code == 200) {
-          // this.customerOptions = res.data.data
           this.customerOptions = []
           res.data.data.forEach(item => {
             this.customerOptions.push({ label: item.customerName, value: item.customerCode })

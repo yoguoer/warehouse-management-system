@@ -74,18 +74,13 @@
           <el-form-item label="出库类型" prop="type">
             <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable>
               <el-option label="零售出库" :value="0"></el-option>
-              <!-- <el-option label="客户订购单" :value="1"></el-option> -->
-              <el-option label="销售退货单" :value="2"></el-option>
             </el-select>
-            <!-- <el-input value="零售出库" clearable placeholder="出库类型" disabled></el-input> -->
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <!-- 还没完成呢！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！ -->
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
-            <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
             <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;"
               clearable>
               <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
@@ -93,18 +88,24 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="10">
-          <span style="margin-left: 8%;">起止日期</span>
-          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right"
-            size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
-            :picker-options="pickerOptions" @click.native="setTime" value-format="yyyy-MM-dd HH:mm:ss">
-          </el-date-picker>
-        </el-col> -->
+        <el-col :span="10">
+          <el-form-item label="仓库操作员" prop="inventoryPeopleCode">
+            <el-select size="middle" v-model="ruleForm.inventoryPeopleCode" placeholder="仓库操作员" style="width:100%;"
+              clearable>
+              <el-option v-for="item in userOptions1" :key="item.userId" :label="item.userName" :value="item.userCode">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 2">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea"></el-input>
+          <el-form-item label="车辆" prop="vehicleCode">
+            <el-select size="middle" v-model="ruleForm.vehicleCode" placeholder="车辆" style="width:100%;" clearable>
+              <el-option v-for="item in vehicleOptions" :key="item.vehicleKey" :label="item.vehicleCode"
+                :value="item.vehicleCode">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -119,7 +120,7 @@
 
 <script>
 import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
-import { shoplist, goodslist,  CustomerList, positionList } from '@/api/data'
+import { shoplist, goodslist,  CustomerList, positionList,vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import moment from 'moment'
@@ -156,38 +157,12 @@ export default {
       },
       shopOptions: [],
       goodsOptions: [],
+      vehicleOptions:[],
       positionOptions: [],
       customerOptions: [],
       inventoryOptions: [],
       userOptions: [],
-      // pickerOptions: {
-      //   shortcuts: [{
-      //     text: '最近一周',
-      //     onClick(picker) {
-      //       const end = new Date();
-      //       const start = new Date();
-      //       end.setTime(end.getTime() + 3600 * 1000 * 24 * 7);
-      //       picker.$emit('pick', [start, end]);
-      //     }
-      //   }, {
-      //     text: '最近一个月',
-      //     onClick(picker) {
-      //       const end = new Date();
-      //       const start = new Date();
-      //       end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
-      //       picker.$emit('pick', [start, end]);
-      //     }
-      //   }, {
-      //     text: '最近三个月',
-      //     onClick(picker) {
-      //       const end = new Date();
-      //       const start = new Date();
-      //       end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
-      //       picker.$emit('pick', [start, end]);
-      //     }
-      //   }]
-      // },
-      // value2: '',
+      userOptions1: [],
       rules: {
         shopCode: [
           { required: true, message: '请选择门店', trigger: 'blur' },
@@ -227,6 +202,7 @@ export default {
     this.getshoplist()
     this.getgoodslist()
     this.getUserList()
+    this.getvehicleList()
     if (this.rowData.outputWarehouseKey) {
       this.ruleForm.outputWarehouseKey = this.rowData.outputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -257,9 +233,24 @@ export default {
     this.getShopInventoryList()
   },
   methods: {
+    getvehicleList() {
+      vehicleList().then(res => {
+        if (res.data.code == 200) {
+          this.vehicleOptions = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     getUserList() {
       UserList({ userType: 2 }).then(res => {
         this.userOptions = res.data.data
+        this.$forceUpdate()
+      }).catch(err => {
+        console.log(err)
+      });
+      UserList({ userType: 1 }).then(res => {
+        this.userOptions1 = res.data.data
         this.$forceUpdate()
       }).catch(err => {
         console.log(err)
@@ -411,7 +402,7 @@ export default {
             status: this.ruleForm.status,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
-            inventoryPeopleCode: this.ruleForm.shopPeopleCode,
+            inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnNum: this.ruleForm.returnNum,
             returnReason: this.ruleForm.returnReason
           }

@@ -28,13 +28,12 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="客户" prop="customerCode">
-            <!-- <el-select size="middle" v-model="ruleForm.customerCode" placeholder="客户" style="width:100%;" clearable
-              @click.native="setCustomerName" ref="customerSelect">
-              <el-option v-for="item in customerOptions" :key="item.customerKey" :label="item.customerName"
-                :value="item.customerCode">
+            <el-select size="middle" v-model="ruleForm.customerCode" placeholder="客户" style="width:100%;" clearable
+              ref="customerSelect">
+              <el-option @click.native="setCustomerName" v-for="item in customerOptions" :key="item.customerKey"
+                :label="item.customerName" :value="item.customerCode">
               </el-option>
-            </el-select> -->
-            <el-input v-model="ruleForm.customerName" clearable placeholder="客户" disabled></el-input>
+            </el-select>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -59,8 +58,8 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="计划数" prop="outputPlan">
-            <el-input v-model="ruleForm.outputPlan" clearable placeholder="计划数"></el-input>
+          <el-form-item label="计划出库数" prop="outputPlan">
+            <el-input v-model="ruleForm.outputPlan" clearable placeholder="计划出库数"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -73,16 +72,13 @@
         <el-col :span="10">
           <el-form-item label="出库类型" prop="type">
             <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable>
-              <el-option label="零售出库" :value="0"></el-option>
-              <!-- <el-option label="客户订购单" :value="1"></el-option> -->
-              <el-option label="销售退货单" :value="2"></el-option>
+              <!-- <el-option label="零售出库" :value="0"></el-option> -->
+              <el-option label="客户订购出库" :value="1"></el-option>
             </el-select>
-            <!-- <el-input value="零售出库" clearable placeholder="出库类型" disabled></el-input> -->
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <!-- 还没完成呢！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！ -->
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
             <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
@@ -93,18 +89,38 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="10">
+        <el-col :span="10">
           <span style="margin-left: 8%;">起止日期</span>
           <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right"
             size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
-            :picker-options="pickerOptions" @click.native="setTime" value-format="yyyy-MM-dd HH:mm:ss">
+            :picker-options="pickerOptions" @change="setTime" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
-        </el-col> -->
+        </el-col>
       </el-row>
-      <el-row>
+      <el-row v-if="output">
         <el-col :span="10">
-          <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 2">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea"></el-input>
+          <el-form-item label="仓库操作员" prop="inventoryPeopleCode">
+            <el-select size="middle" v-model="ruleForm.inventoryPeopleCode" placeholder="仓库操作员" style="width:100%;"
+              clearable>
+              <el-option v-for="item in userOptions1" :key="item.userId" :label="item.userName" :value="item.userCode">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
+          <el-form-item label="实际数" prop="outputActual">
+            <el-input v-model="ruleForm.outputActual" clearable placeholder="实际数"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row v-if="output">
+        <el-col :span="10">
+          <el-form-item label="车辆" prop="vehicleCode">
+            <el-select size="middle" v-model="ruleForm.vehicleCode" placeholder="车辆" style="width:100%;" clearable>
+              <el-option v-for="item in vehicleOptions" :key="item.vehicleKey" :label="item.vehicleCode"
+                :value="item.vehicleCode">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -119,10 +135,9 @@
 
 <script>
 import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
-import { shoplist, goodslist, inventorylist, CustomerList, positionList } from '@/api/data'
-import { ShopInventoryList } from '@/api/warehouse'
+import { shoplist, goodslist, CustomerList, positionList, vehicleList } from '@/api/data'
+import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
-import moment from 'moment'
 
 export default {
   name: 'guestEdit',
@@ -136,8 +151,8 @@ export default {
         shopName: "",
         goodsCode: "",
         goodsName: "",
-        customerCode: "retail",
-        customerName: "零售客户",
+        customerCode: "",
+        customerName: "",
         outputPlan: "",
         outputPrice: "",
         outputActual: "",
@@ -146,48 +161,50 @@ export default {
         createTime: "",
         deadlineTime: "",
         vehicleCode: "",
-        status: 5,
-        type: "",
+        status: "",
+        type: 1,
         shopPeopleCode: "",
         inventoryPeopleCode: "",
-        returnReason: "",
         isDeleted: "",
+        returnReason: "",
         returnNum: ""
       },
       shopOptions: [],
       goodsOptions: [],
       positionOptions: [],
       customerOptions: [],
+      vehicleOptions: [],
       inventoryOptions: [],
       userOptions: [],
-      // pickerOptions: {
-      //   shortcuts: [{
-      //     text: '最近一周',
-      //     onClick(picker) {
-      //       const end = new Date();
-      //       const start = new Date();
-      //       end.setTime(end.getTime() + 3600 * 1000 * 24 * 7);
-      //       picker.$emit('pick', [start, end]);
-      //     }
-      //   }, {
-      //     text: '最近一个月',
-      //     onClick(picker) {
-      //       const end = new Date();
-      //       const start = new Date();
-      //       end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
-      //       picker.$emit('pick', [start, end]);
-      //     }
-      //   }, {
-      //     text: '最近三个月',
-      //     onClick(picker) {
-      //       const end = new Date();
-      //       const start = new Date();
-      //       end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
-      //       picker.$emit('pick', [start, end]);
-      //     }
-      //   }]
-      // },
-      // value2: '',
+      userOptions1: [],
+      pickerOptions: {
+        shortcuts: [{
+          text: '最近一周',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近一个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', [start, end]);
+          }
+        }, {
+          text: '最近三个月',
+          onClick(picker) {
+            const end = new Date();
+            const start = new Date();
+            end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', [start, end]);
+          }
+        }]
+      },
+      value2: '',
       rules: {
         shopCode: [
           { required: true, message: '请选择门店', trigger: 'blur' },
@@ -202,7 +219,7 @@ export default {
           { required: true, message: '请选择仓库', trigger: 'blur' },
         ],
         outputPlan: [
-          { required: true, message: '请设置计划数', trigger: 'blur' },
+          { required: true, message: '请设置计划出库数', trigger: 'blur' },
         ],
         outputPrice: [
           { required: true, message: '请设置出库价格', trigger: 'blur' },
@@ -218,7 +235,9 @@ export default {
       default: true,
     },
     rowData: {},
-    shopGoodsList: []
+    output: {
+      default: false,
+    },
   },
   watch: {
 
@@ -226,9 +245,9 @@ export default {
   created() {
     this.getshoplist()
     this.getgoodslist()
+    this.getCustomerList()
     this.getUserList()
-    // this.getCustomerList()
-    // this.getinventorylist();
+    this.getvehicleList()
     if (this.rowData.outputWarehouseKey) {
       this.ruleForm.outputWarehouseKey = this.rowData.outputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -245,22 +264,39 @@ export default {
       this.ruleForm.createTime = this.rowData.createTime
       this.ruleForm.deadlineTime = this.rowData.deadlineTime
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
-      // this.ruleForm.status = this.rowData.status
-      this.ruleForm.type = this.rowData.type
       this.ruleForm.isDeleted = this.rowData.isDeleted
+      this.ruleForm.status = this.rowData.status
+      // this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.returnReason = this.rowData.returnReason
       this.ruleForm.returnNum = this.rowData.returnNum
-      // this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
+      this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
     }
+    // console.log(this.output,"---")
+    this.getShopInventoryList()
   },
   methods: {
+    getvehicleList() {
+      vehicleList().then(res => {
+        if (res.data.code == 200) {
+          this.vehicleOptions = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     getUserList() {
       UserList({ userType: 2 }).then(res => {
         this.userOptions = res.data.data
+        this.$forceUpdate()
+      }).catch(err => {
+        console.log(err)
+      });
+      UserList({ userType: 1 }).then(res => {
+        this.userOptions1 = res.data.data
         this.$forceUpdate()
       }).catch(err => {
         console.log(err)
@@ -284,45 +320,34 @@ export default {
         }
       });
     },
-    // getCustomerList() {
-    //   CustomerList().then(res => {
-    //     if (res.data.code == 200) {
-    //       this.customerOptions = res.data.data
-    //     } else {
-    //       this.$message.error("获取失败!");
-    //     }
-    //   });
-    // },
-    getShopInventoryList(item) {
-      ShopInventoryList({ shopCode: item }).then(res => {
+    getCustomerList() {
+      CustomerList().then(res => {
         if (res.data.code == 200) {
-          this.inventoryOptions = res.data.data
+          this.customerOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
         }
       });
     },
-    // getinventorylist() {
-    //   inventorylist()
-    //     .then((res) => {
-    //       if (res.data.code === 200) {
-    //         this.inventoryOptions = res.data.data
-    //       } else {
-    //         this.$message.error(res.msg);
-    //       }
-    //     })
-    //     .catch((e) => {
-    //       console.log(e);
-    //     });
-    // },
+    getShopInventoryList() {
+      getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
+        if (res.data.code == 200) {
+          this.inventoryOptions = res.data.data
+          this.getpositionList()
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     setShopName() {
-      this.getShopInventoryList(this.ruleForm.shopCode)
+      this.getShopInventoryList()
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
     },
     setCustomerName() {
       this.ruleForm.customerName = this.$refs.customerSelect.selectedLabel
     },
     setGoodsName() {
+      console.log(this.$refs.goodsSelect.selectedLabel)
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
     },
     setPosition() {
@@ -332,27 +357,35 @@ export default {
       });
       this.getpositionList(choosenItem[0].inventoryKey)
     },
-    getpositionList(inventoryKey) {
-      positionList({ inventoryKey: inventoryKey }).then(res => {
-        if (res.data.code == 200) {
-          this.positionOptions = res.data.data
-        } else {
-          this.$message.error("获取失败!");
+    getpositionList() {
+      this.inventoryOptions.forEach(item => {
+        if (item.inventoryCode == this.ruleForm.inventoryCode) {
+          positionList({ inventoryKey: item.inventoryKey }).then(res => {
+            if (res.data.code == 200) {
+              this.positionOptions = res.data.data
+            } else {
+              this.$message.error("获取失败!");
+            }
+          });
         }
-      });
+      })
     },
-    // setTime() {
-    //   this.ruleForm.createTime = this.value2[0]
-    //   this.ruleForm.deadlineTime = this.value2[1]
-    //   // console.log(this.ruleForm.createTime, this.ruleForm);
-    // },
+    setTime() {
+      this.ruleForm.createTime = this.value2[0]
+      this.ruleForm.deadlineTime = this.value2[1]
+      // console.log(this.ruleForm.createTime, this.ruleForm);
+    },
     close() {
       this.$parent.drawer = false
     },
     save(formName) {
-      this.ruleForm.outputActual = this.ruleForm.outputPlan
-      this.ruleForm.createTime = moment().format("YYYY-MM-DD HH:mm:ss");
-      this.ruleForm.deadlineTime = moment().format("YYYY-MM-DD HH:mm:ss");
+      this.ruleForm.createTime = this.value2[0]
+      this.ruleForm.deadlineTime = this.value2[1]
+      if (this.output == true) {
+        this.ruleForm.status = 5
+      }else{
+        this.ruleForm.status = 4
+      }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = {
@@ -369,9 +402,9 @@ export default {
             positionCode: this.ruleForm.positionCode,
             createTime: this.ruleForm.createTime,
             deadlineTime: this.ruleForm.deadlineTime,
+            isDeleted: this.ruleForm.isDeleted,
             vehicleCode: this.ruleForm.vehicleCode,
             status: this.ruleForm.status,
-            isDeleted: this.ruleForm.isDeleted,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
@@ -395,9 +428,13 @@ export default {
       })
     },
     create(formName) {
-      this.ruleForm.outputActual = this.ruleForm.outputPlan
-      this.ruleForm.createTime = moment().format("YYYY-MM-DD HH:mm:ss");
-      this.ruleForm.deadlineTime = moment().format("YYYY-MM-DD HH:mm:ss");
+      this.ruleForm.createTime = this.value2[0]
+      this.ruleForm.deadlineTime = this.value2[1]
+      if (this.output == true) {
+        this.ruleForm.status = 5
+      }else{
+        this.ruleForm.status = 4
+      }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let data = {
@@ -415,8 +452,8 @@ export default {
             createTime: this.ruleForm.createTime,
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
-            isDeleted: this.ruleForm.isDeleted,
             status: this.ruleForm.status,
+            isDeleted: this.ruleForm.isDeleted,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,

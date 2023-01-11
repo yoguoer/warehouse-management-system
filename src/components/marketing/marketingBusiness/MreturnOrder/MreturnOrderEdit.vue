@@ -116,19 +116,28 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="申请退货数" prop="checkNum">
-            <el-input v-model="ruleForm.checkNum" clearable placeholder="申请退货数"></el-input>
+            <el-input v-model="ruleForm.checkNum" clearable placeholder="申请退货数" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <el-form-item label="退货原因" prop="returnReason">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea"></el-input>
+            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row v-if="ifShow">
+      <el-row>
         <el-col :span="10">
+          <el-form-item label="车辆" prop="vehicleCode">
+            <el-select size="middle" v-model="ruleForm.vehicleCode" placeholder="车辆" style="width:100%;" clearable>
+              <el-option v-for="item in vehicleOptions" :key="item.vehicleKey" :label="item.vehicleCode"
+                :value="item.vehicleCode">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10" v-if="ifShow">
           <el-form-item label="审批结果" prop="checkStatus">
-            <el-select size="small" v-model="ruleForm.checkStatus" placeholder="审批结果" clearable disabled>
+            <el-select size="small" v-model="ruleForm.checkStatus" placeholder="审批结果" clearable>
               <el-option label="未审批" :value="0" disabled>
                 <span style="float: left">
                   <i class="el-icon-minus"></i> 未审批
@@ -147,9 +156,11 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="10">
+      </el-row>
+      <el-row>
+        <el-col :span="10" v-if="ifShow">
           <el-form-item label="审批意见" prop="description">
-            <el-input v-model="ruleForm.description" clearable placeholder="审批意见" type="textarea" disabled></el-input>
+            <el-input v-model="ruleForm.description" clearable placeholder="审批意见" type="textarea"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -163,8 +174,8 @@
 </template>
 
 <script>
-import { returnCheckUpdate, returnCheckAdd, inputWarehouseUpdate } from '@/api/purchasing'
-import { shoplist, goodslist, CustomerList, positionList } from '@/api/data'
+import { returnCheckUpdate } from '@/api/purchasing'
+import { shoplist, goodslist, CustomerList, positionList,vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import moment from 'moment'
@@ -204,13 +215,14 @@ export default {
         returnReason: "",
         returnNum: "",
         checkType: "",
-        inputOutputKey:""
+        inputOutputKey: ""
       },
       shopOptions: [],
       goodsOptions: [],
       positionOptions: [],
       customerOptions: [],
       inventoryOptions: [],
+      vehicleOptions: [],
       userOptions: [],
       userOptions1: [],
       pickerOptions: {
@@ -242,33 +254,12 @@ export default {
       },
       value2: '',
       rules: {
-        shopCode: [
-          { required: true, message: '请选择门店', trigger: 'blur' },
+        description: [
+          { required: true, message: '请输入审批意见', trigger: 'blur' },
         ],
-        goodsCode: [
-          { required: true, message: '请选择商品', trigger: 'blur' },
+        checkStatus: [
+          { required: true, message: '请审批', trigger: 'blur' },
         ],
-        customerCode: [
-          { required: true, message: '请选择客户', trigger: 'blur' },
-        ],
-        inventoryCode: [
-          { required: true, message: '请选择仓库', trigger: 'blur' },
-        ],
-        outputPlan: [
-          { required: true, message: '请设置计划数', trigger: 'blur' },
-        ],
-        outputPrice: [
-          { required: true, message: '请设置入库价格', trigger: 'blur' },
-        ],
-        type: [
-          { required: true, message: '请设置入库类型', trigger: 'blur' },
-        ],
-        checkNum: [
-          { required: true, message: '请设置退货数', trigger: 'blur' },
-        ],
-        returnReason: [
-          { required: true, message: '请设置退货原因', trigger: 'blur' },
-        ]
       }
     }
   },
@@ -289,8 +280,9 @@ export default {
     this.getgoodslist()
     this.getCustomerList()
     this.getUserList()
+    this.getvehicleList()
     if (this.rowData.returnCheckKey) {
-      this.ruleForm.inputOutputKey=this.rowData.inputOutputKey
+      this.ruleForm.inputOutputKey = this.rowData.inputOutputKey
       this.ruleForm.outputWarehouseKey = this.rowData.outputWarehouseKey
       this.ruleForm.returnCheckKey = this.rowData.returnCheckKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -325,6 +317,15 @@ export default {
     this.getShopInventoryList()
   },
   methods: {
+    getvehicleList() {
+      vehicleList().then(res => {
+        if (res.data.code == 200) {
+          this.vehicleOptions = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     getUserList() {
       UserList({ userType: 2 }).then(res => {
         this.userOptions = res.data.data
@@ -421,16 +422,20 @@ export default {
       this.ruleForm.deadlineTime = this.value2[1]
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          if (this.ruleForm.checkStatus == 1) {
+            this.ruleForm.returnNum = this.ruleForm.checkNum
+            this.ruleForm.outputActual = this.ruleForm.outputActual - this.ruleForm.checkNum
+          }
           let data = {
             returnCheckKey: this.ruleForm.returnCheckKey,
             description: this.ruleForm.description,
             checkType: this.ruleForm.checkType,
             inputOutputKey: this.ruleForm.outputWarehouseKey,
-            checkStatus: 0,
-            happenTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-            checkTime: this.ruleForm.checkTime,
+            checkStatus: this.ruleForm.checkStatus,
+            happenTime: this.ruleForm.happenTime,
             checkNum: this.ruleForm.checkNum,
-            inputWarehouse: {
+            checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+            outputWarehouse: {
               outputWarehouseKey: this.ruleForm.outputWarehouseKey,
               shopCode: this.ruleForm.shopCode,
               shopName: this.ruleForm.shopName,
@@ -475,16 +480,20 @@ export default {
       this.ruleForm.deadlineTime = this.value2[1]
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          if (this.ruleForm.checkStatus == 1) {
+            this.ruleForm.returnNum = this.ruleForm.checkNum
+            this.ruleForm.outputActual = this.ruleForm.outputActual - this.ruleForm.checkNum
+          }
           let data = {
             returnCheckKey: this.ruleForm.returnCheckKey,
             description: this.ruleForm.description,
             checkType: this.ruleForm.checkType,
             inputOutputKey: this.ruleForm.outputWarehouseKey,
-            checkStatus: 0,
-            happenTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-            checkTime: this.ruleForm.checkTime,
+            checkStatus: this.ruleForm.checkStatus,
+            happenTime: this.ruleForm.happenTime,
             checkNum: this.ruleForm.checkNum,
-            inputWarehouse: {
+            checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+            outputWarehouse: {
               outputWarehouseKey: this.ruleForm.outputWarehouseKey,
               shopCode: this.ruleForm.shopCode,
               shopName: this.ruleForm.shopName,

@@ -34,7 +34,6 @@
       </TableList>
     </div>
     <salesOrderEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" :output="output"/>
-    <MreturnOrderEdit v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false" @success="success()" />
   </div>
 </template>
 
@@ -53,8 +52,6 @@ export default {
       drawer: false,
       rowData: {},
       tableData: [],
-      drawer1: false,
-      rowData1: {},
       output:false,
       multipleSelection: [],
       loadings: {
@@ -68,6 +65,7 @@ export default {
       shopOptions: [],
       goodsOptions: [],
       inventoryOptions: [],
+      vehicleOptions:[],
       customerOptions: [],
       // typeOptions: [
       //   { label: "零售出库", value: 0 },
@@ -78,7 +76,7 @@ export default {
   computed: {
     tableColumn() {
       return [
-        { prop: "shopCode", label: "门店编码" },
+      { prop: "shopCode", label: "门店编码" },
         { prop: "shopName", label: "门店名称" },
         { prop: "goodsCode", label: "商品编码" },
         { prop: "goodsName", label: "商品名称" },
@@ -87,16 +85,17 @@ export default {
         { prop: "outputPlan", label: "计划数" },
         { prop: "outputPrice", label: "出库价格" },
         // { prop: "outputActual", label: "实际数" },
-        { prop: "inventoryCode", label: "仓库编码" },
-        { prop: "positionCode", label: "货位编码" },
-        // { prop: "vehicleCode", label: "车辆编码" },
+        // { prop: "inventoryCode", label: "仓库编码" },
+        // { prop: "positionCode", label: "货位编码" },
+        { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status" }, label: "状态"},
         { slots: { name: "column-type" }, label: "出库类型" },
+        { prop: "shopPeopleCode", label: "门店操作员" },
+        { prop: "inventoryPeopleCode", label: "仓库操作员" },
+        // { prop: "returnNum", label: "退货数" },
+        // { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
-        { prop: "shopPeopleCode", label: "门店操作员" },
-        // { prop: "inventoryPeopleCode", label: "仓库操作员" },
-        // { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
       ];
     },
@@ -269,6 +268,7 @@ export default {
         });
     },
     editRow(row) {
+      this.output=false
       this.rowData = row;
       this.drawer = true;
     },

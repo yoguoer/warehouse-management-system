@@ -72,7 +72,7 @@
         <el-col :span="10">
           <el-form-item label="出库类型" prop="type">
             <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable>
-              <el-option label="零售出库" :value="0"></el-option>
+              <!-- <el-option label="零售出库" :value="0"></el-option> -->
               <el-option label="客户订购出库" :value="1"></el-option>
             </el-select>
           </el-form-item>
@@ -275,6 +275,7 @@ export default {
     } else {
       this.ifCreate = true
     }
+    // console.log(this.output,"---")
     this.getShopInventoryList()
   },
   methods: {
@@ -380,8 +381,10 @@ export default {
     save(formName) {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
-      if (this.output = true) {
+      if (this.output == true) {
         this.ruleForm.status = 5
+      }else{
+        this.ruleForm.status = 4
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -427,8 +430,10 @@ export default {
     create(formName) {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
-      if (this.output = true) {
+      if (this.output == true) {
         this.ruleForm.status = 5
+      }else{
+        this.ruleForm.status = 4
       }
       this.$refs[formName].validate((valid) => {
         if (valid) {

@@ -26,7 +26,7 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button  v-if="props.row.status==5" @click="editRow(props.row)" type="text" icon="el-icon-truck">退货</el-button>
+          <el-button  v-show="!props.row.returnNum" @click="editRow1(props.row)" type="text" icon="el-icon-truck">退货</el-button>
           <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
@@ -34,6 +34,7 @@
       </TableList>
     </div>
     <retailOrderEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"/>
+    <retailOrderReturn v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false" @success="success()" :ifShow="ifShow"/>
   </div>
 </template>
 
@@ -43,6 +44,7 @@ import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import retailOrderEdit from "./retailOrderEdit";
 import { shoplist, goodslist, inventorylist, CustomerList } from '@/api/data'
+import retailOrderReturn from "./retailOrderReturn.vue";
 
 export default {
   name: "slist",
@@ -50,6 +52,7 @@ export default {
     return {
       total: null,
       drawer: false,
+      ifShow:false,
       rowData: {},
       tableData: [],
       multipleSelection: [],
@@ -64,6 +67,8 @@ export default {
       goodsOptions: [],
       inventoryOptions: [],
       userType:"",
+      drawer1: false,
+      rowData1: {},
       // customerOptions: [],
       // statusOptions: [
       //   { label: "在单", value: 0 },
@@ -81,7 +86,7 @@ export default {
   computed: {
     tableColumn() {
       return [
-        { prop: "shopCode", label: "门店编码" },
+      { prop: "shopCode", label: "门店编码" },
         { prop: "shopName", label: "门店名称" },
         { prop: "goodsCode", label: "商品编码" },
         { prop: "goodsName", label: "商品名称" },
@@ -92,14 +97,15 @@ export default {
         { prop: "outputActual", label: "实际数" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
-        // { prop: "vehicleCode", label: "车辆编码" },
+        { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status" }, label: "状态"},
         { slots: { name: "column-type" }, label: "出库类型" },
+        { prop: "shopPeopleCode", label: "门店操作员" },
+        { prop: "inventoryPeopleCode", label: "仓库操作员" },
+        { prop: "returnNum", label: "退货数" },
+        { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
-        { prop: "shopPeopleCode", label: "门店操作员" },
-        // { prop: "inventoryPeopleCode", label: "仓库操作员" },
-        // { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 200 },
       ];
     },
@@ -161,6 +167,7 @@ export default {
   components: {
     TableList,
     retailOrderEdit,
+    retailOrderReturn,
     reloadAndsearch
   },
   created() {
@@ -291,6 +298,10 @@ export default {
       this.rowData = row;
       this.drawer = true;
     },
+    editRow1(row){
+      this.rowData1 = row;
+      this.drawer1 = true;
+    },
     deleteRow(row) {
       console.log("deleteRow", row)
       outputWarehouseDelete({ isDeleted:0, outputWarehouseKey: row.outputWarehouseKey }).then(res => {
@@ -306,6 +317,8 @@ export default {
     success() {
       this.drawer = false;
       this.rowData = {};
+      this.drawer1 = false;
+      this.rowData1 = {};
       this.getTableData();
     },
     reload() {

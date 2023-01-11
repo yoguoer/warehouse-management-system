@@ -23,8 +23,8 @@
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
-          <el-button v-if="props.row.checkStatus!=1" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
-          <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
+          <el-button v-if="props.row.checkStatus!=1" @click="editRow(props.row)" type="text" icon="el-icon-s-check">审批</el-button>
+          <el-button v-if="props.row.checkStatus==1" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
@@ -78,20 +78,21 @@ export default {
         { prop: "goodsName", label: "商品名称" },
         { prop: "customerCode", label: "客户编码" },
         { prop: "customerName", label: "客户名称" },
-        { prop: "inputPlan", label: "计划数" },
-        { prop: "inputPrice", label: "入库价格" },
-        { prop: "inputActual", label: "实际数" },
+        { prop: "outputPlan", label: "计划数" },
+        { prop: "outputPrice", label: "入库价格" },
+        { prop: "outputActual", label: "实际数" },
+        { prop: "returnNum", label: "实际退货数" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
+        { prop: "shopPeopleCode", label: "门店操作员" },
+        { prop: "inventoryPeopleCode", label: "仓库操作员" },
         { prop: "vehicleCode", label: "车辆编码" },
-        { prop: "checkNum", label: "退货数" },
+        { prop: "checkNum", label: "申请退货数" },
         { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-happenTime" }, label: "申请时间" },
         { slots: { name: "column-status" }, label: "审批状态" },
         { prop: "description", label: "审批意见" },
         { slots: { name: "column-checkTime" }, label: "审批时间" },
-        { prop: "shopPeopleCode", label: "门店操作员" },
-        { prop: "inventoryPeopleCode", label: "仓库操作员" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },

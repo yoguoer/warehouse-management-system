@@ -26,7 +26,7 @@
           <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="props.row.status==5" @click="editRow1(props.row)" type="text" icon="el-icon-s-promotion">退货</el-button>
+          <el-button v-show="!props.row.returnNum" @click="editRow1(props.row)" type="text" icon="el-icon-s-promotion">退货</el-button>
           <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
@@ -34,7 +34,7 @@
       </TableList>
     </div>
     <outputOrderEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"/>
-    <MreturnOrderEdit v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false" @success="success()" :ifShow="ifShow"/>
+    <outputOrderReturn v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false" @success="success()" :ifShow="ifShow"/>
   </div>
 </template>
 
@@ -44,8 +44,7 @@ import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import { shoplist, goodslist, inventorylist, CustomerList } from '@/api/data'
 import outputOrderEdit from "./outputOrderEdit";
-import MreturnOrderEdit from "@/components/marketing/marketingBusiness/MreturnOrder/MreturnOrderEdit.vue";
-import { returnCheckByKey } from "@/api/purchasing";
+import outputOrderReturn from "./outputOrderReturn.vue";
 
 export default {
   name: "slist",
@@ -90,11 +89,12 @@ export default {
         { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status" }, label: "状态"},
         { slots: { name: "column-type" }, label: "出库类型" },
-        { slots: { name: "column-createTime" }, label: "预计日期" },
-        { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         { prop: "inventoryPeopleCode", label: "仓库操作员" },
-        // { prop: "returnReason", label: "退货原因" },
+        { prop: "returnNum", label: "退货数" },
+        { prop: "returnReason", label: "退货原因" },
+        { slots: { name: "column-createTime" }, label: "预计日期" },
+        { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
       ];
     },
@@ -140,7 +140,7 @@ export default {
   components: {
     TableList,
     outputOrderEdit,
-    MreturnOrderEdit,
+    outputOrderReturn,
     reloadAndsearch
   },
   created() {
@@ -272,16 +272,8 @@ export default {
       this.drawer = true;
     },
     editRow1(row) {
-      // this.rowData1 = row;
-      returnCheckByKey({ checkType:1,inputOutputKey:row.outputWarehouseKey}).then(res => {
-        if (res.data.code == 200) {
-          this.rowData1=res.data.data
-          console.log(this.rowData)
-          this.drawer1 = true;
-        } else {
-          this.$message.error("获取失败!");
-        }
-      })
+      this.rowData1 = row;
+      this.drawer1 = true;
     },
     deleteRow(row) {
       console.log("deleteRow", row)
@@ -296,9 +288,11 @@ export default {
       });
     },
     success() {
-      this.drawer = false;
-      this.rowData = {};
-      this.getTableData();
+      this.drawer1 = false
+      this.rowData1 = {}
+      this.drawer = false
+      this.rowData = {}
+      this.getTableData()
     },
     reload() {
       this.getTableData()
