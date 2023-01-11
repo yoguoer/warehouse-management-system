@@ -56,7 +56,30 @@ const routes = [{
         component: () => import("@/views/login/alertInfo/Index.vue"),
       },
 
-
+      //*******************************数据集成模块*******************************
+      //数据集成
+      {
+        path: '/dataIntegrate',
+        name: 'dataIntegrate',
+        redirect: {
+          name: "salesIntegrate"
+        },
+        component: () => import('@/views/dataIntegrate/Index.vue'),
+        children: [
+          //资料-数据集成-销售统计
+          {
+            path: '/dataIntegrate/salesIntegrate',
+            name: 'salesIntegrate',
+            component: () => import('@/views/dataIntegrate/salesIntegrate/Index.vue')
+          },
+          //资料-数据集成-采购统计
+          {
+            path: '/dataIntegrate/purchaseIntegrate',
+            name: 'purchaseIntegrate',
+            component: () => import('@/views/dataIntegrate/purchaseIntegrate/Index.vue')
+          },
+        ],
+      },
       //*******************************资料模块*******************************
       //资料
       {

@@ -11,13 +11,13 @@
                         "name": "销售统计",
                         "icon": "",
                         "level": 2,
-                        "componentName": "dataIntegrate"
+                        "componentName": "salesIntegrate"
                     },
                     {
                         "name": "采购统计",
                         "icon": "",
                         "level": 2,
-                        "componentName": "dataIntegrate"
+                        "componentName": "purchaseIntegrate"
                     }
                 ]
             },
