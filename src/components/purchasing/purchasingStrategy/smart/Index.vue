@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-view></router-view>
+        智能补货
     </div>
 </template>
 

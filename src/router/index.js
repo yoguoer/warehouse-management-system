@@ -349,6 +349,12 @@ const routes = [{
         name: 'outputOrder',
         component: () => import('@/components/marketing/marketingBusiness/outputOrder/outputOrderList.vue')
       },
+      //销售-销售业务-调货出库单
+      {
+        path: '/marketing/marketingBusiness/transferOutput',
+        name: 'transferOutput',
+        component: () => import('@/components/marketing/marketingBusiness/transferOutput/transferOutputList.vue')
+      },
       //销售-销售查询
       {
         path: '/marketing/marketingQueries',
@@ -417,6 +423,12 @@ const routes = [{
         name: 'enterWarehouse',
         component: () => import('@/components/purchasing/purchasingBusiness/enterWarehouse/enterWarehouseList.vue')
       },
+      //采购-采购业务-调货入库单
+      {
+        path: '/purchasing/purchasingBusiness/transferInput',
+        name: 'transferInput',
+        component: () => import('@/components/purchasing/purchasingBusiness/transferInput/transferInputList.vue')
+      },
       //采购-采购查询
       {
         path: '/purchasing/purchasingQueries',
@@ -457,7 +469,7 @@ const routes = [{
       {
         path: '/purchasing/purchasingStrategy/lack',
         name: 'lack',
-        component: () => import('@/views/purchasing/purchasingStrategy/lack/Index.vue')
+        component: () => import('@/components/purchasing/purchasingStrategy/lack/lackList.vue')
       },
       //采购-采购策略-智能补货
       {

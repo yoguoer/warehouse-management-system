@@ -56,6 +56,12 @@
                                 "icon": "",
                                 "level": 3,
                                 "componentName": "MreturnOrder"
+                            },
+                            {
+                                "name": "调货出库单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "transferOutput"
                             }
                         ]
                     },
@@ -142,6 +148,12 @@
                                 "icon": "",
                                 "level": 3,
                                 "componentName": "PreturnOrder"
+                            },
+                            {
+                                "name": "调货入库单",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "transferInput"
                             }
                         ]
                     },

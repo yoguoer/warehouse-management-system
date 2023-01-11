@@ -1,6 +1,6 @@
 <template>
     <div>
-        <router-view></router-view>
+        库存预警补货
     </div>
 </template>
 
