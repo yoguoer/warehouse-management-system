@@ -69,7 +69,7 @@ public class OutputWarehouse implements Serializable {
      */
     private Integer status;
     /**
-     * 出库类型（零售出库、大客户出库、退货出库）
+     * 出库类型（零售出库、大客户出库、调货出库）
      */
     private Integer type;
     /**
@@ -81,7 +81,7 @@ public class OutputWarehouse implements Serializable {
      */
     private String inventoryPeopleCode;
     /**
-     * 退货出库原因
+     * 退货原因
      */
     private String returnReason;
     /**

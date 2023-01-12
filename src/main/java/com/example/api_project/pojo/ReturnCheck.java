@@ -97,7 +97,7 @@ public class ReturnCheck implements Serializable {
      */
     private Integer isDeleted;
     /**
-     * 入库类型(正常入库、退货入库)
+     * 入库类型
      */
     private Integer type;
     /**
@@ -136,6 +136,9 @@ public class ReturnCheck implements Serializable {
      * 实际出库数
      */
     private Integer outputActual;
+    /**
+     * 审批类型（0采购入库、1销售出库）
+     */
     private Integer checkType;
 
     private InputWarehouse inputWarehouse;

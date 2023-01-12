@@ -77,7 +77,7 @@ public class InputWarehouse implements Serializable {
      */
     private Integer isDeleted;
     /**
-     * 入库类型(正常入库、退货入库)
+     * 入库类型(采购入库、调货入库)
      */
     private Integer type;
     /**
@@ -89,7 +89,7 @@ public class InputWarehouse implements Serializable {
      */
     private String inventoryPeopleCode;
     /**
-     * 退货入库原因
+     * 退货原因
      */
     private String returnReason;
     /**
