@@ -186,7 +186,9 @@ export default {
         inventoryPeopleCode: "",
         isDeleted: "",
         returnNum: "",
-        returnReason: ""
+        returnReason: "",
+        inputShopCode: "",
+        inputShopName: "",
       },
       statusOptions: [
         { label: "在单", value: 0 },
@@ -293,6 +295,8 @@ export default {
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.returnReason = this.rowData.returnReason
+      this.ruleForm.inputShopCode = this.rowData.inputShopCode
+      this.ruleForm.inputShopName = this.rowData.inputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -432,6 +436,8 @@ export default {
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
+            inputShopCode: this.ruleForm.inputShopCode,
+            inputShopName: this.ruleForm.inputShopName,
             inputWarehouseKey: this.ruleForm.inputWarehouseKey
           }
           inputWarehouseUpdate(data).then(res => {
@@ -476,6 +482,8 @@ export default {
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
+            inputShopCode: this.ruleForm.inputShopCode,
+            inputShopName: this.ruleForm.inputShopName,
             inputWarehouseKey: this.ruleForm.inputWarehouseKey
           }
           inputWarehouseAdd(data).then(res => {

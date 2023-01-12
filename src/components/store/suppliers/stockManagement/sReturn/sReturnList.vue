@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import { returnCheckListPage, returnCheckDelete, returnCheckDeleteList } from "@/api/purchasing";
+import { returnCheckListPage, returnCheckDelete, returnCheckDeleteList } from "@/api/check";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import sReturnEdit from "./sReturnEdit";

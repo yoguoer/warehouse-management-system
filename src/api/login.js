@@ -14,7 +14,7 @@ let baseURL = "/api"
 // 用户登录
 export function toLogin(data) {
   return request({
-    url: baseURL + "/login/login" ,
+    url: baseURL + "/login/login",
     method: "post",
     data: qs.parse(data),
   });
@@ -23,7 +23,7 @@ export function toLogin(data) {
 // 用户注册
 export function toRegister(data) {
   return request({
-    url: baseURL + "/login/register" ,
+    url: baseURL + "/login/register",
     method: "post",
     data: qs.parse(data),
   });
@@ -32,7 +32,7 @@ export function toRegister(data) {
 // 用户信息
 export function getUserInfo(data) {
   return request({
-    url: baseURL + "/login/getUserInfo" ,
+    url: baseURL + "/login/getUserInfo",
     method: "post",
     data: qs.parse(data),
   });

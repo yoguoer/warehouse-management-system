@@ -144,7 +144,9 @@ export default {
         shopPeopleCode: "",
         inventoryPeopleCode: "",
         isDeleted: "",
-        returnReason: ""
+        returnReason: "",
+        inputShopCode: "",
+        inputShopName: "",
       },
       shopOptions: [],
       goodsOptions: [],
@@ -241,6 +243,8 @@ export default {
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.isDeleted = this.rowData.isDeleted
       this.ruleForm.returnReason = this.rowData.returnReason
+      this.ruleForm.inputShopCode = this.rowData.inputShopCode
+      this.ruleForm.inputShopName = this.rowData.inputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -326,6 +330,8 @@ export default {
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
+            inputShopCode: this.ruleForm.inputShopCode,
+            inputShopName: this.ruleForm.inputShopName,
             inputWarehouseKey: this.ruleForm.inputWarehouseKey
           }
           inputWarehouseUpdate(data).then(res => {
@@ -368,6 +374,8 @@ export default {
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
+            inputShopCode: this.ruleForm.inputShopCode,
+            inputShopName: this.ruleForm.inputShopName,
             returnReason: this.ruleForm.returnReason
           }
           inputWarehouseAdd(data).then(res => {

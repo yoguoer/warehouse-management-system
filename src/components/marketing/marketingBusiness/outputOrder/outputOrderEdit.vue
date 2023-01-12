@@ -145,7 +145,7 @@
 
 <script>
 import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
-import { returnCheckAdd } from '@/api/purchasing'
+import { returnCheckAdd } from '@/api/check'
 import { shoplist, goodslist, CustomerList, positionList, vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
@@ -178,7 +178,9 @@ export default {
         inventoryPeopleCode: "",
         isDeleted: "",
         returnReason: "",
-        returnNum: ""
+        returnNum: "",
+        outputShopCode: "",
+        outputShopName: "",
       },
       shopOptions: [],
       goodsOptions: [],
@@ -289,6 +291,8 @@ export default {
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.returnReason = this.rowData.returnReason
       this.ruleForm.returnNum = this.rowData.returnNum
+      this.ruleForm.outputShopCode = this.rowData.outputShopCode
+      this.ruleForm.outputShopName = this.rowData.outputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -423,7 +427,9 @@ export default {
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
             returnNum: this.ruleForm.returnNum,
-            outputWarehouseKey: this.ruleForm.outputWarehouseKey
+            outputWarehouseKey: this.ruleForm.outputWarehouseKey,
+            outputShopCode: this.ruleForm.outputShopCode,
+            outputShopName: this.ruleForm.outputShopName,
           }
           outputWarehouseUpdate(data).then(res => {
             if (res.data.code == 200) {
@@ -466,7 +472,9 @@ export default {
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnNum: this.ruleForm.returnNum,
-            returnReason: this.ruleForm.returnReason
+            returnReason: this.ruleForm.returnReason,
+            outputShopCode: this.ruleForm.outputShopCode,
+            outputShopName: this.ruleForm.outputShopName,
           }
           outputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {

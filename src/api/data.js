@@ -238,7 +238,7 @@ export function banklistPage(data) {
   return request({
     url: baseUrl + "/supplierBilling/list-page",
     method: "get",
-    params:data,
+    params: data,
   });
 }
 
@@ -247,7 +247,7 @@ export function bankAdd(data) {
   return request({
     url: baseUrl + "/supplierBilling/add",
     method: "POST",
-    data:qs.parse(data),
+    data: qs.parse(data),
   });
 }
 
@@ -256,7 +256,7 @@ export function bankUpdate(data) {
   return request({
     url: baseUrl + "/supplierBilling/update",
     method: "POST",
-    data:qs.parse(data),
+    data: qs.parse(data),
   });
 }
 
@@ -283,7 +283,7 @@ export function vehiclelistPage(data) {
   return request({
     url: baseUrl + "/vehicle/list-page",
     method: "get",
-    params:data,
+    params: data,
   });
 }
 
@@ -292,7 +292,7 @@ export function vehicleAdd(data) {
   return request({
     url: baseUrl + "/vehicle/add",
     method: "POST",
-    data:qs.parse(data),
+    data: qs.parse(data),
   });
 }
 
@@ -338,7 +338,7 @@ export function inventoryAdd(data) {
   return request({
     url: baseUrl + "/inventory/add",
     method: "POST",
-    data:qs.parse(data),
+    data: qs.parse(data),
   });
 }
 
@@ -485,7 +485,7 @@ export function goodsUpdate(data) {
   return request({
     url: baseUrl + "/goods/update",
     method: "POST",
-    data:qs.parse(data),
+    data: qs.parse(data),
   });
 }
 
@@ -539,7 +539,7 @@ export function shopUpdate(data) {
   return request({
     url: baseUrl + "/shop/update",
     method: "POST",
-    data:qs.parse(data),
+    data: qs.parse(data),
   });
 }
 

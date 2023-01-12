@@ -134,7 +134,8 @@
 </template>
 
 <script>
-import { inputWarehouseUpdate, returnCheckAdd } from '@/api/purchasing'
+import { inputWarehouseUpdate } from '@/api/purchasing'
+import { returnCheckAdd,returnCheckUpdate } from '@/api/check'
 import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
@@ -169,7 +170,9 @@ export default {
         isDeleted: "",
         returnReason: "",
         returnNum: "",
-        checkNum: ""
+        checkNum: "",
+        inputShopCode:"",
+        inputShopName:"",
       },
       shopOptions: [],
       goodsOptions: [],
@@ -275,6 +278,8 @@ export default {
       this.ruleForm.returnReason = this.rowData.returnReason
       this.ruleForm.returnNum = this.rowData.returnNum
       this.ruleForm.checkNum = this.rowData.checkNum
+      this.ruleForm.inputShopCode=this.rowData.inputShopCode
+      this.ruleForm.inputShopName=this.rowData.inputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -403,6 +408,8 @@ export default {
               shopPeopleCode: this.ruleForm.shopPeopleCode,
               inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
               returnReason: this.ruleForm.returnReason,
+              inputShopCode:this.ruleForm.inputShopCode,
+              inputShopName:this.ruleForm.inputShopName,
               returnNum: this.ruleForm.returnNum
             }
           }
@@ -457,6 +464,8 @@ export default {
               shopPeopleCode: this.ruleForm.shopPeopleCode,
               inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
               returnReason: this.ruleForm.returnReason,
+              inputShopCode:this.ruleForm.inputShopCode,
+              inputShopName:this.ruleForm.inputShopName,
               returnNum: this.ruleForm.returnNum
             }
           }

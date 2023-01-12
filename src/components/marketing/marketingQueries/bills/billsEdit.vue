@@ -190,6 +190,8 @@ export default {
         returnNum: "",
         isDeleted: "",
         vehicleCode: "",
+        outputShopCode: "",
+        outputShopName: "",
       },
       statusOptions: [
         { label: "入库", value: 3 },
@@ -293,6 +295,8 @@ export default {
       this.ruleForm.returnReason = this.rowData.returnReason
       this.ruleForm.returnNum = this.rowData.returnNum
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
+      this.ruleForm.outputShopCode = this.rowData.outputShopCode
+      this.ruleForm.outputShopName = this.rowData.outputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -426,6 +430,8 @@ export default {
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
             returnNum: this.ruleForm.returnNum,
+            outputShopCode: this.ruleForm.outputShopCode,
+            outputShopName: this.ruleForm.outputShopName,
             outputWarehouseKey: this.ruleForm.outputWarehouseKey
           }
           outputWarehouseUpdate(data).then(res => {
@@ -470,6 +476,8 @@ export default {
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
             returnNum: this.ruleForm.returnNum,
+            outputShopCode: this.ruleForm.outputShopCode,
+            outputShopName: this.ruleForm.outputShopName,
             outputWarehouseKey: this.ruleForm.outputWarehouseKey
           }
           outputWarehouseAdd(data).then(res => {

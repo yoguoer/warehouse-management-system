@@ -163,7 +163,7 @@
 </template>
 
 <script>
-import { returnCheckUpdate} from '@/api/purchasing'
+import { returnCheckUpdate} from '@/api/check'
 import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
@@ -203,7 +203,9 @@ export default {
         isDeleted: "",
         returnReason: "",
         returnNum: "",
-        checkType: ""
+        checkType: "",
+        inputShopCode:"",
+        inputShopName:"",
       },
       shopOptions: [],
       goodsOptions: [],
@@ -313,6 +315,8 @@ export default {
       this.ruleForm.description = this.rowData.description
       this.ruleForm.returnNum = this.rowData.returnNum
       this.ruleForm.checkType = this.rowData.checkType
+      this.ruleForm.inputShopCode=this.rowData.inputShopCode
+      this.ruleForm.inputShopName=this.rowData.inputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -441,7 +445,9 @@ export default {
               shopPeopleCode: this.ruleForm.shopPeopleCode,
               inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
               returnReason: this.ruleForm.returnReason,
-              returnNum: this.ruleForm.returnNum
+              returnNum: this.ruleForm.returnNum,
+              inputShopCode:this.ruleForm.inputShopCode,
+              inputShopName:this.ruleForm.inputShopName,
             }
           }
           returnCheckUpdate(data).then(res => {
@@ -495,7 +501,9 @@ export default {
               shopPeopleCode: this.ruleForm.shopPeopleCode,
               inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
               returnReason: this.ruleForm.returnReason,
-              returnNum: this.ruleForm.returnNum
+              returnNum: this.ruleForm.returnNum,
+              inputShopCode:this.ruleForm.inputShopCode,
+              inputShopName:this.ruleForm.inputShopName,
             }
           }
           returnCheckUpdate(data).then(res => {

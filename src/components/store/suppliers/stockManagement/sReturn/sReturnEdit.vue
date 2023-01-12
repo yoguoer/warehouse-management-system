@@ -104,7 +104,7 @@
 </template>
 
 <script>
-import { returnCheckUpdate, returnCheckAdd } from '@/api/purchasing'
+import { returnCheckUpdate, returnCheckAdd } from '@/api/check'
 import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
 import { UserList } from '@/api/api'
@@ -144,7 +144,9 @@ export default {
         checkType: "",
         checkStatus: "",
         returnNum: "",
-        checkNum: ""
+        checkNum: "",
+        inputShopCode: "",
+        inputShopName: "",
       },
       shopOptions: [],
       goodsOptions: [],
@@ -234,6 +236,8 @@ export default {
       this.ruleForm.checkNum = this.rowData.checkNum
       this.ruleForm.inputOutputKey = this.rowData.inputOutputKey
       this.ruleForm.checkStatus = this.rowData.checkStatus
+      this.ruleForm.inputShopCode = this.rowData.inputShopCode
+      this.ruleForm.inputShopName = this.rowData.inputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -372,6 +376,8 @@ export default {
                 returnReason: this.ruleForm.returnReason,
                 returnNum: this.ruleForm.returnNum,
                 inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+                inputShopCode: this.ruleForm.inputShopCode,
+                inputShopName: this.ruleForm.inputShopName,
               }
             }
             returnCheckUpdate(data).then(res => {
@@ -436,6 +442,8 @@ export default {
                 returnReason: this.ruleForm.returnReason,
                 returnNum: this.ruleForm.returnNum,
                 inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+                inputShopCode: this.ruleForm.inputShopCode,
+                inputShopName: this.ruleForm.inputShopName,
               }
             }
             returnCheckUpdate(data).then(res => {

@@ -65,7 +65,7 @@ import { shoplist, goodslist, inventorylist, CustomerList } from '@/api/data'
 import MreturnOrderEdit from "@/components/marketing/marketingBusiness/MreturnOrder/MreturnOrderEdit.vue";
 import outputOrderEdit from "@/components/marketing/marketingBusiness/outputOrder/outputOrderEdit.vue";
 import outputOrderReturn from "@/components/marketing/marketingBusiness/outputOrder/outputOrderReturn.vue";
-import { returnCheckByKey } from "@/api/purchasing";
+import { returnCheckByKey } from "@/api/check";
 
 export default {
   name: "slist",

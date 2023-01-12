@@ -167,7 +167,9 @@ export default {
         inventoryPeopleCode: "",
         isDeleted: "",
         returnReason: "",
-        returnNum: ""
+        returnNum: "",
+        outputShopCode: "",
+        outputShopName: "",
       },
       shopOptions: [],
       goodsOptions: [],
@@ -271,6 +273,8 @@ export default {
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.returnReason = this.rowData.returnReason
       this.ruleForm.returnNum = this.rowData.returnNum
+      this.ruleForm.outputShopCode = this.rowData.outputShopCode
+      this.ruleForm.outputShopName = this.rowData.outputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -383,7 +387,7 @@ export default {
       this.ruleForm.deadlineTime = this.value2[1]
       if (this.output == true) {
         this.ruleForm.status = 5
-      }else{
+      } else {
         this.ruleForm.status = 4
       }
       this.$refs[formName].validate((valid) => {
@@ -410,6 +414,8 @@ export default {
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
             returnNum: this.ruleForm.returnNum,
+            outputShopCode: this.ruleForm.outputShopCode,
+            outputShopName: this.ruleForm.outputShopName,
             outputWarehouseKey: this.ruleForm.outputWarehouseKey
           }
           outputWarehouseUpdate(data).then(res => {
@@ -432,7 +438,7 @@ export default {
       this.ruleForm.deadlineTime = this.value2[1]
       if (this.output == true) {
         this.ruleForm.status = 5
-      }else{
+      } else {
         this.ruleForm.status = 4
       }
       this.$refs[formName].validate((valid) => {
@@ -458,6 +464,8 @@ export default {
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnNum: this.ruleForm.returnNum,
+            outputShopCode: this.ruleForm.outputShopCode,
+            outputShopName: this.ruleForm.outputShopName,
             returnReason: this.ruleForm.returnReason
           }
           outputWarehouseAdd(data).then(res => {

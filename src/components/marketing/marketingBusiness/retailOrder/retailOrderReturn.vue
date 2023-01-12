@@ -165,7 +165,7 @@
 
 <script>
 import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
-import { returnCheckAdd } from '@/api/purchasing'
+import { returnCheckAdd } from '@/api/check'
 import { shoplist, goodslist, CustomerList, positionList,vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'

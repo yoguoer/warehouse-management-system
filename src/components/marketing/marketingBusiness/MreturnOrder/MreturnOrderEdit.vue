@@ -175,7 +175,7 @@
 </template>
 
 <script>
-import { returnCheckUpdate } from '@/api/purchasing'
+import { returnCheckUpdate } from '@/api/check'
 import { shoplist, goodslist, CustomerList, positionList,vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
@@ -216,7 +216,9 @@ export default {
         returnReason: "",
         returnNum: "",
         checkType: "",
-        inputOutputKey: ""
+        inputOutputKey: "",
+        outputShopCode:"",
+        outputShopName:"",
       },
       shopOptions: [],
       goodsOptions: [],
@@ -311,6 +313,8 @@ export default {
       this.ruleForm.description = this.rowData.description
       this.ruleForm.returnNum = this.rowData.returnNum
       this.ruleForm.checkType = this.rowData.checkType
+      this.ruleForm.outputShopCode=this.rowData.outputShopCode
+      this.ruleForm.outputShopName=this.rowData.outputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -458,7 +462,9 @@ export default {
               shopPeopleCode: this.ruleForm.shopPeopleCode,
               inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
               returnReason: this.ruleForm.returnReason,
-              returnNum: this.ruleForm.returnNum
+              returnNum: this.ruleForm.returnNum,
+              outputShopCode:this.ruleForm.outputShopCode,
+              outputShopName:this.ruleForm.outputShopName,
             }
           }
           returnCheckUpdate(data).then(res => {
@@ -516,7 +522,9 @@ export default {
               shopPeopleCode: this.ruleForm.shopPeopleCode,
               inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
               returnReason: this.ruleForm.returnReason,
-              returnNum: this.ruleForm.returnNum
+              returnNum: this.ruleForm.returnNum,
+              outputShopCode:this.ruleForm.outputShopCode,
+              outputShopName:this.ruleForm.outputShopName,
             }
           }
           returnCheckUpdate(data).then(res => {

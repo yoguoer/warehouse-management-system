@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList,returnCheckByKey } from "@/api/purchasing";
+import { inputWarehouseListPage, inputWarehouseDelete, inputWarehouseDeleteList, } from "@/api/purchasing";
+import { returnCheckByKey } from "@/api/check";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import sReturnEdit from "@/components/store/suppliers/stockManagement/sReturn/sReturnEdit.vue";

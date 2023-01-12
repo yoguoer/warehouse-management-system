@@ -120,7 +120,7 @@
 
 <script>
 import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
-import { shoplist, goodslist,  CustomerList, positionList,vehicleList } from '@/api/data'
+import { shoplist, goodslist, CustomerList, positionList, vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import moment from 'moment'
@@ -153,11 +153,13 @@ export default {
         inventoryPeopleCode: "",
         returnReason: "",
         isDeleted: "",
-        returnNum: ""
+        returnNum: "",
+        outputShopCode: "",
+        outputShopName: "",
       },
       shopOptions: [],
       goodsOptions: [],
-      vehicleOptions:[],
+      vehicleOptions: [],
       positionOptions: [],
       customerOptions: [],
       inventoryOptions: [],
@@ -226,6 +228,8 @@ export default {
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.returnReason = this.rowData.returnReason
       this.ruleForm.returnNum = this.rowData.returnNum
+      this.ruleForm.outputShopCode = this.rowData.outputShopCode
+      this.ruleForm.outputShopName = this.rowData.outputShopName
       // this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -360,6 +364,8 @@ export default {
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
             returnNum: this.ruleForm.returnNum,
+            outputShopCode: this.ruleForm.outputShopCode,
+            outputShopName: this.ruleForm.outputShopName,
             outputWarehouseKey: this.ruleForm.outputWarehouseKey
           }
           outputWarehouseUpdate(data).then(res => {
@@ -404,6 +410,8 @@ export default {
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnNum: this.ruleForm.returnNum,
+            outputShopCode: this.ruleForm.outputShopCode,
+            outputShopName: this.ruleForm.outputShopName,
             returnReason: this.ruleForm.returnReason
           }
           outputWarehouseAdd(data).then(res => {
