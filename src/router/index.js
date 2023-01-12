@@ -353,7 +353,24 @@ const routes = [{
       {
         path: '/marketing/marketingBusiness/transferOutput',
         name: 'transferOutput',
-        component: () => import('@/components/marketing/marketingBusiness/transferOutput/transferOutputList.vue')
+        component: () => import('@/views/marketing/marketingBusiness/transferOutput/Index.vue'),
+        redirect: {
+          name: "onCheck"
+        },
+        children: [
+          //销售-销售业务-调货出库单-审批
+          {
+            path: '/marketing/transferOutput/onCheck',
+            name: 'onCheck',
+            component: () => import('@/components/marketing/marketingBusiness/transferOutput/onCheck/onCheckList.vue')
+          },
+          //销售-销售业务-调货出库单-已审批
+          {
+            path: '/marketing/transferOutput/hasCheck',
+            name: 'hasCheck',
+            component: () => import('@/components/marketing/marketingBusiness/transferOutput/hasCheck/hasCheckList.vue')
+          },
+        ]
       },
       //销售-销售查询
       {

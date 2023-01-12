@@ -22,13 +22,13 @@
           <span>{{ props.row.checkTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="props.row.checkStatus!=1" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
+          <el-button v-if="props.row.checkStatus!=1" @click="editRow(props.row)" type="text" icon="el-icon-s-check">编辑</el-button>
           <el-button v-if="props.row.checkStatus!=2" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
     </div>
-    <transferInputEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
+    <onCheckEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
       @success="success()" />
   </div>
 </template>
@@ -37,7 +37,7 @@
 import { transferCheckListPage, transferCheckDelete, transferCheckDeleteList } from "@/api/check";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import transferInputEdit from "./transferInputEdit";
+import onCheckEdit from "./onCheckEdit";
 import { goodslist, Supplierlist } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
 
@@ -136,7 +136,7 @@ export default {
   },
   components: {
     TableList,
-    transferInputEdit,
+    onCheckEdit,
     reloadAndsearch
   },
   created() {

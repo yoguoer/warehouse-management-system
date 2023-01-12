@@ -58,7 +58,6 @@
         </el-col>
       </el-row>
       <el-row>
-        <!-- 还没完成呢！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！ -->
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
             <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
@@ -95,8 +94,12 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
+import { transferCheckUpdate, transferCheckAdd } from '@/api/check'
 import { shoplist, goodslist } from '@/api/data'
 import { UserList } from '@/api/api'
+import moment from 'moment'
+import { ShopInventoryList } from '@/api/warehouse'
+import { getByshopCode } from '@/api/warehouse'
 
 export default {
   name: 'guestEdit',
@@ -307,9 +310,28 @@ export default {
           }
           inputWarehouseUpdate(data).then(res => {
             if (res.data.code == 200) {
-              this.$message.success("编辑成功!");
-              this.$parent.success()
-              this.$forceUpdate()
+              let data = {
+                transferCheckKey: this.ruleForm.transferCheckKey,
+                description: this.ruleForm.description,
+                goodsCode: this.ruleForm.goodsCode,
+                inputWarehouseKey: res.data.data.inputWarehouseKey,
+                outputWarehouseKey: this.ruleForm.outputWarehouseKey,
+                checkStatus: 0,
+                happenTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                checkTime: this.ruleForm.happenTime,
+                checkNum: this.ruleForm.inputPlan,
+                outputShopCode: this.ruleForm.inputShopCode,
+                inputShopCode: this.ruleForm.ShopCode,
+              }
+              transferCheckUpdate(data).then(res => {
+                if (res.data.code == 200) {
+                  this.$message.success("编辑成功!");
+                  this.$parent.success()
+                  this.$forceUpdate()
+                } else {
+                  this.$message.error("编辑失败!");
+                }
+              })
             } else {
               this.$message.error("编辑失败!");
             }
@@ -351,9 +373,28 @@ export default {
           }
           inputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {
-              this.$message.success("新增成功!");
-              this.$parent.success()
-              this.$forceUpdate()
+              let data = {
+                transferCheckKey: this.ruleForm.transferCheckKey,
+                description: this.ruleForm.description,
+                goodsCode: this.ruleForm.goodsCode,
+                inputWarehouseKey: res.data.data.inputWarehouseKey,
+                outputWarehouseKey: this.ruleForm.outputWarehouseKey,
+                checkStatus: 0,
+                happenTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                checkTime: this.ruleForm.happenTime,
+                checkNum: this.ruleForm.inputPlan,
+                outputShopCode: this.ruleForm.inputShopCode,
+                inputShopCode: this.ruleForm.ShopCode,
+              }
+              transferCheckAdd(data).then(res => {
+                if (res.data.code == 200) {
+                  this.$message.success("编辑成功!");
+                  this.$parent.success()
+                  this.$forceUpdate()
+                } else {
+                  this.$message.error("编辑失败!");
+                }
+              })
             } else {
               this.$message.error("新增失败!");
             }

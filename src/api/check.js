@@ -85,6 +85,15 @@ export function transferCheckUpdate(data) {
 }
 
 //删除采购调货单(列表)
+export function transferCheckDelete(data) {
+  return request({
+    url: baseUrl + "/transferCheck/delete",
+    method: "POST",
+    data: data,
+  });
+}
+
+//删除采购调货单(列表)
 export function transferCheckDeleteList(data) {
   return request({
     url: baseUrl + "/transferCheck/delete-list",
