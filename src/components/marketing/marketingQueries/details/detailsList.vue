@@ -90,6 +90,8 @@ export default {
         { prop: "goodsName", label: "商品名称" },
         { prop: "customerCode", label: "客户编码" },
         { prop: "customerName", label: "客户名称" },
+        { prop: "outputShopCode", label: "调往门店编码" },
+        { prop: "outputShopName", label: "调往门店名称" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
         { prop: "vehicleCode", label: "车辆编码" },

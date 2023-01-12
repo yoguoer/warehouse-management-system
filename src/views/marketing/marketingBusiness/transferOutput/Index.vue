@@ -1,9 +1,9 @@
 <template>
     <div class="wrap-definition">
         <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
-            <el-tab-pane label="审批" name="onCheck">
+            <el-tab-pane label="待审批" name="MonCheck">
             </el-tab-pane>
-            <el-tab-pane label="已审批" name="hasCheck">
+            <el-tab-pane label="已审批" name="MhasCheck">
             </el-tab-pane>
             <router-view></router-view>
         </el-tabs>
@@ -16,7 +16,7 @@
     name: 'sales',
     data() {
         return {
-            activeName: 'onCheck',
+            activeName: 'MonCheck',
         }
     },
     props: {},

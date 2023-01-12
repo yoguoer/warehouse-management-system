@@ -31,7 +31,7 @@
         <template v-slot:column-todo="props">
           <el-button v-if="props.row.status == 4" @click="editRow1(props.row)" type="text"
             icon="el-icon-s-promotion">发货</el-button>
-          <el-button v-show="!props.row.returnNum&&props.row.status==5" @click="editRow2(props.row)" type="text"
+          <el-button v-show="!props.row.returnNum&&props.row.status==5&&props.row.type<2" @click="editRow2(props.row)" type="text"
             icon="el-icon-truck">退货</el-button>
           <!-- <el-button v-if="props.row.returnNum&&props.row.status==5" @click="editRow3(props.row)" type="text"
             icon="el-icon-s-check">审批</el-button> -->
@@ -113,6 +113,8 @@ export default {
         { prop: "goodsName", label: "商品名称" },
         { prop: "customerCode", label: "客户编码" },
         { prop: "customerName", label: "客户名称" },
+        { prop: "outputShopCode", label: "调往门店编码" },
+        { prop: "outputShopName", label: "调往门店名称" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
         { prop: "vehicleCode", label: "车辆编码" },

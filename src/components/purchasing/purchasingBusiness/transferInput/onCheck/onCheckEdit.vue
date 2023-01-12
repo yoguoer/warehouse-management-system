@@ -1,12 +1,12 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction"
+  <el-dialog size="30%" :title="ifCreate ? '新增调货申请' : '编辑调货申请'" :visible.sync="drawer" :direction="direction"
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-row>
         <el-col :span="10">
           <el-form-item label="门店" prop="shopCode">
-            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable disabled
+            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable
               ref="selection">
               <el-option @click.native="setShopName" v-for="item in shopOptions" :key="item.shopKey"
                 :label="item.shopName" :value="item.shopCode">
@@ -17,7 +17,7 @@
         <el-col :span="10">
           <el-form-item label="商品" prop="goodsCode">
             <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable
-              disabled ref="goodsSelect">
+              ref="goodsSelect">
               <el-option @click.native="setGoodsName" v-for="item in goodsOptions" :key="item.goodsCode"
                 :label="item.goodsName" :value="item.goodsCode">
               </el-option>
@@ -27,25 +27,13 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="供应商" prop="supplierCode">
-            <el-select size="middle" v-model="ruleForm.supplierCode" placeholder="供应商" style="width:100%;" clearable
-              disabled ref="supplierSelect">
-              <el-option @click.native="setSupplierName" v-for="item in supplierOptions" :key="item.supplierKey"
-                :label="item.supplierName" :value="item.supplierCode">
+          <el-form-item label="调货门店" prop="inputShopCode">
+            <el-select size="middle" v-model="ruleForm.inputShopCode" placeholder="调货门店" style="width:100%;" clearable
+              ref="inputShopSelect">
+              <el-option @click.native="setinputShopName" v-for="item in inputShopOptions" :key="item.shopKey"
+                :label="item.shopName" :value="item.shopCode">
               </el-option>
             </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item label="计划数" prop="inputPlan">
-            <el-input v-model="ruleForm.inputPlan" clearable placeholder="计划数" disabled></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10">
-          <el-form-item label="入库价格" prop="inputPrice">
-            <el-input v-model="ruleForm.inputPrice" clearable placeholder="入库价格" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -59,10 +47,22 @@
       </el-row>
       <el-row>
         <el-col :span="10">
+          <el-form-item label="计划入库数" prop="inputPlan">
+            <el-input v-model="ruleForm.inputPlan" clearable placeholder="计划入库数"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
+          <el-form-item label="入库价格" prop="inputPrice">
+            <el-input v-model="ruleForm.inputPrice" clearable placeholder="入库价格"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
             <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable
-              disabled>
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;"
+              clearable>
               <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
               </el-option>
             </el-select>
@@ -71,52 +71,17 @@
         <el-col :span="10">
           <span style="margin-left: 8%;">起止日期</span>
           <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right"
-            disabled size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
+            size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
             :picker-options="pickerOptions" @click.native="setTime" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="10">
-          <el-form-item label="仓库操作员" prop="inventoryPeopleCode">
-            <el-select size="middle" v-model="ruleForm.inventoryPeopleCode" placeholder="仓库操作员" style="width:100%;"
-              clearable>
-              <el-option v-for="item in userOptions1" :key="item.userId" :label="item.userName" :value="item.userCode">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item label="实际数" prop="inputActual">
-            <el-input v-model="ruleForm.inputActual" clearable placeholder="实际数"></el-input>
-          </el-form-item>
-        </el-col>
         <!-- <el-col :span="10">
           <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 1">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货入库原因" type="textarea"></el-input>
+            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea"></el-input>
           </el-form-item>
         </el-col> -->
-      </el-row>
-      <el-row>
-        <el-col :span="10">
-          <el-form-item label="仓库" prop="inventoryCode">
-            <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
-              ref="inventorySelect">
-              <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
-                :label="item.inventoryName" :value="item.inventoryCode">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item label="库位" prop="positionCode">
-            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable>
-              <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
-                :value="item.positionCode" clearable placeholder="库位">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
       </el-row>
     </el-form>
     <div class="dialog_footer">
@@ -129,9 +94,12 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
-import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
-import { getByshopCode } from '@/api/warehouse'
+import { transferCheckUpdate, transferCheckAdd } from '@/api/check'
+import { shoplist, goodslist } from '@/api/data'
 import { UserList } from '@/api/api'
+import moment from 'moment'
+import { ShopInventoryList } from '@/api/warehouse'
+import { getByshopCode } from '@/api/warehouse'
 
 export default {
   name: 'guestEdit',
@@ -140,10 +108,18 @@ export default {
       direction: 'btt',
       ifCreate: false,
       ruleForm: {
+        transferCheckKey: "",
+        checkNum: "",
+        checkStatus: "",
+        description: "",
+        happenTime: "",
+        checkTime: "",
+        outputWarehouseKey: "",
         inputWarehouseKey: "",
+        goodsCode: "",
+        returnNum: "",
         shopCode: "",
         shopName: "",
-        goodsCode: "",
         goodsName: "",
         supplierCode: "",
         supplierName: "",
@@ -155,22 +131,21 @@ export default {
         createTime: "",
         deadlineTime: "",
         vehicleCode: "",
-        status: 3,
-        type: 0,
+        status: 0,
+        type: 1,
         shopPeopleCode: "",
-        isDeleted: "",
         inventoryPeopleCode: "",
+        isDeleted: 0,
         returnReason: "",
-        inputShopCode: "",
         inputShopName: "",
+        inputShopCode: "",
       },
       shopOptions: [],
       goodsOptions: [],
       positionOptions: [],
-      supplierOptions: [],
+      inputShopOptions: [],
       inventoryOptions: [],
       userOptions: [],
-      userOptions1: [],
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -212,20 +187,14 @@ export default {
         inventoryCode: [
           { required: true, message: '请选择仓库', trigger: 'blur' },
         ],
-        inputPlan: [
-          { required: true, message: '请设置计划数', trigger: 'blur' },
+        inputPlan : [
+          { required: true, message: '请设置计划入库数', trigger: 'blur' },
         ],
         inputPrice: [
           { required: true, message: '请设置入库价格', trigger: 'blur' },
         ],
         type: [
           { required: true, message: '请设置入库类型', trigger: 'blur' },
-        ],
-        inventoryPeopleCode: [
-          { required: true, message: '请选择仓库操作员', trigger: 'blur' },
-        ],
-        inputActual: [
-          { required: true, message: '请设置实际数', trigger: 'blur' },
         ],
       }
     }
@@ -242,9 +211,8 @@ export default {
   created() {
     this.getshoplist()
     this.getgoodslist()
-    this.getSupplierlist()
     this.getUserList()
-    if (this.rowData.inputWarehouseKey) {
+    if (this.rowData.transferCheckKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
       this.ruleForm.shopName = this.rowData.shopName
@@ -260,19 +228,26 @@ export default {
       this.ruleForm.createTime = this.rowData.createTime
       this.ruleForm.deadlineTime = this.rowData.deadlineTime
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
-      // this.ruleForm.status = this.rowData.status
-      // this.ruleForm.type = this.rowData.type
+      this.ruleForm.status = this.rowData.status
+      this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.isDeleted = this.rowData.isDeleted
       this.ruleForm.returnReason = this.rowData.returnReason
       this.ruleForm.inputShopCode = this.rowData.inputShopCode
       this.ruleForm.inputShopName = this.rowData.inputShopName
+      this.ruleForm.transferCheckKey = this.rowData.transferCheckKey
+      this.ruleForm.checkNum = this.rowData.checkNum
+      this.ruleForm.checkStatus = this.rowData.checkStatus
+      this.ruleForm.description = this.rowData.description
+      this.ruleForm.happenTime = this.rowData.happenTime
+      this.ruleForm.checkTime = this.rowData.checkTime
+      this.ruleForm.outputWarehouseKey = this.rowData.outputWarehouseKey
+      this.ruleForm.returnNum = this.rowData.returnNum
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
     }
-    this.getInventoryByshopCode()
   },
   methods: {
     getUserList() {
@@ -282,17 +257,12 @@ export default {
       }).catch(err => {
         console.log(err)
       });
-      UserList({ userType: 1 }).then(res => {
-        this.userOptions1 = res.data.data
-        this.$forceUpdate()
-      }).catch(err => {
-        console.log(err)
-      });
     },
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
           this.shopOptions = res.data.data
+          this.inputShopOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
         }
@@ -307,58 +277,16 @@ export default {
         }
       });
     },
-    getSupplierlist() {
-      Supplierlist().then(res => {
-        if (res.data.code == 200) {
-          this.supplierOptions = res.data.data
-        } else {
-          this.$message.error("获取失败!");
-        }
-      });
-    },
-    getInventoryByshopCode() {
-      getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
-        if (res.data.code == 200) {
-          this.inventoryOptions = res.data.data
-          this.getpositionList()
-        } else {
-          this.$message.error("获取失败!");
-        }
-      });
-    },
     setShopName() {
-      // console.log(this.$refs.selection.selectedLabel)
-      this.getInventoryByshopCode()
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
     },
-    setSupplierName() {
-      // console.log(this.$refs.supplierSelect.selectedLabel)
-      this.ruleForm.supplierName = this.$refs.supplierSelect.selectedLabel
+    setinputShopName() {
+      this.ruleForm.inputShopName = this.$refs.inputShopSelect.selectedLabel
     },
     setGoodsName() {
-      // console.log(this.$refs.goodsSelect.selectedLabel)
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
     },
-    setPosition() {
-      this.ruleForm.inventoryName = this.$refs.inventorySelect.selectedLabel
-      let choosenItem = this.inventoryOptions.filter(item => {
-        return item.inventoryCode == this.ruleForm.inventoryCode
-      });
-      this.getpositionList(choosenItem[0].inventoryKey)
-    },
-    getpositionList() {
-      this.inventoryOptions.forEach(item => {
-        if (item.inventoryCode == this.ruleForm.inventoryCode) {
-          positionList({ inventoryKey: item.inventoryKey }).then(res => {
-            if (res.data.code == 200) {
-              this.positionOptions = res.data.data
-            } else {
-              this.$message.error("获取失败!");
-            }
-          });
-        }
-      })
-    },
+
     setTime() {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
@@ -388,20 +316,41 @@ export default {
             createTime: this.ruleForm.createTime,
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
-            status: this.ruleForm.status,
+            status: 0,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
             inputShopCode: this.ruleForm.inputShopCode,
             inputShopName: this.ruleForm.inputShopName,
-            inputWarehouseKey: this.ruleForm.inputWarehouseKey
+            inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+            isDeleted:0,
           }
           inputWarehouseUpdate(data).then(res => {
             if (res.data.code == 200) {
-              this.$message.success("编辑成功!");
-              this.$parent.success()
-              this.$forceUpdate()
+              let data = {
+                transferCheckKey: this.ruleForm.transferCheckKey,
+                description: this.ruleForm.description,
+                goodsCode: this.ruleForm.goodsCode,
+                inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+                outputWarehouseKey: this.ruleForm.outputWarehouseKey,
+                checkStatus: 0,
+                happenTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                checkTime: this.ruleForm.happenTime,
+                checkNum: this.ruleForm.inputPlan,
+                outputShopCode: this.ruleForm.outputShopCode,
+                inputShopCode: this.ruleForm.inputShopCode,
+                checkType:0,
+              }
+              transferCheckUpdate(data).then(res => {
+                if (res.data.code == 200) {
+                  this.$message.success("编辑成功!");
+                  this.$parent.success()
+                  this.$forceUpdate()
+                } else {
+                  this.$message.error("编辑失败!");
+                }
+              })
             } else {
               this.$message.error("编辑失败!");
             }
@@ -427,25 +376,47 @@ export default {
             inputPlan: this.ruleForm.inputPlan,
             inputPrice: this.ruleForm.inputPrice,
             inputActual: this.ruleForm.inputActual,
-            inventoryCode: this.ruleForm.inventoryCode,
             isDeleted: this.ruleForm.isDeleted,
+            inventoryCode: this.ruleForm.inventoryCode,
             positionCode: this.ruleForm.positionCode,
             createTime: this.ruleForm.createTime,
             deadlineTime: this.ruleForm.deadlineTime,
             vehicleCode: this.ruleForm.vehicleCode,
-            status: this.ruleForm.status,
+            status: 0,
             type: this.ruleForm.type,
             shopPeopleCode: this.ruleForm.shopPeopleCode,
             inputShopCode: this.ruleForm.inputShopCode,
             inputShopName: this.ruleForm.inputShopName,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
-            returnReason: this.ruleForm.returnReason
+            returnReason: this.ruleForm.returnReason,
+            inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+            isDeleted:0,
           }
           inputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {
-              this.$message.success("新增成功!");
-              this.$parent.success()
-              this.$forceUpdate()
+              let data = {
+                transferCheckKey: this.ruleForm.transferCheckKey,
+                description: this.ruleForm.description,
+                goodsCode: this.ruleForm.goodsCode,
+                inputWarehouseKey: res.data.data.inputWarehouseKey,
+                outputWarehouseKey: this.ruleForm.outputWarehouseKey,
+                checkStatus: 0,
+                happenTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                checkTime: this.ruleForm.happenTime,
+                checkNum: this.ruleForm.inputPlan,
+                outputShopCode: this.ruleForm.inputShopCode,
+                inputShopCode: this.ruleForm.shopCode,
+                checkType:0,
+              }
+              transferCheckAdd(data).then(res => {
+                if (res.data.code == 200) {
+                  this.$message.success("编辑成功!");
+                  this.$parent.success()
+                  this.$forceUpdate()
+                } else {
+                  this.$message.error("编辑失败!");
+                }
+              })
             } else {
               this.$message.error("新增失败!");
             }

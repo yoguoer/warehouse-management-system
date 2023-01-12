@@ -4,6 +4,16 @@
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
+        <template v-slot:column-status1="props">
+          <span>{{
+            props.row.status == '0' ? '在单'
+              : (props.row.status == '1' ? '生产'
+                : (props.row.status == '2' ? '在途'
+                  : (props.row.status == '3' ? '入库'
+                    : (props.row.status == '4' ? '占用'
+                      : (props.row.status == '5' ? '出库' : '-')))))
+          }}</span>
+        </template>
         <template v-slot:column-type="props">
           <span v-if="props.row.type == 0">采购入库</span>
           <span v-if="props.row.type == 1">调货入库</span>
@@ -12,7 +22,7 @@
           <span>{{
             props.row.checkStatus == '0' ? '未审批'
               : (props.row.checkStatus == '1' ? '同意'
-                : (props.row.checkStatus == '2' ? '驳回':"-"))
+                : (props.row.checkStatus == '2' ? '驳回' : "-"))
           }}</span>
         </template>
         <template v-slot:column-happenTime="props">
@@ -22,14 +32,14 @@
           <span>{{ props.row.checkTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="props.row.checkStatus!=1" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
-          <el-button v-if="props.row.checkStatus!=2" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
-            icon="el-icon-document">删除</el-button>
+          <el-button v-if="props.row.checkStatus != 1" @click="editRow(props.row)" type="text"
+            icon="el-icon-edit">编辑</el-button>
+          <el-button v-if="props.row.checkStatus != 2" class="prohibitclick" @click="deleteRow(props.row)" type="text"
+            size="small" icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
     </div>
-    <transferInputEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
-      @success="success()" />
+    <onCheckEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
   </div>
 </template>
 
@@ -37,7 +47,7 @@
 import { transferCheckListPage, transferCheckDelete, transferCheckDeleteList } from "@/api/check";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import transferInputEdit from "./transferInputEdit";
+import onCheckEdit from "./onCheckEdit";
 import { goodslist, Supplierlist } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
 
@@ -69,9 +79,9 @@ export default {
         { label: "入库", value: 3 },
         { label: "占用", value: 4 },
         { label: "出库", value: 5 }],
-      //   typeOptions:[
-      //     {label:"采购入库",value:0},
-      //     {label:"调货入库",value:1}]
+      checkStatusOptions: [
+        { label: "未审核", value: 0 },
+        { label: "驳回", value: 2 }]
     };
   },
   computed: {
@@ -85,13 +95,12 @@ export default {
         { prop: "inputShopName", label: "调货门店名称" },
         { prop: "inputPlan", label: "计划数" },
         { prop: "inputPrice", label: "入库价格" },
-        { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inputActual", label: "实际数" },
         // { prop: "inventoryCode", label: "仓库编码" },
         // { prop: "positionCode", label: "货位编码" },
         // { prop: "vehicleCode", label: "车辆编码" },
-        // { slots: { name: "column-status" }, label: "状态" },
-        { slots: { name: "column-type" }, label: "入库类型" },
+        { slots: { name: "column-status1" }, label: "货物状态" },
+        // { slots: { name: "column-type" }, label: "入库类型" },
         { slots: { name: "column-status" }, label: "审批状态" },
         { prop: "description", label: "审批意见" },
         { slots: { name: "column-happenTime" }, label: "申请日期" },
@@ -100,6 +109,7 @@ export default {
         // { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
         // { prop: "returnReason", label: "退货原因" },
+        { prop: "shopPeopleCode", label: "门店操作员" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
@@ -129,6 +139,14 @@ export default {
           type: "select",
           options: this.shopOptions
         },
+        {
+          label: '请选择',
+          placeholder: '请选择审批状态',
+          field: 'checkStatus',
+          value: '',
+          type: "select",
+          options: this.checkStatusOptions
+        },
       ];
     }
   },
@@ -136,7 +154,7 @@ export default {
   },
   components: {
     TableList,
-    transferInputEdit,
+    onCheckEdit,
     reloadAndsearch
   },
   created() {
@@ -197,19 +215,20 @@ export default {
         inputShopCode: "",
         goodsCode: "",
         outputShopCode: "",
-        checkType:0,
+        checkType: 0,
+        checkStatus: ""
       };
       transferCheckListPage(params).then((res) => {
         if (res.data.code === 200) {
           // this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
-          this.tableData=[]
-          res.data.data.records.forEach(item=>{
-            if(item.status<2){
+          this.tableData = []
+          res.data.data.records.forEach(item => {
+            if (item.checkStatus == 0 || item.checkStatus == 2) {
               this.tableData.push(item)
             }
           })
-          this.total=this.tableData.length
+          this.total = this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -231,18 +250,18 @@ export default {
         inputShopCode: searchData.inputShopCode,
         goodsCode: searchData.goodsCode,
         outputShopCode: searchData.outputShopCode,
-        checkType:0,
+        checkType: 0,
+        checkStatus: searchData.checkStatus,
       }).then((res) => {
         if (res.data.code === 200) {
           // this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
-          this.tableData=[]
-          res.data.data.records.forEach(item=>{
-            if(item.status<2){
+          this.tableData = []
+          res.data.data.records.forEach(item => {
+            if (item.checkStatus == 0 || item.checkStatus == 2) {
               this.tableData.push(item)
             }
           })
-          this.total=this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -258,7 +277,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      transferCheckDelete({ isDeleted:0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+      transferCheckDelete({ transferCheckKey: row.transferCheckKey }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
@@ -286,17 +305,17 @@ export default {
     },
     handleDeleteList() {
       if (this.multipleSelection.length > 0) {
-        let inputWarehouseKeys = [];
+        let transferCheckKeys = [];
         this.multipleSelection.forEach(item => {
-          inputWarehouseKeys.push({ isDeleted:0, inputWarehouseKey: item.inputWarehouseKey })
+          transferCheckKeys.push({ transferCheckKey: item.transferCheckKey })
         })
-        console.log(inputWarehouseKeys);
+        console.log(transferCheckKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          transferCheckDeleteList(inputWarehouseKeys).then(() => {
+          transferCheckDeleteList(transferCheckKeys).then(() => {
             this.getTableData();
             this.$message({
               type: 'success',

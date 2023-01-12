@@ -418,8 +418,8 @@ export default {
           if (this.ruleForm.checkStatus == 1) {
             this.ruleForm.outputActual = this.ruleForm.checkNum
             let data = {
-              shopCode: this.ruleForm.outputShopCode,
-              shopName: this.ruleForm.outputShopCode,
+              shopCode: this.ruleForm.shopCode,
+              shopName: this.ruleForm.shopName,
               goodsCode: this.ruleForm.goodsCode,
               goodsName: this.ruleForm.goodsName,
               isDeleted: this.ruleForm.isDeleted,
@@ -439,8 +439,8 @@ export default {
               inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
               returnNum: this.ruleForm.returnNum,
               returnReason: this.ruleForm.returnReason,
-              outputShopCode: this.ruleForm.shopCode,
-              outputShopName: this.ruleForm.shopName,
+              outputShopCode: this.ruleForm.outputShopCode,
+              outputShopName: this.ruleForm.outputShopName,
               outputWarehouseKey: this.ruleForm.outputWarehouseKey
             }
             outputWarehouseAdd(data).then(res => {
@@ -457,6 +457,7 @@ export default {
                   checkNum: this.ruleForm.checkNum,
                   outputShopCode: this.ruleForm.outputShopCode,
                   inputShopCode: this.ruleForm.inputShopCode,
+                  checkType:1,
                 }
                 transferCheckUpdate(data).then(res => {
                   if (res.data.code == 200) {
@@ -484,6 +485,7 @@ export default {
               checkNum: this.ruleForm.checkNum,
               outputShopCode: this.ruleForm.outputShopCode,
               inputShopCode: this.ruleForm.inputShopCode,
+              checkType:1,
             }
             transferCheckUpdate(data).then(res => {
               if (res.data.code == 200) {
@@ -509,8 +511,8 @@ export default {
           if (this.ruleForm.checkStatus == 1) {
             this.ruleForm.outputActual = this.ruleForm.checkNum
             let data = {
-              shopCode: this.ruleForm.outputShopCode,
-              shopName: this.ruleForm.outputShopCode,
+              shopCode: this.ruleForm.shopCode,
+              shopName: this.ruleForm.shopName,
               goodsCode: this.ruleForm.goodsCode,
               goodsName: this.ruleForm.goodsName,
               isDeleted: this.ruleForm.isDeleted,
@@ -530,8 +532,8 @@ export default {
               inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
               returnNum: this.ruleForm.returnNum,
               returnReason: this.ruleForm.returnReason,
-              outputShopCode: this.ruleForm.shopCode,
-              outputShopName: this.ruleForm.shopName,
+              outputShopCode: this.ruleForm.outputShopCode,
+              outputShopName: this.ruleForm.outputShopName,
               outputWarehouseKey: this.ruleForm.outputWarehouseKey
             }
             outputWarehouseAdd(data).then(res => {
