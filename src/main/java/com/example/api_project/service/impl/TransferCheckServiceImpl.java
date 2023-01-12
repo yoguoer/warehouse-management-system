@@ -45,12 +45,13 @@ public class TransferCheckServiceImpl implements TransferCheckService {
         String inputShopCode=transferCheck.getInputShopCode();
         String outputShopCode=transferCheck.getOutputShopCode();
         Integer checkType=transferCheck.getCheckType();
+        Integer checkStatus=transferCheck.getCheckStatus();
         if(checkType==0){
             total = this.transferCheckMapper.countIn(transferCheck);
-            records = transferCheckMapper.queryAllByLimitIn(goodsCode,inputShopCode,outputShopCode,startRows, pageSize);
+            records = transferCheckMapper.queryAllByLimitIn(checkStatus,goodsCode,inputShopCode,outputShopCode,startRows, pageSize);
         }else{
             total = this.transferCheckMapper.countOut(transferCheck);
-            records = transferCheckMapper.queryAllByLimitOut(goodsCode,inputShopCode,outputShopCode,startRows, pageSize);
+            records = transferCheckMapper.queryAllByLimitOut(checkStatus,goodsCode,inputShopCode,outputShopCode,startRows, pageSize);
         }
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);

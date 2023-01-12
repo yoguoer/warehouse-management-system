@@ -69,6 +69,9 @@
             <if test="goodsCode != null and goodsCode != ''">
                 and transfer_check.goods_code = #{goodsCode}
             </if>
+            <if test="checkStatus != null and checkStatus != ''">
+                and check_status = #{checkStatus}
+            </if>
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
@@ -86,6 +89,9 @@
             </if>
             <if test="goodsCode != null and goodsCode != ''">
                 and transfer_check.goods_code = #{goodsCode}
+            </if>
+            <if test="checkStatus != null and checkStatus != ''">
+                and check_status = #{checkStatus}
             </if>
         </where>
     </select>
@@ -105,6 +111,9 @@
             <if test="goodsCode != null and goodsCode != ''">
                 and transfer_check.goods_code = #{goodsCode}
             </if>
+            <if test="checkStatus != null and checkStatus != ''">
+                and check_status = #{checkStatus}
+            </if>
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
@@ -122,6 +131,9 @@
             </if>
             <if test="goodsCode != null and goodsCode != ''">
                 and transfer_check.goods_code = #{goodsCode}
+            </if>
+            <if test="checkStatus != null and checkStatus != ''">
+                and check_status = #{checkStatus}
             </if>
         </where>
     </select>

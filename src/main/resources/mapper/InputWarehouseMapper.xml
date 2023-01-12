@@ -217,6 +217,12 @@
             <if test="returnNum != null and returnNum != ''">
                 return_num = #{returnNum},
             </if>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                input_shop_code = #{inputShopCode},
+            </if>
+            <if test="inputShopName != null and inputShopName != ''">
+                input_shop_name = #{inputShopName},
+            </if>
         </set>
         where input_warehouse_key = #{inputWarehouseKey}
     </update>

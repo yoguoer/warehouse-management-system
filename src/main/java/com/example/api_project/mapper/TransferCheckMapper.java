@@ -22,8 +22,8 @@ public interface TransferCheckMapper {
      *
      * @return 对象列表
      */
-    List<TransferCheck> queryAllByLimitIn(String goodsCode,String inputShopCode,String outputShopCode, Integer startRows, Integer pageSize);
-    List<TransferCheck> queryAllByLimitOut(String goodsCode,String inputShopCode,String outputShopCode, Integer startRows, Integer pageSize);
+    List<TransferCheck> queryAllByLimitIn(Integer checkStatus,String goodsCode,String inputShopCode,String outputShopCode, Integer startRows, Integer pageSize);
+    List<TransferCheck> queryAllByLimitOut(Integer checkStatus,String goodsCode,String inputShopCode,String outputShopCode, Integer startRows, Integer pageSize);
 
     /**
      * 统计总行数
