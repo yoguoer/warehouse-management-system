@@ -12,8 +12,9 @@
           }}</span>
         </template>
         <template v-slot:column-type="props">
-          <span v-if="props.row.type == 0">采购入库</span>
-          <span v-if="props.row.type == 1">采购退货</span>
+          <span v-if="props.row.type == 0">零售</span>
+          <span v-if="props.row.type == 1">客户订购</span>
+          <span v-if="props.row.type == 1">调货出库</span>
         </template>
         <template v-slot:column-happenTime="props">
           <span>{{ props.row.happenTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
@@ -64,9 +65,6 @@ export default {
       goodsOptions: [],
       inventoryOptions: [],
       customerOptions: [],
-      //   typeOptions:[
-      //     {label:"采购入库",value:0},
-      //     {label:"调货入库",value:1}]
     };
   },
   computed: {
@@ -79,7 +77,7 @@ export default {
         { prop: "customerCode", label: "客户编码" },
         { prop: "customerName", label: "客户名称" },
         { prop: "outputPlan", label: "计划数" },
-        { prop: "outputPrice", label: "入库价格" },
+        { prop: "outputPrice", label: "出库价格" },
         { prop: "outputActual", label: "实际数" },
         { prop: "returnNum", label: "实际退货数" },
         { prop: "inventoryCode", label: "仓库编码" },

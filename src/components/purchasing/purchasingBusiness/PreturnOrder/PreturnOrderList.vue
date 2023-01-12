@@ -13,7 +13,7 @@
         </template>
         <template v-slot:column-type="props">
           <span v-if="props.row.type == 0">采购入库</span>
-          <span v-if="props.row.type == 1">采购退货</span>
+          <span v-if="props.row.type == 1">调货入库</span>
         </template>
         <template v-slot:column-happenTime="props">
           <span>{{ props.row.happenTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>

@@ -81,7 +81,7 @@
             <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable>
               <el-option label="零售出库" :value="0"></el-option>
               <el-option label="客户订购单" :value="1"></el-option>
-              <el-option label="销售退货单" :value="2"></el-option>
+              <el-option label="调货出库" :value="2"></el-option>
             </el-select>
           </el-form-item>
         </el-col>

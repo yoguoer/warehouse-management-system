@@ -66,8 +66,8 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="入库价格" prop="outputPrice">
-            <el-input v-model="ruleForm.outputPrice" clearable placeholder="入库价格" disabled></el-input>
+          <el-form-item label="出库价格" prop="outputPrice">
+            <el-input v-model="ruleForm.outputPrice" clearable placeholder="出库价格" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -78,10 +78,11 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="入库类型" prop="type">
-            <el-select size="small" v-model="ruleForm.type" placeholder="入库类型" clearable disabled>
-              <el-option label="采购入库" :value="0"></el-option>
-              <el-option label="调货入库" :value="1"></el-option>
+          <el-form-item label="出库类型" prop="type">
+            <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable disabled>
+              <el-option label="零售出库" :value="0"></el-option>
+              <el-option label="客户订购" :value="1"></el-option>
+              <el-option label="调货出库" :value="2"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
