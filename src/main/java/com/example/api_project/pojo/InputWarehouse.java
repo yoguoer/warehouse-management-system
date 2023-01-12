@@ -89,6 +89,14 @@ public class InputWarehouse implements Serializable {
      */
     private String inventoryPeopleCode;
     /**
+     * 调货门店编码
+     */
+    private String inputShopCode;
+    /**
+     * 调货门店编名称
+     */
+    private String inputShopName;
+    /**
      * 退货原因
      */
     private String returnReason;
@@ -96,6 +104,22 @@ public class InputWarehouse implements Serializable {
      * 退货数
      */
     private Integer returnNum;
+
+    public String getInputShopCode() {
+        return inputShopCode;
+    }
+
+    public void setInputShopCode(String inputShopCode) {
+        this.inputShopCode = inputShopCode;
+    }
+
+    public String getInputShopName() {
+        return inputShopName;
+    }
+
+    public void setInputShopName(String inputShopName) {
+        this.inputShopName = inputShopName;
+    }
 
     public Integer getReturnNum() {
         return returnNum;

@@ -96,6 +96,30 @@ public class OutputWarehouse implements Serializable {
      * 退货数
      */
     private Integer returnNum;
+    /**
+     * 调货门店编码
+     */
+    private String outputShopCode;
+    /**
+     * 调货门店编名称
+     */
+    private String outputShopName;
+
+    public String getOutputShopCode() {
+        return outputShopCode;
+    }
+
+    public void setOutputShopCode(String outputShopCode) {
+        this.outputShopCode = outputShopCode;
+    }
+
+    public String getOutputShopName() {
+        return outputShopName;
+    }
+
+    public void setOutputShopName(String outputShopName) {
+        this.outputShopName = outputShopName;
+    }
 
     public Integer getReturnNum() {
         return returnNum;
