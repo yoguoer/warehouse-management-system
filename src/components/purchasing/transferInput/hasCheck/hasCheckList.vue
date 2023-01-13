@@ -32,16 +32,18 @@
           <span>{{ props.row.checkTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="props.row.status == 2" @click="editRow1(props.row)" type="text" icon="el-icon-s-home">确认入库</el-button>
+          <el-button v-if="props.row.status == 2" @click="editRow1(props.row)" type="text"
+            icon="el-icon-s-home">确认入库</el-button>
           <el-button v-if="props.row.checkStatus != 1" @click="editRow(props.row)" type="text"
             icon="el-icon-edit">编辑</el-button>
-          <el-button v-if="props.row.checkStatus != 2&&props.row.status!=2" class="prohibitclick" @click="deleteRow(props.row)" type="text"
-            size="small" icon="el-icon-document">删除</el-button>
+          <el-button v-if="props.row.checkStatus != 2 && props.row.status != 2" class="prohibitclick"
+            @click="deleteRow(props.row)" type="text" size="small" icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
     </div>
     <hasCheckEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
-    <returnCargoEdit v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false" @success="success()" />
+    <returnCargoEdit v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false"
+      @success="success()" />
   </div>
 </template>
 
@@ -53,6 +55,7 @@ import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch
 import hasCheckEdit from "./hasCheckEdit";
 import { goodslist, Supplierlist } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
+import { inputWarehouseDelete, inputWarehouseDeleteList } from "@/api/purchasing";
 
 export default {
   name: "slist",
@@ -61,7 +64,7 @@ export default {
       total: null,
       drawer: false,
       rowData: {},
-      height:"600px",
+      height: "600px",
       drawer1: false,
       rowData1: {},
       tableData: [],
@@ -241,7 +244,7 @@ export default {
         goodsCode: searchData.goodsCode,
         outputShopCode: searchData.outputShopCode,
         checkType: 0,
-        checkStatus:1,
+        checkStatus: 1,
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
@@ -268,9 +271,18 @@ export default {
       console.log("deleteRow", row)
       transferCheckDelete({ transferCheckKey: row.transferCheckKey }).then(res => {
         if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
+          inputWarehouseDelete({ isDeleted: 0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+            if (res.data.code == 200) {
+              this.$message.success("删除成功!");
+              this.getTableData()
+              this.$forceUpdate()
+            } else {
+              this.$message.error("删除失败!");
+            }
+          });
+          // this.$message.success("删除成功!");
+          // this.getTableData()
+          // this.$forceUpdate()
         } else {
           this.$message.error("删除失败!");
         }
@@ -297,21 +309,34 @@ export default {
     handleDeleteList() {
       if (this.multipleSelection.length > 0) {
         let transferCheckKeys = [];
+        let inputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
           transferCheckKeys.push({ transferCheckKey: item.transferCheckKey })
+          inputWarehouseKeys.push({ isDeleted: 0, inputWarehouseKey: item.inputWarehouseKey })
+
         })
-        console.log(transferCheckKeys);
+        // console.log(inputWarehouseKeys);
+        // console.log(transferCheckKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           transferCheckDeleteList(transferCheckKeys).then(() => {
-            this.getTableData();
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
+            inputWarehouseDeleteList(inputWarehouseKeys).then(() => {
+              this.getTableData();
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            }).catch(error => {
+              console.log(error);
             });
+            //   this.getTableData();
+            //   this.$message({
+            //     type: 'success',
+            //     message: '删除成功!'
+            //   });
           }).catch(error => {
             console.log(error);
           });

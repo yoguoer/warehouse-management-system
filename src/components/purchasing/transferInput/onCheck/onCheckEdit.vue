@@ -31,7 +31,7 @@
             <el-select size="middle" v-model="ruleForm.inputShopCode" placeholder="调货门店" style="width:100%;" clearable
               ref="inputShopSelect">
               <el-option @click.native="setinputShopName" v-for="item in inputShopOptions" :key="item.shopKey"
-                :label="item.shopName" :value="item.shopCode">
+                :label="item.shopName" :value="item.shopCode" :disabled="item.shopCode==ruleForm.shopCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -98,8 +98,6 @@ import { transferCheckUpdate, transferCheckAdd } from '@/api/check'
 import { shoplist, goodslist } from '@/api/data'
 import { UserList } from '@/api/api'
 import moment from 'moment'
-import { ShopInventoryList } from '@/api/warehouse'
-import { getByshopCode } from '@/api/warehouse'
 
 export default {
   name: 'guestEdit',
@@ -177,6 +175,9 @@ export default {
       rules: {
         shopCode: [
           { required: true, message: '请选择门店', trigger: 'blur' },
+        ],
+        inputShopCode: [
+          { required: true, message: '请选择调货门店', trigger: 'blur' },
         ],
         goodsCode: [
           { required: true, message: '请选择商品', trigger: 'blur' },

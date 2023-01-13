@@ -50,6 +50,7 @@ import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch
 import onCheckEdit from "./onCheckEdit";
 import { goodslist, Supplierlist } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
+import { inputWarehouseDelete, inputWarehouseDeleteList } from "@/api/purchasing";
 
 export default {
   name: "slist",
@@ -57,7 +58,7 @@ export default {
     return {
       total: null,
       drawer: false,
-      height:"600px",
+      height: "600px",
       rowData: {},
       tableData: [],
       multipleSelection: [],
@@ -263,7 +264,7 @@ export default {
               this.tableData.push(item)
             }
           })
-          this.total=this.tableData.length
+          this.total = this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -281,9 +282,18 @@ export default {
       console.log("deleteRow", row)
       transferCheckDelete({ transferCheckKey: row.transferCheckKey }).then(res => {
         if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
+          inputWarehouseDelete({ isDeleted: 0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+            if (res.data.code == 200) {
+              this.$message.success("删除成功!");
+              this.getTableData()
+              this.$forceUpdate()
+            } else {
+              this.$message.error("删除失败!");
+            }
+          });
+          // this.$message.success("删除成功!");
+          // this.getTableData()
+          // this.$forceUpdate()
         } else {
           this.$message.error("删除失败!");
         }
@@ -308,21 +318,32 @@ export default {
     handleDeleteList() {
       if (this.multipleSelection.length > 0) {
         let transferCheckKeys = [];
+        let inputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
           transferCheckKeys.push({ transferCheckKey: item.transferCheckKey })
+          inputWarehouseKeys.push({ isDeleted: 0, inputWarehouseKey: item.inputWarehouseKey })
         })
-        console.log(transferCheckKeys);
+        // console.log(transferCheckKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
           transferCheckDeleteList(transferCheckKeys).then(() => {
-            this.getTableData();
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
+            inputWarehouseDeleteList(inputWarehouseKeys).then(() => {
+              this.getTableData();
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            }).catch(error => {
+              console.log(error);
             });
+            // this.getTableData();
+            // this.$message({
+            //   type: 'success',
+            //   message: '删除成功!'
+            // });
           }).catch(error => {
             console.log(error);
           });

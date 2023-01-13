@@ -29,7 +29,7 @@
         <el-col :span="10">
           <el-form-item label="调货门店" prop="inputShopCode">
             <el-select size="middle" v-model="ruleForm.inputShopCode" placeholder="调货门店" style="width:100%;" clearable
-              ref="inputShopSelect">
+              disabled ref="inputShopSelect">
               <el-option @click.native="setinputShopName" v-for="item in inputShopOptions" :key="item.shopKey"
                 :label="item.shopName" :value="item.shopCode">
               </el-option>
@@ -59,13 +59,8 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="门店操作员" prop="shopPeopleCode">
-            <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable
-              disabled>
-              <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
-              </el-option>
-            </el-select>
+          <el-form-item label="实际数" prop="inputActual">
+            <el-input v-model="ruleForm.inputActual" clearable placeholder="实际数" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -78,6 +73,15 @@
       </el-row>
       <el-row>
         <el-col :span="10">
+          <el-form-item label="门店操作员" prop="shopPeopleCode">
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;"
+              clearable>
+              <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
           <el-form-item label="仓库操作员" prop="inventoryPeopleCode">
             <el-select size="middle" v-model="ruleForm.inventoryPeopleCode" placeholder="仓库操作员" style="width:100%;"
               clearable>
@@ -86,16 +90,6 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="10">
-          <el-form-item label="实际数" prop="inputActual">
-            <el-input v-model="ruleForm.inputActual" clearable placeholder="实际数"></el-input>
-          </el-form-item>
-        </el-col>
-        <!-- <el-col :span="10">
-          <el-form-item label="退货原因" prop="returnReason" v-if="ruleForm.type == 1">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货入库原因" type="textarea"></el-input>
-          </el-form-item>
-        </el-col> -->
       </el-row>
       <el-row>
         <el-col :span="10">
