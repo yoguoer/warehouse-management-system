@@ -39,11 +39,11 @@
 
     <!--调货出库-->
     <sql id="Base_Column_output" >
-        transfer_check_key,transfer_check.output_shop_code,output_shop_Name,transfer_check.output_shop_code, transfer_check.output_warehouse_key, check_status,check_num, happen_time,check_time, description,input_warehouse_key, shop_code, shop_name, transfer_check.goods_code, goods_name,output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code,vehicle_code,is_deleted,return_num
+        transfer_check_key,output_warehouse.output_shop_code,output_shop_Name,transfer_check.output_shop_code, transfer_check.output_warehouse_key, check_status,check_num, happen_time,check_time, description,input_warehouse_key, shop_code, shop_name, transfer_check.goods_code, goods_name,output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code,vehicle_code,is_deleted,return_num
     </sql>
     <!--调货入库-->
     <sql id="Base_Column_input" >
-        transfer_check_key,transfer_check.input_shop_code,input_shop_Name,transfer_check.output_shop_code, transfer_check.input_warehouse_key, check_status,check_num, happen_time,check_time, description,output_warehouse_key, shop_code, shop_name, transfer_check.goods_code, goods_name, input_plan, input_price, input_actual, inventory_code, position_code, create_time, deadline_time, vehicle_code, status, type, shop_people_code, inventory_people_code,is_deleted,return_num
+        transfer_check_key,input_warehouse.input_shop_code,input_shop_Name,transfer_check.output_shop_code, transfer_check.input_warehouse_key, check_status,check_num, happen_time,check_time, description,output_warehouse_key, shop_code, shop_name, transfer_check.goods_code, goods_name, input_plan, input_price, input_actual, inventory_code, position_code, create_time, deadline_time, vehicle_code, status, type, shop_people_code, inventory_people_code,is_deleted,return_num
     </sql>
 
     <!--查询单个-->

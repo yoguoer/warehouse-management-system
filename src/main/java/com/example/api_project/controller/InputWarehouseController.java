@@ -119,9 +119,9 @@ public class InputWarehouseController {
                 if(isDeleted==0){
                     Integer newDeleted=1;
                     inputWarehouse.setIsDeleted(newDeleted);
-                    return ResponseData.success(this.inputWarehouseService.update(inputWarehouse));
+                    this.inputWarehouseService.update(inputWarehouse);
                 }else{
-                    return ResponseData.success(this.inputWarehouseService.deleteById(inputWarehouse));
+                    this.inputWarehouseService.deleteById(inputWarehouse);
                 }
             }
         }

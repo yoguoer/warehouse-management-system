@@ -92,11 +92,12 @@ public class OutputWarehouseController {
             if(isDeleted==0){
                 Integer newDeleted=1;
                 outputWarehouse.setIsDeleted(newDeleted);
-                return ResponseData.success(this.outputWarehouseService.update(outputWarehouse));
+                this.outputWarehouseService.update(outputWarehouse);
             }else{
-                return ResponseData.success(this.outputWarehouseService.deleteById(outputWarehouse));
+                this.outputWarehouseService.deleteById(outputWarehouse);
             }
         }
+        return ResponseData.success();
     }
 
     @PostMapping("/delete-list")
