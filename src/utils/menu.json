@@ -56,12 +56,6 @@
                                 "icon": "",
                                 "level": 3,
                                 "componentName": "MreturnOrder"
-                            },
-                            {
-                                "name": "调货出库单",
-                                "icon": "",
-                                "level": 3,
-                                "componentName": "transferOutput"
                             }
                         ]
                     },
@@ -84,6 +78,12 @@
                                 "componentName": "Mdetails"
                             }
                         ]
+                    },
+                    {
+                        "name": "调货出库",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "transferOutput"
                     }
                 ]
             },
@@ -148,12 +148,6 @@
                                 "icon": "",
                                 "level": 3,
                                 "componentName": "PreturnOrder"
-                            },
-                            {
-                                "name": "调货入库单",
-                                "icon": "",
-                                "level": 3,
-                                "componentName": "transferInput"
                             }
                         ]
                     },
@@ -176,6 +170,12 @@
                                 "componentName": "Pdetails"
                             }
                         ]
+                    },
+                    {
+                        "name": "调货入库",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "transferInput"
                     }
                 ]
             },

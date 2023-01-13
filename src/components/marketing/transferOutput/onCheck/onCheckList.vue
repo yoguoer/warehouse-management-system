@@ -2,7 +2,7 @@
   <div style="background:#fff;padding:10px;">
     <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden" />
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :height="height"
         :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
         :loading="loadings.table">
         <template v-slot:column-status="props">
@@ -46,6 +46,7 @@ export default {
       drawer: false,
       hidden: true,
       multiCheck: false,
+      height:"600px",
       rowData: {},
       tableData: [],
       multipleSelection: [],
@@ -217,7 +218,7 @@ export default {
               this.tableData.push(item)
             }
           })
-          this.total = this.tableData.length
+          this.total=this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -243,8 +244,15 @@ export default {
         checkStatus: searchData.checkStatus,
       }).then((res) => {
         if (res.data.code === 200) {
-          this.total = res.data.data.total;
-          this.tableData = res.data.data.records;
+          // this.total = res.data.data.total;
+          // this.tableData = res.data.data.records;
+          this.tableData = []
+          res.data.data.records.forEach(item => {
+            if (item.checkStatus == 0 || item.checkStatus == 2) {
+              this.tableData.push(item)
+            }
+          })
+          this.total=this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");

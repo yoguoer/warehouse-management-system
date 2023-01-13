@@ -349,26 +349,26 @@ const routes = [{
         name: 'outputOrder',
         component: () => import('@/components/marketing/marketingBusiness/outputOrder/outputOrderList.vue')
       },
-      //销售-销售业务-调货出库单
+      //销售-调货出库单
       {
-        path: '/marketing/marketingBusiness/transferOutput',
+        path: '/marketing/transferOutput',
         name: 'transferOutput',
-        component: () => import('@/views/marketing/marketingBusiness/transferOutput/Index.vue'),
+        component: () => import('@/views/marketing/transferOutput/Index.vue'),
         redirect: {
           name: "MonCheck"
         },
         children: [
-          //销售-销售业务-调货出库单-审批
+          //销售-调货出库单-审批
           {
             path: '/marketing/transferOutput/MonCheck',
             name: 'MonCheck',
-            component: () => import('@/components/marketing/marketingBusiness/transferOutput/onCheck/onCheckList.vue')
+            component: () => import('@/components/marketing/transferOutput/onCheck/onCheckList.vue')
           },
-          //销售-销售业务-调货出库单-已审批
+          //销售-调货出库单-已审批
           {
             path: '/marketing/transferOutput/MhasCheck',
             name: 'MhasCheck',
-            component: () => import('@/components/marketing/marketingBusiness/transferOutput/hasCheck/hasCheckList.vue')
+            component: () => import('@/components/marketing/transferOutput/hasCheck/hasCheckList.vue')
           },
         ]
       },
@@ -440,26 +440,26 @@ const routes = [{
         name: 'enterWarehouse',
         component: () => import('@/components/purchasing/purchasingBusiness/enterWarehouse/enterWarehouseList.vue')
       },
-      //采购-采购业务-调货入库单
+      //采购-调货入库单
       {
-        path: '/purchasing/purchasingBusiness/transferInput',
+        path: '/purchasing/transferInput',
         name: 'transferInput',
-        component: () => import('@/views/purchasing/purchasingBusiness/transferInput/Index.vue'),
+        component: () => import('@/views/purchasing/transferInput/Index.vue'),
         redirect: {
           name: "PonCheck"
         },
         children: [
-          //销售-采购业务-调货入库单-审批
+          //采购-调货入库单-审批
           {
             path: '/marketing/transferInput/onCheck',
             name: 'PonCheck',
-            component: () => import('@/components/purchasing/purchasingBusiness/transferInput/onCheck/onCheckList.vue')
+            component: () => import('@/components/purchasing/transferInput/onCheck/onCheckList.vue')
           },
-          //销售-采购业务-调货入库单-已审批
+          //采购-调货入库单-已审批
           {
             path: '/marketing/transferInput/hasCheck',
             name: 'PhasCheck',
-            component: () => import('@/components/purchasing/purchasingBusiness/transferInput/hasCheck/hasCheckList.vue')
+            component: () => import('@/components/purchasing/transferInput/hasCheck/hasCheckList.vue')
           },
         ]
       },

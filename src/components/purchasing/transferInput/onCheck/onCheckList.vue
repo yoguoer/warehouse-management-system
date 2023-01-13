@@ -1,14 +1,9 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" />
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :height="height"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
-        <template v-slot:column-type="props">
-          <span v-if="props.row.type == 0">零售</span>
-          <span v-if="props.row.type == 1">客户订购</span>
-          <span v-if="props.row.type == 2">调货出库</span>
-        </template>
         <template v-slot:column-status1="props">
           <span>{{
             props.row.status == '0' ? '在单'
@@ -19,11 +14,15 @@
                       : (props.row.status == '5' ? '出库' : '-')))))
           }}</span>
         </template>
+        <template v-slot:column-type="props">
+          <span v-if="props.row.type == 0">采购入库</span>
+          <span v-if="props.row.type == 1">调货入库</span>
+        </template>
         <template v-slot:column-status="props">
           <span>{{
             props.row.checkStatus == '0' ? '未审批'
               : (props.row.checkStatus == '1' ? '同意'
-                : (props.row.checkStatus == '2' ? '驳回':"-"))
+                : (props.row.checkStatus == '2' ? '驳回' : "-"))
           }}</span>
         </template>
         <template v-slot:column-happenTime="props">
@@ -33,14 +32,14 @@
           <span>{{ props.row.checkTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="props.row.checkStatus!=1" @click="editRow(props.row)" type="text" icon="el-icon-s-check">编辑</el-button>
-          <el-button v-if="props.row.checkStatus!=2" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
-            icon="el-icon-document">删除</el-button>
+          <el-button v-if="props.row.checkStatus != 1" @click="editRow(props.row)" type="text"
+            icon="el-icon-edit">编辑</el-button>
+          <el-button v-if="props.row.checkStatus != 2" class="prohibitclick" @click="deleteRow(props.row)" type="text"
+            size="small" icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
     </div>
-    <hasCheckEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
-      @success="success()" />
+    <onCheckEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
   </div>
 </template>
 
@@ -48,7 +47,7 @@
 import { transferCheckListPage, transferCheckDelete, transferCheckDeleteList } from "@/api/check";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import hasCheckEdit from "./hasCheckEdit";
+import onCheckEdit from "./onCheckEdit";
 import { goodslist, Supplierlist } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
 
@@ -58,7 +57,7 @@ export default {
     return {
       total: null,
       drawer: false,
-      hidden:true,
+      height:"600px",
       rowData: {},
       tableData: [],
       multipleSelection: [],
@@ -81,9 +80,9 @@ export default {
         { label: "入库", value: 3 },
         { label: "占用", value: 4 },
         { label: "出库", value: 5 }],
-      //   typeOptions:[
-      //     {label:"采购入库",value:0},
-      //     {label:"调货入库",value:1}]
+      checkStatusOptions: [
+        { label: "未审核", value: 0 },
+        { label: "驳回", value: 2 }]
     };
   },
   computed: {
@@ -93,25 +92,25 @@ export default {
         { prop: "shopName", label: "门店名称" },
         { prop: "goodsCode", label: "商品编码" },
         { prop: "goodsName", label: "商品名称" },
-        { prop: "outputShopCode", label: "调往门店编码" },
-        { prop: "outputShopName", label: "调往门店名称" },
-        { prop: "outputPlan", label: "计划数" },
-        { prop: "outputPrice", label: "入库价格" },
-        { prop: "outputActual", label: "实际数" },
-        { prop: "inventoryCode", label: "仓库编码" },
-        { prop: "positionCode", label: "货位编码" },
-        { prop: "vehicleCode", label: "车辆编码" },
+        { prop: "inputShopCode", label: "调货门店编码" },
+        { prop: "inputShopName", label: "调货门店名称" },
+        { prop: "inputPlan", label: "计划数" },
+        { prop: "inputPrice", label: "入库价格" },
+        // { prop: "inputActual", label: "实际数" },
+        // { prop: "inventoryCode", label: "仓库编码" },
+        // { prop: "positionCode", label: "货位编码" },
+        // { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status1" }, label: "货物状态" },
-        { slots: { name: "column-type" }, label: "入库类型" },
+        // { slots: { name: "column-type" }, label: "入库类型" },
         { slots: { name: "column-status" }, label: "审批状态" },
         { prop: "description", label: "审批意见" },
         { slots: { name: "column-happenTime" }, label: "申请日期" },
         { slots: { name: "column-checkTime" }, label: "审批日期" },
         // { slots: { name: "column-createTime" }, label: "预计日期" },
         // { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
-        { prop: "shopPeopleCode", label: "门店操作员" },
-        { prop: "inventoryPeopleCode", label: "仓库操作员" },
+        // { prop: "inventoryPeopleCode", label: "仓库操作员" },
         // { prop: "returnReason", label: "退货原因" },
+        { prop: "shopPeopleCode", label: "门店操作员" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
@@ -141,6 +140,14 @@ export default {
           type: "select",
           options: this.shopOptions
         },
+        {
+          label: '请选择',
+          placeholder: '请选择审批状态',
+          field: 'checkStatus',
+          value: '',
+          type: "select",
+          options: this.checkStatusOptions
+        },
       ];
     }
   },
@@ -148,7 +155,7 @@ export default {
   },
   components: {
     TableList,
-    hasCheckEdit,
+    onCheckEdit,
     reloadAndsearch
   },
   created() {
@@ -206,15 +213,23 @@ export default {
       let params = {
         page: this.query.pageNo,
         size: this.query.pageSize,
-        outputShopCode: "",
-        goodsCode: "",
         inputShopCode: "",
-        checkType:1,
+        goodsCode: "",
+        outputShopCode: "",
+        checkType: 0,
+        checkStatus: ""
       };
       transferCheckListPage(params).then((res) => {
         if (res.data.code === 200) {
-          this.total = res.data.data.total;
-          this.tableData = res.data.data.records;
+          // this.total = res.data.data.total;
+          // this.tableData = res.data.data.records;
+          this.tableData = []
+          res.data.data.records.forEach(item => {
+            if (item.checkStatus == 0 || item.checkStatus == 2) {
+              this.tableData.push(item)
+            }
+          })
+          this.total = this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -233,14 +248,22 @@ export default {
       transferCheckListPage({
         page: this.query.pageNo,
         size: this.query.pageSize,
-        outputShopCode: searchData.outputShopCode,
-        goodsCode: searchData.goodsCode,
         inputShopCode: searchData.inputShopCode,
-        checkType:1,
+        goodsCode: searchData.goodsCode,
+        outputShopCode: searchData.outputShopCode,
+        checkType: 0,
+        checkStatus: searchData.checkStatus,
       }).then((res) => {
         if (res.data.code === 200) {
-          this.total = res.data.data.total;
-          this.tableData = res.data.data.records;
+          // this.total = res.data.data.total;
+          // this.tableData = res.data.data.records;
+          this.tableData = []
+          res.data.data.records.forEach(item => {
+            if (item.checkStatus == 0 || item.checkStatus == 2) {
+              this.tableData.push(item)
+            }
+          })
+          this.total=this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
