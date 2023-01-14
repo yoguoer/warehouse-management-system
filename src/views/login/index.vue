@@ -10,7 +10,8 @@
       <div class="login-fl fl"><img :src="loginimg" alt=""></div>
       <div class="login-fr fl">
         <ul class="login-tab">
-          <li :class="tabval == item ? 'active' : ''" v-for='(item, index) in tablist' :key="index" @click="ontab(item)">
+          <li :class="tabval == item ? 'active' : ''" v-for='(item, index) in tablist' :key="index"
+            @click="ontab(item)">
             <span>{{ item }}</span>
           </li>
         </ul>
@@ -20,6 +21,10 @@
               v-model="formdata.userPhone"></el-input>
           </el-form-item>
           <template v-if="tabval == '注册'">
+            <el-form-item prop="userCode">
+              <el-input type="text" placeholder="工号" v-model="formdata.userCode"
+                @keyup.enter.native="submitform('ruleForm', tabval)" maxlength="20" />
+            </el-form-item>
             <el-form-item prop="userName">
               <el-input type="text" placeholder="姓名" v-model="formdata.userName"
                 @keyup.enter.native="submitform('ruleForm', tabval)" maxlength="20" />
@@ -57,8 +62,9 @@
             <el-link class="form-forget fr" :underline="false" @click="toEnable()">已有账号，请联系超级管理员配置权限后登录</el-link>
           </el-form-item>
           <el-form-item>
-            <el-button @click="submitform('ruleForm', tabval)"
-              @keyup.enter="submitform('ruleForm', tabval)">{{ tabval }}</el-button>
+            <el-button @click="submitform('ruleForm', tabval)" @keyup.enter="submitform('ruleForm', tabval)">{{
+              tabval
+            }}</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -93,7 +99,8 @@ export default {
         userPhone: '',
         userEmail: '',
         checkPass: '',
-        userSex: ''
+        userSex: '',
+        userCode: ''
       },
       rules: {
         userPhone: [
@@ -169,7 +176,8 @@ export default {
         userEmail: this.formdata.userEmail,//邮箱
         passWord: this.formdata.passWord,//密码
         userPhone: this.formdata.userPhone,//手机号码
-        userSex: this.formdata.userSex
+        userSex: this.formdata.userSex,
+        userCode: this.formdata.userCode
       }
       // console.log(data)
       toRegister(data).then(res => {
@@ -204,7 +212,8 @@ export default {
         userPhone: '',
         userEmail: '',
         checkPass: '',
-        userSex: ''
+        userSex: '',
+        userCode: ''
       }
     },
     toEnable() {
@@ -319,7 +328,8 @@ export default {
       width: 294px;
       border-radius: 30px;
     }
-    .el-select{
+
+    .el-select {
       /deep/.el-input__inner {
         width: 100%;
         border-radius: 30px;
