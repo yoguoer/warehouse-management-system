@@ -24,6 +24,14 @@ public class OutputWarehouseController {
     private OutputWarehouseService outputWarehouseService;
 
     /**
+     * 不分页查询
+     */
+    @GetMapping("/list")
+    public Result querylist() {
+        return ResponseData.success(this.outputWarehouseService.querylist());
+    }
+
+    /**
      * 分页查询
      *
      * @param outputWarehouse 筛选条件

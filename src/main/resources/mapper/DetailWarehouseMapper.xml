@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.DetailWarehouseMapper">
+
+    <resultMap type="com.example.api_project.pojo.DetailWarehouse" id="DetailWarehouseMap">
+        <result property="detailWarehouseKey" column="detail_warehouse_key" jdbcType="VARCHAR"/>
+        <result property="inputOutputKey" column="input_output_key" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="quantity" column="quantity" jdbcType="INTEGER"/>
+        <result property="transType" column="trans_type" jdbcType="INTEGER"/>
+        <result property="atTime" column="at_time" jdbcType="VARCHAR"/>
+        <result property="startNum" column="start_num" jdbcType="INTEGER"/>
+        <result property="finalNum" column="final_num" jdbcType="INTEGER"/>
+        <result property="shopkeeperWarehouseKey" column="shopkeeper_warehouse_key" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="DetailWarehouseMap">
+        select
+          detail_warehouse_key, input_output_key, type, trans_type,quantity, at_time, start_num, final_num, shopkeeper_warehouse_key
+        from detail_warehouse
+        where detail_warehouse_key = #{detailWarehouseKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="DetailWarehouseMap">
+        select
+          detail_warehouse_key, input_output_key, type, trans_type,quantity, at_time, start_num, final_num, shopkeeper_warehouse_key
+        from detail_warehouse
+        <where>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="transType != null">
+                and trans_type = #{transType}
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from detail_warehouse
+        <where>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="transType != null">
+                and trans_type = #{transType}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="detailWarehouseKey" useGeneratedKeys="true">
+        insert into detail_warehouse(input_output_key, type, trans_type,quantity, at_time, start_num, final_num, shopkeeper_warehouse_key)
+        values (#{inputOutputKey}, #{type}, #{transType},#{quantity}, #{atTime}, #{startNum}, #{finalNum}, #{shopkeeperWarehouseKey})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="detailWarehouseKey" useGeneratedKeys="true">
+        insert into detail_warehouse(input_output_key, type, trans_type,quantity, at_time, start_num, final_num, shopkeeper_warehouse_key)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.inputOutputKey}, #{entity.type}, #{entity.transType},#{entity.quantity}, #{entity.atTime}, #{entity.startNum}, #{entity.finalNum}, #{entity.shopkeeperWarehouseKey})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="detailWarehouseKey" useGeneratedKeys="true">
+        insert into detail_warehouse(input_output_key, type, trans_type,quantity, at_time, start_num, final_num, shopkeeper_warehouse_key)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.inputOutputKey}, #{entity.type}, #{entity.transType},#{entity.quantity}, #{entity.atTime}, #{entity.startNum}, #{entity.finalNum}, #{entity.shopkeeperWarehouseKey})
+        </foreach>
+        on duplicate key update
+        input_output_key = values(input_output_key),
+        type = values(type),
+        trans_type = values(trans_type),
+        quantity = values(quantity),
+        at_time = values(at_time),
+        start_num = values(start_num),
+        final_num = values(final_num),
+        shopkeeper_warehouse_key = values(shopkeeper_warehouse_key)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update detail_warehouse
+        <set>
+            <if test="inputOutputKey != null and inputOutputKey != ''">
+                input_output_key = #{inputOutputKey},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="transType != null">
+                trans_type = #{transType},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity},
+            </if>
+            <if test="atTime != null and atTime != ''">
+                at_time = #{atTime},
+            </if>
+            <if test="startNum != null">
+                start_num = #{startNum},
+            </if>
+            <if test="finalNum != null">
+                final_num = #{finalNum},
+            </if>
+            <if test="shopkeeperWarehouseKey != null and shopkeeperWarehouseKey != ''">
+                shopkeeper_warehouse_key = #{shopkeeperWarehouseKey},
+            </if>
+        </set>
+        where detail_warehouse_key = #{detailWarehouseKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from detail_warehouse where detail_warehouse_key = #{detailWarehouseKey}
+    </delete>
+
+</mapper>
+

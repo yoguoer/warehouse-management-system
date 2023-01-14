@@ -5,7 +5,7 @@ import com.example.api_project.vo.SupplierInventory;
 import java.util.List;
 
 /**
- * 供应商的开票信息对应表(SupplierInventory)表数据库访问层
+ * 供应商仓库配置对应表(SupplierInventory)表数据库访问层
  *
  */
 public interface SupplierInventoryMapper {

@@ -11,6 +11,13 @@ import java.util.List;
 public interface ShopkeeperWarehouseMapper {
 
     /**
+     * 查询指全部数据
+     * 不分页
+     * @return 对象列表
+     */
+    List<ShopkeeperWarehouse> getList();
+
+    /**
      * 通过ID查询单条数据
      *
      * @param shopkeeperWarehouseKey 主键

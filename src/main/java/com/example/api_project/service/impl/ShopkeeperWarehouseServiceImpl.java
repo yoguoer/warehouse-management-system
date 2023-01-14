@@ -20,6 +20,13 @@ public class ShopkeeperWarehouseServiceImpl implements ShopkeeperWarehouseServic
     private ShopkeeperWarehouseMapper shopkeeperWarehouseMapper;
 
     /**
+     * 不分页查询
+     */
+    public List<ShopkeeperWarehouse> querylist() {
+        return shopkeeperWarehouseMapper.getList();
+    }
+
+    /**
      * 通过ID查询单条数据
      *
      * @param shopkeeperWarehouseKey 主键

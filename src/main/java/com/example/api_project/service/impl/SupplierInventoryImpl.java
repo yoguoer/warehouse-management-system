@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 供应商的开票信息对应表(SupplierInventory)表服务实现类
+ * 供应商仓库配置对应表(SupplierInventory)表服务实现类
  *
  */
 @Service("SupplierInventoryService")
@@ -30,6 +30,7 @@ public class SupplierInventoryImpl implements SupplierInventoryService {
     public List<SupplierInventory> querylist() {
         return SupplierInventoryMapper.getList();
     }
+
     /**
      * 分页查询
      *

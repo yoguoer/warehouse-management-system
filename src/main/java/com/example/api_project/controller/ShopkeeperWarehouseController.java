@@ -25,6 +25,14 @@ public class ShopkeeperWarehouseController {
     private ShopkeeperWarehouseService shopkeeperWarehouseService;
 
     /**
+     * 不分页查询
+     */
+    @GetMapping("/list")
+    public Result querylist() {
+        return ResponseData.success(this.shopkeeperWarehouseService.querylist());
+    }
+
+    /**
      * 分页查询
      *
      * @param shopkeeperWarehouse 筛选条件

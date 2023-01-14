@@ -11,6 +11,13 @@ import java.util.List;
 public interface OutputWarehouseMapper {
 
     /**
+     * 查询指全部数据
+     * 不分页
+     * @return 对象列表
+     */
+    List<OutputWarehouse> getList();
+
+    /**
      * 通过ID查询单条数据
      *
      * @param outputWarehouseKey 主键

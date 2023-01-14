@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * 供应商的开票信息对应表(SupplierInventory)表服务接口
+ * 供应商仓库配置对应表(SupplierInventory)表服务接口
  *
  */
 public interface SupplierInventoryService {

@@ -5,7 +5,7 @@ import com.example.api_project.vo.ShopInventory;
 import java.util.List;
 
 /**
- * 供应商的开票信息对应表(ShopInventory)表数据库访问层
+ * 门店仓库配置对应表(ShopInventory)表数据库访问层
  *
  */
 public interface ShopInventoryMapper {

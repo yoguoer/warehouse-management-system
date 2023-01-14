@@ -10,7 +10,7 @@ import com.example.api_project.service.SupplierInventoryService;
 import java.util.List;
 
 /**
- * 供应商的开票信息对应表(SupplierInventory)表控制层
+ * 供应商仓库配置对应表(SupplierInventory)表控制层
  *
  */
 @RestController

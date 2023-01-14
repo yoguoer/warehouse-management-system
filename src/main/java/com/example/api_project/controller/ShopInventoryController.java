@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * 供应商的开票信息对应表(ShopInventory)表控制层
+ * 门店仓库配置对应表(ShopInventory)表控制层
  *
  */
 @RestController

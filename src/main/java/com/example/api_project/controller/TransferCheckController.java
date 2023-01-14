@@ -1,6 +1,5 @@
 package com.example.api_project.controller;
 
-import com.example.api_project.pojo.ReturnCheck;
 import com.example.api_project.pojo.TransferCheck;
 import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
@@ -84,6 +83,7 @@ public class TransferCheckController {
     public Result deleteById(@RequestBody TransferCheck transferCheck) {
         return ResponseData.success(this.transferCheckService.deleteById(transferCheck));
     }
+
     @PostMapping("/delete-list")
     public Result deleteByList(@RequestBody List<TransferCheck> transferCheckKeys) {
         for(TransferCheck transferCheck: transferCheckKeys){

@@ -20,6 +20,13 @@ public class OutputWarehouseServiceImpl implements OutputWarehouseService {
     private OutputWarehouseMapper outputWarehouseMapper;
 
     /**
+     * 不分页查询
+     */
+    public List<OutputWarehouse> querylist() {
+        return outputWarehouseMapper.getList();
+    }
+
+    /**
      * 通过ID查询单条数据
      *
      * @param outputWarehouseKey 主键

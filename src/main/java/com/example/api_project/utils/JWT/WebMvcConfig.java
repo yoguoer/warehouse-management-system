@@ -12,32 +12,30 @@ public class WebMvcConfig implements WebMvcConfigurer {
         //设置拦截路径，排除路径，优先级等
         registry.addInterceptor(new TokenInterceptor())
                 .excludePathPatterns("/api/login/**").order(11)
-                .addPathPatterns("/api/user/**")
-                .addPathPatterns("/api/brand/**")
-                .addPathPatterns("/api/vehicle/**")
-                .addPathPatterns("/api/entity/**")
-                .addPathPatterns("/api/category/**")
-
-                .addPathPatterns("/api/contact/**")
-                .addPathPatterns("/api/customer/**")
-
-//                .addPathPatterns("/api/goods/**")
-
-                .addPathPatterns("/api/inventory/**")
-                .addPathPatterns("/api/district/**")
-                .addPathPatterns("/api/position/**")
-
-                .addPathPatterns("/api/supplier/**")
-                .addPathPatterns("/api/supplierAddress/**")
-                .addPathPatterns("/api/supplierBilling/**")
-                .addPathPatterns("/api/SupplierInventory/**")
-                .addPathPatterns("/api/ShopInventory/**")
-                .addPathPatterns("/api/shopkeeperWarehouse/**")
-                .addPathPatterns("/api/alertInfo/**")
-                .addPathPatterns("/api/inputWarehouse/**")
-                .addPathPatterns("/api/outputWarehouse/**")
-                .addPathPatterns("/api/returnCheck/**")
-                .addPathPatterns("/api/transferCheck/**")
+                .addPathPatterns("/api/user/**")//用户
+                .addPathPatterns("/api/brand/**")//品牌
+                .addPathPatterns("/api/vehicle/**")//车辆
+                .addPathPatterns("/api/entity/**")//业务实体
+                .addPathPatterns("/api/category/**")//分类
+                .addPathPatterns("/api/contact/**")//联系人
+                .addPathPatterns("/api/customer/**")//客户
+                .addPathPatterns("/api/goods/**")//商品
+                .addPathPatterns("/api/shop/**")//门店
+                .addPathPatterns("/api/inventory/**")//仓库
+                .addPathPatterns("/api/district/**")//区域
+                .addPathPatterns("/api/position/**")//货位
+                .addPathPatterns("/api/supplier/**")//供应商
+                .addPathPatterns("/api/supplierAddress/**")//供应商地址
+                .addPathPatterns("/api/supplierBilling/**")//供应商开票信息
+                .addPathPatterns("/api/SupplierInventory/**")//供应商仓库
+                .addPathPatterns("/api/ShopInventory/**")//门店仓库
+                .addPathPatterns("/api/shopkeeperWarehouse/**")//门店仓库库存
+                .addPathPatterns("/api/alertInfo/**")//预警信息
+                .addPathPatterns("/api/inputWarehouse/**")//入库表
+                .addPathPatterns("/api/outputWarehouse/**")//出库表
+                .addPathPatterns("/api/returnCheck/**")//退货审批表
+                .addPathPatterns("/api/transferCheck/**")//调货审批表
+                .addPathPatterns("/api/detailWarehouse/**")//出入库明细表
 
 
         ;
