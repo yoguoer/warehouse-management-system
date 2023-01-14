@@ -4,6 +4,15 @@ import qs from "qs";
 const baseUrl = "/api"
 
 
+//查询采购订单（不分页)
+export function inputWarehouseList(data) {
+  return request({
+    url: baseUrl + "/inputWarehouse/list",
+    method: "get",
+    params: data,
+  });
+}
+
 //查询采购订单（分页)
 export function inputWarehouseListPage(data) {
   return request({

@@ -5,6 +5,15 @@ const baseUrl = "/api"
 
 
 //********************************供应商**************************************************** */
+//查询供应商仓库（不分页)
+export function supplierInventoryList(data) {
+    return request({
+        url: baseUrl + "/SupplierInventory/list",
+        method: "get",
+        params: data,
+    });
+}
+
 //查询供应商仓库（分页)
 export function supplierInventoryListPage(data) {
     return request({
@@ -123,6 +132,15 @@ export function shopkeeperWarehouseListPage(data) {
     });
 }
 
+//查询零售商商品库存（不分页)
+export function shopkeeperWarehouseList(data) {
+    return request({
+        url: baseUrl + "/shopkeeperWarehouse/list",
+        method: "get",
+        params: data,
+    });
+}
+
 //添加零售商商品库存
 export function shopkeeperWarehouseAdd(data) {
     return request({
@@ -154,6 +172,51 @@ export function shopkeeperWarehouseDelete(data) {
 export function shopkeeperWarehouseDeleteList(data) {
     return request({
         url: baseUrl + "/shopkeeperWarehouse/delete-list",
+        method: "POST",
+        data: data,
+    });
+}
+
+//查询出入库明细表（分页)
+export function detailWarehouseListPage(data) {
+    return request({
+        url: baseUrl + "/detailWarehouse/list-page",
+        method: "get",
+        params: data,
+    });
+}
+
+//添加出入库明细表
+export function detailWarehouseAdd(data) {
+    return request({
+        url: baseUrl + "/detailWarehouse/add",
+        method: "POST",
+        data: data,
+    });
+}
+
+//更新出入库明细表
+export function detailWarehouseUpdate(data) {
+    return request({
+        url: baseUrl + "/detailWarehouse/update",
+        method: "POST",
+        data: data,
+    });
+}
+
+//删除出入库明细表
+export function detailWarehouseDelete(data) {
+    return request({
+        url: baseUrl + "/detailWarehouse/delete",
+        method: "POST",
+        data: data,
+    });
+}
+
+//删除出入库明细表(列表)
+export function detailWarehouseDeleteList(data) {
+    return request({
+        url: baseUrl + "/detailWarehouse/delete-list",
         method: "POST",
         data: data,
     });

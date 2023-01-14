@@ -618,7 +618,7 @@ const routes = [{
       {
         path: '/store/shopkeepers/warehouse',
         name: 'warehouse',
-        component: () => import('@/views/store/shopkeepers/warehouse/Index.vue')
+        component: () => import('@/components/store/shopkeepers/warehouse/warehouseList.vue')
       },
       //库存-零售商库存-仓库配置 
       {
