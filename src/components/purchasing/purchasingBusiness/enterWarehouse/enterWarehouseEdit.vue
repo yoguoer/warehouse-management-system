@@ -38,7 +38,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="入库价格" prop="inputPrice">
-            <el-input v-model="ruleForm.inputPrice" clearable placeholder="入库价格" disabled></el-input>
+            <el-input v-model="ruleForm.inputPrice" clearable placeholder="入库价格" disabled type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -53,7 +53,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="计划数" prop="inputPlan">
-            <el-input v-model="ruleForm.inputPlan" clearable placeholder="计划数" disabled></el-input>
+            <el-input v-model="ruleForm.inputPlan" clearable placeholder="计划数" disabled type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -108,7 +108,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="实际数" prop="inputActual">
-            <el-input v-model="ruleForm.inputActual" clearable placeholder="实际数"></el-input>
+            <el-input v-model="ruleForm.inputActual" clearable placeholder="实际数" type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

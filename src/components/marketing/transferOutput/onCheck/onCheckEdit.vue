@@ -48,12 +48,12 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="申请数" prop="outputPlan">
-            <el-input v-model="ruleForm.outputPlan" clearable placeholder="申请数" disabled></el-input>
+            <el-input v-model="ruleForm.outputPlan" clearable placeholder="申请数" disabled type="Number"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <el-form-item label="入库价格" prop="outputPrice">
-            <el-input v-model="ruleForm.outputPrice" clearable placeholder="入库价格" disabled></el-input>
+            <el-input v-model="ruleForm.outputPrice" clearable placeholder="入库价格" disabled type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

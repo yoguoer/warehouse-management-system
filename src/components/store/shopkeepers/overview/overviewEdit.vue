@@ -33,38 +33,38 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="库存上限" prop="maxNum">
-            <el-input v-model="ruleForm.maxNum" clearable placeholder="库存上限"></el-input>
+            <el-input v-model="ruleForm.maxNum" clearable placeholder="库存上限" type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
           <el-form-item label="库存下限" prop="minNum">
-            <el-input v-model="ruleForm.minNum" clearable placeholder="库存下限"></el-input>
+            <el-input v-model="ruleForm.minNum" clearable placeholder="库存下限" type="Number"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <el-form-item label="现存量" prop="accountNum">
-            <el-input v-model="ruleForm.accountNum" clearable placeholder="现存量"></el-input>
+            <el-input v-model="ruleForm.accountNum" clearable placeholder="现存量" type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
           <el-form-item label="占用数" prop="occupyNum">
-            <el-input v-model="ruleForm.occupyNum" clearable placeholder="占用数"></el-input>
+            <el-input v-model="ruleForm.occupyNum" clearable placeholder="占用数" type="Number"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <el-form-item label="在途数" prop="onwayNum">
-            <el-input v-model="ruleForm.onwayNum" clearable placeholder="在途数"></el-input>
+            <el-input v-model="ruleForm.onwayNum" clearable placeholder="在途数" type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
           <el-form-item label="残品数" prop="rejectsNum">
-            <el-input v-model="ruleForm.rejectsNum" clearable placeholder="残品数"></el-input>
+            <el-input v-model="ruleForm.rejectsNum" clearable placeholder="残品数" type="Number"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">

@@ -59,14 +59,14 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="计划出库数" prop="outputPlan">
-            <el-input v-model="ruleForm.outputPlan" clearable placeholder="计划出库数"></el-input>
+            <el-input v-model="ruleForm.outputPlan" clearable placeholder="计划出库数" type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
           <el-form-item label="出库价格" prop="outputPrice">
-            <el-input v-model="ruleForm.outputPrice" clearable placeholder="出库价格"></el-input>
+            <el-input v-model="ruleForm.outputPrice" clearable placeholder="出库价格" type="Number"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -109,7 +109,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="实际数" prop="outputActual">
-            <el-input v-model="ruleForm.outputActual" clearable placeholder="实际数"></el-input>
+            <el-input v-model="ruleForm.outputActual" clearable placeholder="实际数" type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
