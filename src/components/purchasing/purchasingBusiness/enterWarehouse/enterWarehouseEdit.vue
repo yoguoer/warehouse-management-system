@@ -138,7 +138,6 @@ import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
 import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
-import moment from 'moment'
 
 export default {
   name: 'guestEdit',

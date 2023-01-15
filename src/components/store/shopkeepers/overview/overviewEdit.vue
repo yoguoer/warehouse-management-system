@@ -214,9 +214,9 @@ export default {
       this.$parent.drawer = false
     },
     save(formName) {
+      this.ruleForm.availableNum = parseInt(this.ruleForm.accountNum) + parseInt(this.ruleForm.onwayNum) - parseInt(this.ruleForm.occupyNum)
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.ruleForm.availableNum = this.ruleForm.accountNum + this.ruleForm.onwayNum - this.ruleForm.occupyNum
           this.ruleForm.operateTime=moment().format("YYYY-MM-DD HH:mm:ss");
           shopkeeperWarehouseUpdate(this.ruleForm).then(res => {
             if (res.data.code == 200) {
@@ -234,9 +234,9 @@ export default {
       })
     },
     create(formName) {
+      this.ruleForm.availableNum = parseInt(this.ruleForm.accountNum) + parseInt(this.ruleForm.onwayNum) - parseInt(this.ruleForm.occupyNum)
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.ruleForm.availableNum = this.ruleForm.accountNum + this.ruleForm.onwayNum - this.ruleForm.occupyNum
           this.ruleForm.operateTime=moment().format("YYYY-MM-DD HH:mm:ss");
           let data = {
             shopCode: this.ruleForm.shopCode,

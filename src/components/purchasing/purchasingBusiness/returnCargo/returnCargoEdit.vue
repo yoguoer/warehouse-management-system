@@ -120,9 +120,9 @@
       </el-row>
     </el-form>
     <div class="dialog_footer">
-      <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
+      <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">确认入库</el-button>
       <el-button type="primary" @click="create('ruleForm')" v-else>立即创建</el-button>
-      <el-button @click="close()">关闭</el-button>
+      <el-button @click="close()">取消</el-button>
     </div>
   </el-dialog>
 </template>
@@ -132,6 +132,8 @@ import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
 import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
+import { detailWarehouseUpdate, detailWarehouseAdd, shopkeeperWarehouseList, } from '@/api/warehouse'
+import moment from 'moment'
 
 export default {
   name: 'guestEdit',
@@ -399,9 +401,32 @@ export default {
           }
           inputWarehouseUpdate(data).then(res => {
             if (res.data.code == 200) {
-              this.$message.success("编辑成功!");
-              this.$parent.success()
-              this.$forceUpdate()
+              let data = {
+                inputOutputKey: this.ruleForm.inputOutputKey,
+                shopkeeperWarehouseKey: "",
+                type: 0,
+                // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+                transType: 0,
+                quantity: this.ruleForm.inputActual,
+                startNum: "",
+                finalNum: "",
+                atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                detailWarehouseKey: "",
+                shopCode: this.ruleForm.shopCode,
+                goodsCode: this.ruleForm.goodsCode,
+              }
+              detailWarehouseAdd(data).then(res => {
+                if (res.data.code == 200) {
+                  this.$message.success("编辑成功!");
+                  this.$parent.success()
+                  this.$forceUpdate()
+                } else {
+                  this.$message.error("编辑失败!");
+                }
+              });
+              // this.$message.success("编辑成功!");
+              // this.$parent.success()
+              // this.$forceUpdate()
             } else {
               this.$message.error("编辑失败!");
             }
@@ -443,9 +468,32 @@ export default {
           }
           inputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {
-              this.$message.success("新增成功!");
-              this.$parent.success()
-              this.$forceUpdate()
+              let data = {
+                inputOutputKey: this.ruleForm.inputOutputKey,
+                shopkeeperWarehouseKey: "",
+                type: 0,
+                // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+                transType: 0,
+                quantity: this.ruleForm.inputActual,
+                startNum: "",
+                finalNum: "",
+                atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                detailWarehouseKey: "",
+                shopCode: this.ruleForm.shopCode,
+                goodsCode: this.ruleForm.goodsCode,
+              }
+              detailWarehouseAdd(data).then(res => {
+                if (res.data.code == 200) {
+                  this.$message.success("编辑成功!");
+                  this.$parent.success()
+                  this.$forceUpdate()
+                } else {
+                  this.$message.error("编辑失败!");
+                }
+              });
+              // this.$message.success("新增成功!");
+              // this.$parent.success()
+              // this.$forceUpdate()
             } else {
               this.$message.error("新增失败!");
             }

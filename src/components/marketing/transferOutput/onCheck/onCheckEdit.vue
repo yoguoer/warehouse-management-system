@@ -162,6 +162,7 @@ import moment from 'moment'
 import { ShopInventoryList } from '@/api/warehouse'
 import { getByshopCode } from '@/api/warehouse'
 import { inputWarehouseUpdate } from '@/api/purchasing'
+import { detailWarehouseUpdate, detailWarehouseAdd, shopkeeperWarehouseList, } from '@/api/warehouse'
 
 export default {
   name: 'guestEdit',
@@ -421,202 +422,244 @@ export default {
     create(formName) {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          if (this.ruleForm.checkStatus == 1) {
-            this.ruleForm.outputActual = this.ruleForm.checkNum
-            let data = {
-              shopCode: this.ruleForm.outputShopCode,
-              shopName: this.ruleForm.outputShopCode,
-              goodsCode: this.ruleForm.goodsCode,
-              goodsName: this.ruleForm.goodsName,
-              isDeleted: this.ruleForm.isDeleted,
-              supplierCode: this.ruleForm.supplierCode,
-              supplierName: this.ruleForm.supplierName,
-              outputPlan: this.ruleForm.outputPlan,
-              outputPrice: this.ruleForm.outputPrice,
-              outputActual: this.ruleForm.outputActual,
-              inventoryCode: this.ruleForm.inventoryCode,
-              positionCode: this.ruleForm.positionCode,
-              createTime: this.ruleForm.createTime,
-              deadlineTime: this.ruleForm.deadlineTime,
-              vehicleCode: this.ruleForm.vehicleCode,
-              status: 5,
-              type: 2,
-              shopPeopleCode: this.ruleForm.shopPeopleCode,
-              inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
-              returnNum: this.ruleForm.returnNum,
-              returnReason: this.ruleForm.returnReason,
-              outputShopCode: this.ruleForm.shopCode,
-              outputShopName: this.ruleForm.shopName,
-              outputWarehouseKey: this.ruleForm.outputWarehouseKey
-            }
-            outputWarehouseAdd(data).then(res => {
-              if (res.data.code == 200) {
-                let data = {
-                  transferCheckKey: this.ruleForm.transferCheckKey,
-                  description: this.ruleForm.description,
-                  goodsCode: this.ruleForm.goodsCode,
-                  inputWarehouseKey: this.ruleForm.inputWarehouseKey,
-                  outputWarehouseKey: res.data.data.outputWarehouseKey,
-                  checkStatus: this.ruleForm.checkStatus,
-                  happenTime: this.ruleForm.happenTime,
-                  checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-                  checkNum: this.ruleForm.checkNum,
-                  outputShopCode: this.ruleForm.outputShopCode,
-                  inputShopCode: this.ruleForm.inputShopCode,
-                }
-                transferCheckUpdate(data).then(res => {
-                  if (res.data.code == 200) {
-                    this.$message.success("编辑成功!");
-                    this.$parent.success()
-                    this.$forceUpdate()
-                  } else {
-                    this.$message.error("编辑失败!");
+      if (this.ruleForm.checkStatus == 0) {
+        this.$message.error("请选择同意或驳回!");
+      } else {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            if (this.ruleForm.checkStatus == 1) {
+              this.ruleForm.outputActual = this.ruleForm.checkNum
+              let data = {
+                shopCode: this.ruleForm.outputShopCode,
+                shopName: this.ruleForm.outputShopCode,
+                goodsCode: this.ruleForm.goodsCode,
+                goodsName: this.ruleForm.goodsName,
+                isDeleted: this.ruleForm.isDeleted,
+                supplierCode: this.ruleForm.supplierCode,
+                supplierName: this.ruleForm.supplierName,
+                outputPlan: this.ruleForm.outputPlan,
+                outputPrice: this.ruleForm.outputPrice,
+                outputActual: this.ruleForm.outputActual,
+                inventoryCode: this.ruleForm.inventoryCode,
+                positionCode: this.ruleForm.positionCode,
+                createTime: this.ruleForm.createTime,
+                deadlineTime: this.ruleForm.deadlineTime,
+                vehicleCode: this.ruleForm.vehicleCode,
+                status: 5,
+                type: 2,
+                shopPeopleCode: this.ruleForm.shopPeopleCode,
+                inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
+                returnNum: this.ruleForm.returnNum,
+                returnReason: this.ruleForm.returnReason,
+                outputShopCode: this.ruleForm.shopCode,
+                outputShopName: this.ruleForm.shopName,
+                outputWarehouseKey: this.ruleForm.outputWarehouseKey
+              }
+              outputWarehouseAdd(data).then(res => {
+                if (res.data.code == 200) {
+                  let data = {
+                    transferCheckKey: this.ruleForm.transferCheckKey,
+                    description: this.ruleForm.description,
+                    goodsCode: this.ruleForm.goodsCode,
+                    inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+                    outputWarehouseKey: res.data.data.outputWarehouseKey,
+                    checkStatus: this.ruleForm.checkStatus,
+                    happenTime: this.ruleForm.happenTime,
+                    checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    checkNum: this.ruleForm.checkNum,
+                    outputShopCode: this.ruleForm.outputShopCode,
+                    inputShopCode: this.ruleForm.inputShopCode,
                   }
-                })
-                let postData = {
-                  inputActual: this.ruleForm.outputActual,
-                  vehicleCode: this.ruleForm.vehicleCode,
-                  status: 2,
-                  inputWarehouseKey: this.ruleForm.inputWarehouseKey
+                  transferCheckUpdate(data).then(res => {
+                    if (res.data.code == 200) {
+                      this.$message.success("编辑成功!");
+                      this.$parent.success()
+                      this.$forceUpdate()
+                    } else {
+                      this.$message.error("编辑失败!");
+                    }
+                  })
+                  let postData = {
+                    inputActual: this.ruleForm.outputActual,
+                    vehicleCode: this.ruleForm.vehicleCode,
+                    status: 2,
+                    inputWarehouseKey: this.ruleForm.inputWarehouseKey
+                  }
+                  inputWarehouseUpdate(postData).then(res => {
+                    console.log(res.data.data)
+                  })
+                  let detailData = {
+                    inputOutputKey: this.ruleForm.shopCode,
+                    shopkeeperWarehouseKey: "",
+                    type: 1,
+                    // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+                    transType: 7,
+                    quantity: this.ruleForm.checkNum,
+                    startNum: "",
+                    finalNum: "",
+                    atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    detailWarehouseKey: "",
+                    shopCode: this.ruleForm.shopCode,
+                    goodsCode: this.ruleForm.goodsCode,
+                  }
+                  detailWarehouseAdd(detailData).then(res => {
+                    console.log(res.data.data)
+                  })
+                } else {
+                  this.$message.error("编辑失败!");
                 }
-                inputWarehouseUpdate(postData).then(res => {
-
-                });
-              } else {
-                this.$message.error("编辑失败!");
+              })
+            } else {//********************驳回****************
+              let data = {
+                transferCheckKey: this.ruleForm.transferCheckKey,
+                description: this.ruleForm.description,
+                goodsCode: this.ruleForm.goodsCode,
+                inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+                outputWarehouseKey: this.ruleForm.outputWarehouseKey,
+                checkStatus: this.ruleForm.checkStatus,
+                happenTime: this.ruleForm.happenTime,
+                checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                checkNum: this.ruleForm.checkNum,
+                outputShopCode: this.ruleForm.outputShopCode,
+                inputShopCode: this.ruleForm.inputShopCode,
               }
-            })
-          } else {//********************驳回****************
-            let data = {
-              transferCheckKey: this.ruleForm.transferCheckKey,
-              description: this.ruleForm.description,
-              goodsCode: this.ruleForm.goodsCode,
-              inputWarehouseKey: this.ruleForm.inputWarehouseKey,
-              outputWarehouseKey: this.ruleForm.outputWarehouseKey,
-              checkStatus: this.ruleForm.checkStatus,
-              happenTime: this.ruleForm.happenTime,
-              checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-              checkNum: this.ruleForm.checkNum,
-              outputShopCode: this.ruleForm.outputShopCode,
-              inputShopCode: this.ruleForm.inputShopCode,
+              transferCheckUpdate(data).then(res => {
+                if (res.data.code == 200) {
+                  this.$message.success("编辑成功!");
+                  this.$parent.success()
+                  this.$forceUpdate()
+                } else {
+                  this.$message.error("编辑失败!");
+                }
+              })
             }
-            transferCheckUpdate(data).then(res => {
-              if (res.data.code == 200) {
-                this.$message.success("编辑成功!");
-                this.$parent.success()
-                this.$forceUpdate()
-              } else {
-                this.$message.error("编辑失败!");
-              }
-            })
+          } else {
+            console.log('error submit!!');
+            return false;
           }
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      })
+        })
+      }
     },
     save(formName) {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          if (this.ruleForm.checkStatus == 1) {
-            this.ruleForm.outputActual = this.ruleForm.checkNum
-            let data = {
-              shopCode: this.ruleForm.outputShopCode,
-              shopName: this.ruleForm.outputShopCode,
-              goodsCode: this.ruleForm.goodsCode,
-              goodsName: this.ruleForm.goodsName,
-              isDeleted: this.ruleForm.isDeleted,
-              supplierCode: this.ruleForm.supplierCode,
-              supplierName: this.ruleForm.supplierName,
-              outputPlan: this.ruleForm.outputPlan,
-              outputPrice: this.ruleForm.outputPrice,
-              outputActual: this.ruleForm.outputActual,
-              inventoryCode: this.ruleForm.inventoryCode,
-              positionCode: this.ruleForm.positionCode,
-              createTime: this.ruleForm.createTime,
-              deadlineTime: this.ruleForm.deadlineTime,
-              vehicleCode: this.ruleForm.vehicleCode,
-              status: 5,
-              type: 2,
-              shopPeopleCode: this.ruleForm.shopPeopleCode,
-              inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
-              returnNum: this.ruleForm.returnNum,
-              returnReason: this.ruleForm.returnReason,
-              outputShopCode: this.ruleForm.shopCode,
-              outputShopName: this.ruleForm.shopName,
-              outputWarehouseKey: this.ruleForm.outputWarehouseKey
-            }
-            outputWarehouseUpdate(data).then(res => {
-              if (res.data.code == 200) {
-                let data = {
-                  transferCheckKey: this.ruleForm.transferCheckKey,
-                  description: this.ruleForm.description,
-                  goodsCode: this.ruleForm.goodsCode,
-                  inputWarehouseKey: this.ruleForm.inputWarehouseKey,
-                  outputWarehouseKey: this.ruleForm.outputWarehouseKey,
-                  checkStatus: this.ruleForm.checkStatus,
-                  happenTime: this.ruleForm.happenTime,
-                  checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-                  checkNum: this.ruleForm.checkNum,
-                  outputShopCode: this.ruleForm.outputShopCode,
-                  inputShopCode: this.ruleForm.inputShopCode,
-                }
-                transferCheckUpdate(data).then(res => {
-                  if (res.data.code == 200) {
-                    this.$message.success("编辑成功!");
-                    this.$parent.success()
-                    this.$forceUpdate()
-                  } else {
-                    this.$message.error("编辑失败!");
+      if (this.ruleForm.checkStatus == 0) {
+        this.$message.error("请选择同意或驳回!");
+      } else {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            if (this.ruleForm.checkStatus == 1) {
+              this.ruleForm.outputActual = this.ruleForm.checkNum
+              let data = {
+                shopCode: this.ruleForm.outputShopCode,
+                shopName: this.ruleForm.outputShopCode,
+                goodsCode: this.ruleForm.goodsCode,
+                goodsName: this.ruleForm.goodsName,
+                isDeleted: this.ruleForm.isDeleted,
+                supplierCode: this.ruleForm.supplierCode,
+                supplierName: this.ruleForm.supplierName,
+                outputPlan: this.ruleForm.outputPlan,
+                outputPrice: this.ruleForm.outputPrice,
+                outputActual: this.ruleForm.outputActual,
+                inventoryCode: this.ruleForm.inventoryCode,
+                positionCode: this.ruleForm.positionCode,
+                createTime: this.ruleForm.createTime,
+                deadlineTime: this.ruleForm.deadlineTime,
+                vehicleCode: this.ruleForm.vehicleCode,
+                status: 5,
+                type: 2,
+                shopPeopleCode: this.ruleForm.shopPeopleCode,
+                inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
+                returnNum: this.ruleForm.returnNum,
+                returnReason: this.ruleForm.returnReason,
+                outputShopCode: this.ruleForm.shopCode,
+                outputShopName: this.ruleForm.shopName,
+                outputWarehouseKey: this.ruleForm.outputWarehouseKey
+              }
+              outputWarehouseUpdate(data).then(res => {
+                if (res.data.code == 200) {
+                  let data = {
+                    transferCheckKey: this.ruleForm.transferCheckKey,
+                    description: this.ruleForm.description,
+                    goodsCode: this.ruleForm.goodsCode,
+                    inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+                    outputWarehouseKey: this.ruleForm.outputWarehouseKey,
+                    checkStatus: this.ruleForm.checkStatus,
+                    happenTime: this.ruleForm.happenTime,
+                    checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    checkNum: this.ruleForm.checkNum,
+                    outputShopCode: this.ruleForm.outputShopCode,
+                    inputShopCode: this.ruleForm.inputShopCode,
                   }
-                })
-                let postData = {
-                  inputActual: this.ruleForm.outputActual,
-                  vehicleCode: this.ruleForm.vehicleCode,
-                  status: 2,
-                  inputWarehouseKey: this.ruleForm.inputWarehouseKey
+                  transferCheckUpdate(data).then(res => {
+                    if (res.data.code == 200) {
+                      this.$message.success("编辑成功!");
+                      this.$parent.success()
+                      this.$forceUpdate()
+                    } else {
+                      this.$message.error("编辑失败!");
+                    }
+                  })
+                  let postData = {
+                    inputActual: this.ruleForm.outputActual,
+                    vehicleCode: this.ruleForm.vehicleCode,
+                    status: 2,
+                    inputWarehouseKey: this.ruleForm.inputWarehouseKey
+                  }
+                  inputWarehouseUpdate(postData).then(res => {
+                    console.log(res.data.data)
+                  });
+                  let detailData = {
+                    inputOutputKey: this.ruleForm.shopCode,
+                    shopkeeperWarehouseKey: "",
+                    type: 1,
+                    // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+                    transType: 7,
+                    quantity: this.ruleForm.checkNum,
+                    startNum: "",
+                    finalNum: "",
+                    atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    detailWarehouseKey: "",
+                    shopCode: this.ruleForm.shopCode,
+                    goodsCode: this.ruleForm.goodsCode,
+                  }
+                  detailWarehouseAdd(detailData).then(res => {
+                    console.log(res.data.data)
+                  })
+                } else {
+                  this.$message.error("编辑失败!");
                 }
-                inputWarehouseUpdate(postData).then(res => {
-
-                });
-              } else {
-                this.$message.error("编辑失败!");
+              })
+            } else {//********************驳回****************
+              let data = {
+                transferCheckKey: this.ruleForm.transferCheckKey,
+                description: this.ruleForm.description,
+                goodsCode: this.ruleForm.goodsCode,
+                inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+                outputWarehouseKey: this.ruleForm.outputWarehouseKey,
+                checkStatus: this.ruleForm.checkStatus,
+                happenTime: this.ruleForm.happenTime,
+                checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                checkNum: this.ruleForm.checkNum,
+                outputShopCode: this.ruleForm.outputShopCode,
+                inputShopCode: this.ruleForm.inputShopCode,
               }
-            })
-          } else {//********************驳回****************
-            let data = {
-              transferCheckKey: this.ruleForm.transferCheckKey,
-              description: this.ruleForm.description,
-              goodsCode: this.ruleForm.goodsCode,
-              inputWarehouseKey: this.ruleForm.inputWarehouseKey,
-              outputWarehouseKey: this.ruleForm.outputWarehouseKey,
-              checkStatus: this.ruleForm.checkStatus,
-              happenTime: this.ruleForm.happenTime,
-              checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-              checkNum: this.ruleForm.checkNum,
-              outputShopCode: this.ruleForm.outputShopCode,
-              inputShopCode: this.ruleForm.inputShopCode,
+              transferCheckUpdate(data).then(res => {
+                if (res.data.code == 200) {
+                  this.$message.success("编辑成功!");
+                  this.$parent.success()
+                  this.$forceUpdate()
+                } else {
+                  this.$message.error("编辑失败!");
+                }
+              })
             }
-            transferCheckUpdate(data).then(res => {
-              if (res.data.code == 200) {
-                this.$message.success("编辑成功!");
-                this.$parent.success()
-                this.$forceUpdate()
-              } else {
-                this.$message.error("编辑失败!");
-              }
-            })
+          } else {
+            console.log('error submit!!');
+            return false;
           }
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      })
+        })
+      }
     },
   },
 }

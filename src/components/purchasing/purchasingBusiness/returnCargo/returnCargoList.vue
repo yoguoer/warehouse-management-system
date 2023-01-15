@@ -85,7 +85,7 @@ export default {
         // { prop: "positionCode", label: "货位编码" },
         { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status" }, label: "状态" },
-        // { slots: { name: "column-type" }, label: "入库类型" },
+        { slots: { name: "column-type" }, label: "入库类型" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
