@@ -41,7 +41,9 @@ public class DetailWarehouseServiceImpl implements DetailWarehouseService {
         long total = this.detailWarehouseMapper.count(detailWarehouse);
         Integer transType=detailWarehouse.getTransType();
         Integer type=detailWarehouse.getType();
-        List<DetailWarehouse> records = this.detailWarehouseMapper.queryAllByLimit(transType,type,startRows, pageSize);
+        String goodsCode=detailWarehouse.getGoodsCode();
+        String shopCode=detailWarehouse.getShopCode();
+        List<DetailWarehouse> records = this.detailWarehouseMapper.queryAllByLimit(goodsCode,shopCode,transType,type,startRows, pageSize);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

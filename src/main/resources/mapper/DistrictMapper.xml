@@ -26,7 +26,7 @@
             description, district_code,district_name, inventory_district_key, inventory_key, sort,status
         from district
         where inventory_key = #{inventoryKey}
-        order by inventory_district_key desc
+        order by district_name
     </select>
 
     <!--分页查询所有-->

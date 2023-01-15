@@ -23,6 +23,7 @@
         select
             shop_key, shop_code, shop_name, business_person_code, liable_person_code, shop_status, category_key, description, province, city, district, detail,cooperation_type
         from shop
+        order by shop_name
     </select>
 
     <!--查询单个-->

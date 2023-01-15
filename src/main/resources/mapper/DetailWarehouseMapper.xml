@@ -12,6 +12,9 @@
         <result property="startNum" column="start_num" jdbcType="INTEGER"/>
         <result property="finalNum" column="final_num" jdbcType="INTEGER"/>
         <result property="shopkeeperWarehouseKey" column="shopkeeper_warehouse_key" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -25,14 +28,20 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="DetailWarehouseMap">
         select
-          detail_warehouse_key, input_output_key, type, trans_type,quantity, at_time, start_num, final_num, shopkeeper_warehouse_key
-        from detail_warehouse
+          detail_warehouse_key, input_output_key, type, trans_type,quantity, at_time, start_num, final_num, detail_warehouse.shopkeeper_warehouse_key,shop_code,goods_code
+        from detail_warehouse join shopkeeper_warehouse on detail_warehouse.shopkeeper_warehouse_key = shopkeeper_warehouse.shopkeeper_warehouse_key
         <where>
             <if test="type != null">
                 and type = #{type}
             </if>
             <if test="transType != null">
                 and trans_type = #{transType}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and shopkeeper_warehouse.goods_code = #{goodsCode}
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                and shopkeeper_warehouse.shop_code = #{shopCode}
             </if>
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -41,13 +50,19 @@
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
         select count(1)
-        from detail_warehouse
+        from detail_warehouse join shopkeeper_warehouse on detail_warehouse.shopkeeper_warehouse_key = shopkeeper_warehouse.shopkeeper_warehouse_key
         <where>
             <if test="type != null">
                 and type = #{type}
             </if>
             <if test="transType != null">
                 and trans_type = #{transType}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and shopkeeper_warehouse.goods_code = #{goodsCode}
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                and shopkeeper_warehouse.shop_code = #{shopCode}
             </if>
         </where>
     </select>

@@ -44,6 +44,24 @@ public class DetailWarehouse implements Serializable {
      * 关联库存
      */
     private String shopkeeperWarehouseKey;
+    private String shopCode;//门店编码
+    private String goodsCode;//商品编码
+
+    public String getShopCode() {
+        return shopCode;
+    }
+
+    public void setShopCode(String shopCode) {
+        this.shopCode = shopCode;
+    }
+
+    public String getGoodsCode() {
+        return goodsCode;
+    }
+
+    public void setGoodsCode(String goodsCode) {
+        this.goodsCode = goodsCode;
+    }
 
     public Integer getQuantity() {
         return quantity;

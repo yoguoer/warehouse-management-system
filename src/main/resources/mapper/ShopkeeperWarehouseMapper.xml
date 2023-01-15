@@ -5,6 +5,7 @@
     <resultMap type="com.example.api_project.pojo.ShopkeeperWarehouse" id="ShopkeeperWarehouseMap">
         <result property="shopkeeperWarehouseKey" column="shopkeeper_warehouse_key" jdbcType="VARCHAR"/>
         <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
         <result property="positionCode" column="position_code" jdbcType="VARCHAR"/>
         <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
         <result property="maxNum" column="max_num" jdbcType="INTEGER"/>
@@ -41,9 +42,10 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ShopkeeperWarehouseMap">
         select
-          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name,  position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
+          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name,  position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num,inventory_code
         from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
                                   join goods on goods.goods_code=shopkeeper_warehouse.goods_code
+                                  join inventory on inventory.belong_key=shop.shop_key
         <where>
             <if test="goodsCode != null and goodsCode != ''">
                 and shopkeeper_warehouse.goods_code like concat('%', #{goodsCode}, '%')

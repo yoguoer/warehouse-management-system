@@ -25,7 +25,7 @@
                position_key
         from position
         where inventory_key=#{inventoryKey}
-        order by position_key desc
+        order by position_code
     </select>
 
     <!--查询所有-->

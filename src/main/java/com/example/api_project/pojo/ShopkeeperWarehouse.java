@@ -18,6 +18,7 @@ public class ShopkeeperWarehouse implements Serializable {
     private String goodsCode;
     private String goodsName;//商品名称
     private Integer rejectsNum;//残品数
+    private String inventoryCode;//仓库编码
     /**
      * 货位编码
      */
@@ -60,6 +61,14 @@ public class ShopkeeperWarehouse implements Serializable {
      */
     private String description;
     private String modelCode;//型号
+
+    public String getInventoryCode() {
+        return inventoryCode;
+    }
+
+    public void setInventoryCode(String inventoryCode) {
+        this.inventoryCode = inventoryCode;
+    }
 
     public Integer getRejectsNum() {
         return rejectsNum;

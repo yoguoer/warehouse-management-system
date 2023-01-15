@@ -88,6 +88,13 @@ public class ReturnCheckServiceImpl implements ReturnCheckService {
      */
     @Override
     public ReturnCheck insert(ReturnCheck returnCheck) {
+        if(returnCheck.getCheckType()==0){
+            InputWarehouse inputWarehouse=returnCheck.getInputWarehouse();
+            this.inputWarehouseMapper.update(inputWarehouse);
+        }else if(returnCheck.getCheckType()==1){
+            OutputWarehouse outputWarehouse=returnCheck.getOutputWarehouse();
+            this.outputWarehouseMapper.update(outputWarehouse);
+        }
         this.returnCheckMapper.insert(returnCheck);
         return returnCheck;
     }

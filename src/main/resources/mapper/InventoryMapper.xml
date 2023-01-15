@@ -43,7 +43,7 @@
                status,
                belong_key
         from inventory
-        order by inventory_key desc
+        order by inventory_name
     </select>
 
     <!--分页查询所有-->

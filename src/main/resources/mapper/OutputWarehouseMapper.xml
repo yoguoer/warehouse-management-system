@@ -34,6 +34,7 @@
         select
             output_warehouse_key, shop_code, shop_name, goods_code, goods_name, customer_code, customer_name,output_shop_code,output_shop_name, output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code, return_reason,vehicle_code,is_deleted,return_num
         from output_warehouse
+        order by output_warehouse_key
     </select>
 
     <!--查询单个-->

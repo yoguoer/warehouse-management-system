@@ -23,7 +23,7 @@ public interface DetailWarehouseMapper {
      *
      * @return 对象列表
      */
-    List<DetailWarehouse> queryAllByLimit(Integer transType,Integer type,Integer startRows, Integer pageSize);
+    List<DetailWarehouse> queryAllByLimit(String goodsCode,String shopCode,Integer transType,Integer type,Integer startRows, Integer pageSize);
 
     /**
      * 统计总行数

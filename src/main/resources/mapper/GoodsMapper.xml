@@ -67,7 +67,7 @@
                price_retail,
                price_wholesaler
         from goods
-        order by goods_key desc
+        order by goods_name
     </select>
 
     <!--查询单个-->
