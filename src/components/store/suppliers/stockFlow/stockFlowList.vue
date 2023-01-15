@@ -278,7 +278,6 @@ export default {
       returnCheckByKey({ checkType:0,inputOutputKey:row.inputWarehouseKey}).then(res => {
         if (res.data.code == 200) {
           this.rowData=res.data.data
-          console.log(this.rowData)
           this.drawer = true;
         } else {
           this.$message.error("获取失败!");

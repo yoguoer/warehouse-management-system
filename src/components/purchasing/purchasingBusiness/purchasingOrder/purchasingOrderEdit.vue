@@ -18,7 +18,7 @@
           <el-form-item label="商品" prop="goodsCode">
             <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable
               ref="goodsSelect">
-              <el-option @click.native="setGoodsName" v-for="item in goodsOptions" :key="item.goodsCode"
+              <el-option @click.native="setGoodsName(item)" v-for="item in goodsOptions" :key="item.goodsCode"
                 :label="item.goodsName" :value="item.goodsCode">
               </el-option>
             </el-select>
@@ -219,7 +219,7 @@ export default {
   created() {
     this.getshoplist()
     this.getgoodslist()
-    this.getSupplierlist()
+    // this.getSupplierlist()
     this.getUserList()
     if (this.rowData.inputWarehouseKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
@@ -277,10 +277,16 @@ export default {
         }
       });
     },
-    getSupplierlist() {
+    getSupplierlist(supplierKey) {
       Supplierlist().then(res => {
         if (res.data.code == 200) {
-          this.supplierOptions = res.data.data
+          // this.supplierOptions = res.data.data
+          this.supplierOptions=[]
+          res.data.data.forEach(item=>{
+            if(item.supplierKey==supplierKey){
+              this.supplierOptions.push(item)
+            }
+          })
         } else {
           this.$message.error("获取失败!");
         }
@@ -292,8 +298,9 @@ export default {
     setSupplierName() {
       this.ruleForm.supplierName = this.$refs.supplierSelect.selectedLabel
     },
-    setGoodsName() {
+    setGoodsName(item) {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
+      this.getSupplierlist(item.supplierKey)
     },
 
     setTime() {

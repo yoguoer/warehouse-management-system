@@ -63,6 +63,8 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
+      shopOptions:[],
+      goodsOptions:[],
       // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
       transTypeOptions: [
         { label: "采购入库", value: 0 },
@@ -84,8 +86,10 @@ export default {
   computed: {
     tableColumn() {
       return [
-        { prop: "inputOutputKey", label: "订单编号" },
-        { prop: "shopkeeperWarehouseKey", label: "关联库存" },
+        // { prop: "inputOutputKey", label: "订单编号" },
+        // { prop: "shopkeeperWarehouseKey", label: "关联库存" },
+        { prop: "shopCode", label: "门店编码" },
+        { prop: "goodsCode", label: "商品编码" },
         { slots: { name: "column-type" }, label: "变化类型" },
         { slots: { name: "column-transType" }, label: "交易类型" },
         { slots: { name: "column-quantity" }, label: "变化数量" },
@@ -97,6 +101,22 @@ export default {
     },
     searchConfig() {
       return [
+      {
+          label: '请选择',
+          placeholder: '请选择门店',
+          field: 'shopCode',
+          value: '',
+          type: "select",
+          options: this.shopOptions
+        },
+        {
+          label: '请选择',
+          placeholder: '请选择商品',
+          field: 'goodsCode',
+          value: '',
+          type: "select",
+          options: this.goodsOptions
+        },
       {
           label: '请选择',
           placeholder: '请选择变化类型',
@@ -124,34 +144,34 @@ export default {
     reloadAndsearch
   },
   created() {
-    // this.getshoplist()
-    // this.getgoodslist()
+    this.getshoplist()
+    this.getgoodslist()
   },
   methods: {
-    // getshoplist() {
-    //   shoplist().then(res => {
-    //     if (res.data.code == 200) {
-    //       // this.shopOptions = res.data.data
-    //       res.data.data.forEach(item=>{
-    //         this.shopOptions.push({label:item.shopName,value:item.shopCode})
-    //       })
-    //     } else {
-    //       this.$message.error("获取失败!");
-    //     }
-    //   });
-    // },
-    // getgoodslist() {
-    //   goodslist().then(res => {
-    //     if (res.data.code == 200) {
-    //       // this.goodsOptions = res.data.data
-    //       res.data.data.forEach(item=>{
-    //         this.goodsOptions.push({label:item.goodsName,value:item.goodsCode})
-    //       })
-    //     } else {
-    //       this.$message.error("获取失败!");
-    //     }
-    //   });
-    // },
+    getshoplist() {
+      shoplist().then(res => {
+        if (res.data.code == 200) {
+          // this.shopOptions = res.data.data
+          res.data.data.forEach(item=>{
+            this.shopOptions.push({label:item.shopName,value:item.shopCode})
+          })
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
+    getgoodslist() {
+      goodslist().then(res => {
+        if (res.data.code == 200) {
+          // this.goodsOptions = res.data.data
+          res.data.data.forEach(item=>{
+            this.goodsOptions.push({label:item.goodsName,value:item.goodsCode})
+          })
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     getTableData(pageNo = 1, pageSize) {
       this.query.pageNo = pageNo;
       if (pageSize) {
@@ -165,6 +185,8 @@ export default {
         size: this.query.pageSize,
         transType: "",
         type: "",
+        goodsCode:"",
+        shopCode:""
       };
       detailWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
@@ -188,6 +210,8 @@ export default {
       detailWarehouseListPage({
         transType: searchData.transType,
         type: searchData.type,
+        goodsCode:searchData.goodsCode,
+        shopCode:searchData.shopCode,
         page: this.query.pageNo,
         size: this.query.pageSize,
       }).then((res) => {
@@ -209,7 +233,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      detailWarehouseDelete({ belongKey: row.belongKey, inventoryKey: row.inventoryKey }).then(res => {
+      detailWarehouseDelete({ detailWarehouseKey: row.detailWarehouseKey }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()

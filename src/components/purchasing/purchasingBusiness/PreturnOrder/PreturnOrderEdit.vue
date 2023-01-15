@@ -163,7 +163,7 @@
 </template>
 
 <script>
-import { returnCheckUpdate} from '@/api/check'
+import { returnCheckUpdate,returnCheckAdd } from '@/api/check'
 import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
@@ -408,6 +408,7 @@ export default {
     },
     close() {
       this.$parent.drawer = false
+      this.$emit('close')
     },
     save(formName) {
       this.ruleForm.createTime = this.value2[0]
@@ -506,7 +507,7 @@ export default {
               inputShopName:this.ruleForm.inputShopName,
             }
           }
-          returnCheckUpdate(data).then(res => {
+          returnCheckAdd(data).then(res => {
             if (res.data.code == 200) {
               this.$message.success("编辑成功!");
               this.$parent.success()

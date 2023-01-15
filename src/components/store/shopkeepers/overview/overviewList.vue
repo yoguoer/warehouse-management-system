@@ -56,6 +56,7 @@ export default {
       return [
         // { prop: "shopCode", label: "门店编码" },
         { prop: "shopName", label: "门店名称" },
+        { prop: "inventoryCode", label: "仓库编码" },
         // { prop: "goodsCode", label: "商品编码" },
         { prop: "goodsName", label: "商品名称" },
         { prop: "modelCode", label: "型号" },
