@@ -4,9 +4,9 @@ import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
 import com.example.api_project.pojo.OutputWarehouse;
 import com.example.api_project.service.OutputWarehouseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Random;
 
@@ -20,7 +20,7 @@ public class OutputWarehouseController {
     /**
      * 服务对象
      */
-    @Resource
+    @Autowired
     private OutputWarehouseService outputWarehouseService;
 
     /**

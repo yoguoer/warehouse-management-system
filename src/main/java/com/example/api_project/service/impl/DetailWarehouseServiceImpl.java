@@ -20,6 +20,18 @@ public class DetailWarehouseServiceImpl implements DetailWarehouseService {
     private DetailWarehouseMapper detailWarehouseMapper;
 
     /**
+     * 通过商品、门店、单号查询key
+     *
+     */
+    @Override
+    public DetailWarehouse getForKey(DetailWarehouse detailWarehouse) {
+        String shopCode=detailWarehouse.getShopCode();
+        String goodsCode=detailWarehouse.getGoodsCode();
+        String inputOutputKey=detailWarehouse.getInputOutputKey();
+        return this.detailWarehouseMapper.getForKey(shopCode,goodsCode,inputOutputKey);
+    }
+
+    /**
      * 通过ID查询单条数据
      *
      * @param detailWarehouseKey 主键

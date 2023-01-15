@@ -10,6 +10,8 @@ import java.util.List;
  */
 public interface DetailWarehouseMapper {
 
+    DetailWarehouse getForKey(String shopCode,String goodsCode,String inputOutputKey);
+
     /**
      * 通过ID查询单条数据
      *

@@ -17,6 +17,12 @@ public interface ShopkeeperWarehouseService {
     List<ShopkeeperWarehouse> querylist();
 
     /**
+     * 通过门店编号和商品编号查找对应库存记录
+     *
+     */
+    ShopkeeperWarehouse queryForKey(String shopCode,String goodsCode);
+
+    /**
      * 通过ID查询单条数据
      *
      * @param shopkeeperWarehouseKey 主键

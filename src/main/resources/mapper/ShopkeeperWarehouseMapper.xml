@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.api_project.mapper.ShopkeeperWarehouseMapper">
-
     <resultMap type="com.example.api_project.pojo.ShopkeeperWarehouse" id="ShopkeeperWarehouseMap">
         <result property="shopkeeperWarehouseKey" column="shopkeeper_warehouse_key" jdbcType="VARCHAR"/>
         <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
@@ -28,6 +27,17 @@
             shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
         from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
                                   join goods on goods.goods_code=shopkeeper_warehouse.goods_code
+    </select>
+
+    <!--查询单个-->
+    <select id="queryForKey" resultMap="ShopkeeperWarehouseMap">
+        select
+        shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,operate_time, description,rejects_num
+        from shopkeeper_warehouse
+        <where>
+                shop_code = #{shopCode}
+                and goods_code = #{goodsCode}
+        </where>
     </select>
 
     <!--查询单个-->

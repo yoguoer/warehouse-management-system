@@ -27,6 +27,15 @@ public class ShopkeeperWarehouseServiceImpl implements ShopkeeperWarehouseServic
     }
 
     /**
+     * 通过门店编号和商品编号查找对应库存记录
+     *
+     */
+    @Override
+    public ShopkeeperWarehouse queryForKey(String shopCode,String goodsCode) {
+        return this.shopkeeperWarehouseMapper.queryForKey(shopCode, goodsCode);
+    }
+
+    /**
      * 通过ID查询单条数据
      *
      * @param shopkeeperWarehouseKey 主键

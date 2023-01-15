@@ -47,6 +47,16 @@ public class ShopkeeperWarehouseController {
     }
 
     /**
+     * 通过门店编号和商品编号查找对应库存记录
+     *
+     * @return 单条数据
+     */
+    @GetMapping("/queryForKey")
+    public Result queryForKey(String shopCode,String goodsCode) {
+        return ResponseData.success(this.shopkeeperWarehouseService.queryForKey(shopCode,goodsCode));
+    }
+
+    /**
      * 通过主键查询单条数据
      *
      * @param id 主键

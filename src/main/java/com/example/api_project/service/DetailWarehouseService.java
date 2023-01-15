@@ -12,6 +12,12 @@ import java.util.Map;
 public interface DetailWarehouseService {
 
     /**
+     * 通过商品、门店、单号查询key
+     *
+     */
+    DetailWarehouse getForKey(DetailWarehouse detailWarehouse);
+
+    /**
      * 通过ID查询单条数据
      *
      * @param detailWarehouseKey 主键
