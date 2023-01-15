@@ -112,7 +112,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row>
+      <!-- <el-row>
         <el-col :span="10">
           <el-form-item label="申退货数" prop="returnNum">
             <el-input v-model="ruleForm.returnNum" clearable placeholder="退货数"></el-input>
@@ -123,7 +123,7 @@
             <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
     </el-form>
     <div class="dialog_footer">
       <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">提交</el-button>
@@ -233,9 +233,6 @@ export default {
         ],
         checkNum: [
           { required: true, message: '请设置退货数', trigger: 'blur' },
-        ],
-        returnReason: [
-          { required: true, message: '请设置退货原因', trigger: 'blur' },
         ],
       }
     }

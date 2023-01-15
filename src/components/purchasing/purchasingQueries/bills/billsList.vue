@@ -19,16 +19,18 @@
           <span v-if="props.row.type == 1">调货入库</span>
         </template>
         <template v-slot:column-createTime="props">
-          <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+          <span v-if="props.row.createTime">{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-deadlineTime="props">
-          <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+          <span v-if="props.row.deadlineTime">{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-isDeleted="props">
           <span>{{ props.row.isDeleted == '0' ? '否' : (props.row.isDeleted == '1' ? '是' : '-') }}</span>
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
+          <el-button v-show="!props.row.returnNum&&props.row.status==3&&props.row.type!=1" @click="editRow1(props.row)" type="text"
+            icon="el-icon-truck">退货</el-button>
           <el-button v-if="userType==0" @click="editRow(props.row)" type="text"
             icon="el-icon-edit">编辑</el-button>
           <el-button v-if="userType==0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
@@ -37,6 +39,8 @@
       </TableList>
     </div>
     <billsEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
+    <enterWarehouseReturn v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false"
+      @success="success()" />
   </div>
 </template>
 
@@ -47,6 +51,8 @@ import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch
 import billsEdit from "./billsEdit";
 import { shoplist, goodslist, Supplierlist } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
+import { returnCheckByKey } from "@/api/check";
+import enterWarehouseReturn from "@/components/purchasing/purchasingBusiness/enterWarehouse/enterWarehouseReturn.vue";
 
 export default {
   name: "slist",
@@ -55,6 +61,8 @@ export default {
       total: null,
       drawer: false,
       rowData: {},
+      drawer1: false,
+      rowData1: {},
       tableData: [],
       multipleSelection: [],
       loadings: {
@@ -109,7 +117,7 @@ export default {
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         // { slots: { name: "column-isDeleted" }, label: "是否删除" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
       ];
     },
     searchConfig() {
@@ -178,6 +186,7 @@ export default {
   components: {
     TableList,
     billsEdit,
+    enterWarehouseReturn,
     reloadAndsearch
   },
   created() {
@@ -302,6 +311,16 @@ export default {
       this.rowData = row;
       this.drawer = true;
     },
+    editRow1(row) {
+      returnCheckByKey({ checkType: 0, inputOutputKey: row.inputWarehouseKey }).then(res => {
+        if (res.data.code == 200) {
+          this.rowData1 = res.data.data||row
+          this.drawer1 = true;
+        } else {
+          this.$message.error("获取失败!");
+        }
+      })
+    },
     deleteRow(row) {
       console.log("deleteRow", row)
       inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey, isDeleted: 1 }).then(res => {
@@ -317,6 +336,8 @@ export default {
     success() {
       this.drawer = false;
       this.rowData = {};
+      this.drawer1 = false;
+      this.rowData1 = {};
       this.getTableData();
     },
     reload() {

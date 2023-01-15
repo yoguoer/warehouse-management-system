@@ -1,5 +1,5 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction"
+  <el-dialog size="30%" :title="ifCreate ? '新增退货单' : '编辑退货单'" :visible.sync="drawer" :direction="direction"
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -322,6 +322,11 @@ export default {
       this.ruleForm.returnNum = this.rowData.returnNum
       // this.ruleForm.checkType = this.rowData.checkType
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
+      if (this.ruleForm.returnCheckKey) {
+        this.ifCreate = false
+      } else {
+        this.ifCreate = true
+      }
     } else {
       this.ifCreate = true
     }
@@ -458,8 +463,7 @@ export default {
               returnNum: this.ruleForm.returnNum
             }
           }
-          returnCheckAdd(data).then(res => {
-
+          returnCheckUpdate(data).then(res => {
             if (res.data.code == 200) {
               this.$message.success("编辑成功!");
               this.$parent.success()
@@ -513,7 +517,6 @@ export default {
             }
           }
           returnCheckAdd(data).then(res => {
-
             if (res.data.code == 200) {
               this.$message.success("编辑成功!");
               this.$parent.success()

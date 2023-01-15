@@ -176,7 +176,7 @@
 
 <script>
 import { returnCheckUpdate } from '@/api/check'
-import { shoplist, goodslist, CustomerList, positionList,vehicleList } from '@/api/data'
+import { shoplist, goodslist, CustomerList, positionList, vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import moment from 'moment'
@@ -217,8 +217,8 @@ export default {
         returnNum: "",
         checkType: "",
         inputOutputKey: "",
-        outputShopCode:"",
-        outputShopName:"",
+        outputShopCode: "",
+        outputShopName: "",
       },
       shopOptions: [],
       goodsOptions: [],
@@ -313,8 +313,8 @@ export default {
       this.ruleForm.description = this.rowData.description
       this.ruleForm.returnNum = this.rowData.returnNum
       this.ruleForm.checkType = this.rowData.checkType
-      this.ruleForm.outputShopCode=this.rowData.outputShopCode
-      this.ruleForm.outputShopName=this.rowData.outputShopName
+      this.ruleForm.outputShopCode = this.rowData.outputShopCode
+      this.ruleForm.outputShopName = this.rowData.outputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
@@ -426,11 +426,11 @@ export default {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
       this.$refs[formName].validate((valid) => {
+        if (this.ruleForm.checkStatus == 1) {
+          this.ruleForm.returnNum = this.ruleForm.checkNum
+          this.ruleForm.outputActual = this.ruleForm.outputActual - this.ruleForm.checkNum
+        }
         if (valid) {
-          if (this.ruleForm.checkStatus == 1) {
-            this.ruleForm.returnNum = this.ruleForm.checkNum
-            this.ruleForm.outputActual = this.ruleForm.outputActual - this.ruleForm.checkNum
-          }
           let data = {
             returnCheckKey: this.ruleForm.returnCheckKey,
             description: this.ruleForm.description,
@@ -463,8 +463,8 @@ export default {
               inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
               returnReason: this.ruleForm.returnReason,
               returnNum: this.ruleForm.returnNum,
-              outputShopCode:this.ruleForm.outputShopCode,
-              outputShopName:this.ruleForm.outputShopName,
+              outputShopCode: this.ruleForm.outputShopCode,
+              outputShopName: this.ruleForm.outputShopName,
             }
           }
           returnCheckUpdate(data).then(res => {
@@ -486,11 +486,11 @@ export default {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
       this.$refs[formName].validate((valid) => {
+        if (this.ruleForm.checkStatus == 1) {
+          this.ruleForm.returnNum = this.ruleForm.checkNum
+          this.ruleForm.outputActual = this.ruleForm.outputActual - this.ruleForm.checkNum
+        }
         if (valid) {
-          if (this.ruleForm.checkStatus == 1) {
-            this.ruleForm.returnNum = this.ruleForm.checkNum
-            this.ruleForm.outputActual = this.ruleForm.outputActual - this.ruleForm.checkNum
-          }
           let data = {
             returnCheckKey: this.ruleForm.returnCheckKey,
             description: this.ruleForm.description,
@@ -523,8 +523,8 @@ export default {
               inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
               returnReason: this.ruleForm.returnReason,
               returnNum: this.ruleForm.returnNum,
-              outputShopCode:this.ruleForm.outputShopCode,
-              outputShopName:this.ruleForm.outputShopName,
+              outputShopCode: this.ruleForm.outputShopCode,
+              outputShopName: this.ruleForm.outputShopName,
             }
           }
           returnCheckUpdate(data).then(res => {

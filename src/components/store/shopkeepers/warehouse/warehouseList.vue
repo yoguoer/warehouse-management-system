@@ -24,7 +24,7 @@
           <span v-else>-{{props.row.quantity}}</span>
         </template>
         <template v-slot:column-atTime="props">
-          <span>{{ props.row.atTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+          <span v-if="props.row.atTime">{{ props.row.atTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
           <el-button @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>

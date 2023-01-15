@@ -20,10 +20,10 @@
           <span v-if="props.row.type == 1">调货入库</span>
         </template>
         <template v-slot:column-createTime="props">
-          <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+          <span v-if="props.row.createTime">{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-deadlineTime="props">
-          <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+          <span v-if="props.row.deadlineTime">{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
           <el-button v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-s-home">确认入库</el-button>

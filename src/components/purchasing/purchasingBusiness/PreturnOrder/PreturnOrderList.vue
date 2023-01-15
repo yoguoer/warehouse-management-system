@@ -16,10 +16,10 @@
           <span v-if="props.row.type == 1">调货入库</span>
         </template>
         <template v-slot:column-happenTime="props">
-          <span>{{ props.row.happenTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+          <span v-if="props.row.happenTime">{{ props.row.happenTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-checkTime="props">
-          <span>{{ props.row.checkTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+          <span v-if="props.row.checkTime">{{ props.row.checkTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
@@ -64,9 +64,10 @@ export default {
       goodsOptions: [],
       inventoryOptions: [],
       supplierOptions: [],
-      //   typeOptions:[
-      //     {label:"采购入库",value:0},
-      //     {label:"调货入库",value:1}]
+      checkOptions:[
+        { label: "未审批", value: 0 },
+        { label: "同意", value: 1 },
+        { label: "驳回", value: 2 }],
     };
   },
   computed: {
@@ -129,14 +130,14 @@ export default {
           type: "select",
           options: this.supplierOptions
         },
-        // {
-        //   label: '请选择',
-        //   placeholder: '请选择类型',
-        //   field: 'type',
-        //   value: '',
-        //   type: "select",
-        //   options:this.typeOptions
-        // },
+        {
+          label: '请选择',
+          placeholder: '请选择审批状态',
+          field: 'checkStatus',
+          value: '',
+          type: "select",
+          options:this.checkOptions
+        },
       ];
     }
   },
@@ -221,6 +222,7 @@ export default {
         inventoryCode: "",
         checkStatus: "",
         checkType: 0,
+        checkStatus:""
       };
       returnCheckListPage(params).then((res) => {
         if (res.data.code === 200) {
@@ -248,7 +250,7 @@ export default {
         goodsCode: searchData.goodsCode,
         supplierCode: searchData.supplierCode,
         inventoryCode: searchData.inventoryCode,
-        checkStatus:  "",
+        checkStatus: searchData.checkStatus,
         checkType: 0,
       }).then((res) => {
         if (res.data.code === 200) {

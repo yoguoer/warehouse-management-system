@@ -121,19 +121,19 @@
             :picker-options="pickerOptions" @change="setTime" value-format="yyyy-MM-dd HH:mm:ss">
           </el-date-picker>
         </el-col>
-        <!-- <el-col :span="10">
+        <el-col :span="10">
           <el-form-item label="申请退货数" prop="returnNum">
             <el-input v-model="ruleForm.returnNum" clearable placeholder="申请退货数"></el-input>
           </el-form-item>
-        </el-col> -->
+        </el-col>
       </el-row>
-      <!-- <el-row>
+      <el-row>
         <el-col :span="10">
           <el-form-item label="退货原因" prop="returnReason">
             <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea"></el-input>
           </el-form-item>
         </el-col>
-      </el-row> -->
+      </el-row>
     </el-form>
     <div class="dialog_footer">
       <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
@@ -405,6 +405,7 @@ export default {
       this.ruleForm.deadlineTime = this.value2[1]
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.ruleForm.outputActual=this.ruleForm.outputPlan-this.ruleForm.returnNum
           let data = {
             shopCode: this.ruleForm.shopCode,
             shopName: this.ruleForm.shopName,
@@ -451,6 +452,7 @@ export default {
       this.ruleForm.deadlineTime = this.value2[1]
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          this.ruleForm.outputActual=this.ruleForm.outputPlan-this.ruleForm.returnNum
           let data = {
             shopCode: this.ruleForm.shopCode,
             shopName: this.ruleForm.shopName,

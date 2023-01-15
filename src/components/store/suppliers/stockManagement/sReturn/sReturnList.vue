@@ -15,11 +15,11 @@
           <span v-if="props.row.type == 0">采购入库</span>
           <span v-if="props.row.type == 1">调货入库</span>
         </template>
-        <template v-slot:column-createTime="props">
-          <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+        <template v-slot:column-happenTime="props">
+          <span v-if="props.row.happenTime">{{ props.row.happenTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
-        <template v-slot:column-deadlineTime="props">
-          <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+        <template v-slot:column-checkTime="props">
+          <span v-if="props.row.checkTime">{{ props.row.checkTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
@@ -91,6 +91,8 @@ export default {
         { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-status" }, label: "审批状态" },
         { prop: "description", label: "审批意见" },
+        { slots: { name: "column-happenTime" }, label: "申请日期" },
+        { slots: { name: "column-checkTime" }, label: "审批日期" },
         // { slots: { name: "column-createTime" }, label: "预计日期" },
         // { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         // { prop: "shopPeopleCode", label: "门店操作员" },

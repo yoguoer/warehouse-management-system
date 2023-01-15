@@ -20,10 +20,10 @@
           <span v-if="props.row.type == 2">调货出库</span>
         </template>
         <template v-slot:column-createTime="props">
-          <span>{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+          <span v-if="props.row.createTime">{{ props.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-deadlineTime="props">
-          <span>{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+          <span v-if="props.row.deadlineTime">{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
           <el-button v-show="!props.row.returnNum" @click="editRow1(props.row)" type="text" icon="el-icon-s-promotion">退货</el-button>
@@ -45,6 +45,7 @@ import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch
 import { shoplist, goodslist, inventorylist, CustomerList } from '@/api/data'
 import outputOrderEdit from "./outputOrderEdit";
 import outputOrderReturn from "./outputOrderReturn.vue";
+import { returnCheckByKey } from "@/api/check";
 
 export default {
   name: "slist",
@@ -272,8 +273,14 @@ export default {
       this.drawer = true;
     },
     editRow1(row) {
-      this.rowData1 = row;
-      this.drawer1 = true;
+      returnCheckByKey({ checkType: 1, inputOutputKey: row.outputWarehouseKey }).then(res => {
+        if (res.data.code == 200) {
+          this.rowData1 = res.data.data||row
+          this.drawer1 = true;
+        } else {
+          this.$message.error("获取失败!");
+        }
+      })
     },
     deleteRow(row) {
       console.log("deleteRow", row)
