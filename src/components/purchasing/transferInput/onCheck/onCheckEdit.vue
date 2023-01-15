@@ -295,6 +295,7 @@ export default {
     },
     close() {
       this.$parent.drawer = false
+      this.$emit('close')
     },
     save(formName) {
       this.ruleForm.createTime = this.value2[0]

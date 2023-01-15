@@ -126,6 +126,8 @@ import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
 import { shoplist, goodslist, positionList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
+import { detailWarehouseUpdate, detailWarehouseAdd, shopkeeperWarehouseList, } from '@/api/warehouse'
+import moment from 'moment'
 
 export default {
   name: 'guestEdit',
@@ -351,6 +353,7 @@ export default {
     },
     close() {
       this.$parent.drawer = false
+      this.$emit('close')
     },
     save(formName) {
       this.ruleForm.createTime = this.value2[0]
@@ -384,9 +387,32 @@ export default {
           }
           inputWarehouseUpdate(data).then(res => {
             if (res.data.code == 200) {
-              this.$message.success("编辑成功!");
-              this.$parent.success()
-              this.$forceUpdate()
+              let data = {
+                inputOutputKey: this.ruleForm.inputOutputKey,
+                shopkeeperWarehouseKey: "",
+                type: 0,
+                // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+                transType: 6,
+                quantity: this.ruleForm.inputActual,
+                startNum: "",
+                finalNum: "",
+                atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                detailWarehouseKey: "",
+                shopCode: this.ruleForm.shopCode,
+                goodsCode: this.ruleForm.goodsCode,
+              }
+              detailWarehouseAdd(data).then(res => {
+                if (res.data.code == 200) {
+                  this.$message.success("编辑成功!");
+                  this.$parent.success()
+                  this.$forceUpdate()
+                } else {
+                  this.$message.error("编辑失败!");
+                }
+              });
+              // this.$message.success("编辑成功!");
+              // this.$parent.success()
+              // this.$forceUpdate()
             } else {
               this.$message.error("编辑失败!");
             }
@@ -428,9 +454,32 @@ export default {
           }
           inputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {
-              this.$message.success("新增成功!");
-              this.$parent.success()
-              this.$forceUpdate()
+              let data = {
+                inputOutputKey: this.ruleForm.inputOutputKey,
+                shopkeeperWarehouseKey: "",
+                type: 0,
+                // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+                transType: 6,
+                quantity: this.ruleForm.inputActual,
+                startNum: "",
+                finalNum: "",
+                atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                detailWarehouseKey: "",
+                shopCode: this.ruleForm.shopCode,
+                goodsCode: this.ruleForm.goodsCode,
+              }
+              detailWarehouseAdd(data).then(res => {
+                if (res.data.code == 200) {
+                  this.$message.success("编辑成功!");
+                  this.$parent.success()
+                  this.$forceUpdate()
+                } else {
+                  this.$message.error("编辑失败!");
+                }
+              });
+              // this.$message.success("新增成功!");
+              // this.$parent.success()
+              // this.$forceUpdate()
             } else {
               this.$message.error("新增失败!");
             }
