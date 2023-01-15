@@ -1,5 +1,5 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction"
+  <el-dialog size="30%" :title="ifCreate ? '新增退货单' : '审批退货单'" :visible.sync="drawer" :direction="direction"
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -109,6 +109,7 @@ import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import moment from 'moment'
+import { detailWarehouseUpdate, detailWarehouseAdd, shopkeeperWarehouseList, } from '@/api/warehouse'
 
 export default {
   name: 'guestEdit',
@@ -382,13 +383,37 @@ export default {
             }
             returnCheckUpdate(data).then(res => {
               if (res.data.code == 200) {
-                if (res.data.code == 200) {
+                if (this.ruleForm.checkStatus == 1) {
+                  let data = {
+                    inputOutputKey: this.ruleForm.inputOutputKey,
+                    shopkeeperWarehouseKey: "",
+                    type: 1,
+                    // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+                    transType: 1,
+                    quantity: this.ruleForm.checkNum,
+                    startNum: "",
+                    finalNum: "",
+                    atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    detailWarehouseKey: "",
+                    shopCode: this.ruleForm.shopCode,
+                    goodsCode: this.ruleForm.goodsCode,
+                  }
+                  detailWarehouseAdd(data).then(res => {
+                    if (res.data.code == 200) {
+                      this.$message.success("审批成功!");
+                      this.$parent.success()
+                      this.$forceUpdate()
+                    } else {
+                      this.$message.error("审批失败!");
+                    }
+                  });
+                } else {
                   this.$message.success("审批成功!");
                   this.$parent.success()
                   this.$forceUpdate()
-                } else {
-                  this.$message.error("审批成功!");
                 }
+              } else {
+                this.$message.error("审批失败!");
               }
             });
           }
@@ -449,11 +474,37 @@ export default {
             returnCheckUpdate(data).then(res => {
               if (res.data.code == 200) {
                 if (res.data.code == 200) {
-                  this.$message.success("审批成功!");
-                  this.$parent.success()
-                  this.$forceUpdate()
+                  if (this.ruleForm.checkStatus == 1) {
+                    let data = {
+                      inputOutputKey: this.ruleForm.inputOutputKey,
+                      shopkeeperWarehouseKey: "",
+                      type: 1,
+                      // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+                      transType: 1,
+                      quantity: this.ruleForm.checkNum,
+                      startNum: "",
+                      finalNum: "",
+                      atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                      detailWarehouseKey: "",
+                      shopCode: this.ruleForm.shopCode,
+                      goodsCode: this.ruleForm.goodsCode,
+                    }
+                    detailWarehouseAdd(data).then(res => {
+                      if (res.data.code == 200) {
+                        this.$message.success("审批成功!");
+                        this.$parent.success()
+                        this.$forceUpdate()
+                      } else {
+                        this.$message.error("审批失败!");
+                      }
+                    });
+                  } else {
+                    this.$message.success("审批成功!");
+                    this.$parent.success()
+                    this.$forceUpdate()
+                  }
                 } else {
-                  this.$message.error("审批成功!");
+                  this.$message.error("审批失败!");
                 }
               }
             });

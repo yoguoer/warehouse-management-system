@@ -56,7 +56,7 @@
             <el-select size="middle" v-model="ruleForm.shopkeeperWarehouseKey" placeholder="关联库存" style="width:100%;"
               clearable>
               <el-option v-for="item in shopkeeperWarehouseOptions" :key="item.shopkeeperWarehouseKey"
-                :label="item.goodsName" :value="item.shopkeeperWarehouseKey">
+                :label="item.shopkeeperWarehouseKey" :value="item.shopkeeperWarehouseKey">
               </el-option>
             </el-select>
           </el-form-item>
