@@ -7,13 +7,13 @@
           <h4 class="msg-title">基础信息</h4>
           <el-row>
             <el-col :span="7">
-              <el-form-item label="商品名" prop="goodsName">
-                <el-input v-model="ruleForm.goodsName" clearable placeholder="商品名"></el-input>
+              <el-form-item label="商品货号" prop="goodsCode">
+                <el-input v-model="ruleForm.goodsCode" clearable placeholder="商品货号"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="7">
-              <el-form-item label="商品货号" prop="goodsCode">
-                <el-input v-model="ruleForm.goodsCode" clearable placeholder="商品货号"></el-input>
+              <el-form-item label="商品名" prop="goodsName">
+                <el-input v-model="ruleForm.goodsName" clearable placeholder="商品名"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="7">
@@ -45,7 +45,7 @@
             </el-col>
             <el-col :span="7">
               <el-form-item label="所属品牌" prop="brandCode">
-                <el-select size="middle" v-model="ruleForm.brandCode" placeholder="品牌" style="width:100%">
+                <el-select size="middle" v-model="ruleForm.brandCode" placeholder="品牌" style="width:100%" clearable>
                   <el-option v-for="item in options1" :key="item.brandKey" :label="item.brandName"
                     :value="item.brandCode">
                   </el-option>
@@ -100,8 +100,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="7">
-                <el-form-item label="预设进价" prop="priceCostPreset">
-                  <el-input v-model="ruleForm.priceCostPreset" clearable placeholder="预设进价" type="Number"></el-input>
+                <el-form-item label="最近进价" prop="priceLatestPurchase">
+                  <el-input v-model="ruleForm.priceLatestPurchase" clearable placeholder="最近进价"
+                    type="Number"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -114,24 +115,6 @@
               <el-col :span="7">
                 <el-form-item label="零售价" prop="priceRetail">
                   <el-input v-model="ruleForm.priceRetail" clearable placeholder="零售价" type="Number"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="参考成本" prop="priceCostReference">
-                  <el-input v-model="ruleForm.priceCostReference" clearable placeholder="参考成本" type="Number"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-row>
-              <el-col :span="7">
-                <el-form-item label="最近进价" prop="priceLatestPurchase">
-                  <el-input v-model="ruleForm.priceLatestPurchase" clearable placeholder="最近进价"
-                    type="Number"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="成本均价" prop="priceCostAverage">
-                  <el-input v-model="ruleForm.priceCostAverage" clearable placeholder="成本均价" type="Number"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -153,7 +136,7 @@
 <script>
 import listBoxF from "@/components/public/listBoxF/listBoxF.vue";
 import moment from 'moment'
-import { goodsAdd, getCategoryTree, inventorylist, goodsUpdate, brandlist, Supplierlist } from "@/api/data";
+import { goodsAdd, getCategoryTree, goodsUpdate, brandlist, Supplierlist } from "@/api/data";
 /**
  * 树形组件 用于选择框
  */
@@ -188,9 +171,6 @@ export default {
         priceWholesaler: "", //批发价
         priceRetail: "", //零售价
         priceLatestPurchase: "", //最近进价
-        priceCostAverage: "", //成本均价
-        priceCostPreset: "", //预设进价
-        priceCostReference: "", //参考成本
         brandCode: ""//品牌
       },
       list: [],
@@ -241,15 +221,6 @@ export default {
         ],
         priceLatestPurchase: [
           { required: true, message: '请输入最近进价', trigger: 'blur' },
-        ],
-        priceCostAverage: [
-          { required: true, message: '请输入成本均价', trigger: 'blur' },
-        ],
-        priceCostPreset: [
-          { required: true, message: '请输入预设进价', trigger: 'blur' },
-        ],
-        priceCostReference: [
-          { required: true, message: '请输入参考成本', trigger: 'blur' },
         ],
         brandCode: [
           { required: true, message: '选择品牌', trigger: 'blur' },
@@ -302,9 +273,6 @@ export default {
       this.ruleForm.priceWholesaler = this.rowData.priceWholesaler
       this.ruleForm.priceRetail = this.rowData.priceRetail
       this.ruleForm.priceLatestPurchase = this.rowData.priceLatestPurchase
-      this.ruleForm.priceCostAverage = this.rowData.priceCostAverage
-      this.ruleForm.priceCostPreset = this.rowData.priceCostPreset
-      this.ruleForm.priceCostReference = this.rowData.priceCostReference
     } else {
       this.ifCreate = true;
     }
@@ -447,9 +415,6 @@ export default {
         priceWholesaler: "", //批发价
         priceRetail: "", //零售价
         priceLatestPurchase: "", //最近进价
-        priceCostAverage: "", //成本均价
-        priceCostPreset: "", //预设进价
-        priceCostReference: "", //参考成本
       };
     },
   },

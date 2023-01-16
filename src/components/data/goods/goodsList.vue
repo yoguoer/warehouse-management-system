@@ -1,10 +1,28 @@
 <template>
   <div>
     <div>
+      <el-input placeholder="商品货号" v-model="goodsCode" type="text" clearable size="small"
+        style="width:300px;margin-right:20px">
+        <template slot="prepend">商品货号</template>
+      </el-input>
       <el-input placeholder="商品名" v-model="goodsName" type="text" clearable size="small"
         style="width:300px;margin-right:20px">
         <template slot="prepend">商品名</template>
       </el-input>
+      <el-select size="middle" v-model="supplierKey" placeholder="所属供应商" style="width:200px;margin-right:20px"
+        clearable>
+        <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
+          :value="item.supplierKey" placeholder="所属供应商">
+        </el-option>
+      </el-select>
+      <el-select size="middle" v-model="brandCode" placeholder="品牌" style="width:200px;margin-right:20px" clearable>
+        <el-option v-for="item in brandOptions" :key="item.brandKey" :label="item.brandName" :value="item.brandCode">
+        </el-option>
+      </el-select>
+      <el-select size="mini" v-model="state" placeholder="状态" style="width:200px;margin-right:20px;">
+        <el-option label="上架" :value="1"></el-option>
+        <el-option label="下架" :value="0"></el-option>
+      </el-select>
       <el-button type="primary" size="small" @click="search()" icon="el-icon-search">查询</el-button>
       <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
@@ -25,8 +43,6 @@
         </el-table-column>
         <el-table-column prop="modelCode" label="型号" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="inventoryName" label="默认仓库" :show-overflow-tooltip="true">
-        </el-table-column>
         <el-table-column prop="supplierName" label="所属供应商" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column prop="brandCode" label="所属品牌" :show-overflow-tooltip="true">
@@ -34,8 +50,6 @@
         <el-table-column prop="state" label="状态">
           <template slot-scope="scope">{{ scope.row.state == 1 ? '上架' : '下架' }}</template>
         </el-table-column>
-        <!-- <el-table-column prop="goodsHeadPic" label="商品头图">
-        </el-table-column> -->
         <el-table-column prop="categoryName" label="所属分类" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column prop="createTime" label="添加时间" :show-overflow-tooltip="true">
@@ -63,6 +77,7 @@
 import goodsEdit from "./goodsEdit";
 import { goodslistPage, goodsDelete, goodsDeleteList } from "@/api/data";
 import leftCard from '@/components/public/leftCard.vue'
+import { Supplierlist, brandlist } from '@/api/data'
 
 export default {
   name: "goodsList",
@@ -70,12 +85,18 @@ export default {
     return {
       inputCategory: '',
       goodsName: '',
+      goodsCode: '',
+      state: '',
+      supplierKey: '',
+      brandCode: '',
       pageSize: 10,
       pageNo: 1,
       total: null,
       ifCreate: false,
       rowData: {},
       drawer: false,
+      supplyOptions: [],
+      brandOptions: [],
       goodsList: [],
       title: "商品分类",
       categoryType: 'GOODS',
@@ -83,13 +104,19 @@ export default {
     };
   },
   created() {
-    this.getGoodslistPage();
+    this.getGoodslistPage()
+    this.getbrandlist();
+    this.getSupplierlist()
   },
   methods: {
     search() {
       goodslistPage({
         categoryKey: this.inputCategory,
+        supplierKey: this.supplierKey,
+        brandCode: this.brandCode,
         goodsName: this.goodsName,
+        goodsCode: this.goodsCode,
+        state: this.state,
         page: this.pageNo,
         size: this.pageSize,
       }).then((res) => {
@@ -130,6 +157,10 @@ export default {
       goodslistPage({
         categoryKey: "",
         goodsName: "",
+        goodsCode: "",
+        supplierKey: "",
+        brandCode: "",
+        state: "",
         page: this.pageNo,
         size: this.pageSize,
       }).then((res) => {
@@ -138,6 +169,28 @@ export default {
         console.log("goodsList:", this.goodsList);
       });
       this.$forceUpdate();
+    },
+    getbrandlist() {
+      brandlist()
+        .then((res) => {
+          if (res.data.code === 200) {
+            this.brandOptions = res.data.data
+          } else {
+            this.$message.error(res.msg);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    getSupplierlist() {
+      Supplierlist().then(res => {
+        if (res.data.code == 200) {
+          this.supplyOptions = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
     },
     success() {
       this.drawer = false;
@@ -153,6 +206,10 @@ export default {
     },
     clean() {
       this.goodsName = ''
+      this.supplierKey = ''
+      this.brandCode = ''
+      this.goodsCode = ''
+      this.state = ''
       this.inputCategory = ''
       this.$refs.leftcard.isActive = ''
       this.reload()
