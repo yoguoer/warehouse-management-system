@@ -63,12 +63,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="退货数" prop="returnNum" v-if="ruleForm.type == 1">
-            <el-input v-model="ruleForm.returnNum" clearable placeholder="退货数" type="Number"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item label="接收状态" prop="status" v-if="ruleForm.status < 3">
+          <el-form-item label="接收状态" prop="status">
             <el-select size="middle" v-model="ruleForm.status" placeholder="接收状态" style="width:100%;" clearable>
               <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
@@ -328,10 +323,18 @@ export default {
           inputWarehouseUpdate(data).then(res => {
             if (res.data.code == 200) {
               if (this.ruleForm.status == 2) {
+                this.$message.success("新增成功!");
+                this.$parent.success()
+                this.$parent.drawer=false
+                this.$forceUpdate()
+
+
+
 
               } else {
                 this.$message.success("新增成功!");
                 this.$parent.success()
+                this.$parent.drawer=false
                 this.$forceUpdate()
               }
             } else {
@@ -378,6 +381,13 @@ export default {
           inputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {
               if (this.ruleForm.status == 2) {
+                this.$message.success("新增成功!");
+                this.$parent.success()
+                this.$parent.drawer=false
+                this.$forceUpdate()
+
+
+
 
               } else {
                 this.$message.success("新增成功!");

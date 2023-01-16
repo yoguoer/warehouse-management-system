@@ -255,6 +255,7 @@ export default {
         if (res.data.code === 200) {
           // this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
+          this.tableData=[]
           res.data.data.records.forEach(item => {
             if(item.type==0){
               this.tableData.push(item)
@@ -290,6 +291,7 @@ export default {
         if (res.data.code === 200) {
           // this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
+          this.tableData=[]
           res.data.data.records.forEach(item => {
             if(item.type==0){
               this.tableData.push(item)
