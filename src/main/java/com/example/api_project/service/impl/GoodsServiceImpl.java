@@ -49,14 +49,13 @@ public class GoodsServiceImpl implements GoodsService {
         long total = this.goodsMapper.count(goods);
         String goodsName=goods.getGoodsName();
         String supplierKey=goods.getSupplierKey();
-        String inventoryKey=goods.getInventoryKey();
         List<Goods> records;
         if(null!=goods.getCategoryKey() && goods.getCategoryKey().equals("all_GOODS")){
             String categoryKey="";
-            records = this.goodsMapper.queryAllByLimit(goodsName,categoryKey,supplierKey,inventoryKey,startRows, pageSize);
+            records = this.goodsMapper.queryAllByLimit(goodsName,categoryKey,supplierKey,startRows, pageSize);
         }else{
             String categoryKey=goods.getCategoryKey();
-            records = this.goodsMapper.queryAllByLimit(goodsName,categoryKey,supplierKey,inventoryKey,startRows, pageSize);
+            records = this.goodsMapper.queryAllByLimit(goodsName,categoryKey,supplierKey,startRows, pageSize);
         }
 //        String categoryKey=goods.getCategoryKey();
 //        List<Goods> records = this.goodsMapper.queryAllByLimit(goodsName,categoryKey,startRows, pageSize);

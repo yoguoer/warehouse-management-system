@@ -11,11 +11,9 @@ public class Goods {
     private String supplierKey;//供应商
     private String categoryKey;//所属分类
     private String brandCode;//品牌
-    private String inventoryKey;//默认仓库
     //商品头图？
     private String goodsUnit;//商品单位
     private String unitType; //单位类型：BASIC：基本单位， SUPPORT：辅助单位
-    private Integer inventoryBook;//账面库存
     private Integer priceRetail;//零售价
     private Integer priceWholesaler;//批发价
     private Integer priceCostAverage;//成本均价
@@ -28,7 +26,6 @@ public class Goods {
 
     private String categoryName;
     private String supplierName;
-    private String inventoryName;
 
     public String getGoodsName() {
         return goodsName;
@@ -110,14 +107,6 @@ public class Goods {
         this.brandCode = brandCode;
     }
 
-    public String getInventoryKey() {
-        return inventoryKey;
-    }
-
-    public void setInventoryKey(String inventoryKey) {
-        this.inventoryKey = inventoryKey;
-    }
-
     public String getGoodsUnit() {
         return goodsUnit;
     }
@@ -132,14 +121,6 @@ public class Goods {
 
     public void setUnitType(String unitType) {
         this.unitType = unitType;
-    }
-
-    public Integer getInventoryBook() {
-        return inventoryBook;
-    }
-
-    public void setInventoryBook(Integer inventoryBook) {
-        this.inventoryBook = inventoryBook;
     }
 
     public Integer getPriceRetail() {
@@ -228,13 +209,5 @@ public class Goods {
 
     public void setSupplierName(String supplierName) {
         this.supplierName = supplierName;
-    }
-
-    public String getInventoryName() {
-        return inventoryName;
-    }
-
-    public void setInventoryName(String inventoryName) {
-        this.inventoryName = inventoryName;
     }
 }

@@ -67,12 +67,12 @@ public class SupplierController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
      * @return 单条数据
      */
     @GetMapping("/getById")
-    public Result queryById(@PathVariable("id") String id) {
-        return ResponseData.success(this.supplierService.queryById(id));
+    public Result queryById(Supplier supplier) {
+        String supplierKey=supplier.getSupplierKey();
+        return ResponseData.success(this.supplierService.queryById(supplierKey));
     }
 
     /**
