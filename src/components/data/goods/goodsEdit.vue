@@ -25,18 +25,10 @@
           <el-row>
             <el-col :span="7">
               <el-form-item label="所属供应商" prop="supplierKey">
-                <el-select size="middle" v-model="ruleForm.supplierKey" placeholder="所属供应商" style="width:100%;" clearable>
+                <el-select size="middle" v-model="ruleForm.supplierKey" placeholder="所属供应商" style="width:100%;"
+                  clearable>
                   <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
-                    :value="item.supplierKey"  placeholder="所属供应商">
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="7">
-              <el-form-item label="默认仓库" prop="inventoryKey">
-                <el-select size="middle" v-model="ruleForm.inventoryKey" placeholder="默认仓库" style="width:100%;" clearable>
-                  <el-option v-for="item in options" :key="item.inventoryKey" :label="item.inventoryName" 
-                    :value="item.inventoryKey">
+                    :value="item.supplierKey" placeholder="所属供应商">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -45,17 +37,10 @@
               <el-form-item label="所属分类" v-model="ruleForm.categoryKey" prop="categoryKey" size="middle">
                 <listBoxF style="width:100%">
                   <template slot="content">
-                    <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list" clearable
-                      placeholder="请选择" @select="selectNode" style="width:405px;" />
+                    <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list"
+                      clearable placeholder="请选择" @select="selectNode" style="width:405px;" />
                   </template>
                 </listBoxF>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row>
-            <el-col :span="7">
-              <el-form-item label="型号" prop="modelCode">
-                <el-input v-model="ruleForm.modelCode" clearable placeholder="型号"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="7">
@@ -67,11 +52,18 @@
                 </el-select>
               </el-form-item>
             </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="7">
+              <el-form-item label="型号" prop="modelCode">
+                <el-input v-model="ruleForm.modelCode" clearable placeholder="型号"></el-input>
+              </el-form-item>
+            </el-col>
             <el-col :span="7">
               <el-form-item label="状态" prop="state">
                 <el-select size="middle" v-model="ruleForm.state" placeholder="请选择" style="width:100%">
-                  <el-option label="上架" value="1"></el-option>
-                  <el-option label="下架" value="0"></el-option>
+                  <el-option label="上架" :value="1"></el-option>
+                  <el-option label="下架" :value="0"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -108,8 +100,8 @@
                 </el-form-item>
               </el-col>
               <el-col :span="7">
-                <el-form-item label="账面库存" prop="inventoryBook">
-                  <el-input v-model="ruleForm.inventoryBook" clearable placeholder="账面库存" type="Number"></el-input>
+                <el-form-item label="预设进价" prop="priceCostPreset">
+                  <el-input v-model="ruleForm.priceCostPreset" clearable placeholder="预设进价" type="Number"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -133,17 +125,13 @@
             <el-row>
               <el-col :span="7">
                 <el-form-item label="最近进价" prop="priceLatestPurchase">
-                  <el-input v-model="ruleForm.priceLatestPurchase" clearable placeholder="最近进价" type="Number"></el-input>
+                  <el-input v-model="ruleForm.priceLatestPurchase" clearable placeholder="最近进价"
+                    type="Number"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="7">
                 <el-form-item label="成本均价" prop="priceCostAverage">
                   <el-input v-model="ruleForm.priceCostAverage" clearable placeholder="成本均价" type="Number"></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="7">
-                <el-form-item label="预设进价" prop="priceCostPreset">
-                  <el-input v-model="ruleForm.priceCostPreset" clearable placeholder="预设进价" type="Number"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -189,7 +177,6 @@ export default {
         goodsHeadPic: "", //商品头图
         goodsKey: "", //商品ID
         goodsName: "", //商品名
-        inventoryKey: "", //默认仓库
         modelCode: "", //型号
         state: "", //0下架 1上架
         supplierKey: "", //供应商
@@ -198,7 +185,6 @@ export default {
         unitDescription: "", //换算关系
         weight: "", //重量：克
         volume: "", //体积
-        inventoryBook: "", //账面库存
         priceWholesaler: "", //批发价
         priceRetail: "", //零售价
         priceLatestPurchase: "", //最近进价
@@ -208,7 +194,6 @@ export default {
         brandCode: ""//品牌
       },
       list: [],
-      options: [],
       options1: [],
       supplyOptions: [],
       rules: {
@@ -220,9 +205,6 @@ export default {
         ],
         goodsName: [
           { required: true, message: '请输入商品名', trigger: 'blur' },
-        ],
-        inventoryKey: [
-          { required: true, message: '请选择默认仓库', trigger: 'blur' },
         ],
         supplierKey: [
           { required: true, message: '请选择供应商', trigger: 'blur' },
@@ -250,9 +232,6 @@ export default {
         ],
         volume: [
           { required: true, message: '请输入体积', trigger: 'blur' },
-        ],
-        inventoryBook: [
-          { required: true, message: '请输入账面库存', trigger: 'blur' },
         ],
         priceWholesaler: [
           { required: true, message: '请输入批发价', trigger: 'blur' },
@@ -300,7 +279,6 @@ export default {
   },
   created() {
     this.getTree();
-    this.getinventorylist();
     this.getbrandlist();
     this.getSupplierlist()
     if (this.rowData.goodsKey) {
@@ -311,7 +289,6 @@ export default {
       this.ruleForm.goodsCode = this.rowData.goodsCode;
       this.ruleForm.goodsHeadPic = this.rowData.goodsHeadPic;
       this.ruleForm.goodsKey = this.rowData.goodsKey;
-      this.ruleForm.inventoryKey = this.rowData.inventoryKey;
       this.ruleForm.goodsName = this.rowData.goodsName;
       this.ruleForm.brandCode = this.rowData.brandCode;
       this.ruleForm.modelCode = this.rowData.modelCode;
@@ -322,7 +299,6 @@ export default {
       this.ruleForm.unitDescription = this.rowData.unitDescription
       this.ruleForm.weight = this.rowData.weight
       this.ruleForm.volume = this.rowData.volume
-      this.ruleForm.inventoryBook = this.rowData.inventoryBook
       this.ruleForm.priceWholesaler = this.rowData.priceWholesaler
       this.ruleForm.priceRetail = this.rowData.priceRetail
       this.ruleForm.priceLatestPurchase = this.rowData.priceLatestPurchase
@@ -378,19 +354,6 @@ export default {
           this.$message.error("获取失败!");
         }
       });
-    },
-    getinventorylist() {
-      inventorylist()
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.options = res.data.data
-          } else {
-            this.$message.error(res.msg);
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
     },
     close() {
       this.$emit("close");
@@ -472,7 +435,6 @@ export default {
         goodsHeadPic: "", //商品头图
         goodsKey: "", //商品ID
         goodsName: "", //商品名
-        inventoryKey: "", //默认仓库
         modelCode: "", //型号
         state: "", //0下架 1上架
         supplierKey: "", //供应商
@@ -482,7 +444,6 @@ export default {
         unitDescription: "", //换算关系
         weight: "", //重量：克
         volume: "", //体积
-        inventoryBook: "", //账面库存
         priceWholesaler: "", //批发价
         priceRetail: "", //零售价
         priceLatestPurchase: "", //最近进价
@@ -514,7 +475,7 @@ export default {
 
   .add-ruleForm {
     padding: 50px 80px 10px 80px;
-    width:100%;
+    width: 100%;
   }
 }
 </style>

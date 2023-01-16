@@ -9,7 +9,7 @@
             <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable
               ref="selection">
               <el-option @click.native="setShopName" v-for="item in shopOptions" :key="item.shopKey"
-                :label="item.shopName" :value="item.shopCode">
+                :label="item.shopName" :value="item.shopCode" :disabled="item.shopCode==ruleForm.inputShopCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -95,11 +95,11 @@
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
 import { transferCheckUpdate, transferCheckAdd } from '@/api/check'
-import { shoplist, goodslist } from '@/api/data'
+import { goodslist } from '@/api/data'
 import { UserList } from '@/api/api'
 import moment from 'moment'
-import { ShopInventoryList } from '@/api/warehouse'
 import { getByshopCode } from '@/api/warehouse'
+import { ShopInventoryList } from "@/api/warehouse"
 
 export default {
   name: 'guestEdit',
@@ -259,19 +259,25 @@ export default {
       });
     },
     getshoplist() {
-      shoplist().then(res => {
+      ShopInventoryList().then(res => {
         if (res.data.code == 200) {
           this.shopOptions = res.data.data
           this.inputShopOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
         }
-      });
+      })
     },
     getgoodslist() {
       goodslist().then(res => {
         if (res.data.code == 200) {
-          this.goodsOptions = res.data.data
+          // this.goodsOptions = res.data.data
+          this.goodsOptions=[]
+          res.data.data.forEach(item=>{
+            if(item.state==1){
+              this.goodsOptions.push(item)
+            }
+          })
         } else {
           this.$message.error("获取失败!");
         }

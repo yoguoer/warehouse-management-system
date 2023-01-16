@@ -135,11 +135,12 @@
 
 <script>
 import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
-import { shoplist, goodslist, CustomerList, positionList, vehicleList } from '@/api/data'
+import { goodslist, CustomerList, positionList, vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import { detailWarehouseUpdate, detailWarehouseAdd } from '@/api/warehouse'
 import moment from 'moment'
+import { ShopInventoryList } from "@/api/warehouse";
 
 export default {
   name: 'guestEdit',
@@ -309,18 +310,24 @@ export default {
       });
     },
     getshoplist() {
-      shoplist().then(res => {
+      ShopInventoryList().then(res => {
         if (res.data.code == 200) {
           this.shopOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
         }
-      });
+      })
     },
     getgoodslist() {
       goodslist().then(res => {
         if (res.data.code == 200) {
-          this.goodsOptions = res.data.data
+          // this.goodsOptions = res.data.data
+          this.goodsOptions=[]
+          res.data.data.forEach(item=>{
+            if(item.state==1){
+              this.goodsOptions.push(item)
+            }
+          })
         } else {
           this.$message.error("获取失败!");
         }

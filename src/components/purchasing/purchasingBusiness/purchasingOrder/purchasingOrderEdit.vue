@@ -114,8 +114,9 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
-import { shoplist, goodslist, Supplierlist } from '@/api/data'
+import { goodslist, SupplierdataById } from '@/api/data'
 import { UserList } from '@/api/api'
+import { ShopInventoryList } from "@/api/warehouse";
 
 export default {
   name: 'guestEdit',
@@ -260,13 +261,13 @@ export default {
       });
     },
     getshoplist() {
-      shoplist().then(res => {
+      ShopInventoryList().then(res => {
         if (res.data.code == 200) {
           this.shopOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
         }
-      });
+      })
     },
     getgoodslist() {
       goodslist().then(res => {
@@ -278,15 +279,11 @@ export default {
       });
     },
     getSupplierlist(supplierKey) {
-      Supplierlist().then(res => {
+      this.supplierOptions = []
+      SupplierdataById({ supplierKey: supplierKey }).then(res => {
         if (res.data.code == 200) {
           // this.supplierOptions = res.data.data
-          this.supplierOptions=[]
-          res.data.data.forEach(item=>{
-            if(item.supplierKey==supplierKey){
-              this.supplierOptions.push(item)
-            }
-          })
+          this.supplierOptions.push(res.data.data)
         } else {
           this.$message.error("获取失败!");
         }
@@ -302,7 +299,6 @@ export default {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
       this.getSupplierlist(item.supplierKey)
     },
-
     setTime() {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
