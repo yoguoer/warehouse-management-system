@@ -78,16 +78,43 @@ public class DetailWarehouseController {
         detailWarehouse.setStartNum(shopkeeperWarehouse.getAccountNum());
         //交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
         Integer transType=detailWarehouse.getTransType();
-        if(transType==0||transType==3||transType==5||transType==6){
+        if(transType==0||transType==3||transType==5||transType==6){//采购入库
             detailWarehouse.setFinalNum(shopkeeperWarehouse.getAccountNum()+detailWarehouse.getQuantity());
-        }else{
+        }else{//销售出库
             detailWarehouse.setFinalNum(shopkeeperWarehouse.getAccountNum()-detailWarehouse.getQuantity());
         }
-
+        Integer status=detailWarehouse.getStatus();
         DetailWarehouse result=this.detailWarehouseService.insert(detailWarehouse);
-        shopkeeperWarehouse.setOperateTime(result.getAtTime());
-        shopkeeperWarehouse.setAccountNum(result.getFinalNum());
-        shopkeeperWarehouse.setAvailableNum(result.getFinalNum()-shopkeeperWarehouse.getOccupyNum()+shopkeeperWarehouse.getOnwayNum());
+        //'0' ? '在单'， '1' ? '生产'，'2' ? '在途'，'3' ? '入库'， '4' ? '占用'，'5' ? '出库'
+        if(null!=status && status==2 && (transType==0||transType==6)){//原始状态为在途，确认收货入库（采购、调货）
+            shopkeeperWarehouse.setOperateTime(result.getAtTime());
+            shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
+            Integer onWayNum=shopkeeperWarehouse.getOnwayNum()-result.getQuantity();//在途数减少
+            shopkeeperWarehouse.setOnwayNum(shopkeeperWarehouse.getOnwayNum()-result.getQuantity());
+            shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+onWayNum-shopkeeperWarehouse.getOccupyNum());
+        }else if(null!=status && status==3 && (transType==1)) {//原始状态为入库（退货出库）
+            shopkeeperWarehouse.setOperateTime(result.getAtTime());
+            shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
+            shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-shopkeeperWarehouse.getOccupyNum());
+        }else if(null!=status && status==4 && (transType==2||transType==4)) {//原始状态为占用（零售、订购）
+            shopkeeperWarehouse.setOperateTime(result.getAtTime());
+            shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
+            Integer occupyNum=shopkeeperWarehouse.getOccupyNum()-result.getQuantity();//占用数减少
+            shopkeeperWarehouse.setOccupyNum(occupyNum);
+            shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-occupyNum);
+        }else if(null!=status && status==5 && (transType==3||transType==5)) {//原始状态为出库（退货入库），直接加减就行了
+            shopkeeperWarehouse.setOperateTime(result.getAtTime());
+            shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
+            shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-shopkeeperWarehouse.getOccupyNum());
+        }
+        else if(transType==7) {//调货出库比较特殊，直接加减就行了
+            shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
+            shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-shopkeeperWarehouse.getOccupyNum());
+        }
+        else if(transType==2) {//零售，直接加减就行了
+            shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
+            shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-shopkeeperWarehouse.getOccupyNum());
+        }
         this.shopkeeperWarehouseService.update(shopkeeperWarehouse);
         return ResponseData.success(this.queryById(result.getDetailWarehouseKey()));
     }
