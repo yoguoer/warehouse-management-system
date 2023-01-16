@@ -16,9 +16,6 @@ public class Goods {
     private String unitType; //单位类型：BASIC：基本单位， SUPPORT：辅助单位
     private Integer priceRetail;//零售价
     private Integer priceWholesaler;//批发价
-    private Integer priceCostAverage;//成本均价
-    private Integer priceCostPreset;//预设进价
-    private Integer priceCostReference;//参考成本
     private Integer priceLatestPurchase;//最近进价
     private String unitDescription;//换算关系
     private Integer weight;//重量：克
@@ -137,30 +134,6 @@ public class Goods {
 
     public void setPriceWholesaler(Integer priceWholesaler) {
         this.priceWholesaler = priceWholesaler;
-    }
-
-    public Integer getPriceCostAverage() {
-        return priceCostAverage;
-    }
-
-    public void setPriceCostAverage(Integer priceCostAverage) {
-        this.priceCostAverage = priceCostAverage;
-    }
-
-    public Integer getPriceCostPreset() {
-        return priceCostPreset;
-    }
-
-    public void setPriceCostPreset(Integer priceCostPreset) {
-        this.priceCostPreset = priceCostPreset;
-    }
-
-    public Integer getPriceCostReference() {
-        return priceCostReference;
-    }
-
-    public void setPriceCostReference(Integer priceCostReference) {
-        this.priceCostReference = priceCostReference;
     }
 
     public Integer getPriceLatestPurchase() {

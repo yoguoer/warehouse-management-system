@@ -8,9 +8,6 @@
         <result property="modelCode" column="model_code" jdbcType="VARCHAR"/>
         <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
         <result property="goodsUnit" column="goods_unit" jdbcType="VARCHAR"/>
-        <result property="priceCostAverage" column="price_cost_average" jdbcType="INTEGER"/>
-        <result property="priceCostPreset" column="price_cost_preset" jdbcType="INTEGER"/>
-        <result property="priceCostReference" column="price_cost_reference" jdbcType="INTEGER"/>
         <result property="priceLatestPurchase" column="price_latest_purchase" jdbcType="INTEGER"/>
         <result property="goodsBarcode" column="goods_barcode" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
@@ -42,9 +39,6 @@
                model_code,
                goods_code,
                goods_unit,
-               price_cost_average,
-               price_cost_preset,
-               price_cost_reference,
                price_latest_purchase,
                goods_barcode,
                create_time,
@@ -69,9 +63,6 @@
                model_code,
                goods_code,
                goods_unit,
-               price_cost_average,
-               price_cost_preset,
-               price_cost_reference,
                price_latest_purchase,
                goods_barcode,
                create_time,
@@ -94,6 +85,9 @@
         from goods join category on goods.category_key = category.category_key
             join supplier on goods.supplier_key = supplier.supplier_key
         <where>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code like concat('%', #{goodsCode}, '%')
+            </if>
             <if test="goodsName != null and goodsName != ''">
                 and goods_name like concat('%', #{goodsName}, '%')
             </if>
@@ -102,6 +96,12 @@
             </if>
             <if test="supplierKey != null and supplierKey != ''">
                 and goods.supplier_key = #{supplierKey}
+            </if>
+            <if test="state != null and state != ''">
+                and goods.state = #{state}
+            </if>
+            <if test="brandCode != null and brandCode != ''">
+                and brand_code like concat('%', #{brandCode}, '%')
             </if>
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -112,92 +112,46 @@
         select count(1)
         from goods
         <where>
-            <if test="goodsKey != null and goodsKey != ''">
-                and goods_key = #{goodsKey}
-            </if>
-            <if test="brandCode != null and brandCode != ''">
-                and brand_code = #{brandCode}
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code like concat('%', #{goodsCode}, '%')
             </if>
             <if test="goodsName != null and goodsName != ''">
-                and goods_name = #{goodsName}
-            </if>
-            <if test="modelCode != null and modelCode != ''">
-                and model_code = #{modelCode}
-            </if>
-            <if test="goodsCode != null and goodsCode != ''">
-                and goods_code = #{goodsCode}
-            </if>
-            <if test="goodsUnit != null and goodsUnit != ''">
-                and goods_unit = #{goodsUnit}
-            </if>
-            <if test="priceCostAverage != null and priceCostAverage != ''">
-                and price_cost_average = #{priceCostAverage}
-            </if>
-            <if test="priceCostPreset != null and priceCostPreset != ''">
-                and price_cost_preset = #{priceCostPreset}
-            </if>
-            <if test="priceCostReference != null and priceCostReference != ''">
-                and price_cost_reference = #{priceCostReference}
-            </if>
-            <if test="priceLatestPurchase != null and priceLatestPurchase != ''">
-                and price_latest_purchase = #{priceLatestPurchase}
-            </if>
-            <if test="goodsBarcode != null and goodsBarcode != ''">
-                and goods_barcode = #{goodsBarcode}
-            </if>
-            <if test="createTime != null and createTime != ''">
-                and create_time = #{createTime}
-            </if>
-            <if test="state != null and state != ''">
-                and state = #{state}
+                and goods_name like concat('%', #{goodsName}, '%')
             </if>
             <if test="categoryKey != null and categoryKey != ''">
-                and category_key = #{categoryKey}
-            </if>
-            <if test="unitDescription != null and unitDescription != ''">
-                and unit_description = #{unitDescription}
-            </if>
-            <if test="weight != null">
-                and weight = #{weight}
-            </if>
-            <if test="volume != null">
-                and volume = #{volume}
+                and goods.category_key = #{categoryKey}
             </if>
             <if test="supplierKey != null and supplierKey != ''">
-                and supplier_key = #{supplierKey}
+                and goods.supplier_key = #{supplierKey}
             </if>
-            <if test="unitType != null and unitType != ''">
-                and unit_type = #{unitType}
+            <if test="state != null and state != ''">
+                and goods.state = #{state}
             </if>
-            <if test="priceRetail != null">
-                and price_retail = #{priceRetail}
-            </if>
-            <if test="priceWholesaler != null">
-                and price_wholesaler = #{priceWholesaler}
+            <if test="brandCode != null and brandCode != ''">
+                and brand_code like concat('%', #{brandCode}, '%')
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="goodsKey" useGeneratedKeys="true">
-        insert into goods(goods_key,brand_code,goods_name, model_code, goods_code, goods_unit, price_cost_average,
-                          price_cost_preset, price_cost_reference, price_latest_purchase, goods_barcode, create_time,
+        insert into goods(goods_key,brand_code,goods_name, model_code, goods_code, goods_unit,
+                          price_latest_purchase, goods_barcode, create_time,
                           state, category_key, unit_description, weight, volume, supplier_key, unit_type,
                           price_retail, price_wholesaler)
-        values (#{goodsKey},#{brandCode},#{goodsName}, #{modelCode}, #{goodsCode}, #{goodsUnit},  #{priceCostAverage},
-                #{priceCostPreset}, #{priceCostReference}, #{priceLatestPurchase}, #{goodsBarcode}, #{createTime},
+        values (#{goodsKey},#{brandCode},#{goodsName}, #{modelCode}, #{goodsCode}, #{goodsUnit},
+                #{priceLatestPurchase}, #{goodsBarcode}, #{createTime},
                 #{state}, #{categoryKey}, #{unitDescription}, #{weight}, #{volume}, #{supplierKey}, #{unitType},
                  #{priceRetail}, #{priceWholesaler})
     </insert>
 
     <insert id="insertBatch" keyProperty="goodsKey" useGeneratedKeys="true">
-        insert into goods(goods_name,brand_code, model_code, goods_code, goods_unit, price_cost_average,
-        price_cost_preset, price_cost_reference, price_latest_purchase, goods_barcode, create_time, state, category_key,
+        insert into goods(goods_name,brand_code, model_code, goods_code, goods_unit,
+        price_latest_purchase, goods_barcode, create_time, state, category_key,
         unit_description, weight, volume, supplier_key, unit_type, price_retail, price_wholesaler)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.goodsName},#{entity.brandCode},  #{entity.modelCode}, #{entity.goodsCode}, #{entity.goodsUnit},
-            #{entity.priceCostAverage}, #{entity.priceCostPreset}, #{entity.priceCostReference},
             #{entity.priceLatestPurchase}, #{entity.goodsBarcode}, #{entity.createTime}, #{entity.state},
             #{entity.categoryKey}, #{entity.unitDescription}, #{entity.weight}, #{entity.volume}, #{entity.supplierKey},
             #{entity.unitType}, #{entity.priceRetail}, #{entity.priceWholesaler})
@@ -205,13 +159,12 @@
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="goodsKey" useGeneratedKeys="true">
-        insert into goods(goods_name, brand_code,model_code, goods_code, goods_unit,  price_cost_average,
-        price_cost_preset, price_cost_reference, price_latest_purchase, goods_barcode, create_time, state, category_key,
+        insert into goods(goods_name, brand_code,model_code, goods_code, goods_unit,
+        price_latest_purchase, goods_barcode, create_time, state, category_key,
         unit_description, weight, volume, supplier_key, unit_type, price_retail, price_wholesaler)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.goodsName},#{entity.brandCode},  #{entity.modelCode}, #{entity.goodsCode}, #{entity.goodsUnit},
-            #{entity.priceCostAverage}, #{entity.priceCostPreset}, #{pentity.riceCostReference},
             #{entity.priceLatestPurchase}, #{entity.goodsBarcode}, #{entity.createTime}, #{entity.state},
             #{entity.categoryKey}, #{entity.unitDescription}, #{entity.weight}, #{vvolume}, #{entity.supplierKey},
             #{vunitType}, #{entity.priceRetail}, #{entity.priceWholesaler})
@@ -222,9 +175,6 @@
         model_code = values(model_code),
         goods_code = values(goods_code),
         goods_unit = values(goods_unit),
-        price_cost_average = values(price_cost_average),
-        price_cost_preset = values(price_cost_preset),
-        price_cost_reference = values(price_cost_reference),
         price_latest_purchase = values(price_latest_purchase),
         goods_barcode = values(goods_barcode),
         create_time = values(create_time),
@@ -257,15 +207,6 @@
             </if>
             <if test="goodsUnit != null and goodsUnit != ''">
                 goods_unit = #{goodsUnit},
-            </if>
-            <if test="priceCostAverage != null and priceCostAverage != ''">
-                price_cost_average = #{priceCostAverage},
-            </if>
-            <if test="priceCostPreset != null and priceCostPreset != ''">
-                price_cost_preset = #{priceCostPreset},
-            </if>
-            <if test="priceCostReference != null and priceCostReference != ''">
-                price_cost_reference = #{priceCostReference},
             </if>
             <if test="priceLatestPurchase != null and priceLatestPurchase != ''">
                 price_latest_purchase = #{priceLatestPurchase},

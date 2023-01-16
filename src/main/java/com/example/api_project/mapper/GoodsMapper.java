@@ -39,7 +39,7 @@ public interface GoodsMapper {
      *
      * @return 对象列表
      */
-    List<Goods> queryAllByLimit(String goodsName, String categoryKey, String supplierKey,Integer startRows, Integer pageSize);
+    List<Goods> queryAllByLimit(String brandCode,Integer state,String goodsCode,String goodsName, String categoryKey, String supplierKey,Integer startRows, Integer pageSize);
 
     /**
      * 统计总行数

@@ -47,15 +47,18 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public Map<String, Object> queryByPage(Goods goods, Integer startRows, Integer pageSize) {
         long total = this.goodsMapper.count(goods);
+        String goodsCode=goods.getGoodsCode();
         String goodsName=goods.getGoodsName();
         String supplierKey=goods.getSupplierKey();
+        String brandCode=goods.getBrandCode();
+        Integer state=goods.getState();
         List<Goods> records;
         if(null!=goods.getCategoryKey() && goods.getCategoryKey().equals("all_GOODS")){
             String categoryKey="";
-            records = this.goodsMapper.queryAllByLimit(goodsName,categoryKey,supplierKey,startRows, pageSize);
+            records = this.goodsMapper.queryAllByLimit(brandCode,state,goodsCode,goodsName,categoryKey,supplierKey,startRows, pageSize);
         }else{
             String categoryKey=goods.getCategoryKey();
-            records = this.goodsMapper.queryAllByLimit(goodsName,categoryKey,supplierKey,startRows, pageSize);
+            records = this.goodsMapper.queryAllByLimit(brandCode,state,goodsCode,goodsName,categoryKey,supplierKey,startRows, pageSize);
         }
 //        String categoryKey=goods.getCategoryKey();
 //        List<Goods> records = this.goodsMapper.queryAllByLimit(goodsName,categoryKey,startRows, pageSize);
