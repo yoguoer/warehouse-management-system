@@ -255,6 +255,7 @@ export default {
         checkType: 0,
         checkStatus: searchData.checkStatus,
       }).then((res) => {
+        this.tableData = []
         if (res.data.code === 200) {
           // this.total = res.data.data.total;
           // this.tableData = res.data.data.records;

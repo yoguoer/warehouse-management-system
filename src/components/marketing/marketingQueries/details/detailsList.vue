@@ -1,6 +1,6 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" />
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search"  :hidden="hidden"/>
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
@@ -29,8 +29,8 @@
           <span>{{ props.row.isDeleted == '0' ? '否' : (props.row.isDeleted == '1' ? '是' : '-') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="userType == 0&&props.row.isDeleted==0" @click="editRow(props.row)" type="text"
-            icon="el-icon-edit">编辑</el-button>
+          <!-- <el-button v-if="userType == 0&&props.row.isDeleted==0" @click="editRow(props.row)" type="text"
+            icon="el-icon-edit">编辑</el-button> -->
           <el-button v-if="userType == 0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
@@ -53,6 +53,7 @@ export default {
     return {
       total: null,
       drawer: false,
+      hidden:true,
       rowData: {},
       tableData: [],
       multipleSelection: [],

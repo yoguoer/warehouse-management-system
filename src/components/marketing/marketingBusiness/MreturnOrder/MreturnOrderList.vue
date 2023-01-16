@@ -79,6 +79,7 @@ export default {
         { prop: "outputPlan", label: "计划数" },
         { prop: "outputPrice", label: "出库价格" },
         { prop: "outputActual", label: "实际数" },
+        { slots: { name: "column-type" }, label: "出库类型" },
         { prop: "returnNum", label: "实际退货数" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },

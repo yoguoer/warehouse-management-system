@@ -131,7 +131,7 @@
           </el-date-picker>
         </el-col>
       </el-row>
-      <el-row>
+      <!-- <el-row>
         <el-col :span="10">
           <el-form-item label="申请退货数" prop="returnNum">
             <el-input v-model="ruleForm.returnNum" clearable placeholder="申请退货数" type="Number"></el-input>
@@ -142,7 +142,7 @@
             <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
+      </el-row> -->
     </el-form>
     <div class="dialog_footer">
       <el-button type="primary" @click="save('ruleForm')" v-if="ifCreate == false">保存</el-button>
@@ -157,6 +157,8 @@ import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
 import { shoplist, goodslist, Supplierlist, positionList, vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
+import { detailWarehouseUpdate, detailWarehouseAdd } from '@/api/warehouse'
+import moment from 'moment'
 
 export default {
   name: 'guestEdit',
@@ -434,9 +436,39 @@ export default {
           }
           inputWarehouseUpdate(data).then(res => {
             if (res.data.code == 200) {
-              this.$message.success("编辑成功!");
-              this.$parent.success()
-              this.$forceUpdate()
+              if (this.ruleForm.status == 3) {
+                let detailData = {
+                  inputOutputKey: this.ruleForm.inputWarehouseKey,
+                  shopkeeperWarehouseKey: "",
+                  type: 0,
+                  // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+                  transType: this.ruleForm.type == 0 ? 0 : 6,
+                  quantity: this.ruleForm.inputActual,
+                  startNum: "",
+                  finalNum: "",
+                  atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                  detailWarehouseKey: "",
+                  shopCode: this.ruleForm.shopCode,
+                  goodsCode: this.ruleForm.goodsCode,
+                }
+                if (this.rowData.status < 3) {
+                  detailWarehouseAdd(detailData).then(res => {
+                    this.$message.success("新增成功!");
+                    this.$parent.success()
+                    this.$forceUpdate()
+                  })
+                } else {
+                  detailWarehouseUpdate(detailData).then(res => {
+                    this.$message.success("新增成功!");
+                    this.$parent.success()
+                    this.$forceUpdate()
+                  })
+                }
+              } else {
+                this.$message.success("新增成功!");
+                this.$parent.success()
+                this.$forceUpdate()
+              }
             } else {
               this.$message.error("编辑失败!");
             }
@@ -475,13 +507,36 @@ export default {
             inputShopCode: this.ruleForm.inputShopCode,
             inputShopName: this.ruleForm.inputShopName,
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
-            returnReason: this.ruleForm.returnReason
+            returnReason: this.ruleForm.returnReason,
+            inputWarehouseKey: this.ruleForm.inputWarehouseKey
           }
           inputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {
-              this.$message.success("新增成功!");
-              this.$parent.success()
-              this.$forceUpdate()
+              if (this.ruleForm.status == 3) {
+                let detailData = {
+                  inputOutputKey: res.data.data.inputWarehouseKey,
+                  shopkeeperWarehouseKey: "",
+                  type: 0,
+                  // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+                  transType: this.ruleForm.type == 0 ? 0 : 6,
+                  quantity: this.ruleForm.inputActual,
+                  startNum: "",
+                  finalNum: "",
+                  atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                  detailWarehouseKey: "",
+                  shopCode: this.ruleForm.shopCode,
+                  goodsCode: this.ruleForm.goodsCode,
+                }
+                detailWarehouseAdd(detailData).then(res => {
+                  this.$message.success("新增成功!");
+                  this.$parent.success()
+                  this.$forceUpdate()
+                })
+              } else {
+                this.$message.success("新增成功!");
+                this.$parent.success()
+                this.$forceUpdate()
+              }
             } else {
               this.$message.error("新增失败!");
             }

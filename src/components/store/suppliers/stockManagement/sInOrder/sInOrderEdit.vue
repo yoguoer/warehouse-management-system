@@ -1,5 +1,5 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction"
+  <el-dialog size="30%" :title="ifCreate ? '新增订单' : '接收与发货'" :visible.sync="drawer" :direction="direction"
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-row>
@@ -98,6 +98,7 @@
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
 import { shoplist, goodslist, Supplierlist, vehicleList } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
+
 
 export default {
   name: 'guestEdit',
@@ -326,9 +327,13 @@ export default {
           }
           inputWarehouseUpdate(data).then(res => {
             if (res.data.code == 200) {
-              this.$message.success("编辑成功!");
-              this.$parent.success()
-              this.$forceUpdate()
+              if (this.ruleForm.status == 2) {
+
+              } else {
+                this.$message.success("新增成功!");
+                this.$parent.success()
+                this.$forceUpdate()
+              }
             } else {
               this.$message.error("编辑失败!");
             }
@@ -372,9 +377,14 @@ export default {
           }
           inputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {
-              this.$message.success("新增成功!");
-              this.$parent.success()
-              this.$forceUpdate()
+              if (this.ruleForm.status == 2) {
+
+              } else {
+                this.$message.success("新增成功!");
+                this.$parent.success()
+                this.$forceUpdate()
+              }
+
             } else {
               this.$message.error("新增失败!");
             }

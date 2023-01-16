@@ -230,7 +230,7 @@ export default {
       this.ruleForm.deadlineTime = this.rowData.deadlineTime
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
       this.ruleForm.status = this.rowData.status
-      this.ruleForm.type = this.rowData.type
+      // this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.isDeleted = this.rowData.isDeleted
