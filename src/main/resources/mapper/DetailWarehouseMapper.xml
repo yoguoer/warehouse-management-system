@@ -62,6 +62,7 @@
                 and shopkeeper_warehouse.shop_code = #{shopCode}
             </if>
         </where>
+        order by at_time desc
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
