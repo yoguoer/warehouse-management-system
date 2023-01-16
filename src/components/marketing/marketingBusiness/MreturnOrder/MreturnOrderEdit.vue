@@ -1,5 +1,5 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction"
+  <el-dialog size="30%" :title="ifCreate ? '新增' : '审批退货单'" :visible.sync="drawer" :direction="direction"
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -483,9 +483,11 @@ export default {
                     startNum: "",
                     finalNum: "",
                     atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    status:this.rowData.status,
                     detailWarehouseKey: "",
                     shopCode: this.ruleForm.shopCode,
                     goodsCode: this.ruleForm.goodsCode,
+                    status:this.rowData.status
                   }
                   detailWarehouseAdd(data).then(res => {
                     if (res.data.code == 200) {
@@ -573,9 +575,11 @@ export default {
                     startNum: "",
                     finalNum: "",
                     atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    status:this.rowData.status,
                     detailWarehouseKey: "",
                     shopCode: this.ruleForm.shopCode,
                     goodsCode: this.ruleForm.goodsCode,
+                    status:this.rowData.status
                   }
                   detailWarehouseAdd(data).then(res => {
                     if (res.data.code == 200) {

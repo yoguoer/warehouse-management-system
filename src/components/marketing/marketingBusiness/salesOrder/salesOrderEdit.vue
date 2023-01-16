@@ -441,6 +441,7 @@ export default {
                   startNum: "",
                   finalNum: "",
                   atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                  status:this.rowData.status,
                   detailWarehouseKey: "",
                   shopCode: this.ruleForm.shopCode,
                   goodsCode: this.ruleForm.goodsCode,
@@ -505,31 +506,6 @@ export default {
                 this.$message.success("编辑成功!");
                 this.$parent.success()
                 this.$forceUpdate()
-                // if (this.ruleForm.status == 5) {
-                //   let detailData = {
-                //     inputOutputKey: res.data.data.outputWarehouseKey,
-                //     shopkeeperWarehouseKey: "",
-                //     type: 1,
-                //     // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
-                //     transType: 4,
-                //     quantity: this.ruleForm.outputActual,
-                //     startNum: "",
-                //     finalNum: "",
-                //     atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-                //     detailWarehouseKey: "",
-                //     shopCode: this.ruleForm.shopCode,
-                //     goodsCode: this.ruleForm.goodsCode,
-                //   }
-                //   detailWarehouseAdd(detailData).then(res => {
-                //     this.$message.success("新增成功!");
-                //     this.$parent.success()
-                //     this.$forceUpdate()
-                //   })
-                // } else {
-                //   this.$message.success("编辑成功!");
-                //   this.$parent.success()
-                //   this.$forceUpdate()
-                // }
               } else {
                 this.$message.error("新增失败!");
               }

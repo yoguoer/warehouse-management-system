@@ -15,12 +15,12 @@
                   : (props.row.transType == 3 ? '零售退货入库'
                     : (props.row.transType == 4 ? '客户订购出库'
                       : (props.row.transType == 5 ? '客户订购退货入库' 
-                      : (props.row.transType == 6 ? '调货出库'
+                      : (props.row.transType == 6 ? '调货入库'
                       : (props.row.transType == 7 ? '调货出库': '-')))))))
           }}</span>
         </template>
         <template v-slot:column-quantity="props">
-          <span v-if="props.row.type==0">+{{props.row.quantity}}</span>
+          <span v-if="props.row.transType==0||props.row.transType==3||props.row.transType==5||props.row.transType==6">+{{props.row.quantity}}</span>
           <span v-else>-{{props.row.quantity}}</span>
         </template>
         <template v-slot:column-atTime="props">

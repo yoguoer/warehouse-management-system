@@ -249,6 +249,7 @@ export default {
             startNum: this.ruleForm.startNum,
             finalNum: this.ruleForm.finalNum,
             atTime: this.ruleForm.atTime,
+            status:"",
             detailWarehouseKey: this.ruleForm.detailWarehouseKey
           }
           detailWarehouseUpdate(data).then(res => {
@@ -278,6 +279,7 @@ export default {
             startNum: this.ruleForm.startNum,
             finalNum: this.ruleForm.finalNum,
             atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+            status:"",
             detailWarehouseKey: this.ruleForm.detailWarehouseKey
           }
           detailWarehouseAdd(data).then(res => {
