@@ -13,6 +13,7 @@
         <result property="onwayNum" column="onway_num" jdbcType="INTEGER"/>
         <result property="occupyNum" column="occupy_num" jdbcType="INTEGER"/>
         <result property="availableNum" column="available_num" jdbcType="INTEGER"/>
+        <result property="countNum" column="count_num" jdbcType="INTEGER"/>
         <result property="operateTime" column="operate_time" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
@@ -24,7 +25,7 @@
     <!--查询全部-->
     <select id="getList" resultMap="ShopkeeperWarehouseMap">
         select
-            shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
+            shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
         from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
                                   join goods on goods.goods_code=shopkeeper_warehouse.goods_code
     </select>
@@ -32,7 +33,7 @@
     <!--查询单个-->
     <select id="queryForKey" resultMap="ShopkeeperWarehouseMap">
         select
-        shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,operate_time, description,rejects_num
+        shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num
         from shopkeeper_warehouse
         <where>
                 shop_code = #{shopCode}
@@ -43,7 +44,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="ShopkeeperWarehouseMap">
         select
-          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
+          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
         from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
                                   join goods on goods.goods_code=shopkeeper_warehouse.goods_code
         where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
@@ -52,7 +53,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ShopkeeperWarehouseMap">
         select
-          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name,  position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num,inventory_code
+          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name,  position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num,inventory_code
         from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
                                   join goods on goods.goods_code=shopkeeper_warehouse.goods_code
                                   join inventory on inventory.belong_key=shop.shop_key
@@ -84,23 +85,23 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
-        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,operate_time, description,rejects_num)
-        values (#{shopkeeperWarehouseKey},#{goodsCode}, #{positionCode}, #{shopCode}, #{maxNum}, #{minNum}, #{accountNum}, #{occupyNum},#{onwayNum}, #{availableNum},#{operateTime}, #{description},#{rejectsNum})
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num)
+        values (#{shopkeeperWarehouseKey},#{goodsCode}, #{positionCode}, #{shopCode}, #{maxNum}, #{minNum}, #{accountNum}, #{occupyNum},#{onwayNum}, #{availableNum},#{countNum},#{operateTime}, #{description},#{rejectsNum})
     </insert>
 
     <insert id="insertBatch" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
-        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,operate_time, description,rejects_num)
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum}, #{entity.minNum}, #{entity.accountNum}, #{entity.occupyNum},#{entity.onwayNum}, #{entity.availableNum}, #{entity.operateTime},#{entity.description}.#{rejectsNum})
+        (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum}, #{entity.minNum}, #{entity.accountNum}, #{entity.occupyNum},#{entity.onwayNum}, #{entity.availableNum},#{entity.countNum}, #{entity.operateTime},#{entity.description}.#{rejectsNum})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
-        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,operate_time, description,rejects_num)
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum}, #{entity.minNum}, #{entity.accountNum},#{entity.onwayNum}, #{entity.occupyNum}, #{entity.availableNum},#{entity.operateTime}, #{entity.description},#{rejectsNum})
+            (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum}, #{entity.minNum}, #{entity.accountNum},#{entity.onwayNum}, #{entity.occupyNum}, #{entity.availableNum},#{entity.countNum},#{entity.operateTime}, #{entity.description},#{rejectsNum})
         </foreach>
         on duplicate key update
         shopkeeper_warehouse_key=values(shopkeeper_warehouse_key),
@@ -113,6 +114,7 @@
         onway_num = values(onway_num),
         occupy_num = values(occupy_num),
         available_num = values(available_num),
+        count_num = values(count_num),
         operate_time = values(operate_time)
         description = values(description)
         rejects_num=values(rejects_num)
@@ -155,6 +157,7 @@
             <if test="description != null and description != ''">
                 description = #{description},
             </if>
+            count_num = #{countNum},
             rejects_num = #{rejectsNum},
         </set>
         where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}

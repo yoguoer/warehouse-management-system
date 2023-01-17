@@ -53,6 +53,10 @@ public class ShopkeeperWarehouse implements Serializable {
      */
     private Integer availableNum;
     /**
+     * 清点数
+     */
+    private Integer countNum;
+    /**
      * 最后操作时间
      */
     private String operateTime;
@@ -61,6 +65,14 @@ public class ShopkeeperWarehouse implements Serializable {
      */
     private String description;
     private String modelCode;//型号
+
+    public Integer getCountNum() {
+        return countNum;
+    }
+
+    public void setCountNum(Integer countNum) {
+        this.countNum = countNum;
+    }
 
     public String getInventoryCode() {
         return inventoryCode;
