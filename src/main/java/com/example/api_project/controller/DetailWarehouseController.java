@@ -86,32 +86,33 @@ public class DetailWarehouseController {
         Integer status=detailWarehouse.getStatus();
         DetailWarehouse result=this.detailWarehouseService.insert(detailWarehouse);
         //'0' ? '在单'， '1' ? '生产'，'2' ? '在途'，'3' ? '入库'， '4' ? '占用'，'5' ? '出库'
+        //(0采购入库6调货入库)
         if(null!=status && status==2 && (transType==0||transType==6)){//原始状态为在途，确认收货入库（采购、调货）
             shopkeeperWarehouse.setOperateTime(result.getAtTime());
             shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
             Integer onWayNum=shopkeeperWarehouse.getOnwayNum()-result.getQuantity();//在途数减少
             shopkeeperWarehouse.setOnwayNum(shopkeeperWarehouse.getOnwayNum()-result.getQuantity());
             shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+onWayNum-shopkeeperWarehouse.getOccupyNum());
+            //(1采购退货出库)
         }else if(null!=status && status==3 && (transType==1)) {//原始状态为入库（退货出库）
             shopkeeperWarehouse.setOperateTime(result.getAtTime());
             shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
             shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-shopkeeperWarehouse.getOccupyNum());
-        }else if(null!=status && status==4 && (transType==2||transType==4)) {//原始状态为占用（零售、订购）
+            //(4客户订购出库)
+        }else if(null!=status && status==4 && (transType==4)) {//原始状态为占用（订购）
             shopkeeperWarehouse.setOperateTime(result.getAtTime());
             shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
             Integer occupyNum=shopkeeperWarehouse.getOccupyNum()-result.getQuantity();//占用数减少
             shopkeeperWarehouse.setOccupyNum(occupyNum);
             shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-occupyNum);
+            //(3零售退货入库、5客户订购退货入库)
         }else if(null!=status && status==5 && (transType==3||transType==5)) {//原始状态为出库（退货入库），直接加减就行了
             shopkeeperWarehouse.setOperateTime(result.getAtTime());
             shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
             shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-shopkeeperWarehouse.getOccupyNum());
         }
-        else if(transType==7) {//调货出库比较特殊，直接加减就行了
-            shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
-            shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-shopkeeperWarehouse.getOccupyNum());
-        }
-        else if(transType==2) {//零售，直接加减就行了
+        //(2零售出库、7调货出库)
+        else if(transType==2||transType==7) {//零售、调货出库比较特殊，直接加减就行了
             shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
             shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-shopkeeperWarehouse.getOccupyNum());
         }

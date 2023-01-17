@@ -3,7 +3,9 @@ package com.example.api_project.controller;
 import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
 import com.example.api_project.pojo.InputWarehouse;
+import com.example.api_project.pojo.ShopkeeperWarehouse;
 import com.example.api_project.service.InputWarehouseService;
+import com.example.api_project.service.ShopkeeperWarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +24,9 @@ public class InputWarehouseController {
      */
     @Autowired
     private InputWarehouseService inputWarehouseService;
+
+    @Autowired
+    private ShopkeeperWarehouseService shopkeeperWarehouseService;
 
     /**
      * 不分页查询
@@ -48,12 +53,12 @@ public class InputWarehouseController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     * @param inputWarehouseKey 主键
      * @return 单条数据
      */
     @GetMapping("/getById")
-    public Result queryById(@PathVariable("id") String id) {
-        return ResponseData.success(this.inputWarehouseService.queryById(id));
+    public Result queryById(@PathVariable("inputWarehouseKey") String inputWarehouseKey) {
+        return ResponseData.success(this.inputWarehouseService.queryById(inputWarehouseKey));
     }
 
     /**
@@ -82,7 +87,20 @@ public class InputWarehouseController {
     public Result edit(@RequestBody  InputWarehouse inputWarehouse) {
         Integer isDeleted=0;
         inputWarehouse.setIsDeleted(isDeleted);
-        return ResponseData.success(this.inputWarehouseService.update(inputWarehouse));
+        InputWarehouse result=this.inputWarehouseService.update(inputWarehouse);
+
+        //如果是供应商发货了，需要更新一下在途数
+        Integer status=inputWarehouse.getStatus();
+        if(null!=status&&status==2){
+            String shopCode=inputWarehouse.getShopCode();
+            String goodsCode=inputWarehouse.getGoodsCode();
+            ShopkeeperWarehouse shopkeeperWarehouse=shopkeeperWarehouseService.queryForKey(shopCode,goodsCode);//查询相关库存
+            Integer onWayNum=shopkeeperWarehouse.getOnwayNum()+inputWarehouse.getInputActual();//新增在途数
+            shopkeeperWarehouse.setOnwayNum(onWayNum);//设置新的在途数
+            shopkeeperWarehouse.setAvailableNum(shopkeeperWarehouse.getAccountNum()+onWayNum-shopkeeperWarehouse.getOccupyNum());//设置可用数
+            this.shopkeeperWarehouseService.update(shopkeeperWarehouse);
+        }
+        return ResponseData.success(this.queryById(inputWarehouse.getInputWarehouseKey()));
     }
 
     /**

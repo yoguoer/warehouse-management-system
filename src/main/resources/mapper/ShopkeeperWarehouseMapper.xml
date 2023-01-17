@@ -155,9 +155,7 @@
             <if test="description != null and description != ''">
                 description = #{description},
             </if>
-            <if test="rejectsNum != null and rejectsNum != ''">
-                rejects_num = #{rejectsNum},
-            </if>
+            rejects_num = #{rejectsNum},
         </set>
         where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
     </update>
