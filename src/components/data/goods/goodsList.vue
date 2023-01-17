@@ -55,8 +55,12 @@
         <el-table-column prop="createTime" label="添加时间" :show-overflow-tooltip="true">
           <template slot-scope="scope">{{ scope.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</template>
         </el-table-column>
-        <el-table-column fixed="right" width="200px" label="操作">
+        <el-table-column fixed="right" width="250px" label="操作">
           <template slot-scope="scope">
+            <el-button class="prohibitclick" @click="setON(scope.row)" type="text" size="small"
+              v-if="scope.row.state == 0" icon="el-icon-moon">上架</el-button>
+            <el-button class="prohibitclick" @click="setDOWN(scope.row)" type="text" size="small"
+              v-if="scope.row.state == 1" icon="el-icon-sunny">下架</el-button>
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
             <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
               icon="el-icon-delete">删除</el-button>
@@ -77,7 +81,7 @@
 import goodsEdit from "./goodsEdit";
 import { goodslistPage, goodsDelete, goodsDeleteList } from "@/api/data";
 import leftCard from '@/components/public/leftCard.vue'
-import { Supplierlist, brandlist } from '@/api/data'
+import { Supplierlist, brandlist, goodsUpdate } from '@/api/data'
 
 export default {
   name: "goodsList",
@@ -135,6 +139,36 @@ export default {
       this.pageNo = val;
       this.getGoodslistPage();
       this.$forceUpdate();
+    },
+    setON(row) {
+      let Form = {
+        goodsKey: row.goodsKey,
+        state: 1
+      }
+      goodsUpdate(Form).then(res => {
+        if (res.data.code == 200) {
+          this.$message.success("上架成功!");
+          this.getGoodslistPage()
+          this.$forceUpdate()
+        } else {
+          this.$message.error("上架失败!");
+        }
+      })
+    },
+    setDOWN(row) {
+      let Form = {
+        goodsKey: row.goodsKey,
+        state: 0
+      }
+      goodsUpdate(Form).then(res => {
+        if (res.data.code == 200) {
+          this.$message.success("下架成功!");
+          this.getGoodslistPage()
+          this.$forceUpdate()
+        } else {
+          this.$message.error("下架失败!");
+        }
+      })
     },
     deleteRow(row) {
       console.log("deleteRow", row);
