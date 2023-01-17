@@ -322,9 +322,9 @@ export default {
       goodslist().then(res => {
         if (res.data.code == 200) {
           // this.goodsOptions = res.data.data
-          this.goodsOptions=[]
-          res.data.data.forEach(item=>{
-            if(item.state==1){
+          this.goodsOptions = []
+          res.data.data.forEach(item => {
+            if (item.state == 1) {
               this.goodsOptions.push(item)
             }
           })
@@ -441,13 +441,13 @@ export default {
                   startNum: "",
                   finalNum: "",
                   atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-                  status:this.rowData.status,
+                  status: this.rowData.status,
                   detailWarehouseKey: "",
                   shopCode: this.ruleForm.shopCode,
                   goodsCode: this.ruleForm.goodsCode,
                 }
                 detailWarehouseAdd(detailData).then(res => {
-                  this.$message.success("新增成功!");
+                  this.$message.success("编辑成功!");
                   this.$parent.success()
                   this.$forceUpdate()
                 })
@@ -503,13 +503,13 @@ export default {
           }
           outputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {
-                this.$message.success("编辑成功!");
-                this.$parent.success()
-                this.$forceUpdate()
-              } else {
-                this.$message.error("新增失败!");
-              }
-            });
+              this.$message.success("新增成功!");
+              this.$parent.success()
+              this.$forceUpdate()
+            } else {
+              this.$message.error("新增失败!");
+            }
+          });
         } else {
           console.log('error submit!!');
           return false;

@@ -272,7 +272,13 @@ export default {
     getgoodslist() {
       goodslist().then(res => {
         if (res.data.code == 200) {
-          this.goodsOptions = res.data.data
+          // this.goodsOptions = res.data.data
+          this.goodsOptions = []
+          res.data.data.forEach(item => {
+            if (item.state == 1) {
+              this.goodsOptions.push(item)
+            }
+          })
         } else {
           this.$message.error("获取失败!");
         }
