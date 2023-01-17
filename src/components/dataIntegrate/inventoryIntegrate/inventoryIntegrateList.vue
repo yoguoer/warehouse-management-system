@@ -1,24 +1,37 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" />
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden"/>
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
-        <template v-slot:column-time="props">
-          <span>{{ props.row.operateTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+        <template v-slot:column-how="props">
+          <span v-if="!props.row.countNum">-</span>
+          <span v-else-if="props.row.accountNum == props.row.countNum">盘平</span>
+          <!-- 实际清点数 > 账面库存 -->
+          <span v-else-if="props.row.accountNum < props.row.countNum">盘盈</span>
+          <!-- 实际清点数 < 账面库存 -->
+          <span v-else-if="props.row.accountNum > props.row.countNum">盘亏</span>
         </template>
-        <template v-slot:column-ok="props">
-          <span>{{  ((props.row.accountNum-props.row.rejectsNum)/props.row.accountNum).toFixed(2)*100 }}%</span>
+        <template v-slot:column-much="props">
+          <span v-if="!props.row.countNum || props.row.accountNum == props.row.countNum">-</span>
+          <!-- 实际清点数 > 账面库存 -->
+          <span v-else-if="props.row.accountNum < props.row.countNum">+{{
+            props.row.countNum - props.row.accountNum
+          }}</span>
+          <!-- 实际清点数 < 账面库存 -->
+          <span v-else-if="props.row.accountNum > props.row.countNum">-{{
+            props.row.accountNum - props.row.countNum
+          }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
-          <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
-            icon="el-icon-document">删除</el-button>
+          <el-button @click="editRow(props.row)" type="text" icon="el-icon-s-claim">设置盘点数</el-button>
+          <!-- <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
+            icon="el-icon-document">删除</el-button> -->
         </template>
       </TableList>
     </div>
-    <overviewEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"
-      :shopGoodsList="tableData" />
+    <inventoryIntegrateEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
+      @success="success()" :shopGoodsList="tableData" />
   </div>
 </template>
 
@@ -26,7 +39,7 @@
 import { shopkeeperWarehouseListPage, shopkeeperWarehouseDelete, shopkeeperWarehouseDeleteList } from "@/api/warehouse";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import overviewEdit from "./overviewEdit";
+import inventoryIntegrateEdit from "./inventoryIntegrateEdit";
 import { shoplist, goodslist } from '@/api/data'
 
 export default {
@@ -37,6 +50,8 @@ export default {
       pageNo: 1,
       total: null,
       drawer: false,
+      multiCheck:false,
+      hidden:true,
       rowData: {},
       tableData: [],
       multipleSelection: [],
@@ -47,31 +62,26 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
-      shopOptions:[],
-      goodsOptions:[]
+      shopOptions: [],
+      goodsOptions: []
     };
   },
   computed: {
     tableColumn() {
       return [
-        // { prop: "shopCode", label: "门店编码" },
+        { prop: "shopCode", label: "门店编码" },
         { prop: "shopName", label: "门店名称" },
-        // { prop: "goodsCode", label: "商品编码" },
+        { prop: "goodsCode", label: "商品编码" },
         { prop: "goodsName", label: "商品名称" },
         { prop: "modelCode", label: "型号" },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
-        { prop: "maxNum", label: "库存上限" },
-        { prop: "minNum", label: "库存下限" },
-        { prop: "accountNum", label: "现存量" },
-        { prop: "onwayNum", label: "在途数" },
-        { prop: "occupyNum", label: "占用数" },
-        { prop: "availableNum", label: "可用数" },
-        { prop: "rejectsNum", label: "残品数" },
-        { slots: { name: "column-ok" }, label: "合格率"},
-        { slots: { name: "column-time" }, label: "最后操作时间"},
+        { prop: "accountNum", label: "账面库存" },
+        { prop: "countNum", label: "清点数" },
+        { slots: { name: "column-how" }, label: "盘点情况" },
+        { slots: { name: "column-much" }, label: "盈亏数量" },
         { prop: "description", label: "备注" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right",width:"150px" },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "150px" },
       ];
     },
     searchConfig() {
@@ -82,7 +92,7 @@ export default {
           field: 'shopCode',
           value: '',
           type: "select",
-          options:this.shopOptions
+          options: this.shopOptions
         },
         {
           label: '请选择',
@@ -90,7 +100,7 @@ export default {
           field: 'goodsCode',
           value: '',
           type: "select",
-          options:this.goodsOptions
+          options: this.goodsOptions
         },
       ];
     }
@@ -99,7 +109,7 @@ export default {
   },
   components: {
     TableList,
-    overviewEdit,
+    inventoryIntegrateEdit,
     reloadAndsearch
   },
   created() {
@@ -111,8 +121,8 @@ export default {
       shoplist().then(res => {
         if (res.data.code == 200) {
           // this.shopOptions = res.data.data
-          res.data.data.forEach(item=>{
-            this.shopOptions.push({label:item.shopName,value:item.shopCode})
+          res.data.data.forEach(item => {
+            this.shopOptions.push({ label: item.shopName, value: item.shopCode })
           })
         } else {
           this.$message.error("获取失败!");
@@ -123,8 +133,8 @@ export default {
       goodslist().then(res => {
         if (res.data.code == 200) {
           // this.goodsOptions = res.data.data
-          res.data.data.forEach(item=>{
-            this.goodsOptions.push({label:item.goodsName,value:item.goodsCode})
+          res.data.data.forEach(item => {
+            this.goodsOptions.push({ label: item.goodsName, value: item.goodsCode })
           })
         } else {
           this.$message.error("获取失败!");
@@ -271,4 +281,3 @@ export default {
   margin-top: 20px;
 }
 </style>
-  

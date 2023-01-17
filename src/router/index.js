@@ -78,6 +78,12 @@ const routes = [{
             name: 'purchaseIntegrate',
             component: () => import('@/views/dataIntegrate/purchaseIntegrate/Index.vue')
           },
+          //资料-数据集成-库存盘点
+          {
+            path: '/dataIntegrate/inventoryIntegrate',
+            name: 'inventoryIntegrate',
+            component: () => import('@/components/dataIntegrate/inventoryIntegrate/inventoryIntegrateList.vue')
+          },
         ],
       },
       //*******************************资料模块*******************************

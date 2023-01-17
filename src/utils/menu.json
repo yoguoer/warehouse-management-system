@@ -18,6 +18,12 @@
                         "icon": "",
                         "level": 2,
                         "componentName": "purchaseIntegrate"
+                    },
+                    {
+                        "name": "库存盘点",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "inventoryIntegrate"
                     }
                 ]
             },

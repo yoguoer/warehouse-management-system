@@ -6,7 +6,7 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="门店" prop="shopCode">
-            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="所属门店" style="width:100%;"  @change="getMyPosition()" clearable>
+            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="所属门店" style="width:100%;"  @change="getMyPosition()" clearable disabled>
               <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName" :value="item.shopCode">
               </el-option>
             </el-select>
@@ -14,7 +14,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="商品" prop="goodsCode">
-            <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable>
+            <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable disabled>
               <el-option v-for="item in goodsOptions" :key="item.goodsCode" :label="item.goodsName" :value="item.goodsCode">
               </el-option>
             </el-select>
@@ -23,50 +23,17 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="库位" prop="positionCode">
-            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable>
-              <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
-                :value="item.positionCode" clearable placeholder="库位">
-              </el-option>
-            </el-select>
+          <el-form-item label="账面库存" prop="accountNum">
+            <el-input v-model="ruleForm.accountNum" clearable placeholder="账面库存" type="Number" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
-          <el-form-item label="库存上限" prop="maxNum">
-            <el-input v-model="ruleForm.maxNum" clearable placeholder="库存上限" type="Number"></el-input>
+          <el-form-item label="盘点数" prop="countNum">
+            <el-input v-model="ruleForm.countNum" clearable placeholder="盘点数" type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="10">
-          <el-form-item label="库存下限" prop="minNum">
-            <el-input v-model="ruleForm.minNum" clearable placeholder="库存下限" type="Number"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item label="现存量" prop="accountNum">
-            <el-input v-model="ruleForm.accountNum" clearable placeholder="现存量" type="Number"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10">
-          <el-form-item label="占用数" prop="occupyNum">
-            <el-input v-model="ruleForm.occupyNum" clearable placeholder="占用数" type="Number"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item label="在途数" prop="onwayNum">
-            <el-input v-model="ruleForm.onwayNum" clearable placeholder="在途数" type="Number"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10">
-          <el-form-item label="残品数" prop="rejectsNum">
-            <el-input v-model="ruleForm.rejectsNum" clearable placeholder="残品数" type="Number"></el-input>
-          </el-form-item>
-        </el-col>
         <el-col :span="10">
           <el-form-item label="备注" prop="description">
             <el-input v-model="ruleForm.description" clearable placeholder="备注" type="textarea"></el-input>
@@ -119,20 +86,8 @@ export default {
         goodsCode: [
           { required: true, message: '请选择商品', trigger: 'blur' },
         ],
-        onwayNum: [
-          { required: true, message: '请设置在途数', trigger: 'blur' },
-        ],
-        maxNum: [
-          { required: true, message: '请设置库存上限', trigger: 'blur' },
-        ],
-        minNum: [
-          { required: true, message: '请设置库存下限', trigger: 'blur' },
-        ],
         accountNum: [
-          { required: true, message: '请设置现存量', trigger: 'blur' },
-        ],
-        occupyNum: [
-          { required: true, message: '请设置占用数', trigger: 'blur' },
+          { required: true, message: '请设置账面库存', trigger: 'blur' },
         ],
       }
     }

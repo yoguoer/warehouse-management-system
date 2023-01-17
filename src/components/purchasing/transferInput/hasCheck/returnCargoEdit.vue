@@ -306,7 +306,13 @@ export default {
     getInventoryByshopCode() {
       getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
         if (res.data.code == 200) {
-          this.inventoryOptions = res.data.data
+          // this.inventoryOptions = res.data.data
+          this.inventoryOptions=[]
+          res.data.data.forEach(item => {
+            if (item.status == 1) {
+              this.supplierOptions.push(item)
+            }
+          })
           this.getpositionList()
         } else {
           this.$message.error("获取失败!");
