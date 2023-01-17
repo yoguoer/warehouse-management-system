@@ -38,7 +38,7 @@ public interface SupplierBillingMapper {
      *
      * @return 对象列表
      */
-    List<SupplierBilling> queryAllByLimit( String accountName,String bankName,Integer startRows, Integer pageSize);
+    List<SupplierBilling> queryAllByLimit( String supplierBillingCode, String accountName,String bankName,Integer startRows, Integer pageSize);
 
     /**
      * 统计总行数

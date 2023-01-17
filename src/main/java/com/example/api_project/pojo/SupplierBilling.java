@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class SupplierBilling implements Serializable {
     private static final long serialVersionUID = -88365776600767095L;
     /**
-     * 与供应商对应的key
+     * 与供应商对应的code
      */
     private String supplierBillingCode;
     /**

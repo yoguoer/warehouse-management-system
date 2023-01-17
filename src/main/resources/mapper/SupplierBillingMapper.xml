@@ -60,6 +60,9 @@
         supplier_billing_code, billing_key, tax_number, account_name, account_number, bank_name, account_tel
         from supplier_billing
         <where>
+            <if test="supplierBillingCode != null and supplierBillingCode != ''">
+                and supplier_billing_code = #{supplierBillingCode}
+            </if>
             <if test="accountName != null and accountName != ''">
                 and account_name like concat('%', #{accountName}, '%')
             </if>
@@ -75,6 +78,9 @@
         select count(1)
         from supplier_billing
         <where>
+            <if test="supplierBillingCode != null and supplierBillingCode != ''">
+                and supplier_billing_code = #{supplierBillingCode}
+            </if>
             <if test="supplierBillingCode != null and supplierBillingCode != ''">
                 and supplier_billing_code = #{supplierBillingCode}
             </if>
