@@ -10,6 +10,12 @@
       <el-input placeholder="银行名" v-model="accountNumber" type="text" size="small" :clearable="true">
         <template slot="prepend">银行名</template>
       </el-input>
+      <el-select size="middle" v-model="supplierBillingCode" placeholder="所属供应商" style="width:200px;margin-right:20px"
+        clearable>
+        <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
+          :value="item.supplierCode" placeholder="所属供应商">
+        </el-option>
+      </el-select>
       <el-button type="primary" size="small" @click="search()" icon="el-icon-search">查询</el-button>
       <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
@@ -54,7 +60,7 @@
 
 <script>
 import bankEdit from "./bankEdit";
-import { banklistPage, bankDelete, bankDeleteList } from "@/api/data";
+import { banklistPage, bankDelete, bankDeleteList,Supplierlist } from "@/api/data";
 
 export default {
   name: "slist",
@@ -62,26 +68,39 @@ export default {
     return {
       accountNumber: "",
       accountName: "",
+      supplierBillingCode:"",
       pageSize: 10,
       pageNo: 1,
       total: null,
       drawer: false,
       rowData: {},
+      supplyOptions:[],
       bankList: [],
       multipleSelection: [],
     };
   },
   created() {
-    this.getBanklistPage();
+    this.getBanklistPage()
+    this.getSupplierlist()
   },
   methods: {
+    getSupplierlist() {
+      Supplierlist().then(res => {
+        if (res.data.code == 200) {
+          this.supplyOptions = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     clean() {
       this.accountNumber = ''
+      this.supplierBillingCode=''
       this.accountName = ''
       this.reload()
     },
     search() {
-      banklistPage({ accountName: this.accountName, bankName: this.accountNumber, page: 1, size: 20 }).then((res) => {
+      banklistPage({ supplierBillingCode:this.supplierBillingCode,accountName: this.accountName, bankName: this.accountNumber, page: 1, size: 20 }).then((res) => {
         this.bankList = res.data.data.records;
         console.log("bankList:", this.bankList);
       });
