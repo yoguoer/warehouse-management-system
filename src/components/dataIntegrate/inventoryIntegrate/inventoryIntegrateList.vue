@@ -1,9 +1,10 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden" />
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
-        :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
+        :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
+        :loading="loadings.table">
         <template v-slot:column-how="props">
           <span v-if="!props.row.countNum">-</span>
           <span v-else-if="props.row.accountNum == props.row.countNum">盘平</span>
@@ -13,7 +14,7 @@
           <span v-else-if="props.row.accountNum > props.row.countNum">盘亏</span>
         </template>
         <template v-slot:column-much="props">
-          <span v-if="!props.row.countNum || props.row.accountNum == props.row.countNum">-</span>
+          <span v-if="!props.row.countNum || props.row.accountNum == props.row.countNum"></span>
           <!-- 实际清点数 > 账面库存 -->
           <span v-else-if="props.row.accountNum < props.row.countNum">+{{
             props.row.countNum - props.row.accountNum
@@ -24,7 +25,9 @@
           }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button @click="editRow(props.row)" type="text" icon="el-icon-s-claim">设置盘点数</el-button>
+          <el-button v-if="props.row.countCheckKey == '' && props.row.countNum != props.row.accountNum"
+            @click="editRow1(props.row)" type="text" icon="el-icon-mouse">提交审核</el-button>
+          <el-button @click="editRow(props.row)" type="text" icon="el-icon-notebook-2">设置盘点数</el-button>
           <!-- <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button> -->
         </template>
@@ -32,6 +35,8 @@
     </div>
     <inventoryIntegrateEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
       @success="success()" :shopGoodsList="tableData" />
+    <countCheckEdit v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false"
+      @success="success()" />
   </div>
 </template>
 
@@ -40,7 +45,9 @@ import { shopkeeperWarehouseListPage, shopkeeperWarehouseDelete, shopkeeperWareh
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import inventoryIntegrateEdit from "./inventoryIntegrateEdit";
+import countCheckEdit from "./countCheckEdit";
 import { shoplist, goodslist } from '@/api/data'
+import { countCheckList } from '@/api/dataIntegrate'
 
 export default {
   name: "slist",
@@ -50,9 +57,11 @@ export default {
       pageNo: 1,
       total: null,
       drawer: false,
-      multiCheck:false,
-      hidden:true,
+      drawer1: false,
+      multiCheck: false,
+      hidden: true,
       rowData: {},
+      rowData1: {},
       tableData: [],
       multipleSelection: [],
       loadings: {
@@ -63,6 +72,7 @@ export default {
         pageSize: 10,
       },
       shopOptions: [],
+      list: [],
       goodsOptions: []
     };
   },
@@ -81,7 +91,7 @@ export default {
         { slots: { name: "column-how" }, label: "盘点情况" },
         { slots: { name: "column-much" }, label: "盈亏数量" },
         { prop: "description", label: "备注" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "150px" },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "250px" },
       ];
     },
     searchConfig() {
@@ -110,13 +120,24 @@ export default {
   components: {
     TableList,
     inventoryIntegrateEdit,
+    countCheckEdit,
     reloadAndsearch
   },
   created() {
+    this.getcountCheckList()
     this.getshoplist()
     this.getgoodslist()
   },
   methods: {
+    getcountCheckList() {
+      countCheckList().then(res => {
+        if (res.data.code == 200) {
+          this.list = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
@@ -159,7 +180,22 @@ export default {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
-          console.log(this.total, this.tableData);
+          if (this.list.length == 0) {
+            this.tableData.forEach(item => {
+              item.countCheckKey = ""
+            })
+          } else {
+            this.tableData.forEach(item => {
+              this.list.forEach(temp => {
+                if (item.shopkeeperWarehouseKey == temp.shopkeeperWarehouseKey) {
+                  item.countCheckKey = temp.countCheckKey
+                } else {
+                  item.countCheckKey = ""
+                }
+              })
+            })
+          }
+          // console.log(this.total, this.tableData);
         } else {
           console.log("error");
         }
@@ -182,7 +218,22 @@ export default {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
-          console.log(this.total, this.tableData);
+          if (this.list.length == 0) {
+            this.tableData.forEach(item => {
+              item.countCheckKey = ""
+            })
+          } else {
+            this.tableData.forEach(item => {
+              this.list.forEach(temp => {
+                if (item.shopkeeperWarehouseKey == temp.shopkeeperWarehouseKey) {
+                  item.countCheckKey = temp.countCheckKey
+                } else {
+                  item.countCheckKey = ""
+                }
+              })
+            })
+          }
+          // console.log(this.total, this.tableData);
         } else {
           console.log("error");
         }
@@ -194,6 +245,23 @@ export default {
     editRow(row) {
       this.rowData = row;
       this.drawer = true;
+    },
+    editRow1(row) {
+      //盘盈
+      if (row.countNum > row.accountNum) {
+        this.rowData1 = {
+          shopkeeperWarehouseKey: row.shopkeeperWarehouseKey,
+          checkNum: row.countNum - row.accountNum,
+          checkType: 0,
+        }
+      } else if (row.countNum < row.accountNum) {//盘亏
+        this.rowData1 = {
+          shopkeeperWarehouseKey: row.shopkeeperWarehouseKey,
+          checkNum: row.accountNum - row.countNum,
+          checkType: 1,
+        }
+      }
+      this.drawer1 = true;
     },
     deleteRow(row) {
       console.log("deleteRow", row)
@@ -210,7 +278,11 @@ export default {
     success() {
       this.drawer = false;
       this.rowData = {};
+      this.drawer1 = false;
+      this.rowData1 = {};
+      this.getcountCheckList()
       this.getTableData();
+      this.$forceUpdate()
     },
     reload() {
       this.getTableData()

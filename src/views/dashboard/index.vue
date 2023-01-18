@@ -122,6 +122,9 @@ export default {
       this.selOneMenu = sessionStorage.getItem("selOneMenu")
       this.getMenuSubList(this.selOneMenu)
     }
+    if(this.selOneMenu='welcome'){
+      this.isShow=false
+    }
   },
   components: {
     leftMenu
