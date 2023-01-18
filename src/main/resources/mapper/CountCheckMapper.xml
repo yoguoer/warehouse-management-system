@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.CountCheckMapper">
+
+    <resultMap type="com.example.api_project.pojo.CountCheck" id="CountCheckMap">
+        <result property="countCheckKey" column="count_check_key" jdbcType="VARCHAR"/>
+        <result property="happenTime" column="happen_time" jdbcType="VARCHAR"/>
+        <result property="shopkeeperWarehouseKey" column="shopkeeper_warehouse_key" jdbcType="VARCHAR"/>
+        <result property="checkStatus" column="check_status" jdbcType="INTEGER"/>
+        <result property="checkTime" column="check_time" jdbcType="VARCHAR"/>
+        <result property="checkType" column="check_type" jdbcType="INTEGER"/>
+        <result property="checkNum" column="check_num" jdbcType="INTEGER"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="checkPeople" column="check_people" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="getList" resultMap="CountCheckMap">
+        select
+            count_check_key, happen_time, shopkeeper_warehouse_key, check_status, check_time, check_type, check_num, description, check_people
+        from count_check
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CountCheckMap">
+        select
+          count_check_key, happen_time, shopkeeper_warehouse_key, check_status, check_time, check_type, check_num, description, check_people
+        from count_check
+        where  count_check_key= #{countCheckKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CountCheckMap">
+        select
+          count_check_key, happen_time, shopkeeper_warehouse_key, check_status, check_time, check_type, check_num, description, check_people
+        from count_check
+        <where>
+            <if test="countCheckKey != null and countCheckKey != ''">
+                and count_check_key = #{countCheckKey}
+            </if>
+            <if test="happenTime != null and happenTime != ''">
+                and happen_time = #{happenTime}
+            </if>
+            <if test="shopkeeperWarehouseKey != null and shopkeeperWarehouseKey != ''">
+                and shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
+            </if>
+            <if test="checkStatus != null">
+                and check_status = #{checkStatus}
+            </if>
+            <if test="checkTime != null and checkTime != ''">
+                and check_time = #{checkTime}
+            </if>
+            <if test="checkType != null">
+                and check_type = #{checkType}
+            </if>
+            <if test="checkNum != null">
+                and check_num = #{checkNum}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="checkPeople != null and checkPeople != ''">
+                and check_people = #{checkPeople}
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from count_check
+        <where>
+            <if test="countCheckKey != null and countCheckKey != ''">
+                and count_check_key = #{countCheckKey}
+            </if>
+            <if test="happenTime != null and happenTime != ''">
+                and happen_time = #{happenTime}
+            </if>
+            <if test="shopkeeperWarehouseKey != null and shopkeeperWarehouseKey != ''">
+                and shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
+            </if>
+            <if test="checkStatus != null">
+                and check_status = #{checkStatus}
+            </if>
+            <if test="checkTime != null and checkTime != ''">
+                and check_time = #{checkTime}
+            </if>
+            <if test="checkType != null">
+                and check_type = #{checkType}
+            </if>
+            <if test="checkNum != null">
+                and check_num = #{checkNum}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="checkPeople != null and checkPeople != ''">
+                and check_people = #{checkPeople}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into count_check(count_check_key, happen_time, shopkeeper_warehouse_key, check_status, check_time, check_type, check_num, description, check_people)
+        values (#{countCheckKey}, #{happenTime}, #{shopkeeperWarehouseKey}, #{checkStatus}, #{checkTime}, #{checkType}, #{checkNum}, #{description}, #{checkPeople})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
+        insert into count_check(count_check_key, happen_time, shopkeeper_warehouse_key, check_status, check_time, check_type, check_num, description, check_people)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.countCheckKey}, #{entity.happenTime}, #{entity.shopkeeperWarehouseKey}, #{entity.checkStatus}, #{entity.checkTime}, #{entity.checkType}, #{entity.checkNum}, #{entity.description}, #{entity.checkPeople})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="" useGeneratedKeys="true">
+        insert into count_check(count_check_key, happen_time, shopkeeper_warehouse_key, check_status, check_time, check_type, check_num, description, check_people)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.countCheckKey}, #{entity.happenTime}, #{entity.shopkeeperWarehouseKey}, #{entity.checkStatus}, #{entity.checkTime}, #{entity.checkType}, #{entity.checkNum}, #{entity.description}, #{entity.checkPeople})
+        </foreach>
+        on duplicate key update
+        count_check_key = values(count_check_key),
+        happen_time = values(happen_time),
+        shopkeeper_warehouse_key = values(shopkeeper_warehouse_key),
+        check_status = values(check_status),
+        check_time = values(check_time),
+        check_type = values(check_type),
+        check_num = values(check_num),
+        description = values(description),
+        check_people = values(check_people)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update count_check
+        <set>
+            <if test="countCheckKey != null and countCheckKey != ''">
+                count_check_key = #{countCheckKey},
+            </if>
+            <if test="happenTime != null and happenTime != ''">
+                happen_time = #{happenTime},
+            </if>
+            <if test="shopkeeperWarehouseKey != null and shopkeeperWarehouseKey != ''">
+                shopkeeper_warehouse_key = #{shopkeeperWarehouseKey},
+            </if>
+            <if test="checkStatus != null">
+                check_status = #{checkStatus},
+            </if>
+            <if test="checkTime != null and checkTime != ''">
+                check_time = #{checkTime},
+            </if>
+            <if test="checkType != null">
+                check_type = #{checkType},
+            </if>
+            <if test="checkNum != null">
+                check_num = #{checkNum},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="checkPeople != null and checkPeople != ''">
+                check_people = #{checkPeople},
+            </if>
+        </set>
+        where  = #{}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from count_check where  count_check_key= #{countCheckKey}
+    </delete>
+
+</mapper>
+

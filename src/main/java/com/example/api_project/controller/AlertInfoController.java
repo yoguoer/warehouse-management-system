@@ -70,7 +70,7 @@ public class AlertInfoController {
                 }
             }
 
-            //现存<=最低，缺货预警
+            // 现存<=最低，缺货预警
             if(item.getAccountNum()<=item.getMinNum()){
                 AlertInfo AIF = new AlertInfo();
                 Random random = new Random();
@@ -97,7 +97,7 @@ public class AlertInfoController {
                 }
             }
 
-            //现存>最高，满仓预警
+            // 现存>最高，满仓预警
             if(item.getAccountNum()>item.getMaxNum()){
                 AlertInfo AIF = new AlertInfo();
                 Random random = new Random();
