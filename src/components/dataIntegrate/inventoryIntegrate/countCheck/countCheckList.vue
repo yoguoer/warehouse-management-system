@@ -6,48 +6,46 @@
         :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
         :loading="loadings.table">
         <template v-slot:column-how="props">
-          <span v-if="!props.row.countNum">-</span>
-          <span v-else-if="props.row.accountNum == props.row.countNum">盘平</span>
-          <!-- 实际清点数 > 账面库存 -->
-          <span v-else-if="props.row.accountNum < props.row.countNum">盘盈</span>
-          <!-- 实际清点数 < 账面库存 -->
-          <span v-else-if="props.row.accountNum > props.row.countNum">盘亏</span>
+          <span v-if="props.row.checkType == 0">盘盈</span>
+          <span v-else-if="props.row.checkType == 1">盘亏</span>
+          <span v-else>-</span>
+        </template>
+        <template v-slot:column-happenTime="props">
+          <span v-if="props.row.happenTime">{{ props.row.happenTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+        </template>
+        <template v-slot:column-checkTime="props">
+          <span v-if="props.row.checkTime">{{ props.row.checkTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-much="props">
-          <span v-if="!props.row.countNum || props.row.accountNum == props.row.countNum"></span>
-          <!-- 实际清点数 > 账面库存 -->
-          <span v-else-if="props.row.accountNum < props.row.countNum">+{{
-            props.row.countNum - props.row.accountNum
-          }}</span>
-          <!-- 实际清点数 < 账面库存 -->
-          <span v-else-if="props.row.accountNum > props.row.countNum">-{{
-            props.row.accountNum - props.row.countNum
+          <span v-if="props.row.checkType == 0">+{{ props.row.checkNum }}</span>
+          <span v-else-if="props.row.checkType == 1">-{{ props.row.checkNum }}</span>
+          <span v-else>-</span>
+        </template>
+        <template v-slot:column-status="props">
+          <span>{{
+            props.row.checkStatus == '0' ? '未审批'
+              : (props.row.checkStatus == '1' ? '同意'
+                : (props.row.checkStatus == '2' ? '驳回' : "-"))
           }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="props.row.countCheckKey == '' && props.row.countNum != props.row.accountNum"
-            @click="editRow1(props.row)" type="text" icon="el-icon-mouse">提交审核</el-button>
-          <el-button @click="editRow(props.row)" type="text" icon="el-icon-notebook-2">设置盘点数</el-button>
+          <el-button @click="editRow(props.row)" type="text" icon="el-icon-s-check">审批</el-button>
           <!-- <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button> -->
         </template>
       </TableList>
     </div>
-    <inventoryIntegrateEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
-      @success="success()" :shopGoodsList="tableData" />
-    <countCheckEdit v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false"
-      @success="success()" />
+    <countCheckEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
   </div>
 </template>
 
 <script>
-import { shopkeeperWarehouseListPage, shopkeeperWarehouseDelete, shopkeeperWarehouseDeleteList } from "@/api/warehouse";
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import inventoryIntegrateEdit from "./inventoryIntegrateEdit";
 import countCheckEdit from "./countCheckEdit";
+import { countCheckListPage } from '@/api/dataIntegrate'
+import { UserList } from '@/api/api'
 import { shoplist, goodslist } from '@/api/data'
-import { countCheckList } from '@/api/dataIntegrate'
 
 export default {
   name: "slist",
@@ -57,11 +55,9 @@ export default {
       pageNo: 1,
       total: null,
       drawer: false,
-      drawer1: false,
       multiCheck: false,
       hidden: true,
       rowData: {},
-      rowData1: {},
       tableData: [],
       multipleSelection: [],
       loadings: {
@@ -71,32 +67,45 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
+      checkTypeOptions: [
+        { label: "盘盈", value: 0 },
+        { label: "盘亏", value: 1 }
+      ],
+      checkPeopleOptions: [
+
+      ],
+      checkStatusOptions: [
+        { label: "未审批", value: 0 },
+        { label: "同意", value: 1 },
+        { label: "驳回", value: 2 }
+      ],
       shopOptions: [],
-      list: [],
       goodsOptions: []
     };
   },
   computed: {
     tableColumn() {
       return [
+        // { prop: "countCheckKey", label: "主键" },
+        // { prop: "shopkeeperWarehouseKey", label: "关联库存" },
         { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称" },
+        // { prop: "shopName", label: "门店名称" },
         { prop: "goodsCode", label: "商品编码" },
-        { prop: "goodsName", label: "商品名称" },
-        { prop: "modelCode", label: "型号" },
-        { prop: "inventoryCode", label: "仓库编码" },
-        { prop: "positionCode", label: "货位编码" },
-        { prop: "accountNum", label: "账面库存" },
-        { prop: "countNum", label: "清点数" },
-        { slots: { name: "column-how" }, label: "盘点情况" },
-        { slots: { name: "column-much" }, label: "盈亏数量" },
-        { prop: "description", label: "备注" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "250px" },
+        // { prop: "goodsName", label: "商品名称" },
+        // { prop: "inventoryCode", label: "仓库编码" },
+        // { prop: "positionCode", label: "货位编码" },
+        { slots: { name: "column-how" }, label: "审批类型" },
+        { slots: { name: "column-much" }, label: "审批数量" },
+        { slots: { name: "column-happenTime" }, label: "申请时间" },
+        { slots: { name: "column-status" }, label: "审批状态" },
+        { prop: "description", label: "审批意见" },
+        { slots: { name: "column-checkTime" }, label: "审批时间" },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "120px" },
       ];
     },
     searchConfig() {
       return [
-        {
+      {
           label: '请选择',
           placeholder: '请选择门店',
           field: 'shopCode',
@@ -112,6 +121,30 @@ export default {
           type: "select",
           options: this.goodsOptions
         },
+        {
+          label: '请选择',
+          placeholder: '请选择审批类型',
+          field: 'checkType',
+          value: '',
+          type: "select",
+          options: this.checkTypeOptions
+        },
+        {
+          label: '请选择',
+          placeholder: '请选择审批状态',
+          field: 'checkStatus',
+          value: '',
+          type: "select",
+          options: this.checkStatusOptions
+        },
+        {
+          label: '请选择',
+          placeholder: '请选择审批人',
+          field: 'checkPeople',
+          value: '',
+          type: "select",
+          options: this.checkPeopleOptions
+        },
       ];
     }
   },
@@ -119,25 +152,15 @@ export default {
   },
   components: {
     TableList,
-    inventoryIntegrateEdit,
     countCheckEdit,
     reloadAndsearch
   },
   created() {
-    this.getcountCheckList()
+    this.getUserList()
     this.getshoplist()
     this.getgoodslist()
   },
   methods: {
-    getcountCheckList() {
-      countCheckList().then(res => {
-        if (res.data.code == 200) {
-          this.list = res.data.data
-        } else {
-          this.$message.error("获取失败!");
-        }
-      });
-    },
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
@@ -162,6 +185,17 @@ export default {
         }
       });
     },
+    getUserList() {
+      UserList({ userType: 1 }).then(res => {
+        // this.checkPeopleOptions = res.data.data
+        this.checkPeopleOptions = []
+        res.data.data.forEach(item => {
+          this.checkPeopleOptions.push({ label: item.userName, value: item.userCode })
+        })
+      }).catch(err => {
+        console.log(err)
+      });
+    },
     getTableData(pageNo = 1, pageSize) {
       this.query.pageNo = pageNo;
       if (pageSize) {
@@ -173,28 +207,16 @@ export default {
         // ...this.query,
         page: this.query.pageNo,
         size: this.query.pageSize,
+        checkStatus: "",
+        checkType: "",
+        checkPeople: "",
         shopCode: "",
         goodsCode: "",
       };
-      shopkeeperWarehouseListPage(params).then((res) => {
+      countCheckListPage(params).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
-          if (this.list.length == 0) {
-            this.tableData.forEach(item => {
-              item.countCheckKey = ""
-            })
-          } else {
-            this.tableData.forEach(item => {
-              this.list.forEach(temp => {
-                if (item.shopkeeperWarehouseKey == temp.shopkeeperWarehouseKey) {
-                  item.countCheckKey = temp.countCheckKey
-                } else {
-                  item.countCheckKey = ""
-                }
-              })
-            })
-          }
           // console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -210,29 +232,18 @@ export default {
         this.query.pageSize = pageSize;
       }
       const searchData = this.$refs.search.search
-      shopkeeperWarehouseListPage({
-        ...searchData,
+      countCheckListPage({
+        checkStatus: searchData.checkStatus,
+        checkType: searchData.checkType,
+        checkPeople: searchData.checkPeople,
+        shopCode: searchData.shopCode,
+        goodsCode: searchData.goodsCode,
         page: this.query.pageNo,
         size: this.query.pageSize,
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
-          if (this.list.length == 0) {
-            this.tableData.forEach(item => {
-              item.countCheckKey = ""
-            })
-          } else {
-            this.tableData.forEach(item => {
-              this.list.forEach(temp => {
-                if (item.shopkeeperWarehouseKey == temp.shopkeeperWarehouseKey) {
-                  item.countCheckKey = temp.countCheckKey
-                } else {
-                  item.countCheckKey = ""
-                }
-              })
-            })
-          }
           // console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -245,23 +256,6 @@ export default {
     editRow(row) {
       this.rowData = row;
       this.drawer = true;
-    },
-    editRow1(row) {
-      //盘盈
-      if (row.countNum > row.accountNum) {
-        this.rowData1 = {
-          shopkeeperWarehouseKey: row.shopkeeperWarehouseKey,
-          checkNum: row.countNum - row.accountNum,
-          checkType: 0,
-        }
-      } else if (row.countNum < row.accountNum) {//盘亏
-        this.rowData1 = {
-          shopkeeperWarehouseKey: row.shopkeeperWarehouseKey,
-          checkNum: row.accountNum - row.countNum,
-          checkType: 1,
-        }
-      }
-      this.drawer1 = true;
     },
     deleteRow(row) {
       console.log("deleteRow", row)
@@ -277,10 +271,7 @@ export default {
     },
     success() {
       this.drawer = false;
-      this.rowData = {};
-      this.drawer1 = false;
-      this.rowData1 = {};
-      this.getcountCheckList()
+      this.rowData = {}
       this.getTableData();
       this.$forceUpdate()
     },

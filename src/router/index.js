@@ -82,7 +82,24 @@ const routes = [{
           {
             path: '/dataIntegrate/inventoryIntegrate',
             name: 'inventoryIntegrate',
-            component: () => import('@/components/dataIntegrate/inventoryIntegrate/inventoryIntegrateList.vue')
+            redirect: {
+              name: "countManagement"
+            },
+            component: () => import('@/views/dataIntegrate/inventoryIntegrate/Index.vue'),
+            children: [
+              //资料-数据集成-库存盘点-盘点
+              {
+                path: '/inventoryIntegrate/countManagement',
+                name: 'countManagement',
+                component: () => import('@/components/dataIntegrate/inventoryIntegrate/countManagement/countManagementList.vue')
+              },
+              //资料-数据集成-库存盘点-审批
+              {
+                path: '/inventoryIntegrate/countCheck',
+                name: 'countCheck',
+                component: () => import('@/components/dataIntegrate/inventoryIntegrate/countCheck/countCheckList.vue')
+              },
+            ]
           },
         ],
       },

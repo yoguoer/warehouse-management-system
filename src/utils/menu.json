@@ -23,7 +23,21 @@
                         "name": "库存盘点",
                         "icon": "",
                         "level": 2,
-                        "componentName": "inventoryIntegrate"
+                        "componentName": "inventoryIntegrate",
+                        "children": [
+                            {
+                                "name": "盘点",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "countManagement"
+                            },
+                            {
+                                "name": "审批",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "countCheck"
+                            }
+                        ]
                     }
                 ]
             },
