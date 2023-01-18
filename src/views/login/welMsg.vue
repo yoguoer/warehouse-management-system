@@ -46,7 +46,7 @@
                         <el-button style="margin:20px 50px;"  @click="goMore(0)">查看全部</el-button>
                     </div>
                     <el-table :data="tableData2" height="300" :cell-style="{ padding: '5px' }" border
-                        style="width: 100%;" tooltip-effect="dark">
+                        style="width: 100%" tooltip-effect="dark">
                         <el-table-column prop="shopSupplierCode" label="预警对象" width="180" :show-overflow-tooltip="true">
                         </el-table-column>
                         <el-table-column prop="goodsCode" label="预警商品" width="180" :show-overflow-tooltip="true">
@@ -128,6 +128,7 @@ export default {
             }
             alertInfolistPage(params).then(res => {
                 if (res.data.code == 200) {
+                    //预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
                     res.data.data.records.forEach(item => {
                         if (item.type == 0) {
                             this.tableData2.push(item)

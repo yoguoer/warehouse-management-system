@@ -22,25 +22,24 @@
         @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="shopSupplierCode" label="预警对象" width="180" :show-overflow-tooltip="true">
+        <el-table-column prop="shopSupplierCode" label="预警对象" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="goodsCode" label="预警商品" width="180" :show-overflow-tooltip="true">
+        <el-table-column prop="goodsCode" label="预警商品" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="status" label="状态" :show-overflow-tooltip="true">
-          <template slot-scope="scope">
-            <span style="color:#2d8bf0">{{ scope.row.status == 1 ? '已处理' : '未处理' }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="status" label="类型" :show-overflow-tooltip="true">
+        <el-table-column prop="type" label="类型" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span>{{ scope.row.type == 0 ? '连续未动销预警' : (scope.row.type == 1 ? '满仓预警' : '缺货预警') }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="alertTime" label="预警时间" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column fixed="right" width="250px" label="操作">
+        <el-table-column prop="status" label="状态" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-            <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">去处理</el-button>
+            <span style="color:#2d8bf0">{{ scope.row.status == 1 ? '已处理' : '未处理' }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column fixed="right" label="操作">
+          <template slot-scope="scope">
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
             <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
               icon="el-icon-delete">删除</el-button>
@@ -94,7 +93,7 @@ export default {
       alertInfolistPage(params).then(res => {
         if (res.data.code == 200) {
           this.alertList = res.data.data.records
-          this.total=res.data.data.total
+          this.total = res.data.data.total
         } else {
           this.$message.error("获取失败!");
         }
@@ -149,7 +148,7 @@ export default {
       alertInfolistPage(params).then(res => {
         if (res.data.code == 200) {
           this.alertList = res.data.data.records
-          this.total=res.data.data.total
+          this.total = res.data.data.total
         } else {
           this.$message.error("获取失败!");
         }
