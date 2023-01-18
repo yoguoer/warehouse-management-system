@@ -69,6 +69,7 @@ public class AlertInfoController {
                     this.edit(temp3);
                 }
             }
+
             //现存<=最低，缺货预警
             if(item.getAccountNum()<=item.getMinNum()){
                 AlertInfo AIF = new AlertInfo();
@@ -83,9 +84,21 @@ public class AlertInfoController {
                 if(null==this.alertInfoService.queryByMany(AIF)){
                     this.add(AIF);
                 }
+            }else{
+                AlertInfo AIF1 = new AlertInfo();
+                AIF1.setGoodsCode(item.getGoodsCode());
+                AIF1.setShopSupplierCode(item.getShopCode());
+                AIF1.setStatus(0);//状态（0：未处理，1：已处理）
+                AIF1.setType(2);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
+                AlertInfo temp1=this.alertInfoService.queryByMany(AIF1);
+                if(null!=temp1){
+                    temp1.setStatus(1);
+                    this.edit(temp1);
+                }
             }
+
             //现存>最高，满仓预警
-            else if(item.getAccountNum()>item.getMaxNum()){
+            if(item.getAccountNum()>item.getMaxNum()){
                 AlertInfo AIF = new AlertInfo();
                 Random random = new Random();
                 Integer number = random.nextInt(9000) + 1000;
@@ -98,25 +111,12 @@ public class AlertInfoController {
                 if(null==this.alertInfoService.queryByMany(AIF)){
                     this.add(AIF);
                 }
-            }
-            //库存正常的
-            else{
-                AlertInfo AIF1 = new AlertInfo();
-                AIF1.setGoodsCode(item.getGoodsCode());
-                AIF1.setShopSupplierCode(item.getShopCode());
-                AIF1.setStatus(0);//状态（0：未处理，1：已处理）
-                AIF1.setType(1);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
-                AlertInfo temp1=this.alertInfoService.queryByMany(AIF1);
-                if(null!=temp1){
-                    temp1.setStatus(1);
-                    this.edit(temp1);
-                }
-
+            }else{
                 AlertInfo AIF2 = new AlertInfo();
                 AIF2.setGoodsCode(item.getGoodsCode());
                 AIF2.setShopSupplierCode(item.getShopCode());
                 AIF2.setStatus(0);//状态（0：未处理，1：已处理）
-                AIF2.setType(2);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
+                AIF2.setType(1);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
                 AlertInfo temp2=this.alertInfoService.queryByMany(AIF2);
                 if(null!=temp2){
                     temp2.setStatus(1);
