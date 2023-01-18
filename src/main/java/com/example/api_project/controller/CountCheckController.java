@@ -76,7 +76,7 @@ public class CountCheckController {
      * @param countCheck 实体
      * @return 编辑结果
      */
-    @PutMapping("/update")
+    @PostMapping("/update")
     public Result edit(@RequestBody CountCheck countCheck) {
         return ResponseData.success(this.countCheckService.update(countCheck));
     }
@@ -87,7 +87,7 @@ public class CountCheckController {
      * @param countCheck
      * @return 删除是否成功
      */
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public Result deleteById(@RequestBody CountCheck countCheck) {
         return ResponseData.success(this.countCheckService.deleteById(countCheck));
     }

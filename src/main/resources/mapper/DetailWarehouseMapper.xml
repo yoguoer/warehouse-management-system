@@ -14,7 +14,6 @@
         <result property="shopkeeperWarehouseKey" column="shopkeeper_warehouse_key" jdbcType="VARCHAR"/>
         <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
         <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
-        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->

@@ -12,6 +12,8 @@
         <result property="checkNum" column="check_num" jdbcType="INTEGER"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="checkPeople" column="check_people" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -32,35 +34,23 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CountCheckMap">
         select
-          count_check_key, happen_time, shopkeeper_warehouse_key, check_status, check_time, check_type, check_num, description, check_people
-        from count_check
+          count_check_key, happen_time,check_status, check_time, check_type, check_num, count_check.description, check_people,count_check.shopkeeper_warehouse_key,shop_code,goods_code
+        from count_check  join shopkeeper_warehouse on count_check.shopkeeper_warehouse_key = shopkeeper_warehouse.shopkeeper_warehouse_key
         <where>
-            <if test="countCheckKey != null and countCheckKey != ''">
-                and count_check_key = #{countCheckKey}
-            </if>
-            <if test="happenTime != null and happenTime != ''">
-                and happen_time = #{happenTime}
-            </if>
-            <if test="shopkeeperWarehouseKey != null and shopkeeperWarehouseKey != ''">
-                and shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
-            </if>
             <if test="checkStatus != null">
                 and check_status = #{checkStatus}
-            </if>
-            <if test="checkTime != null and checkTime != ''">
-                and check_time = #{checkTime}
             </if>
             <if test="checkType != null">
                 and check_type = #{checkType}
             </if>
-            <if test="checkNum != null">
-                and check_num = #{checkNum}
-            </if>
-            <if test="description != null and description != ''">
-                and description = #{description}
-            </if>
             <if test="checkPeople != null and checkPeople != ''">
                 and check_people = #{checkPeople}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and shopkeeper_warehouse.goods_code = #{goodsCode}
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                and shopkeeper_warehouse.shop_code = #{shopCode}
             </if>
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -69,34 +59,22 @@
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
         select count(1)
-        from count_check
+        from count_check  join shopkeeper_warehouse on count_check.shopkeeper_warehouse_key = shopkeeper_warehouse.shopkeeper_warehouse_key
         <where>
-            <if test="countCheckKey != null and countCheckKey != ''">
-                and count_check_key = #{countCheckKey}
-            </if>
-            <if test="happenTime != null and happenTime != ''">
-                and happen_time = #{happenTime}
-            </if>
-            <if test="shopkeeperWarehouseKey != null and shopkeeperWarehouseKey != ''">
-                and shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
-            </if>
             <if test="checkStatus != null">
                 and check_status = #{checkStatus}
-            </if>
-            <if test="checkTime != null and checkTime != ''">
-                and check_time = #{checkTime}
             </if>
             <if test="checkType != null">
                 and check_type = #{checkType}
             </if>
-            <if test="checkNum != null">
-                and check_num = #{checkNum}
-            </if>
-            <if test="description != null and description != ''">
-                and description = #{description}
-            </if>
             <if test="checkPeople != null and checkPeople != ''">
                 and check_people = #{checkPeople}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and shopkeeper_warehouse.goods_code = #{goodsCode}
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                and shopkeeper_warehouse.shop_code = #{shopCode}
             </if>
         </where>
     </select>
@@ -165,7 +143,7 @@
                 check_people = #{checkPeople},
             </if>
         </set>
-        where  = #{}
+        where  count_check_key= #{countCheckKey}
     </update>
 
     <!--通过主键删除-->

@@ -46,7 +46,12 @@ public class CountCheckServiceImpl implements CountCheckService {
     @Override
     public Map<String, Object> queryByPage(CountCheck countCheck, Integer startRows, Integer pageSize) {
         long total = this.countCheckMapper.count(countCheck);
-        List<CountCheck> records = countCheckMapper.queryAllByLimit(countCheck,startRows, pageSize);
+        Integer checkStatus=countCheck.getCheckStatus();
+        Integer checkType=countCheck.getCheckType();
+        String checkPeople=countCheck.getCheckPeople();
+        String shopCode=countCheck.getShopCode();
+        String goodsCode=countCheck.getGoodsCode();
+        List<CountCheck> records = countCheckMapper.queryAllByLimit(shopCode,goodsCode,checkStatus,checkType,checkPeople,startRows, pageSize);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

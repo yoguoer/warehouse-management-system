@@ -28,10 +28,9 @@ public interface CountCheckMapper {
     /**
      * 查询指定行数据
      *
-     * @param countCheck 查询条件
      * @return 对象列表
      */
-    List<CountCheck> queryAllByLimit(CountCheck countCheck, Integer startRows, Integer pageSize);
+    List<CountCheck> queryAllByLimit(String shopCode,String goodsCode,Integer checkStatus,Integer checkType,String checkPeople, Integer startRows, Integer pageSize);
 
     /**
      * 统计总行数
