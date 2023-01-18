@@ -18,6 +18,19 @@ import java.util.Map;
 public class AlertInfoServiceImpl implements AlertInfoService {
     @Resource
     private AlertInfoMapper alertInfoMapper;
+    /**
+     * 通过预警对象、商品、类型、状态来判断是否存在过
+     *
+     * @return 单条数据
+     */
+    @Override
+    public boolean queryByMany(AlertInfo alertInfo){
+        String shopSupplierCode=alertInfo.getShopSupplierCode();
+        String goodsCode=alertInfo.getGoodsCode();
+        Integer status=alertInfo.getStatus();
+        Integer type=alertInfo.getType();
+        return this.alertInfoMapper.queryByMany(shopSupplierCode,goodsCode,status,type)==null;
+    }
 
     /**
      * 通过ID查询单条数据

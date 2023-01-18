@@ -9,6 +9,12 @@ import java.util.List;
  *
  */
 public interface AlertInfoMapper {
+    /**
+     * 通过预警对象、商品、类型、状态来判断是否存在过
+     *
+     * @return 单条数据
+     */
+    AlertInfo queryByMany(String shopSupplierCode,String goodsCode,Integer status,Integer type);
 
     /**
      * 通过ID查询单条数据

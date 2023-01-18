@@ -10,6 +10,13 @@ import java.util.Map;
  *
  */
 public interface AlertInfoService {
+    /**
+     * 通过预警对象、商品、类型、状态来判断是否存在过
+     *
+     * @param alertInfo
+     * @return 单条数据
+     */
+    boolean queryByMany(AlertInfo alertInfo);
 
     /**
      * 通过ID查询单条数据

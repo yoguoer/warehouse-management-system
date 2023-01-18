@@ -3,10 +3,15 @@ package com.example.api_project.controller;
 import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
 import com.example.api_project.pojo.AlertInfo;
+import com.example.api_project.pojo.ShopkeeperWarehouse;
 import com.example.api_project.service.AlertInfoService;
+import com.example.api_project.service.ShopkeeperWarehouseService;
+import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -23,6 +28,9 @@ public class AlertInfoController {
     @Autowired
     private AlertInfoService alertInfoService;
 
+    @Autowired
+    private ShopkeeperWarehouseService shopkeeperWarehouseService;
+
     /**
      * 分页查询
      *
@@ -30,11 +38,72 @@ public class AlertInfoController {
      * @return 查询结果
      */
     @GetMapping("/list-page")
-    public Result queryByPage(AlertInfo alertInfo, Integer page,Integer size) {
+    public Result queryByPage(AlertInfo alertInfo, Integer page,Integer size)throws Exception {
+        List<ShopkeeperWarehouse> swList= this.shopkeeperWarehouseService.querylist();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
+        for(ShopkeeperWarehouse item : swList){
+            // 当前时间-最后操作时间>7天 连续未动销预警
+            if(Math.ceil(Math.abs(df.parse(date).getTime() - df.parse(item.getOperateTime()).getTime()) / (1000 * 60 * 60 * 24))>=7){
+                AlertInfo AIF = new AlertInfo();
+                Random random = new Random();
+                Integer number = random.nextInt(9000) + 1000;
+                AIF.setAlertInfoKey(System.currentTimeMillis() + String.valueOf(number));
+                AIF.setAlertTime(date);
+                AIF.setGoodsCode(item.getGoodsCode());
+                AIF.setShopSupplierCode(item.getShopCode());
+                AIF.setStatus(0);//状态（0：未处理，1：已处理）
+                AIF.setType(0);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
+                if(this.alertInfoService.queryByMany(AIF)){
+                    this.add(AIF);
+                }
+            }
+            //现存<=最低，缺货预警
+            if(item.getAccountNum()<=item.getMinNum()){
+                AlertInfo AIF = new AlertInfo();
+                Random random = new Random();
+                Integer number = random.nextInt(9000) + 1000;
+                AIF.setAlertInfoKey(System.currentTimeMillis() + String.valueOf(number));
+                AIF.setAlertTime(date);
+                AIF.setGoodsCode(item.getGoodsCode());
+                AIF.setShopSupplierCode(item.getShopCode());
+                AIF.setStatus(0);//状态（0：未处理，1：已处理）
+                AIF.setType(2);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
+                if(this.alertInfoService.queryByMany(AIF)){
+                    this.add(AIF);
+                }
+            }
+            //现存>最高，满仓预警
+            else if(item.getAccountNum()>item.getMaxNum()){
+                AlertInfo AIF = new AlertInfo();
+                Random random = new Random();
+                Integer number = random.nextInt(9000) + 1000;
+                AIF.setAlertInfoKey(System.currentTimeMillis() + String.valueOf(number));
+                AIF.setAlertTime(date);
+                AIF.setGoodsCode(item.getGoodsCode());
+                AIF.setShopSupplierCode(item.getShopCode());
+                AIF.setStatus(0);//状态（0：未处理，1：已处理）
+                AIF.setType(1);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
+                if(this.alertInfoService.queryByMany(AIF)){
+                    this.add(AIF);
+                }
+            }
+        }
         int pageNow = page == null ? 1 : page;
         int pageSize = size== null ? 5 : size;
         int startRows = pageSize * (pageNow - 1);
         return ResponseData.success(this.alertInfoService.queryByPage(alertInfo, startRows,pageSize));
+    }
+
+    /**
+     * 通过预警对象、商品、类型、状态来判断是否存在过
+     *
+     * @param alertInfo
+     * @return 单条数据
+     */
+    @GetMapping("/getByMany")
+    public Result queryByMany(AlertInfo alertInfo) {
+        return ResponseData.success(this.alertInfoService.queryByMany(alertInfo));
     }
 
     /**
