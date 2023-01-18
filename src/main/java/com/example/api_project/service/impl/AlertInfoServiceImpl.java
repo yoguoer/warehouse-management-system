@@ -24,12 +24,11 @@ public class AlertInfoServiceImpl implements AlertInfoService {
      * @return 单条数据
      */
     @Override
-    public boolean queryByMany(AlertInfo alertInfo){
+    public AlertInfo queryByMany(AlertInfo alertInfo){
         String shopSupplierCode=alertInfo.getShopSupplierCode();
         String goodsCode=alertInfo.getGoodsCode();
-        Integer status=alertInfo.getStatus();
         Integer type=alertInfo.getType();
-        return this.alertInfoMapper.queryByMany(shopSupplierCode,goodsCode,status,type)==null;
+        return this.alertInfoMapper.queryByMany(shopSupplierCode,goodsCode,type);
     }
 
     /**

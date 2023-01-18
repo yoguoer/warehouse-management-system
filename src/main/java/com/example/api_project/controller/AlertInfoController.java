@@ -54,8 +54,19 @@ public class AlertInfoController {
                 AIF.setShopSupplierCode(item.getShopCode());
                 AIF.setStatus(0);//状态（0：未处理，1：已处理）
                 AIF.setType(0);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
-                if(this.alertInfoService.queryByMany(AIF)){
+                if(null==this.alertInfoService.queryByMany(AIF)){
                     this.add(AIF);
+                }
+            }else{
+                AlertInfo AIF3 = new AlertInfo();
+                AIF3.setGoodsCode(item.getGoodsCode());
+                AIF3.setShopSupplierCode(item.getShopCode());
+                AIF3.setStatus(0);//状态（0：未处理，1：已处理）
+                AIF3.setType(0);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
+                AlertInfo temp3=this.alertInfoService.queryByMany(AIF3);
+                if(null!=temp3){
+                    temp3.setStatus(1);
+                    this.edit(temp3);
                 }
             }
             //现存<=最低，缺货预警
@@ -69,7 +80,7 @@ public class AlertInfoController {
                 AIF.setShopSupplierCode(item.getShopCode());
                 AIF.setStatus(0);//状态（0：未处理，1：已处理）
                 AIF.setType(2);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
-                if(this.alertInfoService.queryByMany(AIF)){
+                if(null==this.alertInfoService.queryByMany(AIF)){
                     this.add(AIF);
                 }
             }
@@ -84,8 +95,32 @@ public class AlertInfoController {
                 AIF.setShopSupplierCode(item.getShopCode());
                 AIF.setStatus(0);//状态（0：未处理，1：已处理）
                 AIF.setType(1);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
-                if(this.alertInfoService.queryByMany(AIF)){
+                if(null==this.alertInfoService.queryByMany(AIF)){
                     this.add(AIF);
+                }
+            }
+            //库存正常的
+            else{
+                AlertInfo AIF1 = new AlertInfo();
+                AIF1.setGoodsCode(item.getGoodsCode());
+                AIF1.setShopSupplierCode(item.getShopCode());
+                AIF1.setStatus(0);//状态（0：未处理，1：已处理）
+                AIF1.setType(1);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
+                AlertInfo temp1=this.alertInfoService.queryByMany(AIF1);
+                if(null!=temp1){
+                    temp1.setStatus(1);
+                    this.edit(temp1);
+                }
+
+                AlertInfo AIF2 = new AlertInfo();
+                AIF2.setGoodsCode(item.getGoodsCode());
+                AIF2.setShopSupplierCode(item.getShopCode());
+                AIF2.setStatus(0);//状态（0：未处理，1：已处理）
+                AIF2.setType(2);//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）
+                AlertInfo temp2=this.alertInfoService.queryByMany(AIF2);
+                if(null!=temp2){
+                    temp2.setStatus(1);
+                    this.edit(temp2);
                 }
             }
         }

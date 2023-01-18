@@ -16,7 +16,7 @@ public interface AlertInfoService {
      * @param alertInfo
      * @return 单条数据
      */
-    boolean queryByMany(AlertInfo alertInfo);
+    AlertInfo queryByMany(AlertInfo alertInfo);
 
     /**
      * 通过ID查询单条数据

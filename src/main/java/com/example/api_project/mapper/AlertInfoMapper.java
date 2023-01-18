@@ -14,7 +14,7 @@ public interface AlertInfoMapper {
      *
      * @return 单条数据
      */
-    AlertInfo queryByMany(String shopSupplierCode,String goodsCode,Integer status,Integer type);
+    AlertInfo queryByMany(String shopSupplierCode,String goodsCode,Integer type);
 
     /**
      * 通过ID查询单条数据

@@ -23,12 +23,10 @@
             <if test="goodsCode != null and goodsCode != ''">
                 and goods_code = #{goodsCode}
             </if>
-            <if test="status != null">
-                and status = #{status}
-            </if>
             <if test="type != null">
                 and type = #{type}
             </if>
+            and status = 0
         </where>
     </select>
 
@@ -59,6 +57,7 @@
                 and type = #{type}
             </if>
         </where>
+        order by status
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
