@@ -100,7 +100,7 @@ public class InputWarehouseController {
             shopkeeperWarehouse.setAvailableNum(shopkeeperWarehouse.getAccountNum()+onWayNum-shopkeeperWarehouse.getOccupyNum());//设置可用数
             this.shopkeeperWarehouseService.update(shopkeeperWarehouse);
         }
-        return ResponseData.success(this.queryById(inputWarehouse.getInputWarehouseKey()));
+        return ResponseData.success(result);
     }
 
     /**

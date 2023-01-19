@@ -25,7 +25,7 @@ public class DetailWarehouse implements Serializable {
      */
     private Integer quantity;
     /**
-     * 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+     * 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库、8盘盈入库、9盘亏出库)
      */
     private Integer transType;
     /**

@@ -71,20 +71,30 @@ public class DetailWarehouseController {
         Random random = new Random();
         Integer number = random.nextInt(9000) + 1000;
         detailWarehouse.setDetailWarehouseKey(System.currentTimeMillis() + String.valueOf(number));
-        String shopCode=detailWarehouse.getShopCode();
-        String goodsCode=detailWarehouse.getGoodsCode();
-        ShopkeeperWarehouse shopkeeperWarehouse=shopkeeperWarehouseService.queryForKey(shopCode,goodsCode);
-        detailWarehouse.setShopkeeperWarehouseKey(shopkeeperWarehouse.getShopkeeperWarehouseKey());
-        detailWarehouse.setStartNum(shopkeeperWarehouse.getAccountNum());
-        //交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+        ShopkeeperWarehouse shopkeeperWarehouse;
+        //不存在ShopkeeperWarehouseKey，需要初始化设置一下
+        if(null==detailWarehouse.getShopkeeperWarehouseKey()){
+            String shopCode=detailWarehouse.getShopCode();
+            String goodsCode=detailWarehouse.getGoodsCode();
+            shopkeeperWarehouse=shopkeeperWarehouseService.queryForKey(shopCode,goodsCode);
+            detailWarehouse.setShopkeeperWarehouseKey(shopkeeperWarehouse.getShopkeeperWarehouseKey());
+            detailWarehouse.setStartNum(shopkeeperWarehouse.getAccountNum());
+        }else {//已经存在，直接通过ShopkeeperWarehouseKey来查
+            shopkeeperWarehouse = shopkeeperWarehouseService.queryById(detailWarehouse.getShopkeeperWarehouseKey());
+            detailWarehouse.setStartNum(shopkeeperWarehouse.getAccountNum());
+        }
+
+        //交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库、8盘盈入库、9盘亏出库)
         Integer transType=detailWarehouse.getTransType();
-        if(transType==0||transType==3||transType==5||transType==6){//采购入库
+        if(transType==0||transType==3||transType==5||transType==6||transType==8){//采购入库
             detailWarehouse.setFinalNum(shopkeeperWarehouse.getAccountNum()+detailWarehouse.getQuantity());
-        }else{//销售出库
+        }else if(transType==1||transType==2||transType==4||transType==7||transType==9){//销售出库
             detailWarehouse.setFinalNum(shopkeeperWarehouse.getAccountNum()-detailWarehouse.getQuantity());
         }
+
         Integer status=detailWarehouse.getStatus();
         DetailWarehouse result=this.detailWarehouseService.insert(detailWarehouse);
+
         //'0' ? '在单'， '1' ? '生产'，'2' ? '在途'，'3' ? '入库'， '4' ? '占用'，'5' ? '出库'
         //(0采购入库6调货入库)
         if(null!=status && status==2 && (transType==0||transType==6)){//原始状态为在途，确认收货入库（采购、调货）
@@ -112,10 +122,12 @@ public class DetailWarehouseController {
             shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-shopkeeperWarehouse.getOccupyNum());
         }
         //(2零售出库、7调货出库)
-        else if(transType==2||transType==7) {//零售、调货出库比较特殊，直接加减就行了
+        else if(transType==2||transType==7||transType==8||transType==9) {//零售、调货出库、盘盈盘亏比较特殊，直接加减就行了
+            shopkeeperWarehouse.setOperateTime(result.getAtTime());
             shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
             shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-shopkeeperWarehouse.getOccupyNum());
         }
+
         this.shopkeeperWarehouseService.update(shopkeeperWarehouse);
         return ResponseData.success(this.queryById(result.getDetailWarehouseKey()));
     }
