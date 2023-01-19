@@ -1,5 +1,5 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '处理调货入库申请'" :visible.sync="drawer" :direction="direction"
+  <el-dialog size="30%" :title="ifCreate ? '审批调货单' : '处理调货申请'" :visible.sync="drawer" :direction="direction"
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
       <el-row>
@@ -472,39 +472,44 @@ export default {
                   }
                   transferCheckUpdate(data).then(res => {
                     if (res.data.code == 200) {
-                      this.$message.success("编辑成功!");
-                      this.$parent.success()
-                      this.$forceUpdate()
+                      let postData = {
+                        goodsCode:this.ruleForm.goodsCode,
+                        shopCode:this.ruleForm.shopCode,
+                        inputActual: this.ruleForm.outputActual,
+                        vehicleCode: this.ruleForm.vehicleCode,
+                        status: 2,
+                        inputWarehouseKey: this.ruleForm.inputWarehouseKey
+                      }
+                      inputWarehouseUpdate(postData).then(res => {
+                        console.log(res.data.data)
+                      })
+                      let detailData = {
+                        inputOutputKey: this.ruleForm.shopCode,
+                        shopkeeperWarehouseKey: "",
+                        type: 1,
+                        // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+                        transType: 7,
+                        quantity: this.ruleForm.checkNum,
+                        startNum: "",
+                        finalNum: "",
+                        atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                        status: this.rowData.status,
+                        detailWarehouseKey: "",
+                        shopCode: this.ruleForm.shopCode,
+                        goodsCode: this.ruleForm.goodsCode,
+                      }
+                      detailWarehouseAdd(detailData).then(res => {
+                        if (res.data.code == 200) {
+                          this.$message.success("编辑成功!");
+                          this.$parent.success()
+                          this.$forceUpdate()
+                        } else {
+                          this.$message.error("编辑失败!");
+                        }
+                      })
                     } else {
                       this.$message.error("编辑失败!");
                     }
-                  })
-                  let postData = {
-                    inputActual: this.ruleForm.outputActual,
-                    vehicleCode: this.ruleForm.vehicleCode,
-                    status: 2,
-                    inputWarehouseKey: this.ruleForm.inputWarehouseKey
-                  }
-                  inputWarehouseUpdate(postData).then(res => {
-                    console.log(res.data.data)
-                  })
-                  let detailData = {
-                    inputOutputKey: this.ruleForm.shopCode,
-                    shopkeeperWarehouseKey: "",
-                    type: 1,
-                    // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
-                    transType: 7,
-                    quantity: this.ruleForm.checkNum,
-                    startNum: "",
-                    finalNum: "",
-                    atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-                    status:this.rowData.status,
-                    detailWarehouseKey: "",
-                    shopCode: this.ruleForm.shopCode,
-                    goodsCode: this.ruleForm.goodsCode,
-                  }
-                  detailWarehouseAdd(detailData).then(res => {
-                    console.log(res.data.data)
                   })
                 } else {
                   this.$message.error("编辑失败!");
@@ -594,39 +599,43 @@ export default {
                   }
                   transferCheckUpdate(data).then(res => {
                     if (res.data.code == 200) {
-                      this.$message.success("编辑成功!");
-                      this.$parent.success()
-                      this.$forceUpdate()
+                      let postData = {
+                        inputActual: this.ruleForm.outputActual,
+                        vehicleCode: this.ruleForm.vehicleCode,
+                        status: 2,
+                        inputWarehouseKey: this.ruleForm.inputWarehouseKey
+                      }
+                      inputWarehouseUpdate(postData).then(res => {
+                        console.log(res.data.data)
+                      });
+                      let detailData = {
+                        inputOutputKey: this.ruleForm.shopCode,
+                        shopkeeperWarehouseKey: "",
+                        type: 1,
+                        // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
+                        transType: 7,
+                        quantity: this.ruleForm.checkNum,
+                        startNum: "",
+                        finalNum: "",
+                        atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                        status: this.rowData.status,
+                        detailWarehouseKey: "",
+                        shopCode: this.ruleForm.shopCode,
+                        goodsCode: this.ruleForm.goodsCode,
+                      }
+                      detailWarehouseAdd(detailData).then(res => {
+                        console.log(res.data.data)
+                        if (res.data.code == 200) {
+                          this.$message.success("编辑成功!");
+                          this.$parent.success()
+                          this.$forceUpdate()
+                        } else {
+                          this.$message.error("编辑失败!");
+                        }
+                      })
                     } else {
                       this.$message.error("编辑失败!");
                     }
-                  })
-                  let postData = {
-                    inputActual: this.ruleForm.outputActual,
-                    vehicleCode: this.ruleForm.vehicleCode,
-                    status: 2,
-                    inputWarehouseKey: this.ruleForm.inputWarehouseKey
-                  }
-                  inputWarehouseUpdate(postData).then(res => {
-                    console.log(res.data.data)
-                  });
-                  let detailData = {
-                    inputOutputKey: this.ruleForm.shopCode,
-                    shopkeeperWarehouseKey: "",
-                    type: 1,
-                    // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
-                    transType: 7,
-                    quantity: this.ruleForm.checkNum,
-                    startNum: "",
-                    finalNum: "",
-                    atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-                    status:this.rowData.status,
-                    detailWarehouseKey: "",
-                    shopCode: this.ruleForm.shopCode,
-                    goodsCode: this.ruleForm.goodsCode,
-                  }
-                  detailWarehouseAdd(detailData).then(res => {
-                    console.log(res.data.data)
                   })
                 } else {
                   this.$message.error("编辑失败!");
