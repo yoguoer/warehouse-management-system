@@ -9,6 +9,8 @@ import com.example.api_project.service.ShopkeeperWarehouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -106,6 +108,9 @@ public class InputWarehouseController {
                 Random random = new Random();
                 Integer number = random.nextInt(9000) + 1000;
                 shopkeeperWarehouse.setShopkeeperWarehouseKey(System.currentTimeMillis() + String.valueOf(number));
+                SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+                String date = df.format(new Date());// new Date()为获取当前系统时间，也可使用当前时间戳
+                shopkeeperWarehouse.setOperateTime(date);
                 shopkeeperWarehouse.setOnwayNum(inputWarehouse.getInputActual());//设置新的在途数
                 shopkeeperWarehouse.setAvailableNum(inputWarehouse.getInputActual());//设置可用数
                 shopkeeperWarehouse.setShopCode(shopCode);

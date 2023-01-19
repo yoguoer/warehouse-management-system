@@ -19,6 +19,9 @@
         <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
         <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
         <result property="modelCode" column="model_code" jdbcType="VARCHAR"/>
+        <result property="priceLatestPurchase" column="price_latest_purchase" jdbcType="INTEGER"/>
+        <result property="priceRetail" column="price_retail" jdbcType="INTEGER"/>
+        <result property="priceWholesaler" column="price_wholesaler" jdbcType="INTEGER"/>
         <result property="rejectsNum" column="rejects_num" jdbcType="VARCHAR"/>
     </resultMap>
 
@@ -33,7 +36,7 @@
     <!--查询全部-->
     <select id="getByShopCode" resultMap="ShopkeeperWarehouseMap">
         select
-            goods.goods_code,goods.goods_name,goods.goods_key
+            goods.goods_code,goods.goods_name,goods.goods_key,price_latest_purchase,price_wholesaler,price_retail
         from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
                                   join goods on goods.goods_code=shopkeeper_warehouse.goods_code
         <where>

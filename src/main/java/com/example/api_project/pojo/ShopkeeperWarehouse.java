@@ -65,6 +65,33 @@ public class ShopkeeperWarehouse implements Serializable {
      */
     private String description;
     private String modelCode;//型号
+    private Integer priceRetail;//零售价
+    private Integer priceWholesaler;//批发价
+    private Integer priceLatestPurchase;//最近进价
+
+    public Integer getPriceRetail() {
+        return priceRetail;
+    }
+
+    public void setPriceRetail(Integer priceRetail) {
+        this.priceRetail = priceRetail;
+    }
+
+    public Integer getPriceWholesaler() {
+        return priceWholesaler;
+    }
+
+    public void setPriceWholesaler(Integer priceWholesaler) {
+        this.priceWholesaler = priceWholesaler;
+    }
+
+    public Integer getPriceLatestPurchase() {
+        return priceLatestPurchase;
+    }
+
+    public void setPriceLatestPurchase(Integer priceLatestPurchase) {
+        this.priceLatestPurchase = priceLatestPurchase;
+    }
 
     public Integer getCountNum() {
         return countNum;
