@@ -310,7 +310,7 @@ export default {
           this.inventoryOptions=[]
           res.data.data.forEach(item => {
             if (item.status == 1) {
-              this.supplierOptions.push(item)
+              this.inventoryOptions.push(item)
             }
           })
           this.getpositionList()

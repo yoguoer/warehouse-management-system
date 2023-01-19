@@ -116,7 +116,7 @@ export default {
         // { slots: { name: "column-createTime" }, label: "预计日期" },
         // { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         // { prop: "returnReason", label: "退货原因" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 200 },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];
     },
     searchConfig() {

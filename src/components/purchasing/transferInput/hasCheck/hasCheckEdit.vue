@@ -99,7 +99,7 @@ import { goodslist } from '@/api/data'
 import { UserList } from '@/api/api'
 import moment from 'moment'
 import { getByshopCode } from '@/api/warehouse'
-import { ShopInventoryList } from "@/api/warehouse"
+import { ShopInventoryList,shopkeeperWarehouseList } from "@/api/warehouse"
 
 export default {
   name: 'guestEdit',
@@ -271,15 +271,23 @@ export default {
     getgoodslist() {
       goodslist().then(res => {
         if (res.data.code == 200) {
-          // this.goodsOptions = res.data.data
-          this.goodsOptions=[]
+          this.goodsOptions = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
+    getOneHaveIt() {
+      shopkeeperWarehouseList().then(res => {
+        if (res.data.code == 200) {
+          this.inputShopOptions=[]
           res.data.data.forEach(item=>{
-            if(item.state==1){
-              this.goodsOptions.push(item)
+            if(item.goodsCode==this.ruleForm.goodsCode){
+              this.inputShopOptions.push(item)
             }
           })
         } else {
-          this.$message.error("获取失败!");
+          this.$message.error(res.data.msg);
         }
       });
     },
@@ -292,8 +300,8 @@ export default {
     setGoodsName(item) {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
       this.ruleForm.inputPrice = item.priceLatestPurchase
+      this.getOneHaveIt()
     },
-
     setTime() {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]

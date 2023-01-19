@@ -123,6 +123,15 @@ export function ShopInventoryDeleteList(data) {
     });
 }
 
+//查询零售商商品库存（getByShopCode)
+export function shopkeeperWarehouseByShopCode(data) {
+    return request({
+        url: baseUrl + "/shopkeeperWarehouse/getByShopCode",
+        method: "get",
+        params: data,
+    });
+}
+
 //查询零售商商品库存（分页)
 export function shopkeeperWarehouseListPage(data) {
     return request({

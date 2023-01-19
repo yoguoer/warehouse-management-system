@@ -132,7 +132,7 @@ export default {
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         // { slots: { name: "column-isDeleted" }, label: "是否删除" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 300 },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 200 },
       ];
     },
     searchConfig() {

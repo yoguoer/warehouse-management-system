@@ -6,7 +6,8 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="门店" prop="shopCode">
-            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="所属门店" style="width:100%;"  @change="getMyPosition()" clearable>
+            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="所属门店" style="width:100%;"
+              @change="getMyPosition()" clearable>
               <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName" :value="item.shopCode">
               </el-option>
             </el-select>
@@ -15,7 +16,8 @@
         <el-col :span="10">
           <el-form-item label="商品" prop="goodsCode">
             <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable>
-              <el-option v-for="item in goodsOptions" :key="item.goodsCode" :label="item.goodsName" :value="item.goodsCode">
+              <el-option v-for="item in goodsOptions" :key="item.goodsCode" :label="item.goodsName"
+                :value="item.goodsCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -83,7 +85,7 @@
 </template>
 
 <script>
-import { shopkeeperWarehouseUpdate, shopkeeperWarehouseAdd,getByshopCode } from '@/api/warehouse'
+import { shopkeeperWarehouseUpdate, shopkeeperWarehouseAdd, getByshopCode, shopkeeperWarehouseList } from '@/api/warehouse'
 import { shoplist, goodslist, positionList } from '@/api/data'
 import moment from 'moment'
 
@@ -102,15 +104,16 @@ export default {
         accountNum: "",
         occupyNum: "",
         availableNum: "",
-        countNum:"",
-        rejectsNum:"",
+        countNum: "",
+        rejectsNum: "",
         description: "",
         shopkeeperWarehouseKey: "",
-        onwayNum:"",
-        operateTime:""
+        onwayNum: "",
+        operateTime: ""
       },
       shopOptions: [],
       goodsOptions: [],
+      shopGoodsList: [],
       positionOptions: [],
       rules: {
         shopCode: [
@@ -142,13 +145,13 @@ export default {
       default: true,
     },
     rowData: {},
-    shopGoodsList:[]
   },
   watch: {
 
   },
   created() {
     this.getshoplist()
+    this.getshopkeeperWarehouseList()
     // this.getgoodslist()
     if (this.rowData.shopkeeperWarehouseKey) {
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -159,16 +162,25 @@ export default {
       this.ruleForm.accountNum = this.rowData.accountNum
       this.ruleForm.occupyNum = this.rowData.occupyNum
       this.ruleForm.availableNum = this.rowData.availableNum
-      this.ruleForm.countNum=this.rowData.countNum
-      this.ruleForm.rejectsNum=this.rowData.rejectsNum
+      this.ruleForm.countNum = this.rowData.countNum
+      this.ruleForm.rejectsNum = this.rowData.rejectsNum
       this.ruleForm.description = this.rowData.description
       this.ruleForm.shopkeeperWarehouseKey = this.rowData.shopkeeperWarehouseKey
-      this.ruleForm.onwayNum=this.rowData.onwayNum
+      this.ruleForm.onwayNum = this.rowData.onwayNum
     } else {
       this.ifCreate = true
     }
   },
   methods: {
+    getshopkeeperWarehouseList() {
+      shopkeeperWarehouseList().then(res => {
+        if (res.data.code == 200) {
+          this.shopGoodsList = res.data.data
+        } else {
+          this.$message.error(res.data.msg);
+        }
+      });
+    },
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
@@ -182,24 +194,24 @@ export default {
       goodslist().then(res => {
         if (res.data.code == 200) {
           this.goodsOptions = res.data.data
-          this.shopGoodsList.forEach(t=>{
-            this.goodsOptions.forEach(item=>{
-              if(item.goodsCode==t.goodsCode && t.shopCode==this.ruleForm.shopCode){
-                  let index=this.goodsOptions.indexOf(t)
-                  this.goodsOptions.splice(index,1)
-                }
-              })
+          this.goodsOptions.forEach(item => {
+            this.shopGoodsList.forEach(t => {
+              if (item.goodsCode == t.goodsCode && item.goodsName == t.goodsName && t.shopCode == this.ruleForm.shopCode) {
+                let index = this.goodsOptions.indexOf(item)
+                this.goodsOptions.splice(index, 1)
+              }
+            })
           })
         } else {
           this.$message.error("获取失败!");
         }
       });
     },
-    getMyPosition(){
+    getMyPosition() {
       this.getgoodslist()
-      getByshopCode({shopCode:this.ruleForm.shopCode}).then(res => {
+      getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
         if (res.data.code == 200) {
-          this.inventoryKey=res.data.data.inventoryKey
+          this.inventoryKey = res.data.data.inventoryKey
           positionList({ inventoryKey: res.data.data.inventoryKey }).then(res => {
             if (res.data.code == 200) {
               this.positionOptions = res.data.data
@@ -219,7 +231,7 @@ export default {
       this.ruleForm.availableNum = parseInt(this.ruleForm.accountNum) + parseInt(this.ruleForm.onwayNum) - parseInt(this.ruleForm.occupyNum)
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.ruleForm.operateTime=moment().format("YYYY-MM-DD HH:mm:ss");
+          this.ruleForm.operateTime = moment().format("YYYY-MM-DD HH:mm:ss");
           shopkeeperWarehouseUpdate(this.ruleForm).then(res => {
             if (res.data.code == 200) {
               this.$message.success("编辑成功!");
@@ -239,7 +251,7 @@ export default {
       this.ruleForm.availableNum = parseInt(this.ruleForm.accountNum) + parseInt(this.ruleForm.onwayNum) - parseInt(this.ruleForm.occupyNum)
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          this.ruleForm.operateTime=moment().format("YYYY-MM-DD HH:mm:ss");
+          this.ruleForm.operateTime = moment().format("YYYY-MM-DD HH:mm:ss");
           let data = {
             shopCode: this.ruleForm.shopCode,
             goodsCode: this.ruleForm.goodsCode,
@@ -249,10 +261,11 @@ export default {
             accountNum: this.ruleForm.accountNum,
             occupyNum: this.ruleForm.occupyNum,
             availableNum: this.ruleForm.availableNum,
-            rejectsNum:this.ruleForm.rejectsNum,
-            countNum:this.ruleForm.countNum,
+            rejectsNum: this.ruleForm.rejectsNum,
+            countNum: this.ruleForm.countNum,
             description: this.ruleForm.description,
-            onwayNum:this.ruleForm.onwayNum
+            onwayNum: this.ruleForm.onwayNum,
+            operateTime: moment().format("YYYY-MM-DD HH:mm:ss")
           }
           shopkeeperWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {

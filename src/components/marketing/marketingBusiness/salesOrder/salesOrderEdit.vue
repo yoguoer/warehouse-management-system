@@ -8,7 +8,7 @@
           <el-form-item label="门店" prop="shopCode">
             <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable
               ref="selection">
-              <el-option @click.native="setShopName" v-for="item in shopOptions" :key="item.shopKey"
+              <el-option @click.native="setShopName(item)" v-for="item in shopOptions" :key="item.shopKey"
                 :label="item.shopName" :value="item.shopCode">
               </el-option>
             </el-select>
@@ -138,7 +138,7 @@ import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
 import { goodslist, CustomerList, positionList, vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
-import { detailWarehouseUpdate, detailWarehouseAdd } from '@/api/warehouse'
+import { detailWarehouseUpdate, detailWarehouseAdd,shopkeeperWarehouseByShopCode } from '@/api/warehouse'
 import moment from 'moment'
 import { ShopInventoryList } from "@/api/warehouse";
 
@@ -249,7 +249,6 @@ export default {
   },
   created() {
     this.getshoplist()
-    this.getgoodslist()
     this.getCustomerList()
     this.getUserList()
     this.getvehicleList()
@@ -318,19 +317,13 @@ export default {
         }
       })
     },
-    getgoodslist() {
-      goodslist().then(res => {
+    getgoodslist(item) {
+      shopkeeperWarehouseByShopCode({shopCode:item.shopCode,shopName:item.shopName}).then(res => {
         if (res.data.code == 200) {
-          // this.goodsOptions = res.data.data
-          this.goodsOptions = []
-          res.data.data.forEach(item => {
-            if (item.state == 1) {
-              this.goodsOptions.push(item)
-            }
-          })
+          this.goodsOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
-        }
+        }      
       });
     },
     getCustomerList() {
@@ -352,9 +345,11 @@ export default {
         }
       });
     },
-    setShopName() {
+    setShopName(item ) {
+      this.goodsOptions=[]
       this.getShopInventoryList()
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
+      this.getgoodslist(item)
     },
     setCustomerName() {
       this.ruleForm.customerName = this.$refs.customerSelect.selectedLabel

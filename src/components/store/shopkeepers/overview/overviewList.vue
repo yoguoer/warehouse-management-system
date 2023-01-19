@@ -5,7 +5,7 @@
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-time="props">
-          <span>{{ props.row.operateTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
+          <span>{{ props.row.operateTime }}</span>
         </template>
         <template v-slot:column-ok="props">
           <span>{{  ((props.row.accountNum-props.row.rejectsNum)/props.row.accountNum).toFixed(2)*100 }}%</span>
@@ -17,8 +17,7 @@
         </template>
       </TableList>
     </div>
-    <overviewEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"
-      :shopGoodsList="tableData" />
+    <overviewEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"/>
   </div>
 </template>
 
@@ -187,7 +186,7 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      shopkeeperWarehouseDelete({ belongKey: row.belongKey, inventoryKey: row.inventoryKey }).then(res => {
+      shopkeeperWarehouseDelete({ shopkeeperWarehouseKey: row.shopkeeperWarehouseKey }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
           this.getTableData()
