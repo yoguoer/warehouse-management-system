@@ -346,7 +346,7 @@
                             {
                                 "name": "品牌",
                                 "icon": "",
-                                "level": 2,
+                                "level": 3,
                                 "componentName": "brand"
                             }
                         ]

@@ -1,5 +1,5 @@
 <template>
-    <div style="background-color:#fff;padding:10px;top:0;position:relative">
+    <div style="background-color:#fff;padding:10px;top:-20px;position:relative">
         <!-- 顶部查询 -->
         <el-form :inline="true">
             <el-form-item>

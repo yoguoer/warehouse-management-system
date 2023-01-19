@@ -4,15 +4,28 @@
     <el-menu default-active="1-1" class="el-menu-vertical-demo" @select="goTo" @open="handleOpen" @close="handleClose"
       background-color="#fdfdfd" text-color="#000" active-text-color="#409eff">
 
+      <el-submenu index="dataIntegrate">
+        <template slot="title">
+          <i class="el-icon-s-management"></i>
+          <span>数据集成</span>
+        </template>
+        <el-menu-item-group>
+          <el-menu-item index="salesIntegrate">销售统计</el-menu-item>
+          <el-menu-item index="purchaseIntegrate">采购统计</el-menu-item>
+          <el-menu-item index="inventoryIntegrate">库存盘点</el-menu-item>
+        </el-menu-item-group>
+      </el-submenu>
+
       <el-submenu index="purchasing">
         <template slot="title">
           <i class="el-icon-s-custom"></i>
           <span>采购</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="purchasingQueries">采购查询</el-menu-item>
+          <el-menu-item index="purchasingStrategy">采购策略</el-menu-item>
           <el-menu-item index="purchasingBusiness">采购业务</el-menu-item>
-          <el-menu-item index="purchasingOrders">采购订单</el-menu-item>
+          <el-menu-item index="purchasingQueries">采购查询</el-menu-item>
+          <el-menu-item index="transferInput">调货入库</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
@@ -24,6 +37,8 @@
         <el-menu-item-group>
           <el-menu-item index="marketingBusiness">销售业务</el-menu-item>
           <el-menu-item index="marketingQueries">销售查询</el-menu-item>
+          <el-menu-item index="transferOutput">调货出库</el-menu-item>
+
         </el-menu-item-group>
       </el-submenu>
 
@@ -58,9 +73,10 @@
           <el-menu-item index="business">业务实体</el-menu-item>
           <el-menu-item index="finance">账务实体</el-menu-item>
           <el-menu-item index="goods">商品管理</el-menu-item>
+          <el-menu-item index="shop">门店管理</el-menu-item>
           <el-menu-item index="inventory">仓库管理</el-menu-item>
-          <el-menu-item index="customer">客户管理</el-menu-item>
           <el-menu-item index="supply">供应商</el-menu-item>
+          <el-menu-item index="customer">客户管理</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
@@ -88,10 +104,10 @@ export default {
   methods: {
     goTo(index) {
       this.$router.push({ name: index })
-      if (index == 'purchasingQueries' || index == 'purchasingBusiness' || index == 'purchasingOrders') {
+      if (index == 'purchasingStrategy' || index == 'purchasingBusiness' || index == 'purchasingQueries' || index == 'transferInput') {
         this.$parent.getMenuSubList('purchasing')
         this.$parent.selOneMenu = 'purchasing'
-      } else if (index == 'marketingBusiness' || index == 'marketingQueries') {
+      } else if (index == 'marketingBusiness' || index == 'marketingQueries' || index == 'transferOutput') {
         this.$parent.getMenuSubList('marketing')
         this.$parent.selOneMenu = 'marketing'
       } else if (index == 'suppliers' || index == 'shopkeepers') {
@@ -100,9 +116,12 @@ export default {
       } else if (index == 'demandManagement' || index == 'distributionManagement') {
         this.$parent.getMenuSubList('distribution')
         this.$parent.selOneMenu = 'distribution'
-      } else if (index == 'business' || index == 'finance' || index == 'goods' || index == 'inventory' || index == 'customer' || index == 'supply') {
+      } else if (index == 'business' || index == 'finance' || index == 'goods' || index == 'shop' || index == 'inventory' || index == 'supply' || index == 'customer') {
         this.$parent.getMenuSubList('data')
         this.$parent.selOneMenu = 'data'
+      } else if (index == 'salesIntegrate' || index == 'purchaseIntegrate' || index == 'inventoryIntegrate') {
+        this.$parent.getMenuSubList('dataIntegrate')
+        this.$parent.selOneMenu = 'dataIntegrate'
       } else {
         this.$parent.getMenuSubList('')
         this.$parent.selOneMenu = ''
