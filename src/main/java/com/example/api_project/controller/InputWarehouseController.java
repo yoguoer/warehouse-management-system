@@ -95,10 +95,19 @@ public class InputWarehouseController {
             String shopCode=inputWarehouse.getShopCode();
             String goodsCode=inputWarehouse.getGoodsCode();
             ShopkeeperWarehouse shopkeeperWarehouse=shopkeeperWarehouseService.queryForKey(shopCode,goodsCode);//查询相关库存
-            Integer onWayNum=shopkeeperWarehouse.getOnwayNum()+inputWarehouse.getInputActual();//新增在途数
-            shopkeeperWarehouse.setOnwayNum(onWayNum);//设置新的在途数
-            shopkeeperWarehouse.setAvailableNum(shopkeeperWarehouse.getAccountNum()+onWayNum-shopkeeperWarehouse.getOccupyNum());//设置可用数
-            this.shopkeeperWarehouseService.update(shopkeeperWarehouse);
+            if(null!=shopkeeperWarehouse){
+                Integer onWayNum=shopkeeperWarehouse.getOnwayNum()+inputWarehouse.getInputActual();//新增在途数
+                shopkeeperWarehouse.setOnwayNum(onWayNum);//设置新的在途数
+                shopkeeperWarehouse.setAvailableNum(shopkeeperWarehouse.getAccountNum()+onWayNum-shopkeeperWarehouse.getOccupyNum());//设置可用数
+                this.shopkeeperWarehouseService.update(shopkeeperWarehouse);
+            }else{
+                Random random = new Random();
+                Integer number = random.nextInt(9000) + 1000;
+                shopkeeperWarehouse.setShopkeeperWarehouseKey(System.currentTimeMillis() + String.valueOf(number));
+                shopkeeperWarehouse.setOnwayNum(inputWarehouse.getInputActual());//设置新的在途数
+                shopkeeperWarehouse.setAvailableNum(shopkeeperWarehouse.getAccountNum()+inputWarehouse.getInputActual()-shopkeeperWarehouse.getOccupyNum());//设置可用数
+                this.shopkeeperWarehouseService.insert(shopkeeperWarehouse);
+            }
         }
         return ResponseData.success(result);
     }
