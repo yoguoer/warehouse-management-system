@@ -25,11 +25,12 @@
           <span>{{
             props.row.checkStatus == '0' ? '未审批'
               : (props.row.checkStatus == '1' ? '同意'
-                : (props.row.checkStatus == '2' ? '驳回' : "-"))
+                : (props.row.checkStatus == '2' ? '驳回':"-"))
           }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button @click="editRow(props.row)" type="text" icon="el-icon-s-check">审批</el-button>
+          <el-button type="text" style="visibility:hidden"></el-button>
+          <el-button v-if="props.row.checkStatus != 1" @click="editRow(props.row)" type="text" icon="el-icon-s-check">审批</el-button>
           <!-- <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button> -->
         </template>

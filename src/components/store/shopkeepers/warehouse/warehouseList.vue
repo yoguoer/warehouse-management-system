@@ -16,7 +16,9 @@
                     : (props.row.transType == 4 ? '客户订购出库'
                       : (props.row.transType == 5 ? '客户订购退货入库' 
                       : (props.row.transType == 6 ? '调货入库'
-                      : (props.row.transType == 7 ? '调货出库': '-')))))))
+                      : (props.row.transType == 7 ? '调货出库'
+                      : (props.row.transType == 8 ? '盘盈入库'
+                      : (props.row.transType == 9 ? '盘亏出库': '-')))))))))
           }}</span>
         </template>
         <template v-slot:column-quantity="props">
@@ -75,6 +77,8 @@ export default {
         { label: "客户订购退货入库", value: 5 },
         { label: "调货入库", value: 6 },
         { label: "调货出库", value: 7 },
+        { label: "盘盈入库", value: 8 },
+        { label: "盘亏出库", value: 9 },
       ],
       // 变化类型(0：入库/总量增加，1：出库/总量减少)
       typeOptions: [

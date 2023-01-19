@@ -3,6 +3,15 @@ import qs from "qs";
 
 const baseUrl = "/api"
 
+//查询盘亏盘盈审批（通过key查单个）
+export function countCheckGetById(data) {
+    return request({
+        url: baseUrl + "/countCheck/getById",
+        method: "get",
+        params: data,
+    });
+}
+
 //查询盘亏盘盈审批（分页）
 export function countCheckListPage(data) {
     return request({

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction"
+  <el-dialog size="30%" :title="ifCreate ? '新增' : '盘点审批'" :visible.sync="drawer" :direction="direction"
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -75,6 +75,7 @@
 import { countCheckAdd, countCheckUpdate } from '@/api/dataIntegrate'
 import moment from 'moment'
 import { UserList } from '@/api/api'
+import { detailWarehouseUpdate, detailWarehouseAdd } from '@/api/warehouse'
 
 export default {
   name: 'guestEdit',
@@ -88,7 +89,7 @@ export default {
         shopkeeperWarehouseKey: "",
         checkStatus: "",
         checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-        checkType: "",
+        checkType: "",//0盘盈入库，1盘亏出库
         checkNum: "",
         description: "",
         checkPeople: "",
@@ -153,8 +154,32 @@ export default {
           if (valid) {
             countCheckUpdate(this.ruleForm).then(res => {
               if (res.data.code == 200) {
-                this.$message.success("编辑成功!");
-                this.$parent.success()
+                if (this.ruleForm.checkStatus == 1) {
+                  let data = {
+                    inputOutputKey: this.ruleForm.countCheckKey,
+                    shopkeeperWarehouseKey: this.ruleForm.shopkeeperWarehouseKey,
+                    type: this.ruleForm.checkType,//变化类型(0：入库/总量增加，1：出库/总量减少)[0盘盈入库，1盘亏出库]
+                    transType: this.ruleForm.checkType == 0 ? 8 : 9,//8盘盈入库、9盘亏出库
+                    quantity: this.ruleForm.checkNum,
+                    startNum: this.ruleForm.startNum,
+                    finalNum: this.ruleForm.finalNum,
+                    atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    status: "",
+                    detailWarehouseKey: ""
+                  }
+                  detailWarehouseAdd(data).then(res => {
+                    if (res.data.code == 200) {
+                      this.$message.success("新增成功!");
+                      this.$parent.success()
+                      this.$forceUpdate()
+                    } else {
+                      this.$message.error("新增失败!");
+                    }
+                  });
+                } else {
+                  this.$message.success("新增成功!");
+                  this.$parent.success()
+                }
               } else {
                 this.$message.error("编辑失败!");
               }
@@ -185,8 +210,32 @@ export default {
             }
             countCheckAdd(data).then(res => {
               if (res.data.code == 200) {
-                this.$message.success("新增成功!");
-                this.$parent.success()
+                if (this.ruleForm.checkStatus == 1) {
+                  let data = {
+                    inputOutputKey: this.ruleForm.countCheckKey,
+                    shopkeeperWarehouseKey: this.ruleForm.shopkeeperWarehouseKey,
+                    type: this.ruleForm.checkType,//变化类型(0：入库/总量增加，1：出库/总量减少)[0盘盈入库，1盘亏出库]
+                    transType: this.ruleForm.checkType == 0 ? 8 : 9,//8盘盈入库、9盘亏出库
+                    quantity: this.ruleForm.checkNum,
+                    startNum: this.ruleForm.startNum,
+                    finalNum: this.ruleForm.finalNum,
+                    atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
+                    status: "",
+                    detailWarehouseKey: ""
+                  }
+                  detailWarehouseAdd(data).then(res => {
+                    if (res.data.code == 200) {
+                      this.$message.success("新增成功!");
+                      this.$parent.success()
+                      this.$forceUpdate()
+                    } else {
+                      this.$message.error("新增失败!");
+                    }
+                  });
+                } else {
+                  this.$message.success("新增成功!");
+                  this.$parent.success()
+                }
               } else {
                 this.$message.error("新增失败!");
               }

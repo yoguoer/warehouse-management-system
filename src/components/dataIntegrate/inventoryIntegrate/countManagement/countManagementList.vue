@@ -24,17 +24,26 @@
             props.row.accountNum - props.row.countNum
           }}</span>
         </template>
+        <template v-slot:column-status="props">
+          <span>{{
+            props.row.checkStatus == '0' ? '未审批'
+              : (props.row.checkStatus == '1' ? '同意'
+                : (props.row.checkStatus == '2' ? '驳回':"-"))
+          }}</span>
+        </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="props.row.countCheckKey == '' && props.row.countNum != props.row.accountNum"
+          <el-button type="text" v-if="props.row.countCheckKey && props.row.checkStatus == 1" style="color:red">已审核通过</el-button>
+          <el-button v-if="!props.row.countCheckKey && props.row.countNum != props.row.accountNum"
             @click="editRow1(props.row)" type="text" icon="el-icon-mouse">提交审核</el-button>
+          <el-button type="text" v-if="props.row.countCheckKey && props.row.checkStatus != 1"  @click="editRow2(props.row)" icon="el-icon-edit">编辑</el-button>
           <el-button @click="editRow(props.row)" type="text" icon="el-icon-notebook-2">设置盘点数</el-button>
           <!-- <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button> -->
         </template>
       </TableList>
     </div>
-    <countManagementEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
-      @success="success()" :shopGoodsList="tableData" />
+    <countManagementEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"
+      :shopGoodsList="tableData" />
     <countManagementApply v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false"
       @success="success()" />
   </div>
@@ -47,7 +56,7 @@ import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch
 import countManagementEdit from "./countManagementEdit";
 import countManagementApply from "./countManagementApply";
 import { shoplist, goodslist } from '@/api/data'
-import { countCheckList } from '@/api/dataIntegrate'
+import { countCheckList,countCheckGetById } from '@/api/dataIntegrate'
 
 export default {
   name: "slist",
@@ -91,6 +100,7 @@ export default {
         { slots: { name: "column-how" }, label: "盘点情况" },
         { slots: { name: "column-much" }, label: "盈亏数量" },
         { prop: "description", label: "备注" },
+        { slots: { name: "column-status" }, label: "审批状态" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "250px" },
       ];
     },
@@ -133,6 +143,7 @@ export default {
       countCheckList().then(res => {
         if (res.data.code == 200) {
           this.list = res.data.data
+          // console.log(this.list)
         } else {
           this.$message.error("获取失败!");
         }
@@ -189,8 +200,7 @@ export default {
               this.list.forEach(temp => {
                 if (item.shopkeeperWarehouseKey == temp.shopkeeperWarehouseKey) {
                   item.countCheckKey = temp.countCheckKey
-                } else {
-                  item.countCheckKey = ""
+                  item.checkStatus = temp.checkStatus
                 }
               })
             })
@@ -227,8 +237,7 @@ export default {
               this.list.forEach(temp => {
                 if (item.shopkeeperWarehouseKey == temp.shopkeeperWarehouseKey) {
                   item.countCheckKey = temp.countCheckKey
-                } else {
-                  item.countCheckKey = ""
+                  item.checkStatus = temp.checkStatus
                 }
               })
             })
@@ -263,6 +272,19 @@ export default {
       }
       this.drawer1 = true;
     },
+    editRow2(row){
+      // this.rowData1 = row;
+      // this.drawer1 = true;
+      countCheckGetById({ countCheckKey: row.countCheckKey }).then(res => {
+        if (res.data.code == 200) {
+          this.rowData1 = res.data.data
+          console.log(this.rowData)
+          this.drawer1 = true;
+        } else {
+          this.$message.error("获取失败!");
+        }
+      })
+    },
     success() {
       this.drawer = false;
       this.rowData = {};
@@ -274,6 +296,7 @@ export default {
     },
     reload() {
       this.getTableData()
+      this.getcountCheckList()
     },
     add() {
       this.rowData = {}
