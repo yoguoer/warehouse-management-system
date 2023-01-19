@@ -18,7 +18,7 @@
           <el-form-item label="商品" prop="goodsCode">
             <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable
               ref="goodsSelect">
-              <el-option @click.native="setGoodsName" v-for="item in goodsOptions" :key="item.goodsCode"
+              <el-option @click.native="setGoodsName(item)" v-for="item in goodsOptions" :key="item.goodsCode"
                 :label="item.goodsName" :value="item.goodsCode">
               </el-option>
             </el-select>
@@ -312,9 +312,10 @@ export default {
     setCustomerName() {
       this.ruleForm.customerName = this.$refs.customerSelect.selectedLabel
     },
-    setGoodsName() {
+    setGoodsName(item) {
       console.log(this.$refs.goodsSelect.selectedLabel)
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
+      this.ruleForm.outputPrice = item.priceRetail
     },
     setPosition() {
       this.ruleForm.inventoryName = this.$refs.inventorySelect.selectedLabel

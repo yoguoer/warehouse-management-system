@@ -1,5 +1,5 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction"
+  <el-dialog size="30%" :title="ifCreate ? '新增采购单' : '编辑采购单'" :visible.sync="drawer" :direction="direction"
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -303,6 +303,7 @@ export default {
     },
     setGoodsName(item) {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
+      this.ruleForm.inputPrice = item.priceLatestPurchase
       this.getSupplierlist(item.supplierKey)
     },
     setTime() {
