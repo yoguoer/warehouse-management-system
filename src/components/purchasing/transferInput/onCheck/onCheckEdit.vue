@@ -355,7 +355,7 @@ export default {
                 transferCheckKey: this.ruleForm.transferCheckKey,
                 description: this.ruleForm.description,
                 goodsCode: this.ruleForm.goodsCode,
-                inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+                inputWarehouseKey: res.data.data.inputWarehouseKey,
                 outputWarehouseKey: this.ruleForm.outputWarehouseKey,
                 checkStatus: 0,
                 happenTime: moment().format("YYYY-MM-DD HH:mm:ss"),
