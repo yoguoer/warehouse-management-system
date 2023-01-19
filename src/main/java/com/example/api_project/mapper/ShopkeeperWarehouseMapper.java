@@ -18,6 +18,13 @@ public interface ShopkeeperWarehouseMapper {
     List<ShopkeeperWarehouse> getList();
 
     /**
+     * 查询指全部数据
+     * 通过shopCode查询单条数据
+     * @return 对象列表
+     */
+    List<ShopkeeperWarehouse> getByShopCode(String shopCode,String shopName);
+
+    /**
      * 通过门店编号和商品编号查找对应库存记录
      *
      * @return 实例对象

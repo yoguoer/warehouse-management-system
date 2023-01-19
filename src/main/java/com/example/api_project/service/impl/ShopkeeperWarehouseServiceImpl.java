@@ -20,6 +20,15 @@ public class ShopkeeperWarehouseServiceImpl implements ShopkeeperWarehouseServic
     private ShopkeeperWarehouseMapper shopkeeperWarehouseMapper;
 
     /**
+     * 通过shopCode查询单条数据
+     */
+    public List<ShopkeeperWarehouse> getByShopCode(ShopkeeperWarehouse shopkeeperWarehouse) {
+        String shopCode=shopkeeperWarehouse.getShopCode();
+        String shopName=shopkeeperWarehouse.getShopName();
+        return shopkeeperWarehouseMapper.getByShopCode(shopCode,shopName);
+    }
+
+    /**
      * 不分页查询
      */
     public List<ShopkeeperWarehouse> querylist() {

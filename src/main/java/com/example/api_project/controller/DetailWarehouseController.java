@@ -73,7 +73,7 @@ public class DetailWarehouseController {
         detailWarehouse.setDetailWarehouseKey(System.currentTimeMillis() + String.valueOf(number));
         ShopkeeperWarehouse shopkeeperWarehouse;
         //不存在ShopkeeperWarehouseKey，需要初始化设置一下
-        if(null==detailWarehouse.getShopkeeperWarehouseKey()){
+        if(null==detailWarehouse.getShopkeeperWarehouseKey()||""==detailWarehouse.getShopkeeperWarehouseKey()){
             String shopCode=detailWarehouse.getShopCode();
             String goodsCode=detailWarehouse.getGoodsCode();
             shopkeeperWarehouse=shopkeeperWarehouseService.queryForKey(shopCode,goodsCode);

@@ -98,7 +98,7 @@ public class AlertInfoController {
             }
 
             // 现存>最高，满仓预警
-            if(item.getAccountNum()>item.getMaxNum()){
+            if(item.getAccountNum()>=item.getMaxNum()){
                 AlertInfo AIF = new AlertInfo();
                 Random random = new Random();
                 Integer number = random.nextInt(9000) + 1000;

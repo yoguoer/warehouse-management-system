@@ -12,6 +12,11 @@ import java.util.Map;
 public interface ShopkeeperWarehouseService {
 
     /**
+     * 通过shopCode查询单条数据
+     */
+    List<ShopkeeperWarehouse> getByShopCode(ShopkeeperWarehouse shopkeeperWarehouse);
+
+    /**
      * 不分页查询
      */
     List<ShopkeeperWarehouse> querylist();

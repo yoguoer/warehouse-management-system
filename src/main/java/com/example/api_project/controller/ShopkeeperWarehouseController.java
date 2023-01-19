@@ -55,6 +55,14 @@ public class ShopkeeperWarehouseController {
     public Result queryForKey(String shopCode,String goodsCode) {
         return ResponseData.success(this.shopkeeperWarehouseService.queryForKey(shopCode,goodsCode));
     }
+    /**
+     * 通过shopCode查询单条数据
+     *
+     */
+    @GetMapping("/getByShopCode")
+    public Result getByShopCode(ShopkeeperWarehouse shopkeeperWarehouse) {
+        return ResponseData.success(this.shopkeeperWarehouseService.getByShopCode(shopkeeperWarehouse));
+    }
 
     /**
      * 通过主键查询单条数据

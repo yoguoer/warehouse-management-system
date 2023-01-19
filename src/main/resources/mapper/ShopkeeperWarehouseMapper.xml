@@ -22,12 +22,24 @@
         <result property="rejectsNum" column="rejects_num" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <!--查询全部-->
+    <!--通过shopCode查询单条数据-->
     <select id="getList" resultMap="ShopkeeperWarehouseMap">
         select
             shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
         from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
                                   join goods on goods.goods_code=shopkeeper_warehouse.goods_code
+    </select>
+
+    <!--查询全部-->
+    <select id="getByShopCode" resultMap="ShopkeeperWarehouseMap">
+        select
+            goods.goods_code,goods.goods_name,goods.goods_key
+        from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
+                                  join goods on goods.goods_code=shopkeeper_warehouse.goods_code
+        <where>
+            shopkeeper_warehouse.shop_code = #{shopCode}
+            and shop.shop_name = #{shopName}
+        </where>
     </select>
 
     <!--查询单个-->
