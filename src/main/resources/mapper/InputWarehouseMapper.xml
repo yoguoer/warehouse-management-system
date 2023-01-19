@@ -212,10 +212,10 @@
             <if test="returnReason != null and returnReason != ''">
                 return_reason = #{returnReason},
             </if>
-            <if test="isDeleted != null and isDeleted != ''">
+            <if test="isDeleted != null">
                 is_deleted = #{isDeleted},
             </if>
-            <if test="returnNum != null and returnNum != ''">
+            <if test="returnNum != null">
                 return_num = #{returnNum},
             </if>
             <if test="inputShopCode != null and inputShopCode != ''">
