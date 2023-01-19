@@ -94,18 +94,27 @@ public class InputWarehouseController {
         if(null!=status&&status==2){
             String shopCode=inputWarehouse.getShopCode();
             String goodsCode=inputWarehouse.getGoodsCode();
-            ShopkeeperWarehouse shopkeeperWarehouse=shopkeeperWarehouseService.queryForKey(shopCode,goodsCode);//查询相关库存
-            if(null!=shopkeeperWarehouse){
+            //查询相关库存
+            if(null!=shopkeeperWarehouseService.queryForKey(shopCode,goodsCode)){
+                ShopkeeperWarehouse shopkeeperWarehouse=shopkeeperWarehouseService.queryForKey(shopCode,goodsCode);
                 Integer onWayNum=shopkeeperWarehouse.getOnwayNum()+inputWarehouse.getInputActual();//新增在途数
                 shopkeeperWarehouse.setOnwayNum(onWayNum);//设置新的在途数
                 shopkeeperWarehouse.setAvailableNum(shopkeeperWarehouse.getAccountNum()+onWayNum-shopkeeperWarehouse.getOccupyNum());//设置可用数
                 this.shopkeeperWarehouseService.update(shopkeeperWarehouse);
             }else{
+                ShopkeeperWarehouse shopkeeperWarehouse=new ShopkeeperWarehouse();
                 Random random = new Random();
                 Integer number = random.nextInt(9000) + 1000;
                 shopkeeperWarehouse.setShopkeeperWarehouseKey(System.currentTimeMillis() + String.valueOf(number));
                 shopkeeperWarehouse.setOnwayNum(inputWarehouse.getInputActual());//设置新的在途数
-                shopkeeperWarehouse.setAvailableNum(shopkeeperWarehouse.getAccountNum()+inputWarehouse.getInputActual()-shopkeeperWarehouse.getOccupyNum());//设置可用数
+                shopkeeperWarehouse.setAvailableNum(inputWarehouse.getInputActual());//设置可用数
+                shopkeeperWarehouse.setShopCode(shopCode);
+                shopkeeperWarehouse.setGoodsCode(goodsCode);
+                shopkeeperWarehouse.setOccupyNum(0);
+                shopkeeperWarehouse.setAccountNum(0);
+                shopkeeperWarehouse.setMaxNum(0);
+                shopkeeperWarehouse.setMinNum(0);
+                shopkeeperWarehouse.setOnwayNum(inputWarehouse.getInputActual());
                 this.shopkeeperWarehouseService.insert(shopkeeperWarehouse);
             }
         }
