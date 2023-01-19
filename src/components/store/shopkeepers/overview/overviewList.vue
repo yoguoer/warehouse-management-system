@@ -8,7 +8,7 @@
           <span>{{ props.row.operateTime }}</span>
         </template>
         <template v-slot:column-ok="props">
-          <span>{{  ((props.row.accountNum-props.row.rejectsNum)/props.row.accountNum).toFixed(2)*100 }}%</span>
+          <span v-if="props.row.rejectsNum">{{  ((props.row.accountNum-props.row.rejectsNum)/props.row.accountNum).toFixed(2)*100 }}%</span>
         </template>
         <template v-slot:column-todo="props">
           <el-button @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>

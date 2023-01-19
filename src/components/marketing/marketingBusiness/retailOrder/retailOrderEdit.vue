@@ -235,7 +235,6 @@ export default {
     } else {
       this.ifCreate = true
     }
-    this.getShopInventoryList()
   },
   methods: {
     getvehicleList() {
@@ -274,12 +273,6 @@ export default {
       shopkeeperWarehouseByShopCode({shopCode:item.shopCode,shopName:item.shopName}).then(res => {
         if (res.data.code == 200) {
           this.goodsOptions = res.data.data
-          // this.goodsOptions=[]
-          // res.data.data.forEach(item=>{
-          //   if(item.state==1){
-          //     this.goodsOptions.push(item)
-          //   }
-          // })
         } else {
           this.$message.error("获取失败!");
         }

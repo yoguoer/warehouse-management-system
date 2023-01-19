@@ -28,14 +28,16 @@
           <span>{{
             props.row.checkStatus == '0' ? '未审批'
               : (props.row.checkStatus == '1' ? '同意'
-                : (props.row.checkStatus == '2' ? '驳回':"-"))
+                : (props.row.checkStatus == '2' ? '驳回' : "-"))
           }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button type="text" v-if="props.row.countCheckKey && props.row.checkStatus == 1" style="color:red">已审核通过</el-button>
-          <el-button v-if="!props.row.countCheckKey && props.row.countNum != props.row.accountNum"
+          <el-button type="text" v-if="props.row.countCheckKey && props.row.checkStatus == 1"
+            style="color:red">已审核通过</el-button>
+          <el-button v-if="props.row.countNum && !props.row.countCheckKey && props.row.countNum != props.row.accountNum"
             @click="editRow1(props.row)" type="text" icon="el-icon-mouse">提交审核</el-button>
-          <el-button type="text" v-if="props.row.countCheckKey && props.row.checkStatus != 1"  @click="editRow2(props.row)" icon="el-icon-edit">编辑</el-button>
+          <el-button type="text" v-if="props.row.countCheckKey && props.row.checkStatus != 1"
+            @click="editRow2(props.row)" icon="el-icon-edit">编辑</el-button>
           <el-button @click="editRow(props.row)" type="text" icon="el-icon-notebook-2">设置盘点数</el-button>
           <!-- <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button> -->
@@ -56,7 +58,7 @@ import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch
 import countManagementEdit from "./countManagementEdit";
 import countManagementApply from "./countManagementApply";
 import { shoplist, goodslist } from '@/api/data'
-import { countCheckList,countCheckGetById } from '@/api/dataIntegrate'
+import { countCheckList, countCheckGetById } from '@/api/dataIntegrate'
 
 export default {
   name: "slist",
@@ -272,7 +274,7 @@ export default {
       }
       this.drawer1 = true;
     },
-    editRow2(row){
+    editRow2(row) {
       // this.rowData1 = row;
       // this.drawer1 = true;
       countCheckGetById({ countCheckKey: row.countCheckKey }).then(res => {

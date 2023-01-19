@@ -22,7 +22,7 @@
           }}</span>
         </template>
         <template v-slot:column-quantity="props">
-          <span v-if="props.row.transType==0||props.row.transType==3||props.row.transType==5||props.row.transType==6">+{{props.row.quantity}}</span>
+          <span v-if="props.row.transType==0||props.row.transType==3||props.row.transType==5||props.row.transType==6||props.row.transType==8">+{{props.row.quantity}}</span>
           <span v-else>-{{props.row.quantity}}</span>
         </template>
         <template v-slot:column-atTime="props">
