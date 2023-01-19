@@ -394,7 +394,7 @@ export default {
           inputWarehouseUpdate(data).then(res => {
             if (res.data.code == 200) {
               let data = {
-                inputOutputKey: this.ruleForm.inputOutputKey,
+                inputOutputKey: this.ruleForm.inputWarehouseKey,
                 shopkeeperWarehouseKey: "",
                 type: 0,
                 // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
@@ -462,7 +462,7 @@ export default {
           inputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {
               let data = {
-                inputOutputKey: this.ruleForm.inputOutputKey,
+                inputOutputKey: this.ruleForm.inputWarehouseKey,
                 shopkeeperWarehouseKey: "",
                 type: 0,
                 // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)

@@ -318,7 +318,7 @@ export default {
       this.ruleForm.isDeleted = this.rowData.isDeleted
       this.ruleForm.returnReason = this.rowData.returnReason
       this.ruleForm.outputShopCode = this.rowData.inputShopCode
-      this.ruleForm.inputShopCode = this.rowData.inputShopCode
+      // this.ruleForm.inputShopCode = this.rowData.inputShopCode
       this.ruleForm.outputShopName = this.rowData.inputShopName
       this.ruleForm.transferCheckKey = this.rowData.transferCheckKey
       this.ruleForm.checkNum = this.rowData.checkNum
@@ -468,7 +468,7 @@ export default {
                     checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
                     checkNum: this.ruleForm.checkNum,
                     outputShopCode: this.ruleForm.outputShopCode,
-                    inputShopCode: this.ruleForm.inputShopCode,
+                    inputShopCode: this.ruleForm.shopCode,
                   }
                   transferCheckUpdate(data).then(res => {
                     if (res.data.code == 200) {
@@ -484,7 +484,7 @@ export default {
                         console.log(res.data.data)
                       })
                       let detailData = {
-                        inputOutputKey: this.ruleForm.shopCode,
+                        inputOutputKey: this.ruleForm.inputOutputKey,
                         shopkeeperWarehouseKey: "",
                         type: 1,
                         // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
@@ -495,7 +495,7 @@ export default {
                         atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
                         status: this.rowData.status,
                         detailWarehouseKey: "",
-                        shopCode: this.ruleForm.shopCode,
+                        shopCode: this.ruleForm.outputShopName,
                         goodsCode: this.ruleForm.goodsCode,
                       }
                       detailWarehouseAdd(detailData).then(res => {
@@ -527,7 +527,7 @@ export default {
                 checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
                 checkNum: this.ruleForm.checkNum,
                 outputShopCode: this.ruleForm.outputShopCode,
-                inputShopCode: this.ruleForm.inputShopCode,
+                inputShopCode: this.ruleForm.shopCode,
               }
               transferCheckUpdate(data).then(res => {
                 if (res.data.code == 200) {
@@ -595,7 +595,7 @@ export default {
                     checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
                     checkNum: this.ruleForm.checkNum,
                     outputShopCode: this.ruleForm.outputShopCode,
-                    inputShopCode: this.ruleForm.inputShopCode,
+                    inputShopCode: this.ruleForm.shopCode,
                   }
                   transferCheckUpdate(data).then(res => {
                     if (res.data.code == 200) {
@@ -603,7 +603,9 @@ export default {
                         inputActual: this.ruleForm.outputActual,
                         vehicleCode: this.ruleForm.vehicleCode,
                         status: 2,
-                        inputWarehouseKey: this.ruleForm.inputWarehouseKey
+                        inputWarehouseKey: this.ruleForm.inputWarehouseKey,
+                        goodsCode:this.ruleForm.goodsCode,
+                        shopCode:this.ruleForm.shopCode,
                       }
                       inputWarehouseUpdate(postData).then(res => {
                         console.log(res.data.data)
@@ -620,8 +622,8 @@ export default {
                         atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
                         status: this.rowData.status,
                         detailWarehouseKey: "",
-                        shopCode: this.ruleForm.shopCode,
-                        goodsCode: this.ruleForm.goodsCode,
+                        goodsCode:this.ruleForm.goodsCode,
+                        shopCode:this.ruleForm.outputShopName,
                       }
                       detailWarehouseAdd(detailData).then(res => {
                         console.log(res.data.data)
@@ -653,7 +655,7 @@ export default {
                 checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
                 checkNum: this.ruleForm.checkNum,
                 outputShopCode: this.ruleForm.outputShopCode,
-                inputShopCode: this.ruleForm.inputShopCode,
+                inputShopCode: this.ruleForm.shopCode,
               }
               transferCheckUpdate(data).then(res => {
                 if (res.data.code == 200) {
