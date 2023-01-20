@@ -382,7 +382,7 @@ export default {
       });
     },
     getInventoryByshopCode() {
-      getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
+      getByshopCode({ shopCode: this.ruleForm.outputShopCode }).then(res => {
         if (res.data.code == 200) {
           this.inventoryOptions = res.data.data
         } else {
@@ -495,7 +495,7 @@ export default {
                         atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
                         status: this.rowData.status,
                         detailWarehouseKey: "",
-                        shopCode: this.ruleForm.outputShopName,
+                        shopCode: this.ruleForm.outputShopCode,
                         goodsCode: this.ruleForm.goodsCode,
                       }
                       detailWarehouseAdd(detailData).then(res => {

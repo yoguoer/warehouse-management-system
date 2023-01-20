@@ -371,7 +371,7 @@ export default {
       });
     },
     getInventoryByshopCode() {
-      getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
+      getByshopCode({ shopCode: this.ruleForm.outputShopCode }).then(res => {
         if (res.data.code == 200) {
           this.inventoryOptions = res.data.data
           this.getpositionList()
