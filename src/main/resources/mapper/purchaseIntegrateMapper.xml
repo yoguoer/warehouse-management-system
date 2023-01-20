@@ -36,6 +36,8 @@
                 and shop_code = #{shopCode}
             </if>
             and is_deleted=0
+            and input_shop_code=""
+            and supplier_code!=""
         </where>
         group by shop_code
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -60,10 +62,37 @@
                 and goods_code = #{goodsCode}
             </if>
             and is_deleted=0
+            and input_shop_code=""
+            and supplier_code!=""
         </where>
         group by goods_code
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
+    <!--按照供应商编码分类-->
+    <select id="queryAllBySupplier" resultMap="PurchaseIntegrateMap">
+        SELECT supplier_code,supplier_name,
+        count(case when(status=0) then 1 else null end)as inOrderNum,
+        count(case when(status=1) then 1 else null end)as productNum,
+        count(case when(status=2) then 1 else null end)as onWayNum,
+        count(case when(status=3) then 1 else null end)as inStoreNum,
+        count(case when(return_num) then 1 else null end)as returnCount,
+        sum(case when(status=0) then input_plan else null end) as inOrderSum,
+        sum(case when(status=1) then input_plan else null end) as productSum,
+        sum(case when(status=2) then input_actual else null end) as onWaySum,
+        sum(case when(status=3) then input_actual else null end) as inStoreSum,
+        sum(case when(status=3) then return_num else null end) as returnSum
+        from input_warehouse
+        <where>
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
+            </if>
+            and is_deleted=0
+            and input_shop_code=""
+            and supplier_code!=""
+        </where>
+        group by supplier_code
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
 </mapper>
 

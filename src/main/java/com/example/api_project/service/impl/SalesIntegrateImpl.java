@@ -32,11 +32,14 @@ public class SalesIntegrateImpl implements SalesIntegrateService {
     public Map<String, Object> queryByPage(SalesIntegrate salesIntegrate, Integer startRows, Integer pageSize) {
         String shopCode=salesIntegrate.getShopCode();
         String goodsCode=salesIntegrate.getGoodsCode();
+        String customerCode=salesIntegrate.getCustomerCode();
         List<SalesIntegrate> records;
-        if(null==goodsCode){
+        if(null!=shopCode){
             records = this.salesIntegrateMapper.queryAllByShop(shopCode,startRows, pageSize);
-        }else{
+        }else if(null!=goodsCode){
             records = this.salesIntegrateMapper.queryAllByGoods(goodsCode,startRows, pageSize);
+        }else{
+            records = this.salesIntegrateMapper.queryAllByCustomer(customerCode,startRows, pageSize);
         }
         long total = records.size();
         Map<String,Object> res = new HashMap<>();

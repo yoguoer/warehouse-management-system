@@ -18,6 +18,7 @@ public interface PurchaseIntegrateMapper {
      */
     List<PurchaseIntegrate> queryAllByShop(String shopCode,Integer startRows, Integer pageSize);
     List<PurchaseIntegrate> queryAllByGoods(String goodsCode,Integer startRows, Integer pageSize);
+    List<PurchaseIntegrate> queryAllBySupplier(String supplierCode,Integer startRows, Integer pageSize);
 
 
 }

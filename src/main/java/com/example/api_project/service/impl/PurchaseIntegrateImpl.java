@@ -32,11 +32,14 @@ public class PurchaseIntegrateImpl implements PurchaseIntegrateService {
     public Map<String, Object> queryByPage(PurchaseIntegrate purchaseIntegrate, Integer startRows, Integer pageSize) {
         String shopCode=purchaseIntegrate.getShopCode();
         String goodsCode=purchaseIntegrate.getGoodsCode();
+        String supplierCode=purchaseIntegrate.getSupplierCode();
         List<PurchaseIntegrate> records;
-        if(null==goodsCode){
+        if(null!=shopCode){
             records = this.purchaseIntegrateMapper.queryAllByShop(shopCode,startRows, pageSize);
-        }else{
+        }else if(null!=goodsCode){
             records = this.purchaseIntegrateMapper.queryAllByGoods(goodsCode,startRows, pageSize);
+        }else{
+            records = this.purchaseIntegrateMapper.queryAllBySupplier(supplierCode,startRows, pageSize);
         }
         long total = records.size();
         Map<String,Object> res = new HashMap<>();
