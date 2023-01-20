@@ -68,7 +68,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ShopkeeperWarehouseMap">
         select
-          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name,  position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num,inventory_code
+          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,goods.price_latest_purchase,goods.price_retail,goods.price_wholesaler,shop.shop_name,  position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num,inventory_code
         from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
                                   join goods on goods.goods_code=shopkeeper_warehouse.goods_code
                                   join inventory on inventory.belong_key=shop.shop_key
