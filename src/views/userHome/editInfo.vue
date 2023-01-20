@@ -1,8 +1,12 @@
 <template>
-    <el-dialog title="编辑个人信息" :visible.sync="dialogFormVisible" width="500px" :before-close="close"  :close-on-click-modal="false" >
+    <el-dialog title="编辑个人信息" :visible.sync="dialogFormVisible" width="500px" :before-close="close"
+        :close-on-click-modal="false">
         <el-form :model="form" :rules="rules" label-width="80px">
             <el-form-item label="姓名" prop="userName">
                 <el-input v-model="form.userName"></el-input>
+            </el-form-item>
+            <el-form-item label="工号" prop="userCode">
+                <el-input v-model="form.userCode"></el-input>
             </el-form-item>
             <el-form-item label="手机号码" prop="userPhone">
                 <el-input v-model="form.userPhone"></el-input>
@@ -35,6 +39,7 @@ export default {
         return {
             form: {
                 userId: "",//用户id
+                userCode: "",//工号
                 userType: "",//用户角色
                 userName: "",//用户姓名
                 userPhone: "",//手机号码
@@ -44,6 +49,9 @@ export default {
             rules: {
                 userPhone: [
                     { required: true, message: '请输入用户手机', trigger: 'blur' }
+                ],
+                userCode: [
+                    { required: true, message: '请输入用户工号', trigger: 'blur' }
                 ],
                 userName: [
                     { required: true, message: '请输入用户姓名', trigger: 'blur' }
@@ -66,6 +74,7 @@ export default {
     },
     created() {
         this.form.userId = this.rowData.userId//用户id
+        this.form.userCode = this.rowData.userCode
         this.form.userType = this.rowData.userType//用户角色
         this.form.userName = this.rowData.userName//用户姓名
         this.form.userPhone = this.rowData.userPhone//手机号码
@@ -78,6 +87,7 @@ export default {
             this.$parent.dialogFormVisible = false
             let postData = qs.stringify({
                 userId: this.form.userId,//用户 Id
+                userCode: this.form.userCode,
                 userType: this.form.userType,//用户角色
                 userName: this.form.userName,//用户姓名
                 userPhone: this.form.userPhone,//手机号码
