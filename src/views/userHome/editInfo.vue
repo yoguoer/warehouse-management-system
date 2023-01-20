@@ -1,5 +1,5 @@
 <template>
-    <el-dialog title="编辑个人信息" :visible.sync="dialogFormVisible" width="500px" :before-close="close">
+    <el-dialog title="编辑个人信息" :visible.sync="dialogFormVisible" width="500px" :before-close="close"  :close-on-click-modal="false" >
         <el-form :model="form" :rules="rules" label-width="80px">
             <el-form-item label="姓名" prop="userName">
                 <el-input v-model="form.userName"></el-input>

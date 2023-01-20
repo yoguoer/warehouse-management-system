@@ -1,5 +1,5 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增预警' : '新增预警'" :visible.sync="drawer" :direction="direction"
+  <el-dialog size="30%" :title="ifCreate ? '新增预警' : '新增预警'" :visible.sync="drawer" :direction="direction" :close-on-click-modal="false" 
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :closeOnClickModal="false"
     width="1200px" :before-close="close">
 

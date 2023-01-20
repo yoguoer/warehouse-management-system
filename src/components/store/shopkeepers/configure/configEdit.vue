@@ -1,6 +1,6 @@
 <template>
   <el-drawer size="30%" :title="ifCreate ? '新增门店仓库配置' : '编辑门店仓库配置'" :visible.sync="drawer" :direction="direction"
-    :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true'>
+    :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' :close-on-click-modal="false" >
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
       <el-row>
