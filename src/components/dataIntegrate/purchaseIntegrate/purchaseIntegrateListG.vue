@@ -19,8 +19,8 @@
 <script>
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import { salesIntegrateListPage } from '@/api/dataIntegrate'
-import { shoplist, goodslist } from '@/api/data'
+import { purchaseIntegrateListPage } from '@/api/dataIntegrate'
+import { goodslist } from '@/api/data'
 
 export default {
   name: "slist",
@@ -42,18 +42,22 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
-      shopOptions: [],
+      goodsOptions: [],
     };
   },
   computed: {
     tableColumn() {
       return [
-        { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称" },
-        { prop: "occupyNum", label: "占用订单" },
-        { prop: "occupySum", label: "占用数量" },
-        { prop: "outputNum", label: "出库订单" },
-        { prop: "outputSum", label: "出库数量" },
+        { prop: "goodsCode", label: "商品编码" },
+        { prop: "goodsName", label: "商品名称" },
+        { prop: "inOrderNum", label: "在单订单" },
+        { prop: "inOrderSum", label: "在单数量" },
+        { prop: "productNum", label: "生产订单" },
+        { prop: "productSum", label: "生产数量" },
+        { prop: "onWayNum", label: "在途订单" },
+        { prop: "onWaySum", label: "在途数量" },
+        { prop: "inStoreNum", label: "入库订单" },
+        { prop: "inStoreSum", label: "入库数量" },
         { prop: "returnCount", label: "有退货订单" },
         { prop: "returnSum", label: "退货数量" },
         // { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "120px" },
@@ -63,11 +67,11 @@ export default {
       return [
         {
           label: '请选择',
-          placeholder: '请选择门店',
-          field: 'shopCode',
+          placeholder: '请选择商品',
+          field: 'goodsCode',
           value: '',
           type: "select",
-          options: this.shopOptions
+          options: this.goodsOptions
         },
       ];
     }
@@ -79,22 +83,21 @@ export default {
     reloadAndsearch
   },
   created() {
-    this.getshoplist()
+    this.getgoodslist()
   },
   methods: {
-    getshoplist() {
-      shoplist().then(res => {
+    getgoodslist() {
+      goodslist().then(res => {
         if (res.data.code == 200) {
-          // this.shopOptions = res.data.data
+          this.goodsOptions = []
           res.data.data.forEach(item => {
-            this.shopOptions.push({ label: item.shopName, value: item.shopCode })
+            this.goodsOptions.push({ label: item.goodsName, value: item.goodsCode })
           })
         } else {
           this.$message.error("获取失败!");
         }
       });
     },
-
     getTableData(pageNo = 1, pageSize) {
       this.query.pageNo = pageNo;
       if (pageSize) {
@@ -106,10 +109,9 @@ export default {
         // ...this.query,
         page: this.query.pageNo,
         size: this.query.pageSize,
-        shopCode: "",
         goodsCode: "",
       };
-      salesIntegrateListPage(params).then((res) => {
+      purchaseIntegrateListPage(params).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
@@ -128,9 +130,8 @@ export default {
         this.query.pageSize = pageSize;
       }
       const searchData = this.$refs.search.search
-      salesIntegrateListPage({
-        shopCode: searchData.shopCode,
-        goodsCode: searchData.goodsCode,
+      purchaseIntegrateListPage({
+        goodsCode: searchData.goodsCode||"",
         page: this.query.pageNo,
         size: this.query.pageSize,
       }).then((res) => {

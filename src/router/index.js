@@ -71,15 +71,21 @@ const routes = [{
             path: '/dataIntegrate/salesIntegrate',
             name: 'salesIntegrate',
             redirect: {
-              name: "salesIntegrateList"
+              name: "salesIntegrateListS"
             },
             component: () => import('@/views/dataIntegrate/salesIntegrate/Index.vue'),
             children: [
-              //资料-数据集成-销售统计
+              //资料-数据集成-销售统计-门店
+              {
+                path: '/salesIntegrate/salesIntegrateListS',
+                name: 'salesIntegrateListS',
+                component: () => import('@/components/dataIntegrate/salesIntegrate/salesIntegrateListS.vue')
+              },
+              //资料-数据集成-销售统计-商品
               {
                 path: '/salesIntegrate/salesIntegrateList',
-                name: 'salesIntegrateList',
-                component: () => import('@/components/dataIntegrate/salesIntegrate/salesIntegrateList.vue')
+                name: 'salesIntegrateListG',
+                component: () => import('@/components/dataIntegrate/salesIntegrate/salesIntegrateListG.vue')
               },
             ]
           },
@@ -88,15 +94,21 @@ const routes = [{
             path: '/dataIntegrate/purchaseIntegrate',
             name: 'purchaseIntegrate',
             redirect: {
-              name: "purchaseIntegrateList"
+              name: "purchaseIntegrateListS"
             },
             component: () => import('@/views/dataIntegrate/purchaseIntegrate/Index.vue'),
             children: [
-              //资料-数据集成-采购统计
+              //资料-数据集成-采购统计-门店
               {
-                path: '/purchaseIntegrateList/purchaseIntegrateList',
-                name: 'purchaseIntegrateList',
-                component: () => import('@/components/dataIntegrate/purchaseIntegrate/purchaseIntegrateList.vue')
+                path: '/purchaseIntegrateList/purchaseIntegrateListS',
+                name: 'purchaseIntegrateListS',
+                component: () => import('@/components/dataIntegrate/purchaseIntegrate/purchaseIntegrateListS.vue')
+              },
+              //资料-数据集成-采购统计-商品
+              {
+                path: '/purchaseIntegrateList/salesIntegrateListG',
+                name: 'purchaseIntegrateListG',
+                component: () => import('@/components/dataIntegrate/purchaseIntegrate/purchaseIntegrateListG.vue')
               },
             ]
           },

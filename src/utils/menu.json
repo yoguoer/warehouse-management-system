@@ -11,13 +11,41 @@
                         "name": "销售统计",
                         "icon": "",
                         "level": 2,
-                        "componentName": "salesIntegrate"
+                        "componentName": "salesIntegrate",
+                        "children": [
+                            {
+                                "name": "门店",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "salesIntegrateListS"
+                            },
+                            {
+                                "name": "商品",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "salesIntegrateListG"
+                            }
+                        ]
                     },
                     {
                         "name": "采购统计",
                         "icon": "",
                         "level": 2,
-                        "componentName": "purchaseIntegrate"
+                        "componentName": "purchaseIntegrate",
+                        "children": [
+                            {
+                                "name": "门店",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "purchaseIntegrateListS"
+                            },
+                            {
+                                "name": "商品",
+                                "icon": "",
+                                "level": 3,
+                                "componentName": "purchaseIntegrateListG"
+                            }
+                        ]
                     },
                     {
                         "name": "库存盘点",
