@@ -65,7 +65,7 @@
         <el-col :span="10">
           <el-form-item label="接收状态" prop="status">
             <el-select size="middle" v-model="ruleForm.status" placeholder="接收状态" style="width:100%;" clearable>
-              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
+              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
               </el-option>
             </el-select>
           </el-form-item>
@@ -134,7 +134,7 @@ export default {
       inventoryOptions: [],
       vehicleOptions: [],
       statusOptions: [
-        { label: "在单", value: 0, disabled: false },
+        { label: "在单", value: 0, disabled: true },
         { label: "生产", value: 1, disabled: false },
         { label: "在途", value: 2, disabled: false },],
       pickerOptions: {
