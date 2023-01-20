@@ -146,18 +146,25 @@ export default {
       // console.log(data)
       toLogin(data).then(res => {
         if (res.data.code == 200) {
-          this.$message({
-            type: 'success',
-            message: '登录成功!'
-          })
-          //登陆成功
-          console.log(res.data.data)
-          localStorage.setItem("userInfo", JSON.stringify(res.data.data.user))
-          localStorage.setItem("token", res.data.data.token)
-          localStorage.setItem("userId", res.data.data.user.userId)
-          //登陆，默认到欢迎页面
-          sessionStorage.setItem("selOneMenu", '')
-          this.$router.push({ name: 'welcome' });
+          if (res.data.data.user.userType == -1) {
+            this.$message({
+              type: 'error',
+              message: '暂未配置权限，请联系超级管理员处理!'
+            })
+          } else {
+            this.$message({
+              type: 'success',
+              message: '登录成功!'
+            })
+            //登陆成功
+            console.log(res.data.data)
+            localStorage.setItem("userInfo", JSON.stringify(res.data.data.user))
+            localStorage.setItem("token", res.data.data.token)
+            localStorage.setItem("userId", res.data.data.user.userId)
+            //登陆，默认到欢迎页面
+            sessionStorage.setItem("selOneMenu", '')
+            this.$router.push({ name: 'welcome' });
+          }
         } else {
           this.$message({
             type: 'error',
@@ -177,7 +184,8 @@ export default {
         passWord: this.formdata.passWord,//密码
         userPhone: this.formdata.userPhone,//手机号码
         userSex: this.formdata.userSex,
-        userCode: this.formdata.userCode
+        userCode: this.formdata.userCode,
+        userType: -1,
       }
       // console.log(data)
       toRegister(data).then(res => {

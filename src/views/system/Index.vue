@@ -10,7 +10,7 @@
                 <el-select size="small" v-model="search2" placeholder="请选择用户角色" clearable>
                     <el-option label="超级管理员" value="0"></el-option>
                     <el-option label="仓库管理员" value="1"></el-option>
-                    <el-option label="用户" value="2"></el-option>
+                    <el-option label="普通用户" value="2"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item>
@@ -18,6 +18,7 @@
                     <el-option label="门店用户" value="0"></el-option>
                     <el-option label="供应商用户" value="1"></el-option>
                     <el-option label="全局用户" value="2"></el-option>
+                    <el-option label="未配置" value="-1"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item>
@@ -69,16 +70,20 @@
                     <el-tag
                         :type="scope.row.userType == 0 ? 'danger' : (scope.row.userType == 1 ? 'primary' : 'success')"
                         disable-transitions>
-                        {{ scope.row.userType == 0 ? '超级管理员' : (scope.row.userType == 1 ? '仓库管理员' : '用户') }}
+                        {{ scope.row.userType == 0 ? '超级管理员' : (scope.row.userType == 1 ? '仓库管理员' : '普通用户') }}
                     </el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="用户类型">
                 <template slot-scope="scope">
-                    <el-tag
-                        :type="scope.row.userBelong == 0 ? 'primary' : (scope.row.userBelong == 1 ? 'success' : 'danger')"
-                        disable-transitions>
-                        {{ scope.row.userBelong == 0 ? '门店用户' : (scope.row.userBelong == 1 ? '供应商用户' : '全局用户') }}
+                    <el-tag :type="scope.row.userBelong == 0 ? 'primary'
+                : (scope.row.userBelong == 1 ? 'success'
+                    : (scope.row.userBelong == 1 ? 'danger' : 'warning'))" disable-transitions>
+                        {{
+                            scope.row.userBelong == 0 ? '门店用户'
+                                : (scope.row.userBelong == 1 ? '供应商用户'
+                                    : (scope.row.userBelong == 2 ? '全局用户' : "未配置"))
+                        }}
                     </el-tag>
                 </template>
             </el-table-column>
@@ -93,36 +98,38 @@
             </el-table-column>
         </el-table>
         <!-- 新增 -->
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="70px" class="demo-ruleForm" size="medium">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"
+            size="medium">
             <el-dialog title="添加" :append-to-body='true' :visible.sync="dialogAdd" :before-close="handleClose"
-                width="500px">
-                <el-form-item label="工号">
+                width="600px">
+                <el-form-item label="工号" prop="userCode">
                     <el-input v-model="ruleForm.userCode"></el-input>
                 </el-form-item>
-                <el-form-item label="用户角色">
+                <el-form-item label="用户角色" prop="userType">
                     <el-select v-model="ruleForm.userType" placeholder="请选择用户角色" prop="userType" style="width:100%">
                         <el-option label="超级管理员" :value="0"></el-option>
                         <el-option label="仓库管理员" :value="1"></el-option>
-                        <el-option label="用户" :value="2"></el-option>
+                        <el-option label="普通用户" :value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="姓名">
+                <el-form-item label="姓名" prop="userName">
                     <el-input v-model="ruleForm.userName"></el-input>
                 </el-form-item>
-                <el-form-item label="手机号码">
+                <el-form-item label="手机号码" prop="userPhone">
                     <el-input v-model="ruleForm.userPhone"></el-input>
                 </el-form-item>
-                <el-form-item label="邮箱">
+                <el-form-item label="邮箱" prop="userEmail">
                     <el-input v-model="ruleForm.userEmail"></el-input>
                 </el-form-item>
-                <el-form-item label="性别">
+                <el-form-item label="性别" prop="userSex">
                     <el-select size="middle" v-model="ruleForm.userSex" clearable placeholder="性别" style="width:100%">
                         <el-option label="男" value="男"></el-option>
                         <el-option label="女" value="女"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="用户类型">
-                    <el-select size="small" v-model="ruleForm.userBelong" placeholder="请选择用户类型" clearable style="width:100%">
+                <el-form-item label="用户类型" prop="userBelong">
+                    <el-select size="small" v-model="ruleForm.userBelong" placeholder="请选择用户类型" clearable
+                        style="width:100%">
                         <el-option label="门店用户" value="0"></el-option>
                         <el-option label="供应商用户" value="1"></el-option>
                         <el-option label="全局用户" value="2"></el-option>
@@ -135,37 +142,38 @@
             </el-dialog>
         </el-form>
         <!-- 编辑 -->
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="70px" class="demo-ruleForm" size="medium">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm1" label-width="100px" class="demo-ruleForm" size="medium">
             <el-dialog title="编辑" :append-to-body='true' :visible.sync="dialogUpdate" :before-close="handleClose"
-                width="500px">
-                <el-form-item label="工号">
+                width="600px">
+                <el-form-item label="工号" prop="userCode">
                     <el-input v-model="ruleForm.userCode"></el-input>
                 </el-form-item>
-                <el-form-item label="用户角色">
+                <el-form-item label="用户角色" prop="userType">
                     <el-select v-model="ruleForm.userType" placeholder="请选择用户角色" prop="userType" style="width:100%">
                         <el-option label="超级管理员" :value="0"></el-option>
                         <el-option label="仓库管理员" :value="1"></el-option>
                         <el-option label="用户" :value="2"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="姓名">
+                <el-form-item label="姓名" prop="userName">
                     <el-input v-model="ruleForm.userName"></el-input>
                 </el-form-item>
-                <el-form-item label="手机号码">
+                <el-form-item label="手机号码" prop="userPhone">
                     <el-input v-model="ruleForm.userPhone"></el-input>
                 </el-form-item>
-                <el-form-item label="邮箱">
+                <el-form-item label="邮箱" prop="userEmail">
                     <el-input v-model="ruleForm.userEmail"></el-input>
                 </el-form-item>
-                <el-form-item label="性别">
+                <el-form-item label="性别" prop="userSex">
                     <!-- <el-input v-model="ruleForm.userSex"></el-input> -->
                     <el-select size="middle" v-model="ruleForm.userSex" clearable placeholder="性别" style="width:100%">
                         <el-option label="男" value="男"></el-option>
                         <el-option label="女" value="女"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="用户类型">
-                    <el-select size="small" v-model="ruleForm.userBelong" placeholder="请选择用户类型" clearable style="width:100%">
+                <el-form-item label="用户类型" prop="userBelong">
+                    <el-select size="small" v-model="ruleForm.userBelong" placeholder="请选择用户类型" clearable
+                        style="width:100%">
                         <el-option label="门店用户" value="0"></el-option>
                         <el-option label="供应商用户" value="1"></el-option>
                         <el-option label="全局用户" value="2"></el-option>
@@ -173,7 +181,7 @@
                 </el-form-item>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="emptyUserData()" size="medium">取 消</el-button>
-                    <el-button @click="updateUser()" type="primary" size="medium">确 定</el-button>
+                    <el-button @click="updateUser('ruleForm1')" type="primary" size="medium">确 定</el-button>
                 </span>
             </el-dialog>
         </el-form>
@@ -193,7 +201,7 @@ export default {
         return {
             ruleForm: {
                 userId: null,//用户id
-                userCode:null,//工号
+                userCode: null,//工号
                 userType: null,//用户角色
                 userName: null,//用户姓名
                 userPhone: null,//手机号码
@@ -201,7 +209,6 @@ export default {
                 userSex: null,//性别
                 userBelong: null,
             },
-            rules: {},
             tableData: [],
             search1: '',
             search2: '',
@@ -214,7 +221,30 @@ export default {
             disablePage: false,
             multipleSelection: [],
             userInfo: '',
-            shopOptions: []
+            shopOptions: [],
+            rules: {
+                userCode: [
+                    { required: true, message: '请设置工号', trigger: 'blur' },
+                ],
+                userType: [
+                    { required: true, message: '请设置用户角色', trigger: 'blur' },
+                ],
+                userName: [
+                    { required: true, message: '请设置用户姓名', trigger: 'blur' },
+                ],
+                userPhone: [
+                    { required: true, message: '请设置手机号码', trigger: 'blur' },
+                ],
+                userEmail: [
+                    { required: true, message: '请设置邮箱', trigger: 'blur' },
+                ],
+                userSex: [
+                    { required: true, message: '请设置性别', trigger: 'blur' },
+                ],
+                userBelong: [
+                    { required: true, message: '请设置用户类型', trigger: 'blur' },
+                ],
+            },
         };
     },
     //初始化
@@ -249,26 +279,33 @@ export default {
         },
 
         //添加用户
-        addUser() {
-            let postData = ({
-                userName: this.ruleForm.userName,//用户姓名
-                userCode: this.ruleForm.userCode,//工号
-                userEmail: this.ruleForm.userEmail,//邮箱
-                userPhone: this.ruleForm.userPhone,//手机号码
-                userType: this.ruleForm.userType,//用户类型
-                userSex: this.ruleForm.userSex,
-                userBelong: this.ruleForm.userBelong,
-            });
-            createUser(postData).then(res => {
-                this.getUserListPage()
-                this.$message({
-                    type: 'success',
-                    message: '已添加!'
-                });
-                this.emptyUserData()
-            }).catch(err => {
-                console.log(err)
-            });
+        addUser(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    let postData = ({
+                        userName: this.ruleForm.userName,//用户姓名
+                        userCode: this.ruleForm.userCode,//工号
+                        userEmail: this.ruleForm.userEmail,//邮箱
+                        userPhone: this.ruleForm.userPhone,//手机号码
+                        userType: this.ruleForm.userType,//用户类型
+                        userSex: this.ruleForm.userSex,
+                        userBelong: this.ruleForm.userBelong,
+                    });
+                    createUser(postData).then(res => {
+                        this.getUserListPage()
+                        this.$message({
+                            type: 'success',
+                            message: '已添加!'
+                        });
+                        this.emptyUserData()
+                    }).catch(err => {
+                        console.log(err)
+                    });
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            })
         },
 
         //查询用户
@@ -393,29 +430,36 @@ export default {
         },
 
         //更新用户
-        updateUser() {
-            let postData = qs.stringify({
-                userId: this.ruleForm.userId,//用户 Id
-                userCode: this.ruleForm.userCode,//工号
-                userType: this.ruleForm.userType,//用户角色
-                userName: this.ruleForm.userName,//用户姓名
-                userPhone: this.ruleForm.userPhone,//手机号码
-                userEmail: this.ruleForm.userEmail,//邮箱
-                userSex: this.ruleForm.userSex,
-                userBelong: this.ruleForm.userBelong
-            });
-            updateUserById(postData).then(response => {
-                this.getUserListPage()
-                this.$message({
-                    type: 'success',
-                    message: '已编辑!'
-                });
+        updateUser(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    let postData = qs.stringify({
+                        userId: this.ruleForm.userId,//用户 Id
+                        userCode: this.ruleForm.userCode,//工号
+                        userType: this.ruleForm.userType,//用户角色
+                        userName: this.ruleForm.userName,//用户姓名
+                        userPhone: this.ruleForm.userPhone,//手机号码
+                        userEmail: this.ruleForm.userEmail,//邮箱
+                        userSex: this.ruleForm.userSex,
+                        userBelong: this.ruleForm.userBelong
+                    });
+                    updateUserById(postData).then(response => {
+                        this.getUserListPage()
+                        this.$message({
+                            type: 'success',
+                            message: '已编辑!'
+                        });
 
-                this.emptyUserData()
-                //console.log(response);
-            }).catch(error => {
-                console.log(error)
-            });
+                        this.emptyUserData()
+                        //console.log(response);
+                    }).catch(error => {
+                        console.log(error)
+                    });
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            })
         },
         clean() {
             this.search1 = ''
