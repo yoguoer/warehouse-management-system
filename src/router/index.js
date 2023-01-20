@@ -70,13 +70,35 @@ const routes = [{
           {
             path: '/dataIntegrate/salesIntegrate',
             name: 'salesIntegrate',
-            component: () => import('@/views/dataIntegrate/salesIntegrate/Index.vue')
+            redirect: {
+              name: "salesIntegrateList"
+            },
+            component: () => import('@/views/dataIntegrate/salesIntegrate/Index.vue'),
+            children: [
+              //资料-数据集成-销售统计
+              {
+                path: '/salesIntegrate/salesIntegrateList',
+                name: 'salesIntegrateList',
+                component: () => import('@/components/dataIntegrate/salesIntegrate/salesIntegrateList.vue')
+              },
+            ]
           },
           //资料-数据集成-采购统计
           {
             path: '/dataIntegrate/purchaseIntegrate',
             name: 'purchaseIntegrate',
-            component: () => import('@/views/dataIntegrate/purchaseIntegrate/Index.vue')
+            redirect: {
+              name: "purchaseIntegrateList"
+            },
+            component: () => import('@/views/dataIntegrate/purchaseIntegrate/Index.vue'),
+            children: [
+              //资料-数据集成-采购统计
+              {
+                path: '/purchaseIntegrateList/purchaseIntegrateList',
+                name: 'purchaseIntegrateList',
+                component: () => import('@/components/dataIntegrate/purchaseIntegrate/purchaseIntegrateList.vue')
+              },
+            ]
           },
           //资料-数据集成-库存盘点
           {

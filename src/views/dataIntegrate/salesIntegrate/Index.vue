@@ -1,6 +1,6 @@
 <template>
     <div>
-       采购
+        <router-view></router-view>
     </div>
 </template>
 
