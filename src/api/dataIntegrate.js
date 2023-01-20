@@ -48,3 +48,21 @@ export function countCheckUpdate(data) {
         data: data,
     });
 }
+
+//查询采购统计（分页）
+export function purchaseIntegrateListPage(data) {
+    return request({
+        url: baseUrl + "/purchaseIntegrate/list-page",
+        method: "get",
+        params: data,
+    });
+}
+
+//查询销售统计（分页）
+export function salesIntegrateListPage(data) {
+    return request({
+        url: baseUrl + "/salesIntegrate/list-page",
+        method: "get",
+        params: data,
+    });
+}
