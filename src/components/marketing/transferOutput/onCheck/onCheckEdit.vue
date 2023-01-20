@@ -589,7 +589,7 @@ export default {
                     description: this.ruleForm.description,
                     goodsCode: this.ruleForm.goodsCode,
                     inputWarehouseKey: this.ruleForm.inputWarehouseKey,
-                    outputWarehouseKey: this.ruleForm.outputWarehouseKey,
+                    outputWarehouseKey: res.data.data.outputWarehouseKey,
                     checkStatus: this.ruleForm.checkStatus,
                     happenTime: this.ruleForm.happenTime,
                     checkTime: moment().format("YYYY-MM-DD HH:mm:ss"),
