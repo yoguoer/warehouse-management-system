@@ -31,6 +31,7 @@ public class ShopInventoryImpl implements ShopInventoryService {
         String shopCode=ShopInventory.getShopCode();
         return ShopInventoryMapper.getList(shopCode);
     }
+
     /**
      * 分页查询
      *

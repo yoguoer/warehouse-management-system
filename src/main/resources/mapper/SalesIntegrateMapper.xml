@@ -8,7 +8,52 @@
         <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
         <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="outputPlan" column="output_plan" jdbcType="INTEGER"/>
+        <result property="outputPrice" column="output_price" jdbcType="INTEGER"/>
+        <result property="outputActual" column="output_actual" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="returnNum" column="return_num" jdbcType="INTEGER"/>
+        <result property="customerCode" column="customer_code" jdbcType="VARCHAR"/>
+        <result property="customerName" column="customer_name" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <!--按照门店编码分类-->
+    <select id="queryAllByShop" resultMap="SalesIntegrateMap">
+        SELECT shop_code,shop_name,
+        count(case when(status=4) then 1 else null end)as occupyNum,
+        count(case when(status=5) then 1 else null end)as outputNum,
+        count(case when(return_num) then 1 else null end)as returnCount,
+        sum(case when(status=4) then output_plan else null end)as occupySum,
+        sum(case when(status=5) then output_actual else null end)as outputSum,
+        sum(case when(status=5) then return_num else null end)as returnSum
+        from output_warehouse
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            and is_deleted=0
+        </where>
+        group by shop_code
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--按照商品编码分类-->
+    <select id="queryAllByGoods" resultMap="SalesIntegrateMap">
+        SELECT goods_code,goods_name,
+        count(case when(status=4) then 1 else null end)as occupyNum,
+        count(case when(status=5) then 1 else null end)as outputNum,
+        sum(case when(status=4) then output_plan else null end)as occupySum,
+        sum(case when(status=5) then output_actual else null end)as outputSum,
+        sum(case when(status=5) then return_num else null end)as returnSum
+        from output_warehouse
+        <where>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            and is_deleted=0
+        </where>
+        group by goods_code
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
 </mapper>
 

@@ -9,6 +9,126 @@ public class SalesIntegrate {
     Integer occupyNum;//占用数
     Integer outputNum;//发货数
     Integer status;//订单状态
+    /**
+     * 退货数
+     */
+    private Integer returnNum;
+    /**
+     * 计划出库数
+     */
+    private Integer outputPlan;
+    /**
+     * 出库价格
+     */
+    private Long outputPrice;
+    /**
+     * 实际出库数
+     */
+    private Integer outputActual;
+    /**
+     * 客户编码
+     */
+    private String customerCode;
+    /**
+     * 客户名称
+     */
+    private String customerName;
+    /**
+     * 出库类型（零售出库、大客户出库、调货出库）
+     */
+    private Integer type;
+    private Integer occupySum;
+    private Integer outputSum;
+    private Integer returnSum;
+    private Integer returnCount;
+
+    public Integer getReturnCount() {
+        return returnCount;
+    }
+
+    public void setReturnCount(Integer returnCount) {
+        this.returnCount = returnCount;
+    }
+
+    public Integer getOccupySum() {
+        return occupySum;
+    }
+
+    public void setOccupySum(Integer occupySum) {
+        this.occupySum = occupySum;
+    }
+
+    public Integer getOutputSum() {
+        return outputSum;
+    }
+
+    public void setOutputSum(Integer outputSum) {
+        this.outputSum = outputSum;
+    }
+
+    public Integer getReturnSum() {
+        return returnSum;
+    }
+
+    public void setReturnSum(Integer returnSum) {
+        this.returnSum = returnSum;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getReturnNum() {
+        return returnNum;
+    }
+
+    public void setReturnNum(Integer returnNum) {
+        this.returnNum = returnNum;
+    }
+
+    public Integer getOutputPlan() {
+        return outputPlan;
+    }
+
+    public void setOutputPlan(Integer outputPlan) {
+        this.outputPlan = outputPlan;
+    }
+
+    public Long getOutputPrice() {
+        return outputPrice;
+    }
+
+    public void setOutputPrice(Long outputPrice) {
+        this.outputPrice = outputPrice;
+    }
+
+    public Integer getOutputActual() {
+        return outputActual;
+    }
+
+    public void setOutputActual(Integer outputActual) {
+        this.outputActual = outputActual;
+    }
+
+    public String getCustomerCode() {
+        return customerCode;
+    }
+
+    public void setCustomerCode(String customerCode) {
+        this.customerCode = customerCode;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
 
     public Integer getStatus() {
         return status;
