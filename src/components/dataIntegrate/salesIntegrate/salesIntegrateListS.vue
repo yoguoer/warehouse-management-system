@@ -11,6 +11,9 @@
         <template v-slot:column-sum="props">
           <span>{{props.row.occupySum+props.row.outputSum}}</span>
         </template>
+        <template v-slot:column-rate="props">
+          <span v-if="props.row.returnSum&&props.row.outputSum">{{((props.row.returnSum/props.row.outputSum)*100).toFixed(2)}}%</span>
+        </template>
         <!-- <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
           <el-button v-if="props.row.checkStatus != 1" @click="editRow(props.row)" type="text" icon="el-icon-s-check">审批</el-button>
@@ -56,14 +59,15 @@ export default {
       return [
         { prop: "shopCode", label: "门店编码" },
         { prop: "shopName", label: "门店名称" },
+        { slots: { name: "column-num" }, label: "总单数(不含退货)" },
+        { slots: { name: "column-sum" }, label: "总数量(不含退货)" },
         { prop: "occupyNum", label: "占用订单" },
         { prop: "occupySum", label: "占用数量" },
         { prop: "outputNum", label: "出库订单" },
         { prop: "outputSum", label: "出库数量" },
-        { slots: { name: "column-num" }, label: "总单数(不含退货)" },
-        { slots: { name: "column-sum" }, label: "总数量(不含退货)" },
         { prop: "returnCount", label: "有退货订单" },
         { prop: "returnSum", label: "退货数量" },
+        { slots: { name: "column-rate" }, label: "退货率" },
         // { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "120px" },
       ];
     },

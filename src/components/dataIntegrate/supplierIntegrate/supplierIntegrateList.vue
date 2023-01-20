@@ -6,10 +6,13 @@
         :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
         :loading="loadings.table">
         <template v-slot:column-num="props">
-          <span>{{props.row.inOrderNum+props.row.productNum+props.row.onWayNum}}</span>
+          <span>{{props.row.inOrderNum+props.row.productNum+props.row.onWayNum+props.row.inStoreSum}}</span>
         </template>
         <template v-slot:column-sum="props">
-          <span>{{props.row.inOrderSum+props.row.productSum+props.row.onWaySum}}</span>
+          <span>{{props.row.inOrderSum+props.row.productSum+props.row.onWaySum+props.row.inStoreSum}}</span>
+        </template>
+        <template v-slot:column-rate="props">
+          <span v-if="props.row.returnSum&&props.row.inStoreSum">{{((props.row.returnSum/props.row.inStoreSum)*100).toFixed(2)}}%</span>
         </template>
         <!-- <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
@@ -56,6 +59,8 @@ export default {
       return [
         { prop: "supplierCode", label: "供应商编码" },
         { prop: "supplierName", label: "供应商名称" },
+        { slots: { name: "column-num" }, label: "总单数(不含退货)" },
+        { slots: { name: "column-sum" }, label: "总数量(不含退货)" },
         { prop: "inOrderNum", label: "在单订单" },
         { prop: "inOrderSum", label: "在单数量" },
         { prop: "productNum", label: "生产订单" },
@@ -64,11 +69,9 @@ export default {
         { prop: "onWaySum", label: "在途数量" },
         { prop: "inStoreNum", label: "入库订单" },
         { prop: "inStoreSum", label: "入库数量" },
-        { slots: { name: "column-num" }, label: "总单数(不含退货)" },
-        { slots: { name: "column-sum" }, label: "总数量(不含退货)" },
         { prop: "returnCount", label: "有退货订单" },
         { prop: "returnSum", label: "退货数量" },
-
+        { slots: { name: "column-rate" }, label: "退货率" },
         // { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "120px" },
       ];
     },
