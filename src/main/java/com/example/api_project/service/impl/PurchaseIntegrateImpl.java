@@ -31,7 +31,13 @@ public class PurchaseIntegrateImpl implements PurchaseIntegrateService {
     @Override
     public Map<String, Object> queryByPage(PurchaseIntegrate purchaseIntegrate, Integer startRows, Integer pageSize) {
         String shopCode=purchaseIntegrate.getShopCode();
-        List<PurchaseIntegrate> records = this.purchaseIntegrateMapper.queryAllByShop(shopCode,startRows, pageSize);
+        String goodsCode=purchaseIntegrate.getGoodsCode();
+        List<PurchaseIntegrate> records;
+        if(null==goodsCode){
+            records = this.purchaseIntegrateMapper.queryAllByShop(shopCode,startRows, pageSize);
+        }else{
+            records = this.purchaseIntegrateMapper.queryAllByGoods(goodsCode,startRows, pageSize);
+        }
         long total = records.size();
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);

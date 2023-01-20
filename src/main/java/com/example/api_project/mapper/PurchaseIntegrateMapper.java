@@ -17,6 +17,7 @@ public interface PurchaseIntegrateMapper {
      * @return 对象列表
      */
     List<PurchaseIntegrate> queryAllByShop(String shopCode,Integer startRows, Integer pageSize);
+    List<PurchaseIntegrate> queryAllByGoods(String goodsCode,Integer startRows, Integer pageSize);
 
 
 }

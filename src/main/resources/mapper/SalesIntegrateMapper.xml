@@ -42,6 +42,7 @@
         SELECT goods_code,goods_name,
         count(case when(status=4) then 1 else null end)as occupyNum,
         count(case when(status=5) then 1 else null end)as outputNum,
+        count(case when(return_num) then 1 else null end)as returnCount,
         sum(case when(status=4) then output_plan else null end)as occupySum,
         sum(case when(status=5) then output_actual else null end)as outputSum,
         sum(case when(status=5) then return_num else null end)as returnSum

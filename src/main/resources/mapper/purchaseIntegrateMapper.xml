@@ -48,6 +48,7 @@
         count(case when(status=1) then 1 else null end)as productNum,
         count(case when(status=2) then 1 else null end)as onWayNum,
         count(case when(status=3) then 1 else null end)as inStoreNum,
+        count(case when(return_num) then 1 else null end)as returnCount,
         sum(case when(status=0) then input_plan else null end) as inOrderSum,
         sum(case when(status=1) then input_plan else null end) as productSum,
         sum(case when(status=2) then input_actual else null end) as onWaySum,
