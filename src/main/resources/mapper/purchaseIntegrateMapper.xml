@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.PurchaseIntegrateMapper">
+
+    <resultMap type="com.example.api_project.vo.PurchaseIntegrate" id="PurchaseIntegrateMap">
+        <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+</mapper>
+

@@ -1,5 +1,6 @@
 package com.example.api_project.vo;
 
+//门店库存
 public class ShopInventory {
     private String inventoryKey; //仓库key
     private String inventoryCode; //仓库编号

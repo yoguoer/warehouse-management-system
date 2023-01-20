@@ -36,6 +36,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/returnCheck/**")//退货审批表
                 .addPathPatterns("/api/transferCheck/**")//调货审批表
                 .addPathPatterns("/api/detailWarehouse/**")//出入库明细表
+                .addPathPatterns("/api/CountCheck/**")//盘亏盘盈审批表
 
 
         ;
