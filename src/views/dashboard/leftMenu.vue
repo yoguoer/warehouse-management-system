@@ -13,6 +13,9 @@
           <el-menu-item index="salesIntegrate">销售统计</el-menu-item>
           <el-menu-item index="purchaseIntegrate">采购统计</el-menu-item>
           <el-menu-item index="inventoryIntegrate">库存盘点</el-menu-item>
+          <el-menu-item index="goodsIntegrate">商品评估</el-menu-item>
+          <el-menu-item index="customerIntegrate">客户评估</el-menu-item>
+          <el-menu-item index="supplierIntegrate">供应商评估</el-menu-item>
         </el-menu-item-group>
       </el-submenu>
 
@@ -107,6 +110,7 @@ export default {
       if (index == 'purchasingStrategy' || index == 'purchasingBusiness' || index == 'purchasingQueries' || index == 'transferInput') {
         this.$parent.getMenuSubList('purchasing')
         this.$parent.selOneMenu = 'purchasing'
+        se
       } else if (index == 'marketingBusiness' || index == 'marketingQueries' || index == 'transferOutput') {
         this.$parent.getMenuSubList('marketing')
         this.$parent.selOneMenu = 'marketing'
@@ -119,13 +123,14 @@ export default {
       } else if (index == 'business' || index == 'finance' || index == 'goods' || index == 'shop' || index == 'inventory' || index == 'supply' || index == 'customer') {
         this.$parent.getMenuSubList('data')
         this.$parent.selOneMenu = 'data'
-      } else if (index == 'salesIntegrate' || index == 'purchaseIntegrate' || index == 'inventoryIntegrate') {
+      } else if (index == 'salesIntegrate' || index == 'purchaseIntegrate' || index == 'inventoryIntegrate' || index == 'goodsIntegrate' || index == 'customerIntegrate' || index == 'supplierIntegrate') {
         this.$parent.getMenuSubList('dataIntegrate')
         this.$parent.selOneMenu = 'dataIntegrate'
       } else {
         this.$parent.getMenuSubList('')
         this.$parent.selOneMenu = ''
       }
+      sessionStorage.setItem("selOneMenu", this.selOneMenu)
     },
     handleOpen(key, keyPath) {
       console.log(key, keyPath);

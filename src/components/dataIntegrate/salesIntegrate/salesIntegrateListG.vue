@@ -50,6 +50,7 @@ export default {
       return [
         { prop: "goodsCode", label: "商品编码" },
         { prop: "goodsName", label: "商品名称" },
+        { prop: "outputPrice", label: "出库价格" },
         { prop: "occupyNum", label: "占用订单" },
         { prop: "occupySum", label: "占用数量" },
         { prop: "outputNum", label: "出库订单" },

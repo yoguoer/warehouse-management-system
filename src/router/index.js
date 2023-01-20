@@ -135,6 +135,24 @@ const routes = [{
               },
             ]
           },
+          //资料-数据集成-商品评估
+          {
+            path: '/dataIntegrate/goodsIntegrate',
+            name: 'goodsIntegrate',
+            component: () => import('@/views/dataIntegrate/goodsIntegrate/Index.vue'),
+          },
+          //资料-数据集成-客户评估
+          {
+            path: '/dataIntegrate/customerIntegrate',
+            name: 'customerIntegrate',
+            component: () => import('@/views/dataIntegrate/customerIntegrate/Index.vue'),
+          },
+          //资料-数据集成-供应商评估
+          {
+            path: '/dataIntegrate/supplierIntegrate',
+            name: 'supplierIntegrate',
+            component: () => import('@/views/dataIntegrate/supplierIntegrate/Index.vue'),
+          }
         ],
       },
       //*******************************资料模块*******************************
