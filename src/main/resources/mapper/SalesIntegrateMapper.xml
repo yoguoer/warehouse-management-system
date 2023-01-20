@@ -39,7 +39,7 @@
 
     <!--按照商品编码分类-->
     <select id="queryAllByGoods" resultMap="SalesIntegrateMap">
-        SELECT goods_code,goods_name,
+        SELECT goods_code,goods_name,output_price,
         count(case when(status=4) then 1 else null end)as occupyNum,
         count(case when(status=5) then 1 else null end)as outputNum,
         count(case when(return_num) then 1 else null end)as returnCount,

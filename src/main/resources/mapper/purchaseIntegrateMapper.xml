@@ -43,7 +43,7 @@
 
     <!--按照商品编码分类-->
     <select id="queryAllByGoods" resultMap="PurchaseIntegrateMap">
-        SELECT goods_code,goods_name,
+        SELECT goods_code,goods_name,input_price,
         count(case when(status=0) then 1 else null end)as inOrderNum,
         count(case when(status=1) then 1 else null end)as productNum,
         count(case when(status=2) then 1 else null end)as onWayNum,
