@@ -100,7 +100,7 @@
         <!-- 新增 -->
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"
             size="medium">
-            <el-dialog title="添加" :append-to-body='true' :visible.sync="dialogAdd" :before-close="handleClose"
+            <el-dialog title="添加" v-if="dialogAdd" :append-to-body='true' :visible.sync="dialogAdd" :before-close="handleClose"
                 width="600px">
                 <el-form-item label="工号" prop="userCode">
                     <el-input v-model="ruleForm.userCode"></el-input>
@@ -110,6 +110,7 @@
                         <el-option label="超级管理员" :value="0"></el-option>
                         <el-option label="仓库管理员" :value="1"></el-option>
                         <el-option label="普通用户" :value="2"></el-option>
+                        <el-option label="未配置" :value="-1"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="姓名" prop="userName">
@@ -143,7 +144,7 @@
         </el-form>
         <!-- 编辑 -->
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm1" label-width="100px" class="demo-ruleForm" size="medium">
-            <el-dialog title="编辑" :append-to-body='true' :visible.sync="dialogUpdate" :before-close="handleClose"
+            <el-dialog title="编辑" v-if="dialogUpdate" :append-to-body='true' :visible.sync="dialogUpdate" :before-close="handleClose"
                 width="600px">
                 <el-form-item label="工号" prop="userCode">
                     <el-input v-model="ruleForm.userCode"></el-input>
@@ -152,7 +153,8 @@
                     <el-select v-model="ruleForm.userType" placeholder="请选择用户角色" prop="userType" style="width:100%">
                         <el-option label="超级管理员" :value="0"></el-option>
                         <el-option label="仓库管理员" :value="1"></el-option>
-                        <el-option label="用户" :value="2"></el-option>
+                        <el-option label="普通用户" :value="2"></el-option>
+                        <el-option label="未配置" :value="-1"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="姓名" prop="userName">
