@@ -1,6 +1,6 @@
 <template>
     <div>
-        客户评估
+        <router-view></router-view>
     </div>
 </template>
 

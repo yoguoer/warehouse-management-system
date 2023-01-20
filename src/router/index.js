@@ -66,7 +66,7 @@ const routes = [{
         },
         component: () => import('@/views/dataIntegrate/Index.vue'),
         children: [
-          //资料-数据集成-销售统计
+          //数据集成-销售统计
           {
             path: '/dataIntegrate/salesIntegrate',
             name: 'salesIntegrate',
@@ -75,13 +75,13 @@ const routes = [{
             },
             component: () => import('@/views/dataIntegrate/salesIntegrate/Index.vue'),
             children: [
-              //资料-数据集成-销售统计-门店
+              //数据集成-销售统计-门店
               {
                 path: '/salesIntegrate/salesIntegrateListS',
                 name: 'salesIntegrateListS',
                 component: () => import('@/components/dataIntegrate/salesIntegrate/salesIntegrateListS.vue')
               },
-              //资料-数据集成-销售统计-商品
+              //数据集成-销售统计-商品
               {
                 path: '/salesIntegrate/salesIntegrateList',
                 name: 'salesIntegrateListG',
@@ -89,7 +89,7 @@ const routes = [{
               },
             ]
           },
-          //资料-数据集成-采购统计
+          //数据集成-采购统计
           {
             path: '/dataIntegrate/purchaseIntegrate',
             name: 'purchaseIntegrate',
@@ -98,13 +98,13 @@ const routes = [{
             },
             component: () => import('@/views/dataIntegrate/purchaseIntegrate/Index.vue'),
             children: [
-              //资料-数据集成-采购统计-门店
+              //数据集成-采购统计-门店
               {
                 path: '/purchaseIntegrateList/purchaseIntegrateListS',
                 name: 'purchaseIntegrateListS',
                 component: () => import('@/components/dataIntegrate/purchaseIntegrate/purchaseIntegrateListS.vue')
               },
-              //资料-数据集成-采购统计-商品
+              //数据集成-采购统计-商品
               {
                 path: '/purchaseIntegrateList/salesIntegrateListG',
                 name: 'purchaseIntegrateListG',
@@ -112,7 +112,7 @@ const routes = [{
               },
             ]
           },
-          //资料-数据集成-库存盘点
+          //数据集成-库存盘点
           {
             path: '/dataIntegrate/inventoryIntegrate',
             name: 'inventoryIntegrate',
@@ -121,13 +121,13 @@ const routes = [{
             },
             component: () => import('@/views/dataIntegrate/inventoryIntegrate/Index.vue'),
             children: [
-              //资料-数据集成-库存盘点-盘点
+              //数据集成-库存盘点-盘点
               {
                 path: '/inventoryIntegrate/countManagement',
                 name: 'countManagement',
                 component: () => import('@/components/dataIntegrate/inventoryIntegrate/countManagement/countManagementList.vue')
               },
-              //资料-数据集成-库存盘点-审批
+              //数据集成-库存盘点-审批
               {
                 path: '/inventoryIntegrate/countCheck',
                 name: 'countCheck',
@@ -135,23 +135,45 @@ const routes = [{
               },
             ]
           },
-          //资料-数据集成-商品评估
+          //数据集成-商品评估
           {
             path: '/dataIntegrate/goodsIntegrate',
             name: 'goodsIntegrate',
             component: () => import('@/views/dataIntegrate/goodsIntegrate/Index.vue'),
           },
-          //资料-数据集成-客户评估
+          //数据集成-客户评估
           {
             path: '/dataIntegrate/customerIntegrate',
             name: 'customerIntegrate',
+            redirect: {
+              name: "customerIntegrateList"
+            },
             component: () => import('@/views/dataIntegrate/customerIntegrate/Index.vue'),
+            children: [
+              //数据集成-客户评估
+              {
+                path: '/dataIntegrate/customerIntegrateList',
+                name: 'customerIntegrateList',
+                component: () => import('@/components/dataIntegrate/customerIntegrate/customerIntegrateList.vue')
+              },
+            ]
           },
-          //资料-数据集成-供应商评估
+          //数据集成-供应商评估
           {
             path: '/dataIntegrate/supplierIntegrate',
             name: 'supplierIntegrate',
+            redirect: {
+              name: "supplierIntegrateList"
+            },
             component: () => import('@/views/dataIntegrate/supplierIntegrate/Index.vue'),
+            children: [
+              //数据集成-供应商评估
+              {
+                path: '/dataIntegrate/supplierIntegrateList',
+                name: 'supplierIntegrateList',
+                component: () => import('@/components/dataIntegrate/supplierIntegrate/supplierIntegrateList.vue')
+              },
+            ]
           }
         ],
       },
@@ -165,7 +187,6 @@ const routes = [{
         },
         component: () => import('@/views/data/Index.vue'),
         children: [
-
           //资料-业务实体-商品管理
           {
             path: '/data/goods',

@@ -5,6 +5,12 @@
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
         :loading="loadings.table">
+        <template v-slot:column-num="props">
+          <span>{{props.row.occupyNum+props.row.outputNum}}</span>
+        </template>
+        <template v-slot:column-sum="props">
+          <span>{{props.row.occupySum+props.row.outputSum}}</span>
+        </template>
         <!-- <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
           <el-button v-if="props.row.checkStatus != 1" @click="editRow(props.row)" type="text" icon="el-icon-s-check">审批</el-button>
@@ -55,6 +61,8 @@ export default {
         { prop: "occupySum", label: "占用数量" },
         { prop: "outputNum", label: "出库订单" },
         { prop: "outputSum", label: "出库数量" },
+        { slots: { name: "column-num" }, label: "总单数(不含退货)" },
+        { slots: { name: "column-sum" }, label: "总数量(不含退货)" },
         { prop: "returnCount", label: "有退货订单" },
         { prop: "returnSum", label: "退货数量" },
         // { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "120px" },

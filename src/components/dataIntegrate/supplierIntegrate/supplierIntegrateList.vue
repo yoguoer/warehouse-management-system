@@ -6,10 +6,10 @@
         :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
         :loading="loadings.table">
         <template v-slot:column-num="props">
-          <span>{{props.row.occupyNum+props.row.outputNum}}</span>
+          <span>{{props.row.inOrderNum+props.row.productNum+props.row.onWayNum}}</span>
         </template>
         <template v-slot:column-sum="props">
-          <span>{{props.row.occupySum+props.row.outputSum}}</span>
+          <span>{{props.row.inOrderSum+props.row.productSum+props.row.onWaySum}}</span>
         </template>
         <!-- <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden"></el-button>
@@ -25,8 +25,8 @@
 <script>
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
-import { salesIntegrateListPage } from '@/api/dataIntegrate'
-import { shoplist } from '@/api/data'
+import { purchaseIntegrateListPage } from '@/api/dataIntegrate'
+import { Supplierlist } from '@/api/data'
 
 export default {
   name: "slist",
@@ -48,22 +48,27 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
-      shopOptions: [],
+      supplierOptions: [],
     };
   },
   computed: {
     tableColumn() {
       return [
-        { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称" },
-        { prop: "occupyNum", label: "占用订单" },
-        { prop: "occupySum", label: "占用数量" },
-        { prop: "outputNum", label: "出库订单" },
-        { prop: "outputSum", label: "出库数量" },
+        { prop: "supplierCode", label: "供应商编码" },
+        { prop: "supplierName", label: "供应商名称" },
+        { prop: "inOrderNum", label: "在单订单" },
+        { prop: "inOrderSum", label: "在单数量" },
+        { prop: "productNum", label: "生产订单" },
+        { prop: "productSum", label: "生产数量" },
+        { prop: "onWayNum", label: "在途订单" },
+        { prop: "onWaySum", label: "在途数量" },
+        { prop: "inStoreNum", label: "入库订单" },
+        { prop: "inStoreSum", label: "入库数量" },
         { slots: { name: "column-num" }, label: "总单数(不含退货)" },
         { slots: { name: "column-sum" }, label: "总数量(不含退货)" },
         { prop: "returnCount", label: "有退货订单" },
         { prop: "returnSum", label: "退货数量" },
+
         // { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "120px" },
       ];
     },
@@ -71,11 +76,11 @@ export default {
       return [
         {
           label: '请选择',
-          placeholder: '请选择门店',
-          field: 'shopCode',
+          placeholder: '请选择供应商',
+          field: 'supplierCode',
           value: '',
           type: "select",
-          options: this.shopOptions
+          options: this.supplierOptions
         },
       ];
     }
@@ -87,22 +92,22 @@ export default {
     reloadAndsearch
   },
   created() {
-    this.getshoplist()
+    this.getSupplierlist()
   },
   methods: {
-    getshoplist() {
-      shoplist().then(res => {
+    getSupplierlist(){
+      Supplierlist().then(res => {
         if (res.data.code == 200) {
-          // this.shopOptions = res.data.data
+          // this.supplierOptions = res.data.data
+          this.supplierOptions = []
           res.data.data.forEach(item => {
-            this.shopOptions.push({ label: item.shopName, value: item.shopCode })
-          })
+            this.supplierOptions.push({ label: item.supplierName, value: item.supplierCode })
+          });
         } else {
           this.$message.error("获取失败!");
         }
       });
     },
-
     getTableData(pageNo = 1, pageSize) {
       this.query.pageNo = pageNo;
       if (pageSize) {
@@ -114,9 +119,9 @@ export default {
         // ...this.query,
         page: this.query.pageNo,
         size: this.query.pageSize,
-        shopCode: "",
+        supplierCode: "",
       };
-      salesIntegrateListPage(params).then((res) => {
+      purchaseIntegrateListPage(params).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
@@ -135,8 +140,8 @@ export default {
         this.query.pageSize = pageSize;
       }
       const searchData = this.$refs.search.search
-      salesIntegrateListPage({
-        shopCode: searchData.shopCode||"",
+      purchaseIntegrateListPage({
+        supplierCode: searchData.supplierCode||"",
         page: this.query.pageNo,
         size: this.query.pageSize,
       }).then((res) => {

@@ -1,6 +1,6 @@
 <template>
     <div>
-        供应商评估
+        <router-view></router-view>
     </div>
 </template>
 

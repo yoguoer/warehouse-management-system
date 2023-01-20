@@ -26,7 +26,7 @@
 import TableList from "@/components/public/tableList";
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import { salesIntegrateListPage } from '@/api/dataIntegrate'
-import { shoplist } from '@/api/data'
+import { CustomerList } from '@/api/data'
 
 export default {
   name: "slist",
@@ -48,14 +48,14 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
-      shopOptions: [],
+      customerOptions: [],
     };
   },
   computed: {
     tableColumn() {
       return [
-        { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称" },
+        { prop: "customerCode", label: "客户编码" },
+        { prop: "customerName", label: "客户名称" },
         { prop: "occupyNum", label: "占用订单" },
         { prop: "occupySum", label: "占用数量" },
         { prop: "outputNum", label: "出库订单" },
@@ -71,11 +71,11 @@ export default {
       return [
         {
           label: '请选择',
-          placeholder: '请选择门店',
-          field: 'shopCode',
+          placeholder: '请选择客户',
+          field: 'customerCode',
           value: '',
           type: "select",
-          options: this.shopOptions
+          options: this.customerOptions
         },
       ];
     }
@@ -87,22 +87,22 @@ export default {
     reloadAndsearch
   },
   created() {
-    this.getshoplist()
+    this.getCustomerList()
   },
   methods: {
-    getshoplist() {
-      shoplist().then(res => {
+    getCustomerList() {
+      CustomerList().then(res => {
         if (res.data.code == 200) {
-          // this.shopOptions = res.data.data
+          // this.customerOptions = res.data.data
+          this.customerOptions = []
           res.data.data.forEach(item => {
-            this.shopOptions.push({ label: item.shopName, value: item.shopCode })
-          })
+            this.customerOptions.push({ label: item.customerName, value: item.customerCode })
+          });
         } else {
           this.$message.error("获取失败!");
         }
       });
     },
-
     getTableData(pageNo = 1, pageSize) {
       this.query.pageNo = pageNo;
       if (pageSize) {
@@ -114,7 +114,7 @@ export default {
         // ...this.query,
         page: this.query.pageNo,
         size: this.query.pageSize,
-        shopCode: "",
+        customerCode: "",
       };
       salesIntegrateListPage(params).then((res) => {
         if (res.data.code === 200) {
@@ -136,7 +136,7 @@ export default {
       }
       const searchData = this.$refs.search.search
       salesIntegrateListPage({
-        shopCode: searchData.shopCode||"",
+        customerCode: searchData.customerCode||"",
         page: this.query.pageNo,
         size: this.query.pageSize,
       }).then((res) => {
