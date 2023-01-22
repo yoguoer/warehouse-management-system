@@ -68,12 +68,6 @@
                         ]
                     },
                     {
-                        "name": "商品评估",
-                        "icon": "",
-                        "level": 2,
-                        "componentName": "goodsIntegrate"
-                    },
-                    {
                         "name": "客户评估",
                         "icon": "",
                         "level": 2,

@@ -135,12 +135,6 @@ const routes = [{
               },
             ]
           },
-          //数据集成-商品评估
-          {
-            path: '/dataIntegrate/goodsIntegrate',
-            name: 'goodsIntegrate',
-            component: () => import('@/views/dataIntegrate/goodsIntegrate/Index.vue'),
-          },
           //数据集成-客户评估
           {
             path: '/dataIntegrate/customerIntegrate',
