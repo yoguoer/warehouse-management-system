@@ -715,67 +715,7 @@ const routes = [{
         path: '/store/shopkeepers/configure',
         name: 'configure',
         component: () => import('@/components/store/shopkeepers/configure/configList.vue')
-      },
-
-
-      //*******************************配货模块*******************************
-      //配货
-      {
-        path: '/distribution',
-        name: 'distribution',
-        redirect: {
-          name: "demandManagement"
-        },
-        component: () => import('@/views/distribution/Index.vue')
-      },
-      //配货-需求管理
-      {
-        path: '/distribution/demandManagement',
-        name: 'demandManagement',
-        redirect: {
-          name: "requirementList"
-        },
-        component: () => import('@/views/distribution/demandManagement/Index.vue')
-      },
-      //配货-需求管理-需求单
-      {
-        path: '/distribution/demandManagement/requirementList',
-        name: 'requirementList',
-        component: () => import('@/views/distribution/demandManagement/requirementList/Index.vue')
-      },
-      //配货-配货管理-任务清单
-      {
-        path: '/distribution/distributionManagement',
-        name: 'distributionManagement',
-        redirect: {
-          name: "planLlist"
-        },
-        component: () => import('@/views/distribution/distributionManagement/Index.vue')
-      },
-      //配货-配货管理-建议单   
-      {
-        path: '/distribution/distributionManagement/adviceList',
-        name: 'adviceList',
-        component: () => import('@/views/distribution/distributionManagement/adviceList/Index.vue')
-      },
-      //配货-配货管理-计划单
-      {
-        path: '/distribution/distributionManagement/planLlist',
-        name: 'planLlist',
-        component: () => import('@/views/distribution/distributionManagement/planLlist/Index.vue')
-      },
-      //配货-配货管理-任务清单
-      {
-        path: '/distribution/distributionManagement/taskLlist',
-        name: 'taskLlist',
-        component: () => import('@/views/distribution/distributionManagement/taskLlist/Index.vue')
-      },
-      //配货-门店配货
-      {
-        path: '/distribution/outletDistribution',
-        name: 'outletDistribution',
-        component: () => import('@/views/distribution/outletDistribution/Index.vue')
-      },
+      }
     ]
   },
   {

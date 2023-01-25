@@ -306,60 +306,6 @@
                 ]
             },
             {
-                "name": "配货",
-                "icon": "",
-                "level": 0,
-                "componentName": "distribution",
-                "children": [
-                    {
-                        "name": "需求管理",
-                        "icon": "",
-                        "level": 2,
-                        "componentName": "demandManagement",
-                        "children": [
-                            {
-                                "name": "需求单",
-                                "icon": "",
-                                "level": 3,
-                                "componentName": "requirementList"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "配货管理",
-                        "icon": "",
-                        "level": 2,
-                        "componentName": "distributionManagement",
-                        "children": [
-                            {
-                                "name": "任务清单",
-                                "icon": "",
-                                "level": 3,
-                                "componentName": "taskLlist"
-                            },
-                            {
-                                "name": "建议单",
-                                "icon": "",
-                                "level": 3,
-                                "componentName": "adviceList"
-                            },
-                            {
-                                "name": "计划单",
-                                "icon": "",
-                                "level": 3,
-                                "componentName": "planLlist"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "门店配货",
-                        "icon": "",
-                        "level": 2,
-                        "componentName": "outletDistribution"
-                    }
-                ]
-            },
-            {
                 "name": "资料",
                 "icon": "",
                 "level": 0,
