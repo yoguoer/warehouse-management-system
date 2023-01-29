@@ -57,7 +57,7 @@ public class AlertInfoController {
                 if(null==this.alertInfoService.queryByMany(AIF)){
                     this.add(AIF);
                 }
-            }else{
+            }else{//已处理
                 AlertInfo AIF3 = new AlertInfo();
                 AIF3.setGoodsCode(item.getGoodsCode());
                 AIF3.setShopSupplierCode(item.getShopCode());
@@ -84,7 +84,7 @@ public class AlertInfoController {
                 if(null==this.alertInfoService.queryByMany(AIF)){
                     this.add(AIF);
                 }
-            }else{
+            }else{//已处理
                 AlertInfo AIF1 = new AlertInfo();
                 AIF1.setGoodsCode(item.getGoodsCode());
                 AIF1.setShopSupplierCode(item.getShopCode());
@@ -111,7 +111,7 @@ public class AlertInfoController {
                 if(null==this.alertInfoService.queryByMany(AIF)){
                     this.add(AIF);
                 }
-            }else{
+            }else{//已处理
                 AlertInfo AIF2 = new AlertInfo();
                 AIF2.setGoodsCode(item.getGoodsCode());
                 AIF2.setShopSupplierCode(item.getShopCode());

@@ -1,5 +1,4 @@
 package com.example.api_project.mapper;
-import com.example.api_project.pojo.Brand;
 import com.example.api_project.pojo.Vehicle;
 import org.apache.ibatis.annotations.Param;
 
