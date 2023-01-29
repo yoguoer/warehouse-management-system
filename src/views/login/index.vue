@@ -17,7 +17,7 @@
         </ul>
         <el-form ref="ruleForm" :model="formdata" :rules="rules">
           <el-form-item prop="userPhone" v-if="tabval !== '注册'">
-            <el-input placeholder="用户手机" @keyup.enter.native="submitform('ruleForm', tabval)"
+            <el-input placeholder="用户手机" @keyup.enter.native="submitform('ruleForm', tabval)" id="userPhone"
               v-model="formdata.userPhone"></el-input>
           </el-form-item>
           <template v-if="tabval == '注册'">
@@ -123,19 +123,30 @@ export default {
   },
 
   methods: {
+    checkPhone() {
+      var userPhone = document.getElementById('userPhone').value;
+      if (!(/^1[3456789]\d{9}$/.test(userPhone))) {
+        alert("手机号码有误，请重填");
+        return false;
+      }else{
+        return true;
+      }
+    },
     //提交表单
     submitform(formName, val) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          if (val === '登录') {
-            this.login()
+      if (this.checkPhone()) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            if (val === '登录') {
+              this.login()
+            } else {
+              this.register()
+            }
           } else {
-            this.register()
+            return false
           }
-        } else {
-          return false
-        }
-      })
+        })
+      }
     },
     //登录
     login() {

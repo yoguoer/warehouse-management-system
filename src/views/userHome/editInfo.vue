@@ -9,7 +9,7 @@
                 <el-input v-model="form.userCode"></el-input>
             </el-form-item>
             <el-form-item label="手机号码" prop="userPhone">
-                <el-input v-model="form.userPhone"></el-input>
+                <el-input v-model="form.userPhone" id="userPhone"></el-input>
             </el-form-item>
             <el-form-item label="邮箱" prop="userEmail">
                 <el-input v-model="form.userEmail"></el-input>
@@ -83,26 +83,37 @@ export default {
         // console.log(this.rowData)
     },
     methods: {
+        checkPhone() {
+            var userPhone = document.getElementById('userPhone').value;
+            if (!(/^1[3456789]\d{9}$/.test(userPhone))) {
+                alert("手机号码有误，请重填");
+                return false;
+            } else {
+                return true;
+            }
+        },
         submit() {
-            this.$parent.dialogFormVisible = false
-            let postData = qs.stringify({
-                userId: this.form.userId,//用户 Id
-                userCode: this.form.userCode,
-                userType: this.form.userType,//用户角色
-                userName: this.form.userName,//用户姓名
-                userPhone: this.form.userPhone,//手机号码
-                userEmail: this.form.userEmail,//邮箱
-                userSex: this.form.userSex
-            });
-            updateUserById(postData).then(response => {
-                this.$message({
-                    type: 'success',
-                    message: '已编辑!'
-                })
-                this.$parent.getUserInfo()
-            }).catch(error => {
-                console.log(error)
-            });
+            if (this.checkPhone()) {
+                this.$parent.dialogFormVisible = false
+                let postData = qs.stringify({
+                    userId: this.form.userId,//用户 Id
+                    userCode: this.form.userCode,
+                    userType: this.form.userType,//用户角色
+                    userName: this.form.userName,//用户姓名
+                    userPhone: this.form.userPhone,//手机号码
+                    userEmail: this.form.userEmail,//邮箱
+                    userSex: this.form.userSex
+                });
+                updateUserById(postData).then(response => {
+                    this.$message({
+                        type: 'success',
+                        message: '已编辑!'
+                    })
+                    this.$parent.getUserInfo()
+                }).catch(error => {
+                    console.log(error)
+                });
+            }
         },
         close() {
             this.$parent.dialogFormVisible = false

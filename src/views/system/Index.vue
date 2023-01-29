@@ -100,8 +100,8 @@
         <!-- 新增 -->
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"
             size="medium">
-            <el-dialog title="添加" v-if="dialogAdd" :append-to-body='true' :visible.sync="dialogAdd" :before-close="handleClose"
-                width="600px">
+            <el-dialog title="添加" v-if="dialogAdd" :append-to-body='true' :visible.sync="dialogAdd"
+                :before-close="handleClose" width="600px">
                 <el-form-item label="工号" prop="userCode">
                     <el-input v-model="ruleForm.userCode"></el-input>
                 </el-form-item>
@@ -117,7 +117,7 @@
                     <el-input v-model="ruleForm.userName"></el-input>
                 </el-form-item>
                 <el-form-item label="手机号码" prop="userPhone">
-                    <el-input v-model="ruleForm.userPhone"></el-input>
+                    <el-input v-model="ruleForm.userPhone" id="userPhone"></el-input>
                 </el-form-item>
                 <el-form-item label="邮箱" prop="userEmail">
                     <el-input v-model="ruleForm.userEmail"></el-input>
@@ -143,9 +143,10 @@
             </el-dialog>
         </el-form>
         <!-- 编辑 -->
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm1" label-width="100px" class="demo-ruleForm" size="medium">
-            <el-dialog title="编辑" v-if="dialogUpdate" :append-to-body='true' :visible.sync="dialogUpdate" :before-close="handleClose"
-                width="600px">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm1" label-width="100px" class="demo-ruleForm"
+            size="medium">
+            <el-dialog title="编辑" v-if="dialogUpdate" :append-to-body='true' :visible.sync="dialogUpdate"
+                :before-close="handleClose" width="600px">
                 <el-form-item label="工号" prop="userCode">
                     <el-input v-model="ruleForm.userCode"></el-input>
                 </el-form-item>
@@ -161,7 +162,7 @@
                     <el-input v-model="ruleForm.userName"></el-input>
                 </el-form-item>
                 <el-form-item label="手机号码" prop="userPhone">
-                    <el-input v-model="ruleForm.userPhone"></el-input>
+                    <el-input v-model="ruleForm.userPhone" id="userPhone"></el-input>
                 </el-form-item>
                 <el-form-item label="邮箱" prop="userEmail">
                     <el-input v-model="ruleForm.userEmail"></el-input>
@@ -279,35 +280,45 @@ export default {
             this.pageNo = val;
             this.getUserListPage()
         },
-
+        checkPhone() {
+            var userPhone = document.getElementById('userPhone').value;
+            if (!(/^1[3456789]\d{9}$/.test(userPhone))) {
+                alert("手机号码有误，请重填");
+                return false;
+            } else {
+                return true;
+            }
+        },
         //添加用户
         addUser(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    let postData = ({
-                        userName: this.ruleForm.userName,//用户姓名
-                        userCode: this.ruleForm.userCode,//工号
-                        userEmail: this.ruleForm.userEmail,//邮箱
-                        userPhone: this.ruleForm.userPhone,//手机号码
-                        userType: this.ruleForm.userType,//用户类型
-                        userSex: this.ruleForm.userSex,
-                        userBelong: this.ruleForm.userBelong,
-                    });
-                    createUser(postData).then(res => {
-                        this.getUserListPage()
-                        this.$message({
-                            type: 'success',
-                            message: '已添加!'
+            if (this.checkPhone()) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        let postData = ({
+                            userName: this.ruleForm.userName,//用户姓名
+                            userCode: this.ruleForm.userCode,//工号
+                            userEmail: this.ruleForm.userEmail,//邮箱
+                            userPhone: this.ruleForm.userPhone,//手机号码
+                            userType: this.ruleForm.userType,//用户类型
+                            userSex: this.ruleForm.userSex,
+                            userBelong: this.ruleForm.userBelong,
                         });
-                        this.emptyUserData()
-                    }).catch(err => {
-                        console.log(err)
-                    });
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            })
+                        createUser(postData).then(res => {
+                            this.getUserListPage()
+                            this.$message({
+                                type: 'success',
+                                message: '已添加!'
+                            });
+                            this.emptyUserData()
+                        }).catch(err => {
+                            console.log(err)
+                        });
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                })
+            }
         },
 
         //查询用户
@@ -433,35 +444,37 @@ export default {
 
         //更新用户
         updateUser(formName) {
-            this.$refs[formName].validate((valid) => {
-                if (valid) {
-                    let postData = qs.stringify({
-                        userId: this.ruleForm.userId,//用户 Id
-                        userCode: this.ruleForm.userCode,//工号
-                        userType: this.ruleForm.userType,//用户角色
-                        userName: this.ruleForm.userName,//用户姓名
-                        userPhone: this.ruleForm.userPhone,//手机号码
-                        userEmail: this.ruleForm.userEmail,//邮箱
-                        userSex: this.ruleForm.userSex,
-                        userBelong: this.ruleForm.userBelong
-                    });
-                    updateUserById(postData).then(response => {
-                        this.getUserListPage()
-                        this.$message({
-                            type: 'success',
-                            message: '已编辑!'
+            if (this.checkPhone()) {
+                this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        let postData = qs.stringify({
+                            userId: this.ruleForm.userId,//用户 Id
+                            userCode: this.ruleForm.userCode,//工号
+                            userType: this.ruleForm.userType,//用户角色
+                            userName: this.ruleForm.userName,//用户姓名
+                            userPhone: this.ruleForm.userPhone,//手机号码
+                            userEmail: this.ruleForm.userEmail,//邮箱
+                            userSex: this.ruleForm.userSex,
+                            userBelong: this.ruleForm.userBelong
                         });
+                        updateUserById(postData).then(response => {
+                            this.getUserListPage()
+                            this.$message({
+                                type: 'success',
+                                message: '已编辑!'
+                            });
 
-                        this.emptyUserData()
-                        //console.log(response);
-                    }).catch(error => {
-                        console.log(error)
-                    });
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            })
+                            this.emptyUserData()
+                            //console.log(response);
+                        }).catch(error => {
+                            console.log(error)
+                        });
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                })
+            }
         },
         clean() {
             this.search1 = ''
