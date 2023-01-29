@@ -1,127 +1,133 @@
 <template>
-  <div class="userHome">
-    <el-card class="box-card">
-      <div class="avatar" style="width:200px;margin:5px;">
-        <el-image :src="edit" alt="1" />
+  <div>
+    <div id="body">
+      <div class="stars" ref="starsRef">
+        <div class="star" v-for="(item, index) in starsCount" :key="index"></div>
       </div>
-      <div class="functions">
-        <div class="text item" @click="changePwd()">
-          <el-button style="width: 100%!important;">修改密码</el-button>
-        </div>
-        <div class="text item" @click="editInfo()">
-          <el-button style="width: 100%!important;">修改个人信息</el-button>
-        </div>
-      </div>
-    </el-card>
-
-    <el-card class="box-card">
-      <div class="avatar" style="width:200px;margin:5px;">
-        <el-image :src="avatar" alt="1" />
-      </div>
-      <div class="message">
-        <div class="text item">
-          用户名：{{ userInfo.userId || '-' }}
-        </div>
-        <div class="text item">
-          姓名：{{ userInfo.userName || '-' }}
-        </div>
-        <div class="text item">
-          用户手机：{{ userInfo.userPhone || '-' }}
-        </div>
-        <div class="text item">
-          邮箱：{{ userInfo.userEmail || '-' }}
-        </div>
-      </div>
-    </el-card>
-    <editInfo v-if="dialogFormVisible" :dialogFormVisible="dialogFormVisible" :rowData="rowData"
-      @close="dialogFormVisible = false" ref="editdialog" />
-    <changePwd v-if="dialogVisible" :dialogVisible="dialogVisible" :rowData="rowData" @close="dialogVisible = false"
-      ref="editdialog" />
+    </div>
+    <info />
   </div>
 </template>
 
 <script>
-import avatar from "@/assets/svg/avatar.svg";
-import edit from "@/assets/svg/edit.svg";
-import { getUserInfo } from "../../api/login";
-import editInfo from "./editInfo.vue"
-import changePwd from "./changePwd.vue"
-
+import { onMounted, ref } from "vue";
+import info from "./info.vue"
 
 export default {
-  name: 'userHome',
+  name: 'indexPage',
   data() {
     return {
-      avatar: avatar,
-      edit: edit,
-      userInfo: [],
-      dialogFormVisible: false,
-      dialogVisible: false,
-      rowData: {}
     }
   },
   components: {
-    editInfo,
-    changePwd
+    info
   },
   created() {
-    this.getUserInfo()
+
   },
   methods: {
-    getUserInfo() {
-      let user = JSON.parse(localStorage.getItem("userInfo"))
-      getUserInfo(user).then(res => {
-        this.userInfo = res.data.data || []
-        localStorage.setItem("userInfo", JSON.stringify(this.userInfo))
-        // console.log(this.userInfo)
-      }).catch(err => {
-        console.log(err);
+    gotoLogin() {
+      this.$router.push({ name: 'login' });
+    }
+  },
+  setup() {
+    let starsRef = ref(null);
+
+    const starsCount = 800; //星星数量
+    const distance = 900; //间距
+
+    onMounted(() => {
+      let starNodes = Array.from(starsRef.value.children);
+      starNodes.forEach((item) => {
+        let speed = 0.2 + Math.random() * 1;
+        let thisDistance = distance + Math.random() * 300;
+        item.style.transformOrigin = `0 0 ${thisDistance}px`;
+        item.style.transform = `
+        translate3d(0,0,-${thisDistance}px)
+        rotateY(${Math.random() * 360}deg)
+        rotateX(${Math.random() * -50}deg)
+        scale(${speed},${speed})`;
       });
-    },
-    editInfo() {
-      this.rowData = this.userInfo
-      this.dialogFormVisible = true
-      // console.log("修改个人信息")
-    },
-    changePwd() {
-      this.rowData = this.userInfo
-      this.dialogVisible = true
-      // console.log("修改个人信息")
-    },
-  }
+    });
+
+    return {
+      starsRef,
+      starsCount,
+    };
+  },
 }
 </script>
 
-<style scoped>
-.userHome {
-  display: inline-flex;
+<style lang="css" scoped>
+* {
+  /* CSS Reset */
+  margin: 0;
+  padding: 0;
 }
 
-.functions {
+#body {
+  z-index:1;
+  position: absolute;
+  left: 0;
+  top: 50px;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.8;
+  background: radial-gradient(200% 100% at bottom center,
+      #f7f7b6,
+      #e96f92,
+      #1b2947);
+  background: radial-gradient(200% 105% at top center,
+      #1b2947 10%,
+      #75517d 40%,
+      #e96f92 65%,
+      #f7f7b6);
+  background-attachment: fixed;
+  overflow: hidden;
+}
+
+@keyframes rotate {
+  0% {
+    transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(0);
+  }
+
+  100% {
+    transform: perspective(400px) rotateZ(20deg) rotateX(-40deg) rotateY(-360deg);
+  }
+}
+
+.stars {
+  transform: perspective(500px);
+  transform-style: preserve-3d;
+  position: absolute;
+  perspective-origin: 50% 100%;
+  left: 45%;
+  animation: rotate 90s infinite linear;
+  bottom: 0;
+}
+
+.star {
+  width: 2px;
+  height: 2px;
+  background: #f7f7b6;
+  position: absolute;
+  left: 0;
+  top: 0;
+  backface-visibility: hidden;
+}
+
+.enter-btn {
   cursor: pointer;
-  float: right
+  top: 50%;
 }
 
-.text {
-  font-size: 18px;
-}
-
-.item {
-  padding: 18px 0;
-}
-
-.avatar {
-  display: flex;
-  float: left;
-}
-
-.message {
-  float: right
-}
-
-.box-card {
-  width: 500px;
-  margin: 20px;
-  display: flex;
+.enter-btn {
+  position: absolute;
+  z-index: 999;
+  left: 50vw;
+  top: 50vh;
 }
 </style>
