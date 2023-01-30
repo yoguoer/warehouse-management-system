@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.TransferIntegrateMapper">
+
+    <resultMap type="com.example.api_project.vo.TransferIntegrate" id="TransferIntegrateMap">
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="checkStatus" column="check_status" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--按照门店编码分类in-->
+    <select id="queryAllByShopIn" resultMap="TransferIntegrateMap">
+        SELECT input_warehouse.goods_code,input_warehouse.goods_name,
+        input_warehouse.shop_code as InShopCode,input_warehouse.shop_name as InShopName,
+        count(case when(check_status=1) then 1 else null end)as transferNum,
+        sum(case when(check_status=1) then check_num else null end)as transferSum
+        from transfer_check join input_warehouse on input_warehouse.input_warehouse_key=transfer_check.input_warehouse_key
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and input_warehouse.shop_code = #{shopCode}
+            </if>
+        </where>
+        group by input_warehouse.shop_code,input_warehouse.goods_code
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--按照门店编码分类out-->
+    <select id="queryAllByShopOut" resultMap="TransferIntegrateMap">
+        SELECT output_warehouse.goods_code,output_warehouse.goods_name,
+               output_warehouse.shop_code as OutShopCode,output_warehouse.shop_name as OutShopName,
+            count(case when(check_status=1) then 1 else null end)as transferNum,
+            sum(case when(check_status=1) then check_num else null end)as transferSum
+        from transfer_check join output_warehouse on output_warehouse.output_warehouse_key=transfer_check.output_warehouse_key
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and output_warehouse.shop_code = #{shopCode}
+            </if>
+        </where>
+        group by output_warehouse.shop_code,output_warehouse.goods_code
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--按照商品编码-->
+    <select id="queryAllByGoods" resultMap="TransferIntegrateMap">
+        SELECT output_warehouse.goods_code,output_warehouse.goods_name,
+        input_warehouse.shop_code as InShopCode,input_warehouse.shop_name as InShopName,
+        output_warehouse.shop_code as OutShopCode,output_warehouse.shop_name as OutShopName,
+        count(case when(check_status=1) then 1 else null end)as transferNum,
+        sum(case when(check_status=1) then check_num else null end)as transferSum
+        from transfer_check
+            join input_warehouse on input_warehouse.input_warehouse_key=transfer_check.input_warehouse_key
+            join output_warehouse on output_warehouse.output_warehouse_key=transfer_check.output_warehouse_key
+        <where>
+            <if test="goodsCode != null and goodsCode != ''">
+                and output_warehouse.goods_code = #{goodsCode}
+            </if>
+        </where>
+        group by output_warehouse.goods_code,output_warehouse.shop_code
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+</mapper>
+
