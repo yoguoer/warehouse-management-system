@@ -85,8 +85,11 @@ export default {
     methods: {
         checkPhone() {
             var userPhone = document.getElementById('userPhone').value;
-            if (!(/^1[3456789]\d{9}$/.test(userPhone))) {
+            if (!(/\d{11}$/.test(userPhone))) {
                 alert("手机号码有误，请重填");
+                return false;
+            } else if (!(/^1[3456789]\d{9}$/.test(userPhone))) {
+                alert("此号码无效，请重填");
                 return false;
             } else {
                 return true;

@@ -30,7 +30,7 @@
                 @keyup.enter.native="submitform('ruleForm', tabval)" maxlength="20" />
             </el-form-item>
             <el-form-item prop="userPhone">
-              <el-input type="text" placeholder="手机号码" v-model="formdata.userPhone"
+              <el-input type="text" placeholder="手机号码" v-model="formdata.userPhone" id="userPhone"
                 @keyup.enter.native="submitform('ruleForm', tabval)" maxlength="20" />
             </el-form-item>
             <el-form-item prop="userEmail">
@@ -125,10 +125,13 @@ export default {
   methods: {
     checkPhone() {
       var userPhone = document.getElementById('userPhone').value;
-      if (!(/^1[3456789]\d{9}$/.test(userPhone))) {
+      if (!(/\d{11}$/.test(userPhone))) {
         alert("手机号码有误，请重填");
         return false;
-      }else{
+      } else if (!(/^1[3456789]\d{9}$/.test(userPhone))) {
+        alert("此号码无效，请重填");
+        return false;
+      } else {
         return true;
       }
     },
@@ -179,7 +182,7 @@ export default {
         } else {
           this.$message({
             type: 'error',
-            message: '账户名或密码错误！'
+            message: res.data.msg
           });
         }
       }).catch(error => {
@@ -211,7 +214,7 @@ export default {
         } else {
           this.$message({
             type: 'error',
-            message: '注册失败!'
+            message: res.data.msg
           });
         }
       }).catch(error => {
