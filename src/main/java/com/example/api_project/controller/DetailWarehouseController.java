@@ -120,6 +120,10 @@ public class DetailWarehouseController {
             shopkeeperWarehouse.setOperateTime(result.getAtTime());
             shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
             shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-shopkeeperWarehouse.getOccupyNum());
+            //退回的货物中存在残品，需要设置残品数
+            if(detailWarehouse.getIsDefects()==1){
+                shopkeeperWarehouse.setRejectsNum(detailWarehouse.getDefectsNum());
+            }
         }
         //(2零售出库、7调货出库)
         else if(transType==2||transType==7||transType==8||transType==9) {//零售、调货出库、盘盈盘亏比较特殊，直接加减就行了
