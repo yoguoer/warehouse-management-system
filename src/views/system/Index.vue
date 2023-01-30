@@ -188,9 +188,11 @@
                 </span>
             </el-dialog>
         </el-form>
-        <el-pagination layout="total, sizes, prev, pager, next, jumper" :page-sizes="[10, 20, 50, 100]"
-            style="text-align: center;" :current="parseInt(pageNo)" :total="total" :page-size.sync="pageSize"
-            :page-no.sync="pageNo" @current-change="_page" @size-change="_pageSize"></el-pagination>
+        <div class="page-box">
+            <el-pagination layout="total, sizes, prev, pager, next, jumper" :page-sizes="[10, 20, 50, 100]"
+                :current="parseInt(pageNo)" :total="total" :page-size.sync="pageSize" :page-no.sync="pageNo"
+                @current-change="_page" @size-change="_pageSize"></el-pagination>
+        </div>
     </div>
 </template>
 
@@ -489,5 +491,8 @@ export default {
 }
 </script>
 <style scoped>
-
+.page-box {
+    text-align: right;
+    margin: 20px;
+}
 </style>
