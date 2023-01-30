@@ -32,7 +32,7 @@
     select
     <include refid="Base_Column_List" />
     from user
-    where user_id = #{userId,jdbcType=VARCHAR}
+    where user_phone = #{userPhone}
   </select>
 
 <!--  根据id删除用户-->

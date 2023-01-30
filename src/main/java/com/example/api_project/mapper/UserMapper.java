@@ -13,7 +13,7 @@ public interface UserMapper {
 
     int insert(User user);
 
-    User selectByPrimaryKey(String userId);
+    User selectByPrimaryKey(String userPhone);
 
     int updateByPrimaryKeySelective(User user);
 

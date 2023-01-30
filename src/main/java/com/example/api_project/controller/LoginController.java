@@ -48,6 +48,8 @@ public class LoginController {
             responseData.putDataValue("user", u);
             responseData.Result();
             return responseData;
+        }else if(userService.findOneUser(user)==null){
+            return ResponseData.error("账号不存在，请重新输入！");
         }else{
             return ResponseData.error("账号或密码错误！");
         }

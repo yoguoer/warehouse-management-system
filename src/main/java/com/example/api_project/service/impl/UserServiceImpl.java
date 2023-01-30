@@ -52,8 +52,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findOneUser(User user) {
-        String userId = user.getUserId();
-        return userMapper.selectByPrimaryKey(userId);
+        String userPhone = user.getUserPhone();
+        return userMapper.selectByPrimaryKey(userPhone);
     }
 
     @Override
