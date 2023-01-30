@@ -135,6 +135,23 @@ const routes = [{
               },
             ]
           },
+          //数据集成-调货统计
+          {
+            path: '/dataIntegrate/transferIntegrate',
+            name: 'transferIntegrate',
+            redirect: {
+              name: "transferIntegrateList"
+            },
+            component: () => import('@/views/dataIntegrate/transferIntegrate/Index.vue'),
+            children: [
+              //数据集成-客户评估
+              {
+                path: '/dataIntegrate/transferIntegrateList',
+                name: 'transferIntegrateList',
+                component: () => import('@/components/dataIntegrate/transferIntegrate/transferIntegrateList.vue')
+              },
+            ]
+          },
           //数据集成-客户评估
           {
             path: '/dataIntegrate/customerIntegrate',

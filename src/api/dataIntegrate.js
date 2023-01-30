@@ -66,3 +66,12 @@ export function salesIntegrateListPage(data) {
         params: data,
     });
 }
+
+//查询调货统计（分页）
+export function transferIntegrateListPage(data) {
+    return request({
+        url: baseUrl + "/transferIntegrate/list-page",
+        method: "get",
+        params: data,
+    });
+}

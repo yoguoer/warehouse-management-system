@@ -68,6 +68,12 @@
                         ]
                     },
                     {
+                        "name": "调货统计",
+                        "icon": "",
+                        "level": 2,
+                        "componentName": "transferIntegrate"
+                    },
+                    {
                         "name": "客户评估",
                         "icon": "",
                         "level": 2,
