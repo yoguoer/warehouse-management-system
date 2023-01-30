@@ -1,9 +1,10 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden"  :hidden1="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden" />
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
-        :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
+        :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
+        :loading="loadings.table">
         <template v-slot:column-status="props">
           <span>{{
             props.row.status == '0' ? '在单'
@@ -25,8 +26,7 @@
         </template> -->
       </TableList>
     </div>
-    <sOutputEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
-      @success="success()" />
+    <sOutputEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
   </div>
 </template>
 
@@ -43,8 +43,8 @@ export default {
     return {
       total: null,
       drawer: false,
-      hidden:true,
-      multiCheck:false,
+      hidden: true,
+      multiCheck: false,
       rowData: {},
       tableData: [],
       multipleSelection: [],
@@ -229,13 +229,13 @@ export default {
         if (res.data.code === 200) {
           // this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
-          this.tableData=[]
-          res.data.data.records.forEach(item=>{
-            if(item.status>=2){
+          this.tableData = []
+          res.data.data.records.forEach(item => {
+            if (item.status >= 2 && item.inputShopCode == "") {
               this.tableData.push(item)
             }
           })
-          this.total=this.tableData.length
+          this.total = this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
@@ -265,13 +265,13 @@ export default {
         if (res.data.code === 200) {
           // this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
-          this.tableData=[]
-          res.data.data.records.forEach(item=>{
-            if(item.status>=2){
+          this.tableData = []
+          res.data.data.records.forEach(item => {
+            if (item.status >= 2 && item.inputShopCode == "") {
               this.tableData.push(item)
             }
           })
-          this.total=this.tableData.length
+          this.total = this.tableData.length
           console.log(this.total, this.tableData);
         } else {
           console.log("error");
