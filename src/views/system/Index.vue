@@ -36,7 +36,7 @@
             </el-form-item>
         </el-form>
         <!-- 表格数据 -->
-        <el-table ref="multipleTable" :data="tableData" border highlight-current-row
+        <el-table ref="multipleTable" :data="tableData" border highlight-current-row :cell-style="{ padding: '5px' }"
             style="width: 100%;min-height:600px;" @selection-change="handleSelectionDelete">
             <el-table-column type="selection" width="55">
             </el-table-column>
