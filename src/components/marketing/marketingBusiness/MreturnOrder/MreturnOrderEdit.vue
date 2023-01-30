@@ -1,8 +1,9 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '审批退货单'" :visible.sync="drawer" :direction="direction"  :close-on-click-modal="false" 
-    :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
+  <el-dialog size="30%" :title="ifCreate ? '新增' : '审批退货单'" :visible.sync="drawer" :direction="direction"
+    :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" :wrapperClosable="false"
+    :append-to-body='true' width="1200px">
 
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
       <el-row>
         <el-col :span="10">
           <el-form-item label="门店" prop="shopCode">
@@ -164,6 +165,23 @@
             <el-input v-model="ruleForm.description" clearable placeholder="审批意见" type="textarea"></el-input>
           </el-form-item>
         </el-col>
+        <el-col :span="10" v-if="ruleForm.checkStatus == 1">
+          <el-form-item label="是否有残次品" prop="isDefects">
+            <el-select size="small" v-model="ruleForm.isDefects" placeholder="是否有残次品" clearable>
+              <el-option label="否" :value="0">
+              </el-option>
+              <el-option label="是" :value="1">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="10" v-if="ruleForm.isDefects == 1">
+          <el-form-item label="残次品数" prop="defectsNum">
+            <el-input v-model="ruleForm.defectsNum" clearable placeholder="残次品数"></el-input>
+          </el-form-item>
+        </el-col>
       </el-row>
     </el-form>
     <div class="dialog_footer">
@@ -219,6 +237,8 @@ export default {
         inputOutputKey: "",
         outputShopCode: "",
         outputShopName: "",
+        isDefects: "",
+        defectsNum: ""
       },
       shopOptions: [],
       goodsOptions: [],
@@ -262,6 +282,12 @@ export default {
         ],
         checkStatus: [
           { required: true, message: '请审批', trigger: 'blur' },
+        ],
+        isDefects: [
+          { required: true, message: '是否有残次品', trigger: 'blur' },
+        ],
+        defectsNum: [
+          { required: true, message: '残次品数', trigger: 'blur' },
         ],
       }
     }
@@ -476,18 +502,20 @@ export default {
                   let data = {
                     inputOutputKey: this.ruleForm.outputWarehouseKey,
                     shopkeeperWarehouseKey: "",
-                    type: 1,
+                    type: 0,
                     // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
                     transType: this.ruleForm.type == 0 ? 3 : 5,
                     quantity: this.ruleForm.checkNum,
                     startNum: "",
                     finalNum: "",
                     atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-                    status:this.rowData.status,
+                    status: this.rowData.status,
                     detailWarehouseKey: "",
                     shopCode: this.ruleForm.shopCode,
                     goodsCode: this.ruleForm.goodsCode,
-                    status:this.rowData.status
+                    status: this.rowData.status,
+                    isDefects: this.ruleForm.isDefects,
+                    defectsNum: this.ruleForm.defectsNum,
                   }
                   detailWarehouseAdd(data).then(res => {
                     if (res.data.code == 200) {
@@ -568,18 +596,18 @@ export default {
                   let data = {
                     inputOutputKey: this.ruleForm.outputWarehouseKey,
                     shopkeeperWarehouseKey: "",
-                    type: 1,
+                    type: 0,
                     // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
                     transType: this.ruleForm.type == 0 ? 3 : 5,
                     quantity: this.ruleForm.checkNum,
                     startNum: "",
                     finalNum: "",
                     atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-                    status:this.rowData.status,
+                    status: this.rowData.status,
                     detailWarehouseKey: "",
                     shopCode: this.ruleForm.shopCode,
                     goodsCode: this.ruleForm.goodsCode,
-                    status:this.rowData.status
+                    status: this.rowData.status
                   }
                   detailWarehouseAdd(data).then(res => {
                     if (res.data.code == 200) {
