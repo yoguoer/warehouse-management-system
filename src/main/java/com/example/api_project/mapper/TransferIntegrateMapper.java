@@ -18,7 +18,7 @@ public interface TransferIntegrateMapper {
      */
     List<TransferIntegrate> queryAllByShopIn(String shopCode, Integer startRows, Integer pageSize);
     List<TransferIntegrate> queryAllByShopOut(String shopCode, Integer startRows, Integer pageSize);
-    List<TransferIntegrate> queryAllByGoods(String goodsCode, Integer startRows, Integer pageSize);
+    List<TransferIntegrate> queryAllByGoods(String goodsCode,String InShopCode, String OutShopCode,Integer startRows, Integer pageSize);
 
 }
 

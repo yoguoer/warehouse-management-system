@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("api/TransferIntegrate")
+@RequestMapping("api/transferIntegrate")
 public class TransferIntegrateController {
     /**
      * 服务对象

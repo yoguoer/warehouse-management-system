@@ -21,7 +21,7 @@
                 and input_warehouse.shop_code = #{shopCode}
             </if>
         </where>
-        group by input_warehouse.shop_code,input_warehouse.goods_code
+        group by transfer_check.shop_code,input_warehouse.goods_code
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
@@ -37,7 +37,7 @@
                 and output_warehouse.shop_code = #{shopCode}
             </if>
         </where>
-        group by output_warehouse.shop_code,output_warehouse.goods_code
+        group by transfer_check.shop_code,output_warehouse.goods_code
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
@@ -52,11 +52,18 @@
             join input_warehouse on input_warehouse.input_warehouse_key=transfer_check.input_warehouse_key
             join output_warehouse on output_warehouse.output_warehouse_key=transfer_check.output_warehouse_key
         <where>
-            <if test="goodsCode != null and goodsCode != ''">
-                and output_warehouse.goods_code = #{goodsCode}
+            <if test="InShopCode != null and InShopCode != ''">
+                and input_warehouse.shop_code = #{InShopCode}
             </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+            <if test="OutShopCode != null and OutShopCode != ''">
+                and output_warehouse.shop_code = #{OutShopCode}
+            </if>
+            and check_status=1
         </where>
-        group by output_warehouse.goods_code,output_warehouse.shop_code
+        group by transfer_check.goods_code,output_warehouse.shop_code,input_warehouse.shop_code
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 </mapper>

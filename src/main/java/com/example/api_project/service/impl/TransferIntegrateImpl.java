@@ -31,16 +31,18 @@ public class TransferIntegrateImpl implements TransferIntegrateService {
     public Map<String, Object> queryByPage(TransferIntegrate transferIntegrate, Integer startRows, Integer pageSize) {
         List<TransferIntegrate> records;
         Integer type=transferIntegrate.getType();
-        if(null!=type&&type==0){
-            String shopCode=transferIntegrate.getInShopCode();
-            records = this.transferIntegrateMapper.queryAllByShopIn(shopCode,startRows, pageSize);
-        }else if(null!=type&&type==1){
-            String shopCode=transferIntegrate.getOutShopCode();
-            records = this.transferIntegrateMapper.queryAllByShopOut(shopCode,startRows, pageSize);
-        }else{
+//        if(null!=type&&type==0){
+//            String shopCode=transferIntegrate.getInShopCode();
+//            records = this.transferIntegrateMapper.queryAllByShopIn(shopCode,startRows, pageSize);
+//        }else if(null!=type&&type==1){
+//            String shopCode=transferIntegrate.getOutShopCode();
+//            records = this.transferIntegrateMapper.queryAllByShopOut(shopCode,startRows, pageSize);
+//        }else{
             String goodsCode=transferIntegrate.getGoodsCode();
-            records = this.transferIntegrateMapper.queryAllByGoods(goodsCode,startRows, pageSize);
-        }
+            String InShopCode=transferIntegrate.getInShopCode();
+            String OutShopCode=transferIntegrate.getOutShopCode();
+            records = this.transferIntegrateMapper.queryAllByGoods(goodsCode,InShopCode,OutShopCode,startRows, pageSize);
+//        }
         long total = records.size();
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
