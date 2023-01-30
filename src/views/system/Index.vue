@@ -296,9 +296,9 @@ export default {
         },
         //添加用户
         addUser(formName) {
-            if (this.checkPhone()) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    if (this.checkPhone()) {
                         let postData = ({
                             userName: this.ruleForm.userName,//用户姓名
                             userCode: this.ruleForm.userCode,//工号
@@ -318,12 +318,12 @@ export default {
                         }).catch(err => {
                             console.log(err)
                         });
-                    } else {
-                        console.log('error submit!!');
-                        return false;
                     }
-                })
-            }
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            })
         },
 
         //查询用户
@@ -449,9 +449,9 @@ export default {
 
         //更新用户
         updateUser(formName) {
-            if (this.checkPhone()) {
-                this.$refs[formName].validate((valid) => {
-                    if (valid) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    if (this.checkPhone()) {
                         let postData = qs.stringify({
                             userId: this.ruleForm.userId,//用户 Id
                             userCode: this.ruleForm.userCode,//工号
@@ -474,12 +474,13 @@ export default {
                         }).catch(error => {
                             console.log(error)
                         });
-                    } else {
-                        console.log('error submit!!');
-                        return false;
                     }
-                })
-            }
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            })
+
         },
         clean() {
             this.search1 = ''
