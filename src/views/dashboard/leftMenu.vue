@@ -45,17 +45,6 @@
         </el-menu-item-group>
       </el-submenu>
 
-      <el-submenu index="distribution">
-        <template slot="title">
-          <i class="el-icon-s-flag"></i>
-          <span slot="title">配货</span>
-        </template>
-        <el-menu-item-group>
-          <el-menu-item index="demandManagement">需求管理</el-menu-item>
-          <el-menu-item index="distributionManagement">配货管理</el-menu-item>
-        </el-menu-item-group>
-      </el-submenu>
-
       <el-submenu index="store">
         <template slot="title">
           <i class="el-icon-s-home"></i>
@@ -98,7 +87,8 @@ export default {
     return {
       drawer: false,
       direction: 'ltr',
-      userType: ""
+      userType: "",
+      selOneMenu:""
     };
   },
   created() {
@@ -110,26 +100,40 @@ export default {
       if (index == 'purchasingStrategy' || index == 'purchasingBusiness' || index == 'purchasingQueries' || index == 'transferInput') {
         this.$parent.getMenuSubList('purchasing')
         this.$parent.selOneMenu = 'purchasing'
-        se
+        this.$parent.isShow=true
+        this.selOneMenu = 'purchasing'
+
       } else if (index == 'marketingBusiness' || index == 'marketingQueries' || index == 'transferOutput') {
         this.$parent.getMenuSubList('marketing')
         this.$parent.selOneMenu = 'marketing'
+        this.$parent.isShow=true
+        this.selOneMenu = 'marketing'
+
       } else if (index == 'suppliers' || index == 'shopkeepers') {
         this.$parent.getMenuSubList('store')
         this.$parent.selOneMenu = 'store'
-      } else if (index == 'demandManagement' || index == 'distributionManagement') {
-        this.$parent.getMenuSubList('distribution')
-        this.$parent.selOneMenu = 'distribution'
+        this.$parent.isShow=true
+        this.selOneMenu = 'store'
+
       } else if (index == 'business' || index == 'finance' || index == 'goods' || index == 'shop' || index == 'inventory' || index == 'supply' || index == 'customer') {
         this.$parent.getMenuSubList('data')
         this.$parent.selOneMenu = 'data'
+        this.$parent.isShow=true
+        this.selOneMenu = 'data'
+
       } else if (index == 'salesIntegrate' || index == 'purchaseIntegrate' || index == 'inventoryIntegrate' || index == 'customerIntegrate' || index == 'supplierIntegrate'||index=="transferIntegrate") {
         this.$parent.getMenuSubList('dataIntegrate')
         this.$parent.selOneMenu = 'dataIntegrate'
+        this.$parent.isShow=true
+        this.selOneMenu = 'dataIntegrate'
+
       } else {
         this.$parent.getMenuSubList('')
         this.$parent.selOneMenu = ''
+        this.selOneMenu = ''
+
       }
+      console.log(this.$parent.selOneMenu)
       sessionStorage.setItem("selOneMenu", this.selOneMenu)
     },
     handleOpen(key, keyPath) {
