@@ -1,7 +1,7 @@
 <template>
     <el-dialog title="编辑个人信息" :visible.sync="dialogFormVisible" width="500px" :before-close="close"
-        :close-on-click-modal="false"  :modal-append-to-body="false" >
-        <el-form :model="form" :rules="rules" label-width="80px">
+        :close-on-click-modal="false" :modal-append-to-body="false">
+        <el-form :model="form" :rules="rules" label-width="80px" ref="ruleForm">
             <el-form-item label="姓名" prop="userName">
                 <el-input v-model="form.userName"></el-input>
             </el-form-item>
@@ -24,7 +24,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="close()">取 消</el-button>
-            <el-button type="primary" @click="submit()">确 定</el-button>
+            <el-button type="primary" @click="submit('ruleForm')">确 定</el-button>
         </div>
     </el-dialog>
 </template>
@@ -95,28 +95,35 @@ export default {
                 return true;
             }
         },
-        submit() {
-            if (this.checkPhone()) {
-                this.$parent.dialogFormVisible = false
-                let postData = qs.stringify({
-                    userId: this.form.userId,//用户 Id
-                    userCode: this.form.userCode,
-                    userType: this.form.userType,//用户角色
-                    userName: this.form.userName,//用户姓名
-                    userPhone: this.form.userPhone,//手机号码
-                    userEmail: this.form.userEmail,//邮箱
-                    userSex: this.form.userSex
-                });
-                updateUserById(postData).then(response => {
-                    this.$message({
-                        type: 'success',
-                        message: '已编辑!'
-                    })
-                    this.$parent.getUserInfo()
-                }).catch(error => {
-                    console.log(error)
-                });
-            }
+        submit(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    if (this.checkPhone()) {
+                        this.$parent.dialogFormVisible = false
+                        let postData = qs.stringify({
+                            userId: this.form.userId,//用户 Id
+                            userCode: this.form.userCode,
+                            userType: this.form.userType,//用户角色
+                            userName: this.form.userName,//用户姓名
+                            userPhone: this.form.userPhone,//手机号码
+                            userEmail: this.form.userEmail,//邮箱
+                            userSex: this.form.userSex
+                        });
+                        updateUserById(postData).then(response => {
+                            this.$message({
+                                type: 'success',
+                                message: '已编辑!'
+                            })
+                            this.$parent.getUserInfo()
+                        }).catch(error => {
+                            console.log(error)
+                        });
+                    }
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            })
         },
         close() {
             this.$parent.dialogFormVisible = false

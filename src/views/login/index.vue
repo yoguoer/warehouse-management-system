@@ -137,19 +137,20 @@ export default {
     },
     //提交表单
     submitform(formName, val) {
-      if (this.checkPhone()) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if (this.checkPhone()) {
             if (val === '登录') {
               this.login()
             } else {
               this.register()
             }
-          } else {
-            return false
           }
-        })
-      }
+        } else {
+          return false
+        }
+      })
+
     },
     //登录
     login() {

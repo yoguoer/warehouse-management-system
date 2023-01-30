@@ -20,7 +20,7 @@
       </div>
       <div class="message">
         <div class="text item">
-          用户名：{{ userInfo.userId || '-' }}
+          工号：{{ userInfo.userCode || '-' }}
         </div>
         <div class="text item">
           姓名：{{ userInfo.userName || '-' }}
@@ -30,6 +30,16 @@
         </div>
         <div class="text item">
           邮箱：{{ userInfo.userEmail || '-' }}
+        </div>
+        <div class="text item">
+          性别：{{ userInfo.userSex || '-' }}
+        </div>
+        <div class="text item">
+          角色：{{ userInfo.userType == 0 ? '超级管理员' : ( userInfo.userType == 1 ? '仓库管理员' : '普通用户') }}  
+        </div>
+        <div class="text item">
+          类型：{{ userInfo.userBelong == 0 ? '门店用户' : ( userInfo.userBelong == 1 ? '供应商用户' 
+          : ( userInfo.userBelong == 2 ? '全局用户' : '未配置')) }}  
         </div>
       </div>
     </el-card>
