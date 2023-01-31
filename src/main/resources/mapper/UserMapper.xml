@@ -23,8 +23,12 @@
     select
     <include refid="Base_Column_List" />
     from user
-    where user_type = #{userType,jdbcType=VARCHAR}
-    and user_belong=0
+    <where>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=VARCHAR}
+      </if>
+      and user_belong=0
+    </where>
   </select>
 
 <!--  根据id查找用户-->
