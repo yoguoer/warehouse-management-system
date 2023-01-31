@@ -126,10 +126,18 @@ export default {
     checkPhone() {
       var userPhone = document.getElementById('userPhone').value;
       if (!(/\d{11}$/.test(userPhone))) {
-        alert("手机号码有误，请重填");
+        // alert("手机号码有误，请重填");
+        this.$message({
+          type: 'error',
+          message: '手机号码有误，请重填!'
+        })
         return false;
       } else if (!(/^1[3456789]\d{9}$/.test(userPhone))) {
-        alert("此号码无效，请重填");
+        // alert("此号码无效，请重填");
+        this.$message({
+          type: 'error',
+          message: '此号码无效，请重填!'
+        })
         return false;
       } else {
         return true;
