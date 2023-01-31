@@ -35,8 +35,9 @@
               <el-form-item label="所属分类" v-model="form.categoryKey" prop="categoryKey">
                 <listBoxF style="width:350px">
                   <template slot="content">
-                    <treeselect class="treeSelect-option" v-model="valueC" :multiple="multiple" clearable style="width: 350px"
-                      :normalizer="normalizerC" :options="list" placeholder="请选择" @select="selectNodeC" />
+                    <treeselect class="treeSelect-option" v-model="valueC" :multiple="multiple" clearable
+                      style="width: 350px" :normalizer="normalizerC" :options="list" placeholder="请选择"
+                      @select="selectNodeC" />
                   </template>
                 </listBoxF>
               </el-form-item>
@@ -45,12 +46,24 @@
           <el-row>
             <el-col :span="10">
               <el-form-item label="业务人员" prop="businessPersonCode">
-                <el-input v-model="form.businessPersonCode" class="form_text" placeholder="业务人员" clearable></el-input>
+                <!-- <el-input v-model="form.businessPersonCode" class="form_text" placeholder="业务人员" clearable></el-input> -->
+                <el-select size="middle" v-model="form.businessPersonCode" placeholder="业务人员" style="width:350px;"
+                  clearable>
+                  <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName"
+                    :value="item.userCode">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="10">
               <el-form-item label="责任人员" prop="liablePersonCode">
-                <el-input v-model="form.liablePersonCode" class="form_text" placeholder="责任人员" clearable></el-input>
+                <!-- <el-input v-model="form.liablePersonCode" class="form_text" placeholder="责任人员" clearable></el-input> -->
+                <el-select size="middle" v-model="form.liablePersonCode" placeholder="责任人员" style="width:350px;"
+                  clearable>
+                  <el-option v-for="item in userOptions1" :key="item.userId" :label="item.userName"
+                    :value="item.userCode">
+                  </el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -72,7 +85,7 @@
               <el-form-item label="备注" prop="description">
                 <el-input v-model="form.description" clearable placeholder="备注" style="width: 350px"></el-input>
               </el-form-item>
-          </el-col>
+            </el-col>
           </el-row>
           <el-row style="white-space: nowrap;">
             <el-form-item label="联系地址" prop="address" v-model="form.address">
@@ -94,6 +107,7 @@
 import { shopUpdate, shopAdd, getCategoryTree } from "@/api/data";
 import listBoxF from "@/components/public/listBoxF/listBoxF.vue";
 import checkAddress from "@/components/public/checkAddress.vue";
+import { UserList } from '@/api/api'
 /**
  * 树形组件 用于选择框
  */
@@ -121,6 +135,8 @@ export default {
   },
   data() {
     return {
+      userOptions: [],
+      userOptions1: [],
       form: {
         shopCode: "",
         shopName: "",
@@ -128,7 +144,7 @@ export default {
         liablePersonCode: "",
         cooperationType: "",
         shopStatus: "",
-        description:"",
+        description: "",
         shopKey: "",
         categoryKey: "",
         address: {
@@ -183,6 +199,7 @@ export default {
   created() {
     // this.getbusinessTree()
     this.getTree()
+    this.getUserList()
     if (this.rowData.shopKey) {
       this.ifCreate = false;
       this.form.shopKey = this.rowData.shopKey
@@ -193,7 +210,7 @@ export default {
       this.form.cooperationType = this.rowData.cooperationType
       this.form.shopStatus = this.rowData.shopStatus
       this.form.categoryKey = this.rowData.categoryKey
-      this.form.description=this.rowData.description
+      this.form.description = this.rowData.description
       this.form.address.province = this.rowData.province;
       this.form.address.city = this.rowData.city;
       this.form.address.district = this.rowData.district;
@@ -209,6 +226,20 @@ export default {
     }
   },
   methods: {
+    getUserList() {
+      UserList({ userType: 2 }).then(res => {
+        this.userOptions = res.data.data
+        this.$forceUpdate()
+      }).catch(err => {
+        console.log(err)
+      });
+      UserList({ userType: 1 }).then(res => {
+        this.userOptions1 = res.data.data
+        this.$forceUpdate()
+      }).catch(err => {
+        console.log(err)
+      });
+    },
     // 自定义参数键值名称
     normalizerC(node) {
       //去掉children=[]的children属性
@@ -254,7 +285,7 @@ export default {
       this.form.categoryKey = this.valueC
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let data={
+          let data = {
             province: this.form.address.province,
             city: this.form.address.city,
             district: this.form.address.district,
@@ -293,7 +324,7 @@ export default {
       this.form.categoryKey = this.valueC
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          let data={
+          let data = {
             province: this.form.address.province,
             city: this.form.address.city,
             district: this.form.address.district,
