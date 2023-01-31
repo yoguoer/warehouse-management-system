@@ -68,7 +68,7 @@ import configEdit from "./configEdit";
           { prop: "inventoryName", label: "仓库名称" },
           { slots: { name: "column-address" }, label: "仓库地址" },
           { slots: { name: "column-status" }, label: "状态" },
-          { prop: "description", label: "备注" },
+          { prop: "description", label: "仓库备注" },
           { slots: { name: "column-todo" }, label: "操作", fixed: "right" },
         ];
       },

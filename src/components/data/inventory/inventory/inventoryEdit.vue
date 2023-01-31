@@ -207,7 +207,7 @@ export default {
     this.getinventorylist()
     this.getshoplist()
     this.getSupplierlist()
-    if (this.rowData.contactName) {
+    if (this.rowData.inventoryKey) {
       this.ifCreate = false;
       this.form.categoryKey = this.rowData.categoryKey;
       this.form.contactName = this.rowData.contactName;
@@ -225,7 +225,7 @@ export default {
       this.form.status = this.rowData.status;
       this.form.belongKey = this.rowData.belongKey
       this.getOptions()
-      console.log(this.rowData);
+      console.log("rowData",this.rowData);
     } else {
       this.ifCreate = true;
     }
@@ -263,7 +263,7 @@ export default {
               }
             })
           })
-          console.log("shopOptions",this.shopOptions)
+          // console.log("shopOptions",this.shopOptions)
         } else {
           this.$message.error("获取失败!");
         }
@@ -280,7 +280,7 @@ export default {
               }
             })
           })
-          console.log("supplyOptions",this.supplyOptions)
+          // console.log("supplyOptions",this.supplyOptions)
         } else {
           this.$message.error("获取失败!");
         }

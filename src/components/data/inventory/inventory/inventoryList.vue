@@ -9,6 +9,11 @@
         style="width: 300px; margin-right: 20px" clearable>
         <template slot="prepend">仓库名称</template>
       </el-input>
+      <el-select size="mini" v-model="inventoryType" placeholder="请选择仓库类型" style="width:200px;margin-right:20px;"
+        clearable>
+        <el-option label="供应商仓库" :value="1"></el-option>
+        <el-option label="零售商仓库" :value="2"></el-option>
+      </el-select>
       <el-select size="mini" v-model="status" placeholder="仓库状态" style="width:200px;margin-right:20px;">
         <el-option label="正常" :value="1"></el-option>
         <el-option label="关仓" :value="2"></el-option>
@@ -25,28 +30,30 @@
         @selection-change="handleSelectionDelete" style="width: auto; margin-top: 20px"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }" class="table-fixed">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="inventoryCode" label="仓库编号"></el-table-column>
-        <el-table-column prop="inventoryName" label="仓库名"> </el-table-column>
+        <el-table-column prop="inventoryCode" label="仓库编号" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="inventoryName" label="仓库名" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="inventoryType" label="仓库类型" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-            <span>{{ scope.row.inventoryType == 1 ? '供应商仓库'
-                : (scope.row.inventoryType == 2 ? '零售商仓库':'-')}}</span>
+            <span>{{
+              scope.row.inventoryType == 1 ? '供应商仓库'
+                : (scope.row.inventoryType == 2 ? '零售商仓库' : '-')
+            }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="contactName" label="联系人"></el-table-column>
-        <el-table-column prop="tel" label="电话"> </el-table-column>
-        <el-table-column prop="zipCode" label="邮编"> </el-table-column>
-        <el-table-column prop="province" label="省"> </el-table-column>
-        <el-table-column prop="city" label="市"> </el-table-column>
+        <el-table-column prop="contactName" label="联系人" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="tel" label="电话" :show-overflow-tooltip="true"> </el-table-column>
+        <el-table-column prop="zipCode" label="邮编" :show-overflow-tooltip="true"> </el-table-column>
+        <el-table-column prop="province" label="省" :show-overflow-tooltip="true"> </el-table-column>
+        <el-table-column prop="city" label="市" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="district" label="区" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="detail" label="地址" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="status" label="仓库状态">
           <template slot-scope="scope">
-            <el-tag type="success" size="medium" v-if=" scope.row.status == 1">正常</el-tag>
+            <el-tag type="success" size="medium" v-if="scope.row.status == 1">正常</el-tag>
             <el-tag type="danger" size="medium" v-if="scope.row.status == 2">关仓</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="categoryName" label="所属分类">
+        <el-table-column prop="categoryName" label="所属分类" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column prop="description" label="备注" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column fixed="right" width="210px" label="操作">
@@ -63,7 +70,7 @@
           @current-change="_page" @size-change="_pageSize"></el-pagination>
       </div>
       <inventoryEdit ref="inventoryEdit" v-if="inventoryEditVisable" :dialogVisible="inventoryEditVisable"
-        :rowData="rowData" @close="inventoryEditVisable = false" @success="success()"/>
+        :rowData="rowData" @close="inventoryEditVisable = false" @success="success()" />
       <inventoryDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" />
     </div>
   </div>
@@ -91,6 +98,7 @@ export default {
       inventoryName: "",
       status: "",
       inventoryCode: "",
+      inventoryType:"",
       isShow: false,
       multipleSelection: [],
     };
@@ -138,6 +146,7 @@ export default {
       this.inventoryName = ''
       this.status = ''
       this.inventoryCode = ''
+      this.inventoryType=''
       this.inputCategory = ''
       this.$refs.leftcard.isActive = ''
       this.reload()
@@ -151,6 +160,7 @@ export default {
       inventorylistPage({
         inventoryName: this.inventoryName,
         inventoryCode: this.inventoryCode,
+        inventoryType:this.inventoryType,
         categoryKey: this.inputCategory,
         status: this.status,
         page: this.pageNo,
