@@ -227,12 +227,14 @@ export default {
   },
   methods: {
     getUserList() {
+      //普通员工
       UserList({ userType: 2 }).then(res => {
         this.userOptions = res.data.data
         this.$forceUpdate()
       }).catch(err => {
         console.log(err)
       });
+      //门店仓库管理员
       UserList({ userType: 1 }).then(res => {
         this.userOptions1 = res.data.data
         this.$forceUpdate()
