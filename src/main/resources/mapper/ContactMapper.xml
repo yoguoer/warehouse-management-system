@@ -229,9 +229,7 @@
             <if test="district != null and district != ''">
                 district = #{district},
             </if>
-            <if test="detail != null and detail != ''">
                 detail = #{detail},
-            </if>
             <if test="contactCode != null and contactCode != ''">
                 contact_code = #{contactCode},
             </if>

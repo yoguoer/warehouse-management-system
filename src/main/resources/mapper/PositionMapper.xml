@@ -165,9 +165,7 @@
             <if test="maxWeight != null and maxWeight != ''">
                 maxWeight = #{maxWeight},
             </if>
-            <if test="description != null and description != ''">
                 description = #{description},
-            </if>
             <if test="maxCapacity != null and maxCapacity != ''">
                 max_capacity = #{maxCapacity},
             </if>

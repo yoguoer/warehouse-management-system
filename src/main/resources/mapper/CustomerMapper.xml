@@ -148,6 +148,7 @@
             <if test="district != null and district != ''">
                 district = #{district},
             </if>
+                detail = #{detail},
         </set>
         where customer_key = #{customerKey}
     </update>

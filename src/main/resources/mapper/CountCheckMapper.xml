@@ -136,9 +136,7 @@
             <if test="checkNum != null">
                 check_num = #{checkNum},
             </if>
-            <if test="description != null and description != ''">
                 description = #{description},
-            </if>
             <if test="checkPeople != null and checkPeople != ''">
                 check_people = #{checkPeople},
             </if>

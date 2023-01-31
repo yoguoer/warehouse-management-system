@@ -125,9 +125,7 @@
             <if test="categoryKey != null and categoryKey != ''">
                 category_key = #{categoryKey},
             </if>
-            <if test="superlierDescription != null and superlierDescription != ''">
                 superlier_description = #{superlierDescription},
-            </if>
         </set>
         where supplier_key = #{supplierKey}
     </update>

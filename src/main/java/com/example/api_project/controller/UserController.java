@@ -45,11 +45,20 @@ public class UserController {
     @RequestMapping("/createUser")
     @ResponseBody
     public Result createUser(@RequestBody User user) {
-        Random random = new Random();
-        Integer number = random.nextInt(9000) + 1000;
-        user.setUserId(System.currentTimeMillis() + String.valueOf(number));
-        Integer i = userService.createUser(user);
-        return ResponseData.success(i);
+        if(userService.findOneUser(user)==null){
+            Random random = new Random();
+            Integer number = random.nextInt(9000) + 1000;
+            user.setUserId(System.currentTimeMillis() + String.valueOf(number));
+            Integer i = userService.createUser(user);
+            if(i==1){
+                User u= userService.findOneUser(user);
+                return ResponseData.success(u);
+            }else{
+                return ResponseData.error();
+            }
+        }else{
+            return ResponseData.error("该账号已存在！");
+        }
     }
 
     @RequestMapping("/deleteUserById")

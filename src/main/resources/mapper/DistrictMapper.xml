@@ -122,9 +122,7 @@
     <update id="update">
         update district
         <set>
-            <if test="description != null and description != ''">
                 description = #{description},
-            </if>
             <if test="districtCode != null and districtCode != ''">
                 district_code = #{districtCode},
             </if>

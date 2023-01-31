@@ -253,12 +253,8 @@
             <if test="district != null and district != ''">
                 district = #{district},
             </if>
-            <if test="detail != null and detail != ''">
                 detail = #{detail},
-            </if>
-            <if test="description != null and description != ''">
                 description = #{description},
-            </if>
             <if test="status != null and status != ''">
                 status = #{status},
             </if>

@@ -133,9 +133,7 @@
             <if test="district != null and district != ''">
                 and inventory.district = #{district}
             </if>
-            <if test="detail != null and detail != ''">
                 and inventory.detail = #{detail}
-            </if>
             and inventory.inventory_type=1
         </where>
     </select>

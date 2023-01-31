@@ -138,15 +138,11 @@
             <if test="maxCapacity != null">
                 max_capacity = #{maxCapacity},
             </if>
-            <if test="detail != null and detail != ''">
                 detail = #{detail},
-            </if>
             <if test="vehicleType != null and vehicleType != ''">
                 vehicle_type = #{vehicleType},
             </if>
-            <if test="description != null and description != ''">
                 description = #{description},
-            </if>
             <if test="vehicleCode != null and vehicleCode != ''">
                 vehicle_code = #{vehicleCode},
             </if>

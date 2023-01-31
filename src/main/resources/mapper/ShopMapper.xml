@@ -168,9 +168,7 @@
             <if test="categoryKey != null and categoryKey != ''">
                 category_key = #{categoryKey},
             </if>
-            <if test="description != null and description != ''">
                 description = #{description},
-            </if>
             <if test="province != null and province != ''">
                 province = #{province},
             </if>
@@ -180,9 +178,7 @@
             <if test="district != null and district != ''">
                 district = #{district},
             </if>
-            <if test="detail != null and detail != ''">
                 detail = #{detail},
-            </if>
             <if test="cooperationType != null and cooperationType != ''">
                 cooperation_type = #{cooperationType},
             </if>

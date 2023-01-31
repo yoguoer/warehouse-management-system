@@ -144,9 +144,7 @@
             <if test="belongKey != null and belongKey != ''">
                 and inventory.belong_key = #{belongKey}
             </if>
-            <if test="description != null and description != ''">
                 and inventory.description = #{description}
-            </if>
             <if test="province != null and province != ''">
                 and inventory.province = #{province}
             </if>
@@ -156,9 +154,7 @@
             <if test="district != null and district != ''">
                 and inventory.district = #{district}
             </if>
-            <if test="detail != null and detail != ''">
                 and inventory.detail = #{detail}
-            </if>
             and inventory.inventory_type=2
         </where>
     </select>

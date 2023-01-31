@@ -141,9 +141,7 @@
             <if test="district != null and district != ''">
                 district = #{district},
             </if>
-            <if test="detail != null and detail != ''">
                 detail = #{detail},
-            </if>
             <if test="addressType != null and addressType != ''">
                 address_type = #{addressType},
             </if>
