@@ -97,43 +97,21 @@
         select count(1)
         from supplier join inventory on supplier.supplier_key=inventory.belong_key
         <where>
-            <if test="supplierKey != null and supplierKey != ''">
-                and supplier.supplier_key = #{supplierKey}
-            </if>
             <if test="supplierName != null and supplierName != ''">
-                and supplier.supplier_name = #{supplierName}
-            </if>
-            <if test="supplierCode != null and supplierCode != ''">
-                and supplier.supplier_code = #{supplierCode}
-            </if>
-            <if test="inventoryKey != null and inventoryKey != ''">
-                and inventory.inventory_key = #{inventoryKey}
-            </if>
-            <if test="inventoryCode != null and inventoryCode != ''">
-                and inventory.inventory_code = #{inventoryCode}
+                and supplier.supplier_name like concat('%', #{supplierName}, '%')
             </if>
             <if test="inventoryName != null and inventoryName != ''">
-                and inventory.inventory_name = #{inventoryName}
+                and inventory.inventory_name like concat('%', #{inventoryName}, '%')
+            </if>
+            <if test="supplierKey != null and supplierKey != ''">
+                and supplier.supplier_key =#{supplierKey}
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                and inventory.inventory_key =#{inventoryKey}
             </if>
             <if test="status != null and status != ''">
-                and inventory.status = #{status}
+                and inventory.status =#{status}
             </if>
-            <if test="belongKey != null and belongKey != ''">
-                and inventory.belong_key = #{belongKey}
-            </if>
-            <if test="description != null and description != ''">
-                and inventory.description = #{description}
-            </if>
-            <if test="province != null and province != ''">
-                and inventory.province = #{province}
-            </if>
-            <if test="city != null and city != ''">
-                and inventory.city = #{city}
-            </if>
-            <if test="district != null and district != ''">
-                and inventory.district = #{district}
-            </if>
-                and inventory.detail = #{detail}
             and inventory.inventory_type=1
         </where>
     </select>

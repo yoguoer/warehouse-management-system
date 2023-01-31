@@ -52,13 +52,14 @@ public class InventoryServiceImpl implements InventoryService {
         String inventoryCode=inventory.getInventoryCode();
         Integer status=inventory.getStatus();
         String belongKey=inventory.getBelongKey();
+        Integer inventoryType=inventory.getInventoryType();
         List<Inventory> records;
         if(null!=inventory.getCategoryKey() && inventory.getCategoryKey().equals("all_WAREHOUSE")){
             String categoryKey="";
-            records = this.inventoryMapper.queryAllByLimit(inventoryName,inventoryCode,status,categoryKey,belongKey,startRows, pageSize);
+            records = this.inventoryMapper.queryAllByLimit(inventoryType,inventoryName,inventoryCode,status,categoryKey,belongKey,startRows, pageSize);
         }else{
             String categoryKey=inventory.getCategoryKey();
-            records = this.inventoryMapper.queryAllByLimit(inventoryName,inventoryCode,status,categoryKey,belongKey,startRows, pageSize);
+            records = this.inventoryMapper.queryAllByLimit(inventoryType,inventoryName,inventoryCode,status,categoryKey,belongKey,startRows, pageSize);
         }
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);

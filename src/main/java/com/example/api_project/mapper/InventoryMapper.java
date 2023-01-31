@@ -43,7 +43,7 @@ public interface InventoryMapper {
      *
      * @return 对象列表
      */
-    List<Inventory> queryAllByLimit(String inventoryName, String inventoryCode,Integer status, String categoryKey,String belongKey, Integer startRows, Integer pageSize);
+    List<Inventory> queryAllByLimit(Integer inventoryType,String inventoryName, String inventoryCode,Integer status, String categoryKey,String belongKey, Integer startRows, Integer pageSize);
 
     /**
      * 统计总行数

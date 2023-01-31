@@ -65,22 +65,16 @@
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
         select count(1)
-        from supplier
+        from supplier join category on supplier.category_key = category.category_key
         <where>
-            <if test="supplierKey != null and supplierKey != ''">
-                and supplier_key = #{supplierKey}
-            </if>
             <if test="supplierName != null and supplierName != ''">
-                and supplier_name = #{supplierName}
+                and supplier_name like concat('%', #{supplierName}, '%')
             </if>
             <if test="supplierCode != null and supplierCode != ''">
-                and supplier_code = #{supplierCode}
+                and supplier_code like concat('%', #{supplierCode}, '%')
             </if>
             <if test="categoryKey != null and categoryKey != ''">
-                and category_key = #{categoryKey}
-            </if>
-            <if test="superlierDescription != null and superlierDescription != ''">
-                and superlier_description = #{superlierDescription}
+                and supplier.category_key = #{categoryKey}
             </if>
         </where>
     </select>

@@ -105,6 +105,9 @@
             <if test="categoryKey != null and categoryKey != ''">
                 and inventory.category_key = #{categoryKey}
             </if>
+            <if test="inventoryType != null">
+                and inventory.inventory_type = #{inventoryType}
+            </if>
             <if test="inventoryName != null and inventoryName != ''">
                 and inventory_name like concat('%', #{inventoryName}, '%')
             </if>
