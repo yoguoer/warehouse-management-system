@@ -97,7 +97,7 @@
             <if test="supplierKey != null and supplierKey != ''">
                 and goods.supplier_key = #{supplierKey}
             </if>
-            <if test="state != null and state != ''">
+            <if test="state != null">
                 and goods.state = #{state}
             </if>
             <if test="brandCode != null and brandCode != ''">
@@ -110,7 +110,8 @@
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
         select count(1)
-        from goods
+        from goods join category on goods.category_key = category.category_key
+        join supplier on goods.supplier_key = supplier.supplier_key
         <where>
             <if test="goodsCode != null and goodsCode != ''">
                 and goods_code like concat('%', #{goodsCode}, '%')
@@ -124,7 +125,7 @@
             <if test="supplierKey != null and supplierKey != ''">
                 and goods.supplier_key = #{supplierKey}
             </if>
-            <if test="state != null and state != ''">
+            <if test="state != null">
                 and goods.state = #{state}
             </if>
             <if test="brandCode != null and brandCode != ''">
