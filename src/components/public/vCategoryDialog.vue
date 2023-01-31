@@ -15,7 +15,8 @@
       <el-form-item label="父节点" v-model="formData.parentCategoryKey">
         <listBoxF>
           <template slot="content">
-            <treeselect class="treeSelect-option" v-model="value" :multiple="multiple" :normalizer="normalizer" :options="list" placeholder="请选择" @select="selectNode" />
+            <treeselect v-model="value" :multiple="multiple" :normalizer="normalizer" :options="list"
+            placeholder="请选择" @select="selectNode"  style="width:455px;"/>
           </template>
         </listBoxF>
       </el-form-item>
