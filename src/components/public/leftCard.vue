@@ -5,11 +5,12 @@
       <el-button style="padding: 3px 0;color:grey" type="text" @click="add()"><i class="el-icon-plus"></i></el-button>
     </div>
     <div class="block">
-      <el-tree :data="data" ref="tree" node-key="id" :check-strictly="true" :props="defaultProps" :highlight-current="true"
-        :default-expand-all="true" @node-click="handleNodeClick" :expand-on-click-node="false">
+      <el-tree :data="data" ref="tree" node-key="id" :check-strictly="true" :props="defaultProps"
+        :highlight-current="true" :default-expand-all="true" @node-click="handleNodeClick"
+        :expand-on-click-node="false">
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <span :class="isActive == node.label ? 'custom-tree-node-active' : 'custom-tree-node'">{{ node.label }}</span>
-          <span  v-if="node.label!=='全部'">
+          <span v-if="node.label !== '全部'">
             <el-button type="text" size="small" @click="() => edit(data)">
               编辑
             </el-button>
@@ -21,7 +22,7 @@
       </el-tree>
     </div>
     <vCategoryDialog ref="dialog" v-if="dialogVisible" :dialogVisible="dialogVisible" :rowData="rowData"
-    :categoryType="categoryType"  @close="dialogVisible = false"/>
+      :categoryType="categoryType" @close="dialogVisible = false" />
   </el-card>
 </template>
 
@@ -35,9 +36,9 @@ export default {
     return {
       data: [],
       list: [],
-      isActive:"",
-      dialogVisible:false,
-      rowData:{},
+      isActive: "",
+      dialogVisible: false,
+      rowData: {},
       defaultProps: {
         id: 'categoryKey',
         children: 'children',
@@ -92,21 +93,23 @@ export default {
 
     //点击分类，查询对应信息
     handleNodeClick(data) {
-      this.$parent.inputCategory = data.categoryKey
-      this.isActive=data.categoryName
-      this.$parent.search()
+      if (this.dialogVisible == false) {
+        this.$parent.inputCategory = data.categoryKey
+        this.isActive = data.categoryName
+        this.$parent.search()
+      }
     },
 
     //添加
     add() {
       this.dialogVisible = true
-      this.rowData={}
+      this.rowData = {}
     },
 
     //编辑
     edit(data) {
       this.dialogVisible = true
-      this.rowData=data
+      this.rowData = data
     },
 
     // //选中
@@ -139,7 +142,8 @@ export default {
   float: left;
 }
 
-.custom-tree-node,.custom-tree-node-active {
+.custom-tree-node,
+.custom-tree-node-active {
   flex: 1;
   display: flex;
   align-items: center;
@@ -147,10 +151,11 @@ export default {
   font-size: 14px;
   padding-right: 8px;
 }
-.custom-tree-node-active{
-  background:#f5f7fa;
-  padding:2px;
-  width:100%;
-  color:#07a;
+
+.custom-tree-node-active {
+  background: #f5f7fa;
+  padding: 2px;
+  width: 100%;
+  color: #07a;
 }
 </style>
