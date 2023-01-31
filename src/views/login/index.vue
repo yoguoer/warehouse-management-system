@@ -209,6 +209,7 @@ export default {
         userSex: this.formdata.userSex,
         userCode: this.formdata.userCode,
         userType: -1,
+        userBelong: -1,
       }
       // console.log(data)
       toRegister(data).then(res => {

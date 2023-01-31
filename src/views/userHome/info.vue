@@ -32,14 +32,20 @@
           邮箱：{{ userInfo.userEmail || '-' }}
         </div>
         <div class="text item">
-          性别：{{ userInfo.userSex || '-' }}
+          性别：
+          <img :src="sex_girl" alt="" style="width:15px;" v-if="userInfo.userSex == '女'" />
+          <img :src="sex_boy" alt="" style="width:15px;" v-else-if="userInfo.userSex == '男'" />
+          {{ userInfo.userSex || '-' }}
         </div>
         <div class="text item">
-          角色：{{ userInfo.userType == 0 ? '超级管理员' : ( userInfo.userType == 1 ? '仓库管理员' : '普通用户') }}  
+          角色：{{ userInfo.userType == 0 ? '超级管理员' : (userInfo.userType == 1 ? '仓库管理员' 
+          : (userInfo.userType == 2 ? '普通用户' : '未配置')) }}
         </div>
         <div class="text item">
-          类型：{{ userInfo.userBelong == 0 ? '门店用户' : ( userInfo.userBelong == 1 ? '供应商用户' 
-          : ( userInfo.userBelong == 2 ? '全局用户' : '未配置')) }}  
+          类型：{{
+            userInfo.userBelong == 0 ? '门店用户' : (userInfo.userBelong == 1 ? '供应商用户'
+              : (userInfo.userBelong == 2 ? '全局用户' : '-'))
+          }}
         </div>
       </div>
     </el-card>
@@ -56,12 +62,15 @@ import edit from "@/assets/svg/edit.svg";
 import { getUserInfo } from "../../api/login";
 import editInfo from "./editInfo.vue"
 import changePwd from "./changePwd.vue"
-
+import sex_girl from '@/assets/images/sex_girl.png'
+import sex_boy from '@/assets/images/sex_boy.png'
 
 export default {
   name: 'userHome',
   data() {
     return {
+      sex_girl: sex_girl,
+      sex_boy: sex_boy,
       avatar: avatar,
       edit: edit,
       userInfo: [],

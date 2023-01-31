@@ -11,6 +11,7 @@
                     <el-option label="超级管理员" value="0"></el-option>
                     <el-option label="仓库管理员" value="1"></el-option>
                     <el-option label="普通用户" value="2"></el-option>
+                    <el-option label="未配置" value="-1"></el-option>
                 </el-select>
             </el-form-item>
             <el-form-item>
@@ -62,23 +63,27 @@
             </el-table-column>
             <el-table-column label="性别">
                 <template slot-scope="scope">
+                    <img :src="sex_girl" alt="" style="width:15px;" v-if="scope.row.userSex == '女'" />
+                    <img :src="sex_boy" alt="" style="width:15px;" v-else-if="scope.row.userSex == '男'" />
                     {{ scope.row.userSex }}
                 </template>
             </el-table-column>
             <el-table-column label="用户角色">
                 <template slot-scope="scope">
-                    <el-tag
-                        :type="scope.row.userType == 0 ? 'danger' : (scope.row.userType == 1 ? 'primary' : 'success')"
-                        disable-transitions>
-                        {{ scope.row.userType == 0 ? '超级管理员' : (scope.row.userType == 1 ? '仓库管理员' : '普通用户') }}
+                    <el-tag :type="scope.row.userType == 0 ? 'danger' : (scope.row.userType == 1 ? 'primary'
+                    : (scope.row.userType == 2 ? 'success' : 'warning'))" disable-transitions>
+                        {{
+                            scope.row.userType == 0 ? '超级管理员' : (scope.row.userType == 1 ? '仓库管理员'
+                                : (scope.row.userType == 2 ? '普通用户' : '未配置'))
+                        }}
                     </el-tag>
                 </template>
             </el-table-column>
             <el-table-column label="用户类型">
                 <template slot-scope="scope">
-                    <el-tag :type="scope.row.userBelong == 0 ? 'primary'
+                    <el-tag v-if="scope.row.userBelong" :type="scope.row.userBelong == 0 ? 'primary'
                 : (scope.row.userBelong == 1 ? 'success'
-                    : (scope.row.userBelong == 1 ? 'danger' : 'warning'))" disable-transitions>
+                    : (scope.row.userBelong == 2 ? 'danger' : 'warning'))" disable-transitions>
                         {{
                             scope.row.userBelong == 0 ? '门店用户'
                                 : (scope.row.userBelong == 1 ? '供应商用户'
@@ -101,7 +106,7 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"
             size="medium">
             <el-dialog title="添加" v-if="dialogAdd" :append-to-body='true' :visible.sync="dialogAdd"
-                :before-close="handleClose" width="600px">
+                :before-close="handleClose" width="600px"  :close-on-click-modal="false">
                 <el-form-item label="工号" prop="userCode">
                     <el-input v-model="ruleForm.userCode"></el-input>
                 </el-form-item>
@@ -110,7 +115,7 @@
                         <el-option label="超级管理员" :value="0"></el-option>
                         <el-option label="仓库管理员" :value="1"></el-option>
                         <el-option label="普通用户" :value="2"></el-option>
-                        <el-option label="未配置" :value="-1"></el-option>
+                        <el-option label="未配置" :value="-1" disabled></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="姓名" prop="userName">
@@ -134,7 +139,11 @@
                         <el-option label="门店用户" value="0"></el-option>
                         <el-option label="供应商用户" value="1"></el-option>
                         <el-option label="全局用户" value="2"></el-option>
+                        <el-option label="未配置" value="-1" disabled></el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item label="用户密码" prop="passWord">
+                    <el-input v-model="ruleForm.passWord"></el-input>
                 </el-form-item>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="emptyUserData()" size="medium">取 消</el-button>
@@ -146,7 +155,7 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm1" label-width="100px" class="demo-ruleForm"
             size="medium">
             <el-dialog title="编辑" v-if="dialogUpdate" :append-to-body='true' :visible.sync="dialogUpdate"
-                :before-close="handleClose" width="600px">
+                :before-close="handleClose" width="600px"  :close-on-click-modal="false">
                 <el-form-item label="工号" prop="userCode">
                     <el-input v-model="ruleForm.userCode"></el-input>
                 </el-form-item>
@@ -155,7 +164,7 @@
                         <el-option label="超级管理员" :value="0"></el-option>
                         <el-option label="仓库管理员" :value="1"></el-option>
                         <el-option label="普通用户" :value="2"></el-option>
-                        <el-option label="未配置" :value="-1"></el-option>
+                        <el-option label="未配置" :value="-1" disabled></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="姓名" prop="userName">
@@ -180,7 +189,11 @@
                         <el-option label="门店用户" value="0"></el-option>
                         <el-option label="供应商用户" value="1"></el-option>
                         <el-option label="全局用户" value="2"></el-option>
+                        <el-option label="未配置" value="-1" disabled></el-option>
                     </el-select>
+                </el-form-item>
+                <el-form-item label="用户密码" prop="passWord">
+                    <el-input v-model="ruleForm.passWord"></el-input>
                 </el-form-item>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="emptyUserData()" size="medium">取 消</el-button>
@@ -199,11 +212,15 @@
 <script>
 import { createUser, deleteUserById, deleteUserByIdList, getUserList, updateUserById } from "../../api/api";
 import qs from "qs";
+import sex_girl from '@/assets/images/sex_girl.png'
+import sex_boy from '@/assets/images/sex_boy.png'
 
 export default {
     name: 'userManage',
     data() {
         return {
+            sex_girl: sex_girl,
+            sex_boy: sex_boy,
             ruleForm: {
                 userId: null,//用户id
                 userCode: null,//工号
@@ -213,6 +230,7 @@ export default {
                 userEmail: null,//邮箱
                 userSex: null,//性别
                 userBelong: null,
+                passWord: null,
             },
             tableData: [],
             search1: '',
@@ -248,6 +266,9 @@ export default {
                 ],
                 userBelong: [
                     { required: true, message: '请设置用户类型', trigger: 'blur' },
+                ],
+                passWord: [
+                    { required: true, message: '请设置用户密码', trigger: 'blur' },
                 ],
             },
         };
@@ -307,14 +328,22 @@ export default {
                             userType: this.ruleForm.userType,//用户类型
                             userSex: this.ruleForm.userSex,
                             userBelong: this.ruleForm.userBelong,
+                            passWord: this.ruleForm.passWord,
                         });
                         createUser(postData).then(res => {
-                            this.getUserListPage()
-                            this.$message({
-                                type: 'success',
-                                message: '已添加!'
-                            });
-                            this.emptyUserData()
+                            if (res.data.code == 200) {
+                                this.getUserListPage()
+                                this.$message({
+                                    type: 'success',
+                                    message: '已添加!'
+                                });
+                                this.emptyUserData()
+                            } else {
+                                this.$message({
+                                    type: 'error',
+                                    message: res.data.msg
+                                });
+                            }
                         }).catch(err => {
                             console.log(err)
                         });
@@ -372,7 +401,8 @@ export default {
                 userPhone: null,//手机号码
                 userEmail: null,//邮箱
                 userSex: null,
-                userBelong: null
+                userBelong: null,
+                passWord: null
             };
         },
 
@@ -460,17 +490,23 @@ export default {
                             userPhone: this.ruleForm.userPhone,//手机号码
                             userEmail: this.ruleForm.userEmail,//邮箱
                             userSex: this.ruleForm.userSex,
-                            userBelong: this.ruleForm.userBelong
+                            userBelong: this.ruleForm.userBelong,
+                            passWord: this.ruleForm.passWord,
                         });
-                        updateUserById(postData).then(response => {
-                            this.getUserListPage()
-                            this.$message({
-                                type: 'success',
-                                message: '已编辑!'
-                            });
-
-                            this.emptyUserData()
-                            //console.log(response);
+                        updateUserById(postData).then(res => {
+                            if (res.data.code == 200) {
+                                this.getUserListPage()
+                                this.$message({
+                                    type: 'success',
+                                    message: '已编辑!'
+                                });
+                                this.emptyUserData()
+                            } else {
+                                this.$message({
+                                    type: 'error',
+                                    message: res.data.msg
+                                });
+                            }
                         }).catch(error => {
                             console.log(error)
                         });
