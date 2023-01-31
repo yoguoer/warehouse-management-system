@@ -82,11 +82,12 @@ export default {
     },
   },
   created() {
-    console.log("详情rowData", this.rowData)
-    this.row.belongKey = this.rowData.supplierKey
+    this.row = this.rowData
     this.contactList = this.rowData.supplierContactList
     this.addressList = this.rowData.supplierAddressList
     this.bankList = this.rowData.supplierBillingList
+    console.log("详情rowData", this.rowData)
+    console.log("row", this.row)
   },
 
   methods: {

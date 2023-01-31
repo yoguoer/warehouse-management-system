@@ -80,6 +80,7 @@ export default {
     this.getinventorylist();
     if (this.rowData.belongKey) {
       this.ruleForm.belongKey = this.rowData.belongKey
+    }if(this.rowData.inventoryKey){
       this.ruleForm.inventoryKey = this.rowData.inventoryKey
     } else {
       this.ifCreate = true
