@@ -47,6 +47,14 @@
         </el-table-column>
         <el-table-column prop="brandCode" label="所属品牌" :show-overflow-tooltip="true">
         </el-table-column>
+        <el-table-column prop="priceLatestPurchase" label="进价" :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column prop="priceRetail" label="零售价" :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column prop="priceWholesaler" label="批发价" :show-overflow-tooltip="true">
+        </el-table-column>
+        <el-table-column prop="goodsUnit" label="单位" :show-overflow-tooltip="true">
+        </el-table-column>
         <el-table-column prop="state" label="状态">
           <template slot-scope="scope">{{ scope.row.state == 1 ? '上架' : '下架' }}</template>
         </el-table-column>
