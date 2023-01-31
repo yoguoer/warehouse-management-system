@@ -103,12 +103,12 @@ export default {
     },
     _pageSize(val) {
       this.pageSize = val;
-      this.getSupplierlistPage()
+      this.search()
       this.$forceUpdate();
     },
     _page(val) {
       this.pageNo = val;
-      this.getSupplierlistPage()
+      this.search()
       this.$forceUpdate();
     },
     deleteRow(row) {

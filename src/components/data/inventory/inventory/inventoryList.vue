@@ -115,12 +115,12 @@ export default {
   methods: {
     _pageSize(val) {
       this.pageSize = val;
-      this.getInventorylistPage();
+      this.search();
       this.$forceUpdate();
     },
     _page(val) {
       this.pageNo = val;
-      this.getInventorylistPage();
+      this.search();
       this.$forceUpdate();
     },
     deleteRow(row) {

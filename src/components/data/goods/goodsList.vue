@@ -140,12 +140,12 @@ export default {
     },
     _pageSize(val) {
       this.pageSize = val;
-      this.getGoodslistPage();
+      this.search();
       this.$forceUpdate();
     },
     _page(val) {
       this.pageNo = val;
-      this.getGoodslistPage();
+      this.search();
       this.$forceUpdate();
     },
     setON(row) {
@@ -242,6 +242,7 @@ export default {
     reload() {
       this.getGoodslistPage()
       this.$refs.leftcard.getTree()
+      this.$forceUpdate()
     },
     add() {
       this.editRow({})

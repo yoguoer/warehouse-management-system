@@ -2,7 +2,7 @@
   <div>
     <el-drawer size="95%" :title="ifCreate ? '添加商品' : '编辑商品'" :visible.sync="drawer" :direction="direction"
       :close-on-press-escape="false" :show-close="false" :wrapperClosable="false">
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="110px" class="demo-ruleForm">
         <el-row>
           <h4 class="msg-title">基础信息</h4>
           <el-row>
@@ -38,7 +38,7 @@
                 <listBoxF style="width:100%">
                   <template slot="content">
                     <treeselect class="treeSelect-option" v-model="value" :normalizer="normalizer" :options="list"
-                      clearable placeholder="请选择" @select="selectNode" style="width:405px;" />
+                      clearable placeholder="请选择" @select="selectNode" style="width:395px;" />
                   </template>
                 </listBoxF>
               </el-form-item>
@@ -95,7 +95,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="7">
-                <el-form-item label="体积" prop="volume">
+                <el-form-item label="体积：厘米3" prop="volume">
                   <el-input v-model="ruleForm.volume" clearable placeholder="体积" type="Number"></el-input>
                 </el-form-item>
               </el-col>
@@ -195,9 +195,9 @@ export default {
         unitType: [
           { required: true, message: '请输入单位类型', trigger: 'blur' },
         ],
-        unitDescription: [
-          { required: true, message: '请输入换算关系', trigger: 'blur' },
-        ],
+        // unitDescription: [
+        //   { required: true, message: '请输入换算关系', trigger: 'blur' },
+        // ],
         state: [
           { required: true, message: '请选择状态', trigger: 'blur' },
         ],
