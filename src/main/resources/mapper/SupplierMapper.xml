@@ -23,6 +23,7 @@
                category_key,
                superlier_description
         from supplier
+        order by supplier_name
     </select>
 
     <!--查询单个-->
@@ -59,6 +60,7 @@
                 and supplier.category_key = #{categoryKey}
             </if>
         </where>
+        order by supplier_name
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 

@@ -104,13 +104,15 @@
                 and brand_code like concat('%', #{brandCode}, '%')
             </if>
         </where>
+        order by goods_name
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
         select count(1)
-        from goods
+        from goods join category on goods.category_key = category.category_key
+        join supplier on goods.supplier_key = supplier.supplier_key
         <where>
             <if test="goodsCode != null and goodsCode != ''">
                 and goods_code like concat('%', #{goodsCode}, '%')
@@ -119,13 +121,13 @@
                 and goods_name like concat('%', #{goodsName}, '%')
             </if>
             <if test="categoryKey != null and categoryKey != ''">
-                and category_key = #{categoryKey}
+                and goods.category_key = #{categoryKey}
             </if>
             <if test="supplierKey != null and supplierKey != ''">
-                and supplier_key = #{supplierKey}
+                and goods.supplier_key = #{supplierKey}
             </if>
             <if test="state != null">
-                and state = #{state}
+                and goods.state = #{state}
             </if>
             <if test="brandCode != null and brandCode != ''">
                 and brand_code like concat('%', #{brandCode}, '%')

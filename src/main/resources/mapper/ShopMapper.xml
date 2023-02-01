@@ -61,6 +61,7 @@
                 and cooperation_type = #{cooperationType}
             </if>
         </where>
+        order by shop_name
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 

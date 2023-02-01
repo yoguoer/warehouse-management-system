@@ -18,7 +18,7 @@
             category_key, category_type, level, sort, create_time, parent_category_key, category_name
         from category
         where category_type = #{categoryType}
-        order by category_key desc
+        order by category_name
     </select>
 
     <!--查询单个-->
@@ -66,6 +66,7 @@
                 and category_name = #{categoryName}
             </if>
         </where>
+        order by category_name
         limit #{pageable.offset}, #{pageable.pageSize}
     </select>
 
