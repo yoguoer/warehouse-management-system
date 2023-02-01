@@ -130,6 +130,8 @@ export default {
       this.form.positionKey = this.rowData.positionKey
       this.form.inventoryDistrictkey = this.rowData.inventoryDistrictkey
     } else {
+      this.form.inventoryKey = this.$route.params.inventoryKey || ""
+      this.form.inventoryDistrictkey = this.$route.params.rowData.inventoryDistrictkey || ""
       this.ifCreate = true
     }
     this.getinventorylist()

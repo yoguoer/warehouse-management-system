@@ -118,6 +118,7 @@ export default {
       this.form.status = this.rowData.status
       console.log(this.rowData);
     } else {
+      this.form.inventoryKey=this.$route.params.inventoryKey||""
       this.ifCreate = true;
     }
   },
