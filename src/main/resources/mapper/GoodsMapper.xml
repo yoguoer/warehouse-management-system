@@ -8,7 +8,7 @@
         <result property="modelCode" column="model_code" jdbcType="VARCHAR"/>
         <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
         <result property="goodsUnit" column="goods_unit" jdbcType="VARCHAR"/>
-        <result property="priceLatestPurchase" column="price_latest_purchase" jdbcType="INTEGER"/>
+        <result property="priceLatestPurchase" column="price_latest_purchase" jdbcType="FLOAT"/>
         <result property="goodsBarcode" column="goods_barcode" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
         <result property="state" column="state" jdbcType="INTEGER"/>
@@ -18,8 +18,8 @@
         <result property="volume" column="volume" jdbcType="INTEGER"/>
         <result property="supplierKey" column="supplier_key" jdbcType="VARCHAR"/>
         <result property="unitType" column="unit_type" jdbcType="VARCHAR"/>
-        <result property="priceRetail" column="price_retail" jdbcType="INTEGER"/>
-        <result property="priceWholesaler" column="price_wholesaler" jdbcType="INTEGER"/>
+        <result property="priceRetail" column="price_retail" jdbcType="FLOAT"/>
+        <result property="priceWholesaler" column="price_wholesaler" jdbcType="FLOAT"/>
 
         <association property="categoryName" javaType="String"
                      column="{categoryKey=category_key}"

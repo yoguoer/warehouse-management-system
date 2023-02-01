@@ -14,9 +14,9 @@ public class Goods {
     //商品头图？
     private String goodsUnit;//商品单位
     private String unitType; //单位类型：BASIC：基本单位， SUPPORT：辅助单位
-    private Integer priceRetail;//零售价
-    private Integer priceWholesaler;//批发价
-    private Integer priceLatestPurchase;//最近进价
+    private Float priceRetail;//零售价
+    private Float priceWholesaler;//批发价
+    private Float priceLatestPurchase;//最近进价
     private String unitDescription;//换算关系
     private Integer weight;//重量：克
     private Integer volume;//体积
@@ -120,27 +120,27 @@ public class Goods {
         this.unitType = unitType;
     }
 
-    public Integer getPriceRetail() {
+    public Float getPriceRetail() {
         return priceRetail;
     }
 
-    public void setPriceRetail(Integer priceRetail) {
+    public void setPriceRetail(Float priceRetail) {
         this.priceRetail = priceRetail;
     }
 
-    public Integer getPriceWholesaler() {
+    public Float getPriceWholesaler() {
         return priceWholesaler;
     }
 
-    public void setPriceWholesaler(Integer priceWholesaler) {
+    public void setPriceWholesaler(Float priceWholesaler) {
         this.priceWholesaler = priceWholesaler;
     }
 
-    public Integer getPriceLatestPurchase() {
+    public Float getPriceLatestPurchase() {
         return priceLatestPurchase;
     }
 
-    public void setPriceLatestPurchase(Integer priceLatestPurchase) {
+    public void setPriceLatestPurchase(Float priceLatestPurchase) {
         this.priceLatestPurchase = priceLatestPurchase;
     }
 

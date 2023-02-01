@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  */
 public class TransferCheck implements Serializable {
-    private static final long serialVersionUID = -93866335830925171L;
+    private static final Long  serialVersionUID = -93866335830925171L;
     /**
      * 主键
      */
@@ -80,7 +80,7 @@ public class TransferCheck implements Serializable {
     /**
      * 入库价格
      */
-    private Long inputPrice;
+    private Float inputPrice;
     /**
      * 实际入库数
      */
@@ -140,7 +140,7 @@ public class TransferCheck implements Serializable {
     /**
      * 出库价格
      */
-    private Long outputPrice;
+    private Float outputPrice;
     /**
      * 实际出库数
      */
@@ -310,11 +310,11 @@ public class TransferCheck implements Serializable {
         this.inputPlan = inputPlan;
     }
 
-    public Long getInputPrice() {
+    public Float getInputPrice() {
         return inputPrice;
     }
 
-    public void setInputPrice(Long inputPrice) {
+    public void setInputPrice(Float inputPrice) {
         this.inputPrice = inputPrice;
     }
 
@@ -430,11 +430,11 @@ public class TransferCheck implements Serializable {
         this.outputPlan = outputPlan;
     }
 
-    public Long getOutputPrice() {
+    public Float getOutputPrice() {
         return outputPrice;
     }
 
-    public void setOutputPrice(Long outputPrice) {
+    public void setOutputPrice(Float outputPrice) {
         this.outputPrice = outputPrice;
     }
 

@@ -129,7 +129,19 @@ public class DetailWarehouseController {
         else if(transType==2||transType==7||transType==8||transType==9) {//零售、调货出库、盘盈盘亏比较特殊，直接加减就行了
             shopkeeperWarehouse.setOperateTime(result.getAtTime());
             shopkeeperWarehouse.setAccountNum(result.getFinalNum());//最终库存量
-            shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+shopkeeperWarehouse.getOnwayNum()-shopkeeperWarehouse.getOccupyNum());
+            Integer onwayNum;
+            Integer occupyNum;
+            if(null!=shopkeeperWarehouse.getOnwayNum()){
+                onwayNum=shopkeeperWarehouse.getOnwayNum();
+            }else{
+                onwayNum=0;
+            }
+            if(null!=shopkeeperWarehouse.getOccupyNum()){
+                occupyNum=shopkeeperWarehouse.getOccupyNum();
+            }else{
+                occupyNum=0;
+            }
+            shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+onwayNum-occupyNum);
         }
 
         this.shopkeeperWarehouseService.update(shopkeeperWarehouse);

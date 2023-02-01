@@ -13,7 +13,7 @@
         <result property="outputShopCode" column="output_shop_code" jdbcType="VARCHAR"/>
         <result property="outputShopName" column="output_shop_name" jdbcType="VARCHAR"/>
         <result property="outputPlan" column="output_plan" jdbcType="INTEGER"/>
-        <result property="outputPrice" column="output_price" jdbcType="INTEGER"/>
+        <result property="outputPrice" column="output_price" jdbcType="FLOAT"/>
         <result property="outputActual" column="output_actual" jdbcType="INTEGER"/>
         <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
         <result property="positionCode" column="position_code" jdbcType="VARCHAR"/>

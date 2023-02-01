@@ -9,7 +9,7 @@
         <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
         <result property="outputPlan" column="output_plan" jdbcType="INTEGER"/>
-        <result property="outputPrice" column="output_price" jdbcType="INTEGER"/>
+        <result property="outputPrice" column="output_price" jdbcType="FLOAT"/>
         <result property="outputActual" column="output_actual" jdbcType="INTEGER"/>
         <result property="type" column="type" jdbcType="INTEGER"/>
         <result property="returnNum" column="return_num" jdbcType="INTEGER"/>

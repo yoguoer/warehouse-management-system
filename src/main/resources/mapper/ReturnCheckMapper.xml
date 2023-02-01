@@ -19,7 +19,7 @@
         <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
         <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
         <result property="inputPlan" column="input_plan" jdbcType="INTEGER"/>
-        <result property="inputPrice" column="input_price" jdbcType="INTEGER"/>
+        <result property="inputPrice" column="input_price" jdbcType="FLOAT"/>
         <result property="inputActual" column="input_actual" jdbcType="INTEGER"/>
         <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
         <result property="positionCode" column="position_code" jdbcType="VARCHAR"/>
@@ -36,7 +36,7 @@
         <result property="customerCode" column="customer_code" jdbcType="VARCHAR"/>
         <result property="customerName" column="customer_name" jdbcType="VARCHAR"/>
         <result property="outputPlan" column="output_plan" jdbcType="INTEGER"/>
-        <result property="outputPrice" column="output_price" jdbcType="INTEGER"/>
+        <result property="outputPrice" column="output_price" jdbcType="FLOAT"/>
         <result property="outputActual" column="output_actual" jdbcType="INTEGER"/>
         <result property="outputWarehouseKey" column="output_warehouse_key" jdbcType="VARCHAR"/>
     </resultMap>

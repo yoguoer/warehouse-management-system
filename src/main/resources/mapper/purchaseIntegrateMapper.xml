@@ -11,7 +11,7 @@
         <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
         <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
         <result property="inputPlan" column="input_plan" jdbcType="INTEGER"/>
-        <result property="inputPrice" column="input_price" jdbcType="INTEGER"/>
+        <result property="inputPrice" column="input_price" jdbcType="FLOAT"/>
         <result property="inputActual" column="input_actual" jdbcType="INTEGER"/>
         <result property="type" column="type" jdbcType="INTEGER"/>
         <result property="returnNum" column="return_num" jdbcType="INTEGER"/>

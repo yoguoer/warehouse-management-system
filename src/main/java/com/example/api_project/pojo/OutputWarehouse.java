@@ -43,7 +43,7 @@ public class OutputWarehouse implements Serializable {
     /**
      * 出库价格
      */
-    private Long outputPrice;
+    private Float outputPrice;
     /**
      * 实际出库数
      */
@@ -209,11 +209,11 @@ public class OutputWarehouse implements Serializable {
         this.outputPlan = outputPlan;
     }
 
-    public Long getOutputPrice() {
+    public Float getOutputPrice() {
         return outputPrice;
     }
 
-    public void setOutputPrice(Long outputPrice) {
+    public void setOutputPrice(Float outputPrice) {
         this.outputPrice = outputPrice;
     }
 

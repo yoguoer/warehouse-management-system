@@ -43,7 +43,7 @@ public class InputWarehouse implements Serializable {
     /**
      * 入库价格
      */
-    private Long inputPrice;
+    private Float inputPrice;
     /**
      * 实际入库数
      */
@@ -201,11 +201,11 @@ public class InputWarehouse implements Serializable {
         this.inputPlan = inputPlan;
     }
 
-    public Long getInputPrice() {
+    public Float getInputPrice() {
         return inputPrice;
     }
 
-    public void setInputPrice(Long inputPrice) {
+    public void setInputPrice(Float inputPrice) {
         this.inputPrice = inputPrice;
     }
 
