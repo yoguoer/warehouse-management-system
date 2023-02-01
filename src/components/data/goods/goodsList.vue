@@ -66,9 +66,9 @@
         <el-table-column fixed="right" width="250px" label="操作">
           <template slot-scope="scope">
             <el-button class="prohibitclick" @click="setON(scope.row)" type="text" size="small"
-              v-if="scope.row.state == 0" icon="el-icon-moon">上架</el-button>
+              v-if="scope.row.state == 0" icon="el-icon-sunny">上架</el-button>
             <el-button class="prohibitclick" @click="setDOWN(scope.row)" type="text" size="small"
-              v-if="scope.row.state == 1" icon="el-icon-sunny">下架</el-button>
+              v-if="scope.row.state == 1" icon="el-icon-moon">下架</el-button>
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
             <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
               icon="el-icon-delete">删除</el-button>

@@ -16,11 +16,18 @@
         @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="customerCode" sortable label="客户编号">
+        <el-table-column prop="customerCode" sortable label="客户编号" :show-overflow-tooltip="true" width="120px">
         </el-table-column>
-        <el-table-column prop="customerName" label="客户名称">
+        <el-table-column prop="customerName" label="客户名称" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column label="联系人列表">
+        <el-table-column label="客户地址" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+              <span>
+                {{ scope.row.province }},{{ scope.row.city }},{{ scope.row.district }},{{ scope.row.detail }}
+              </span>
+          </template>
+        </el-table-column>
+        <el-table-column label="联系人列表" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span v-for="item in scope.row.customerContactList" :key="item.contactKey" :label="item">
               <span>
@@ -29,7 +36,7 @@
             </span>
           </template>
         </el-table-column>
-        <el-table-column prop="categoryName" label="所属分类">
+        <el-table-column prop="categoryName" label="所属分类" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column width="200px" fixed="right" label="操作">
           <template slot-scope="scope">

@@ -178,8 +178,8 @@ export default {
         (res) => {
           this.list = res.data.data.records;
           this.total = res.data.data.total;
-          console.log("仓库");
-          console.log(this.total, this.list);
+          // console.log("仓库");
+          // console.log(this.total, this.list);
         }
       );
       this.$forceUpdate();

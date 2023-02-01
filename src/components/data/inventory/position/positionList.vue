@@ -169,8 +169,8 @@ export default {
       }).then((res) => {
         this.list = res.data.data.records;
         this.total = res.data.data.total;
-        console.log("区域");
-        console.log(this.total, this.list);
+        // console.log("区域");
+        // console.log(this.total, this.list);
       });
       this.$forceUpdate();
     },
@@ -220,7 +220,7 @@ export default {
         this.list = res.data.data.records;
         this.total = res.data.data.total;
         // console.log("库位");
-        console.log(this.total, this.list);
+        // console.log(this.total, this.list);
       });
       this.$forceUpdate();
     },

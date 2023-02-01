@@ -143,8 +143,8 @@ export default {
       districtlistPage({ districtCode: this.inputArea, districtName: this.inputName, inventoryKey: this.inputInventory, status: this.status, page: this.pageNo, size: this.pageSize }).then((res) => {
         this.list = res.data.data.records;
         this.total = res.data.data.total
-        console.log("区域")
-        console.log(this.total, this.list);
+        // console.log("区域")
+        // console.log(this.total, this.list);
       });
       this.$forceUpdate();
     },
@@ -171,8 +171,8 @@ export default {
       districtlistPage({ districtCode: "", inventoryKey: this.$route.params.inventoryKey || "", page: this.pageNo, size: this.pageSize }).then((res) => {
         this.list = res.data.data.records;
         this.total = res.data.data.total
-        console.log("区域")
-        console.log(this.total, this.list);
+        // console.log("区域")
+        // console.log(this.total, this.list);
       });
       this.$forceUpdate();
     },
