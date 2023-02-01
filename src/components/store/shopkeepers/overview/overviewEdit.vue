@@ -123,9 +123,9 @@ export default {
         goodsCode: [
           { required: true, message: '请选择商品', trigger: 'blur' },
         ],
-        onwayNum: [
-          { required: true, message: '请设置在途数', trigger: 'blur' },
-        ],
+        // onwayNum: [
+        //   { required: true, message: '请设置在途数', trigger: 'blur' },
+        // ],
         maxNum: [
           { required: true, message: '请设置库存上限', trigger: 'blur' },
         ],
@@ -135,9 +135,9 @@ export default {
         accountNum: [
           { required: true, message: '请设置现存量', trigger: 'blur' },
         ],
-        occupyNum: [
-          { required: true, message: '请设置占用数', trigger: 'blur' },
-        ],
+        // occupyNum: [
+        //   { required: true, message: '请设置占用数', trigger: 'blur' },
+        // ],
       }
     }
   },
