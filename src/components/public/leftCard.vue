@@ -6,7 +6,7 @@
     </div>
     <div class="block">
       <el-tree :data="data" ref="tree" node-key="id" :check-strictly="true" :props="defaultProps"
-        :highlight-current="true" :default-expand-all="true" @node-click="handleNodeClick"
+        :highlight-current="true" :default-expand-all="false" @node-click="handleNodeClick"
         :expand-on-click-node="false">
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <span :class="isActive == node.label ? 'custom-tree-node-active' : 'custom-tree-node'">{{ node.label }}</span>
@@ -138,6 +138,7 @@ export default {
 .box-card {
   width: 300px;
   height: 550px;
+  overflow: auto !important;
   margin: 0 20px 20px 0;
   float: left;
 }
