@@ -41,13 +41,13 @@ public class SupplierInventoryImpl implements SupplierInventoryService {
      */
     @Override
     public Map<String, Object> queryByPage(SupplierInventory SupplierInventory, Integer startRows, Integer pageSize) {
-        long total = this.SupplierInventoryMapper.count(SupplierInventory);
         String supplierKey=SupplierInventory.getSupplierKey();
         String supplierName=SupplierInventory.getSupplierName();
         String inventoryKey=SupplierInventory.getInventoryKey();
         String inventoryName=SupplierInventory.getInventoryName();
         Integer status=SupplierInventory.getStatus();
         List<SupplierInventory> records = this.SupplierInventoryMapper.queryAllByLimit(status,supplierKey,supplierName,inventoryKey,inventoryName,startRows, pageSize);
+        long total = this.SupplierInventoryMapper.count(SupplierInventory);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

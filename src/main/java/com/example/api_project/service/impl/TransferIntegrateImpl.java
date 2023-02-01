@@ -30,6 +30,7 @@ public class TransferIntegrateImpl implements TransferIntegrateService {
     @Override
     public Map<String, Object> queryByPage(TransferIntegrate transferIntegrate, Integer startRows, Integer pageSize) {
         List<TransferIntegrate> records;
+        long total;
         Integer type=transferIntegrate.getType();
 //        if(null!=type&&type==0){
 //            String shopCode=transferIntegrate.getInShopCode();
@@ -42,8 +43,8 @@ public class TransferIntegrateImpl implements TransferIntegrateService {
             String InShopCode=transferIntegrate.getInShopCode();
             String OutShopCode=transferIntegrate.getOutShopCode();
             records = this.transferIntegrateMapper.queryAllByGoods(goodsCode,InShopCode,OutShopCode,startRows, pageSize);
+            total = this.transferIntegrateMapper.countByGoods(transferIntegrate);
 //        }
-        long total = records.size();
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

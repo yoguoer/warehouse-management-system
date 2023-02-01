@@ -39,6 +39,21 @@
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
+    <!--统计总行数-->
+    <select id="countByShop" resultType="java.lang.Long">
+        select count(*)
+        from output_warehouse
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            and is_deleted=0
+            and output_shop_code=""
+            and customer_code!=""
+        </where>
+        group by shop_code
+    </select>
+
     <!--按照商品编码分类-->
     <select id="queryAllByGoods" resultMap="SalesIntegrateMap">
         SELECT goods_code,goods_name,output_price,
@@ -59,6 +74,21 @@
         </where>
         group by goods_code
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="countByGoods" resultType="java.lang.Long">
+        select count(*)
+        from output_warehouse
+        <where>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            and is_deleted=0
+            and output_shop_code=""
+            and customer_code!=""
+        </where>
+        group by goods_code
     </select>
 
     <!--按照供应商编码分类-->
@@ -82,5 +112,21 @@
         group by customer_code
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
+
+    <!--统计总行数-->
+    <select id="countByCustomer" resultType="java.lang.Long">
+        select count(*)
+        from output_warehouse
+        <where>
+            <if test="customerCode != null and customerCode != ''">
+                and customer_code = #{customerCode}
+            </if>
+            and is_deleted=0
+            and output_shop_code=""
+            and customer_code!=""
+        </where>
+        group by customer_code
+    </select>
+
 </mapper>
 

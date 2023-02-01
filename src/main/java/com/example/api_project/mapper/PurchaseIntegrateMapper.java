@@ -20,6 +20,9 @@ public interface PurchaseIntegrateMapper {
     List<PurchaseIntegrate> queryAllByGoods(String goodsCode,Integer startRows, Integer pageSize);
     List<PurchaseIntegrate> queryAllBySupplier(String supplierCode,Integer startRows, Integer pageSize);
 
+    Long countByShop(PurchaseIntegrate purchaseIntegrate);
+    Long countByGoods(PurchaseIntegrate purchaseIntegrate);
+    Long countBySupplier(PurchaseIntegrate purchaseIntegrate);
 
 }
 

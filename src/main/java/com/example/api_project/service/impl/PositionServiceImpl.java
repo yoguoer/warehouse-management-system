@@ -48,12 +48,12 @@ public class PositionServiceImpl implements PositionService {
      */
     @Override
     public Map<String, Object> queryByPage(Position position, Integer startRows, Integer pageSize) {
-        long total = this.positionMapper.count(position);
         String inventoryDistrictkey=position.getInventoryDistrictkey();
         String inventoryKey=position.getInventoryKey();
         String positionCode=position.getPositionCode();
         String positionType=position.getPositionType();
         List<Position> records = this.positionMapper.queryAllByLimit(inventoryDistrictkey,inventoryKey,positionCode,positionType,startRows, pageSize);
+        long total = this.positionMapper.count(position);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

@@ -47,10 +47,10 @@ public class BrandServiceImpl implements BrandService {
      */
     @Override
     public Map<String, Object> queryByPage(Brand brand, Integer startRows, Integer pageSize) {
-        long total = brandMapper.count(brand);
         String brandCode=brand.getBrandCode();
         String brandName=brand.getBrandName();
         List<Brand> records = brandMapper.queryAllByLimit(brandCode,brandName,startRows, pageSize);
+        long total = brandMapper.count(brand);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

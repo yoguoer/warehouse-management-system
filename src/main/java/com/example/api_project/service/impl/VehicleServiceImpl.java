@@ -48,10 +48,10 @@ public class VehicleServiceImpl implements VehicleService {
      */
     @Override
     public Map<String,Object> queryByPage(Vehicle vehicle, Integer startRows, Integer pageSize) {
-        long total = this.vehicleMapper.count(vehicle);
         String vehicleType=vehicle.getVehicleType();
         String vehicleCode=vehicle.getVehicleCode();
         List<Vehicle> records = this.vehicleMapper.queryAllByLimit(vehicleType,vehicleCode, startRows,pageSize);
+        long total = this.vehicleMapper.count(vehicle);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

@@ -80,12 +80,12 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public Map<String, Object> queryByPage(Supplier supplier, Integer startRows, Integer pageSize) {
-        long total = this.supplierMapper.count(supplier);
         String supplierName=supplier.getSupplierName();
         String supplierCode = supplier.getSupplierCode();
         List<Supplier> records;
         if(null!=supplier.getCategoryKey() && supplier.getCategoryKey().equals("all_SUPPLIER")){
             String categoryKey="";
+            supplier.setCategoryKey("");
             records = this.supplierMapper.queryAllByLimit(supplierName,supplierCode,categoryKey,startRows, pageSize);
         }else{
             String categoryKey=supplier.getCategoryKey();
@@ -113,6 +113,7 @@ public class SupplierServiceImpl implements SupplierService {
                 }
             }
         }
+        long total = this.supplierMapper.count(supplier);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

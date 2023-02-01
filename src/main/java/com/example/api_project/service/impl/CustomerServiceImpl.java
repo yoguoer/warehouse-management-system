@@ -51,11 +51,11 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public Map<String, Object> queryByPage(Customer customer, Integer startRows, Integer pageSize){
-        long total = this.customerMapper.count(customer);
         String customerName=customer.getCustomerName();
         List<Customer> records;
         if(null!=customer.getCategoryKey() && customer.getCategoryKey().equals("all_CUSTOMER")){
             String categoryKey="";
+            customer.setCategoryKey("");
             records = this.customerMapper.queryAllByLimit(categoryKey,customerName,startRows, pageSize);
         }else{
             String categoryKey=customer.getCategoryKey();
@@ -70,6 +70,7 @@ public class CustomerServiceImpl implements CustomerService {
                 item.setCustomerContactList(customerContactList);
             }
         }
+        long total = this.customerMapper.count(customer);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

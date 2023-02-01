@@ -50,12 +50,12 @@ public class DetailWarehouseServiceImpl implements DetailWarehouseService {
      */
     @Override
     public Map<String, Object> queryByPage(DetailWarehouse detailWarehouse, Integer startRows, Integer pageSize) {
-        long total = this.detailWarehouseMapper.count(detailWarehouse);
         Integer transType=detailWarehouse.getTransType();
         Integer type=detailWarehouse.getType();
         String goodsCode=detailWarehouse.getGoodsCode();
         String shopCode=detailWarehouse.getShopCode();
         List<DetailWarehouse> records = this.detailWarehouseMapper.queryAllByLimit(goodsCode,shopCode,transType,type,startRows, pageSize);
+        long total = this.detailWarehouseMapper.count(detailWarehouse);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

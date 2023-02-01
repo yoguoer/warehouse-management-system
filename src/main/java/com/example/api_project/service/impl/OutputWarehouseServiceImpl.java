@@ -45,7 +45,6 @@ public class OutputWarehouseServiceImpl implements OutputWarehouseService {
      */
     @Override
     public Map<String, Object> queryByPage(OutputWarehouse outputWarehouse, Integer startRows, Integer pageSize) {
-        long total = this.outputWarehouseMapper.count(outputWarehouse);
         String shopCode=outputWarehouse.getShopCode();
         String goodsCode=outputWarehouse.getGoodsCode();
         String customerCode=outputWarehouse.getCustomerCode();
@@ -54,6 +53,7 @@ public class OutputWarehouseServiceImpl implements OutputWarehouseService {
         Integer type=outputWarehouse.getType();
         Integer isDeleted=outputWarehouse.getIsDeleted();
         List<OutputWarehouse> records = this.outputWarehouseMapper.queryAllByLimit(shopCode,goodsCode,customerCode,inventoryCode,status,type,isDeleted,startRows,  pageSize);
+        long total = this.outputWarehouseMapper.count(outputWarehouse);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

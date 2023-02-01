@@ -49,18 +49,19 @@ public class ShopServiceImpl implements ShopService {
      */
     @Override
     public Map<String, Object> queryByPage(Shop shop, Integer startRows, Integer pageSize) {
-        long total = this.shopMapper.count(shop);
         String shopName=shop.getShopName();
         Integer shopStatus=shop.getShopStatus();
         Integer cooperationType=shop.getCooperationType();
         List<Shop> records;
         if(null!=shop.getCategoryKey() && shop.getCategoryKey().equals("all_SHOP")){
             String categoryKey="";
+            shop.setCategoryKey("");
             records = this.shopMapper.queryAllByLimit(shopName,categoryKey,shopStatus,cooperationType,startRows, pageSize);
         }else{
             String categoryKey=shop.getCategoryKey();
             records = this.shopMapper.queryAllByLimit(shopName,categoryKey,shopStatus,cooperationType,startRows, pageSize);
         }
+        long total = this.shopMapper.count(shop);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

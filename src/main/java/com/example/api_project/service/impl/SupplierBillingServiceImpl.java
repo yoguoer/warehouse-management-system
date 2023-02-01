@@ -57,11 +57,11 @@ public class SupplierBillingServiceImpl implements SupplierBillingService {
      */
     @Override
     public Map<String, Object> queryByPage(SupplierBilling supplierBilling, Integer startRows, Integer pageSize) {
-        long total = this.supplierBillingMapper.count(supplierBilling);
         String accountName=supplierBilling.getAccountName();
         String bankName=supplierBilling.getBankName();
         String supplierBillingCode=supplierBilling.getsupplierBillingCode();
         List<SupplierBilling> records = this.supplierBillingMapper.queryAllByLimit(supplierBillingCode,accountName,bankName,startRows, pageSize);
+        long total = this.supplierBillingMapper.count(supplierBilling);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

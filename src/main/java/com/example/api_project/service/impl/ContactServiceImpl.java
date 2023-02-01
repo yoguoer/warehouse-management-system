@@ -59,10 +59,10 @@ public class ContactServiceImpl implements ContactService {
      */
     @Override
     public Map<String, Object> queryByPage(Contact contact, Integer startRows, Integer pageSize){
-        long total = this.contactMapper.count(contact);
         String contactName=contact.getContactName();
         String contactCustomerKey=contact.getContactCustomerKey();
         List<Contact> records = this.contactMapper.queryAllByCustomer(contactName,contactCustomerKey, startRows, pageSize);
+        long total = this.contactMapper.count(contact);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

@@ -34,14 +34,17 @@ public class SalesIntegrateImpl implements SalesIntegrateService {
         String goodsCode=salesIntegrate.getGoodsCode();
         String customerCode=salesIntegrate.getCustomerCode();
         List<SalesIntegrate> records;
+        long total;
         if(null!=shopCode){
             records = this.salesIntegrateMapper.queryAllByShop(shopCode,startRows, pageSize);
+            total = this.salesIntegrateMapper.countByShop(salesIntegrate);
         }else if(null!=goodsCode){
             records = this.salesIntegrateMapper.queryAllByGoods(goodsCode,startRows, pageSize);
+            total = this.salesIntegrateMapper.countByGoods(salesIntegrate);
         }else{
             records = this.salesIntegrateMapper.queryAllByCustomer(customerCode,startRows, pageSize);
+            total = this.salesIntegrateMapper.countByCustomer(salesIntegrate);
         }
-        long total = records.size();
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

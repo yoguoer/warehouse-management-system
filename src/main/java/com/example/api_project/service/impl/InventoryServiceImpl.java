@@ -47,7 +47,6 @@ public class InventoryServiceImpl implements InventoryService {
      */
     @Override
     public Map<String, Object> queryByPage(Inventory inventory, Integer startRows, Integer pageSize) {
-        long total = this.inventoryMapper.count(inventory);
         String inventoryName=inventory.getInventoryName();
         String inventoryCode=inventory.getInventoryCode();
         Integer status=inventory.getStatus();
@@ -56,11 +55,13 @@ public class InventoryServiceImpl implements InventoryService {
         List<Inventory> records;
         if(null!=inventory.getCategoryKey() && inventory.getCategoryKey().equals("all_WAREHOUSE")){
             String categoryKey="";
+            inventory.setCategoryKey("");
             records = this.inventoryMapper.queryAllByLimit(inventoryType,inventoryName,inventoryCode,status,categoryKey,belongKey,startRows, pageSize);
         }else{
             String categoryKey=inventory.getCategoryKey();
             records = this.inventoryMapper.queryAllByLimit(inventoryType,inventoryName,inventoryCode,status,categoryKey,belongKey,startRows, pageSize);
         }
+        long total = this.inventoryMapper.count(inventory);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

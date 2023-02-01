@@ -43,6 +43,21 @@
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
+    <!--统计总行数-->
+    <select id="countByShop" resultType="java.lang.Long">
+        select count(*)
+        from input_warehouse
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            and is_deleted=0
+            and input_shop_code=""
+            and supplier_code!=""
+        </where>
+        group by shop_code
+    </select>
+
     <!--按照商品编码分类-->
     <select id="queryAllByGoods" resultMap="PurchaseIntegrateMap">
         SELECT goods_code,goods_name,input_price,
@@ -69,6 +84,21 @@
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
+    <!--统计总行数-->
+    <select id="countByGoods" resultType="java.lang.Long">
+        select count(*)
+        from input_warehouse
+        <where>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            and is_deleted=0
+            and input_shop_code=""
+            and supplier_code!=""
+        </where>
+        group by goods_code
+    </select>
+
     <!--按照供应商编码分类-->
     <select id="queryAllBySupplier" resultMap="PurchaseIntegrateMap">
         SELECT supplier_code,supplier_name,
@@ -93,6 +123,21 @@
         </where>
         group by supplier_code
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="countBySupplier" resultType="java.lang.Long">
+        select count(*)
+        from input_warehouse
+        <where>
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
+            </if>
+            and is_deleted=0
+            and input_shop_code=""
+            and supplier_code!=""
+        </where>
+        group by supplier_code
     </select>
 </mapper>
 

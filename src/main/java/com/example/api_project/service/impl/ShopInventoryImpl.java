@@ -42,13 +42,13 @@ public class ShopInventoryImpl implements ShopInventoryService {
      */
     @Override
     public Map<String, Object> queryByPage(ShopInventory ShopInventory, Integer startRows, Integer pageSize) {
-        long total = this.ShopInventoryMapper.count(ShopInventory);
         String shopKey=ShopInventory.getShopKey();
         String shopName=ShopInventory.getShopName();
         String inventoryKey=ShopInventory.getInventoryKey();
         String inventoryName=ShopInventory.getInventoryName();
         Integer status=ShopInventory.getStatus();
         List<ShopInventory> records = this.ShopInventoryMapper.queryAllByLimit(status,shopKey,shopName,inventoryKey,inventoryName,startRows, pageSize);
+        long total = this.ShopInventoryMapper.count(ShopInventory);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

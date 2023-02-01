@@ -50,12 +50,12 @@ public class AlertInfoServiceImpl implements AlertInfoService {
      */
     @Override
     public Map<String, Object> queryByPage(AlertInfo alertInfo, Integer startRows, Integer pageSize) {
-        long total = this.alertInfoMapper.count(alertInfo);
         Integer type=alertInfo.getType();
         Integer status=alertInfo.getStatus();
         String shopSupplierCode=alertInfo.getShopSupplierCode();
         String goodsCode=alertInfo.getGoodsCode();
         List<AlertInfo> records = alertInfoMapper.queryAllByLimit(type,status,shopSupplierCode,goodsCode,startRows, pageSize);
+        long total = this.alertInfoMapper.count(alertInfo);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

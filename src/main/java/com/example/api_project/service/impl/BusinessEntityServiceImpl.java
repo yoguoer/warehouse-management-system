@@ -46,10 +46,10 @@ public class BusinessEntityServiceImpl implements BusinessEntityService {
      */
     @Override
     public Map<String, Object> queryByPage(BusinessEntity businessEntity, Integer startRows, Integer pageSize) {
-        long total = this.businessEntityMapper.count(businessEntity);
         String entityCode=businessEntity.getEntityCode();
         String entityName=businessEntity.getEntityName();
         List<BusinessEntity> records = businessEntityMapper.queryAllByLimit(entityCode,entityName,startRows, pageSize);
+        long total = this.businessEntityMapper.count(businessEntity);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

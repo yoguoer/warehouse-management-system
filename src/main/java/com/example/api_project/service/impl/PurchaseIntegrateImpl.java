@@ -34,14 +34,17 @@ public class PurchaseIntegrateImpl implements PurchaseIntegrateService {
         String goodsCode=purchaseIntegrate.getGoodsCode();
         String supplierCode=purchaseIntegrate.getSupplierCode();
         List<PurchaseIntegrate> records;
+        long total;
         if(null!=shopCode){
             records = this.purchaseIntegrateMapper.queryAllByShop(shopCode,startRows, pageSize);
+            total = this.purchaseIntegrateMapper.countByShop(purchaseIntegrate);
         }else if(null!=goodsCode){
             records = this.purchaseIntegrateMapper.queryAllByGoods(goodsCode,startRows, pageSize);
+            total = this.purchaseIntegrateMapper.countByGoods(purchaseIntegrate);
         }else{
+            total = this.purchaseIntegrateMapper.countBySupplier(purchaseIntegrate);
             records = this.purchaseIntegrateMapper.queryAllBySupplier(supplierCode,startRows, pageSize);
         }
-        long total = records.size();
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

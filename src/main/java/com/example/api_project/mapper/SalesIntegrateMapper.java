@@ -20,5 +20,8 @@ public interface SalesIntegrateMapper {
     List<SalesIntegrate> queryAllByGoods(String goodsCode, Integer startRows, Integer pageSize);
     List<SalesIntegrate> queryAllByCustomer(String customerCode, Integer startRows, Integer pageSize);
 
+    Integer countByShop(SalesIntegrate salesIntegrate);
+    Integer countByGoods(SalesIntegrate salesIntegrate);
+    Integer countByCustomer(SalesIntegrate salesIntegrate);
 }
 

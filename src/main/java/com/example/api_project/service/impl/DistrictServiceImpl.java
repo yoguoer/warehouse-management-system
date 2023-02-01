@@ -47,12 +47,12 @@ public class DistrictServiceImpl implements DistrictService {
      */
     @Override
     public Map<String, Object> queryByPage(District district, Integer startRows, Integer pageSize) {
-        long total = this.districtMapper.count(district);
         String districtCode=district.getDistrictCode();
         String districtName=district.getDistrictName();
         Integer status=district.getStatus();
         String inventoryKey=district.getInventoryKey();
         List<District> records = districtMapper.queryAllByLimit(districtCode,districtName,status,inventoryKey,startRows, pageSize);
+        long total = this.districtMapper.count(district);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

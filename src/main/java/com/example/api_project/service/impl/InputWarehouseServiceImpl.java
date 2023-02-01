@@ -45,7 +45,6 @@ public class InputWarehouseServiceImpl implements InputWarehouseService {
      */
     @Override
     public Map<String, Object> queryByPage(InputWarehouse inputWarehouse, Integer startRows, Integer pageSize) {
-        long total = this.inputWarehouseMapper.count(inputWarehouse);
         String shopCode=inputWarehouse.getShopCode();
         String goodsCode=inputWarehouse.getGoodsCode();
         String supplierCode=inputWarehouse.getSupplierCode();
@@ -54,6 +53,7 @@ public class InputWarehouseServiceImpl implements InputWarehouseService {
         Integer type=inputWarehouse.getType();
         Integer isDeleted=inputWarehouse.getIsDeleted();
         List<InputWarehouse> records = this.inputWarehouseMapper.queryAllByLimit(shopCode,goodsCode,supplierCode,inventoryCode,status,type,isDeleted,startRows,  pageSize);
+        long total = this.inputWarehouseMapper.count(inputWarehouse);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

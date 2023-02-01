@@ -57,8 +57,8 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
      */
     @Override
     public Map<String, Object> queryByPage(SupplierAddress supplierAddress, Integer startRows, Integer pageSize) {
-        long total = this.supplierAddressMapper.count(supplierAddress);
         List<SupplierAddress> records = this.supplierAddressMapper.queryAllByLimit(supplierAddress,startRows, pageSize);
+        long total = this.supplierAddressMapper.count(supplierAddress);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

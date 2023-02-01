@@ -63,10 +63,10 @@ public class ShopkeeperWarehouseServiceImpl implements ShopkeeperWarehouseServic
      */
     @Override
     public Map<String, Object> queryByPage(ShopkeeperWarehouse shopkeeperWarehouse, Integer startRows, Integer pageSize) {
-        long total = this.shopkeeperWarehouseMapper.count(shopkeeperWarehouse);
         String goodsCode=shopkeeperWarehouse.getGoodsCode();
         String shopCode=shopkeeperWarehouse.getShopCode();
         List<ShopkeeperWarehouse> records = this.shopkeeperWarehouseMapper.queryAllByLimit(goodsCode,shopCode, startRows, pageSize);
+        long total = this.shopkeeperWarehouseMapper.count(shopkeeperWarehouse);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);
