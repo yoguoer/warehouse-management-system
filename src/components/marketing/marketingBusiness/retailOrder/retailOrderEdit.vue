@@ -18,7 +18,7 @@
           <el-form-item label="商品" prop="goodsCode">
             <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable
               ref="goodsSelect">
-              <el-option @click.native="setGoodsName(item)" v-for="item in goodsOptions" :key="item.goodsCode"
+              <el-option @click.native="setGoodsName(item)" v-for="item in goodsOptions" :key="item.goodsKey"
                 :label="item.goodsName" :value="item.goodsCode">
               </el-option>
             </el-select>
@@ -102,7 +102,7 @@
         <el-col :span="10">
           <el-form-item label="车辆" prop="vehicleCode">
             <el-select size="middle" v-model="ruleForm.vehicleCode" placeholder="车辆" style="width:100%;" clearable>
-              <el-option v-for="item in vehicleOptions" :key="item.vehicleKey" :label="item.vehicleCode"
+              <el-option v-for="item in vehicleOptions" :key="item.vehicleCode" :label="item.vehicleCode"
                 :value="item.vehicleCode">
               </el-option>
             </el-select>
