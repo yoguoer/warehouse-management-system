@@ -73,26 +73,11 @@
         select count(1)
         from vehicle
         <where>
-            <if test="maxWeight != null">
-                and max_weight = #{maxWeight}
-            </if>
-            <if test="maxCapacity != null">
-                and max_capacity = #{maxCapacity}
-            </if>
-            <if test="detail != null and detail != ''">
-                and detail = #{detail}
-            </if>
-            <if test="vehicleKey != null and vehicleKey != ''">
-                and vehicle_key = #{vehicleKey}
-            </if>
             <if test="vehicleType != null and vehicleType != ''">
-                and vehicle_type = #{vehicleType}
-            </if>
-            <if test="description != null and description != ''">
-                and description = #{description}
+                and vehicle_type like concat('%', #{vehicleType}, '%')
             </if>
             <if test="vehicleCode != null and vehicleCode != ''">
-                and vehicle_code = #{vehicleCode}
+                and vehicle_code like concat('%', #{vehicleCode}, '%')
             </if>
         </where>
     </select>
