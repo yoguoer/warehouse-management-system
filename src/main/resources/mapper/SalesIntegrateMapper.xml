@@ -40,18 +40,22 @@
     </select>
 
     <!--统计总行数-->
-    <select id="countByShop" resultType="java.lang.Long">
+    <select id="countByShop" resultType="java.lang.Integer">
         select count(*)
-        from output_warehouse
-        <where>
-            <if test="shopCode != null and shopCode != ''">
-                and shop_code = #{shopCode}
-            </if>
-            and is_deleted=0
-            and output_shop_code=""
-            and customer_code!=""
-        </where>
-        group by shop_code
+        from
+        (
+            SELECT shop_code,shop_name
+            from output_warehouse
+            <where>
+                <if test="shopCode != null and shopCode != ''">
+                    and shop_code = #{shopCode}
+                </if>
+                and is_deleted=0
+                and output_shop_code=""
+                and customer_code!=""
+            </where>
+            group by shop_code
+        ) as A
     </select>
 
     <!--按照商品编码分类-->
@@ -77,18 +81,22 @@
     </select>
 
     <!--统计总行数-->
-    <select id="countByGoods" resultType="java.lang.Long">
+    <select id="countByGoods" resultType="java.lang.Integer">
         select count(*)
-        from output_warehouse
-        <where>
-            <if test="goodsCode != null and goodsCode != ''">
-                and goods_code = #{goodsCode}
-            </if>
-            and is_deleted=0
-            and output_shop_code=""
-            and customer_code!=""
-        </where>
-        group by goods_code
+        from
+        (
+            SELECT goods_code,goods_name,output_price
+            from output_warehouse
+            <where>
+                <if test="goodsCode != null and goodsCode != ''">
+                    and goods_code = #{goodsCode}
+                </if>
+                and is_deleted=0
+                and output_shop_code=""
+                and customer_code!=""
+            </where>
+            group by goods_code
+        ) as A
     </select>
 
     <!--按照供应商编码分类-->
@@ -114,18 +122,22 @@
     </select>
 
     <!--统计总行数-->
-    <select id="countByCustomer" resultType="java.lang.Long">
+    <select id="countByCustomer" resultType="java.lang.Integer">
         select count(*)
-        from output_warehouse
-        <where>
-            <if test="customerCode != null and customerCode != ''">
-                and customer_code = #{customerCode}
-            </if>
-            and is_deleted=0
-            and output_shop_code=""
-            and customer_code!=""
-        </where>
-        group by customer_code
+        from
+        (
+            select customer_code,customer_name
+            from output_warehouse
+            <where>
+                <if test="customerCode != null and customerCode != ''">
+                    and customer_code = #{customerCode}
+                </if>
+                and is_deleted=0
+                and output_shop_code=""
+                and customer_code!=""
+            </where>
+            group by customer_code
+        ) as A
     </select>
 
 </mapper>

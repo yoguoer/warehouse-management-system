@@ -65,26 +65,17 @@
         select count(1)
         from district
         <where>
-            <if test="description != null and description != ''">
-                and description = #{description}
-            </if>
             <if test="districtCode != null and districtCode != ''">
-                and district_code = #{districtCode}
+                and district_code like concat('%', #{districtCode}, '%')
             </if>
             <if test="districtName != null and districtName != ''">
-                and district_name = #{districtName}
-            </if>
-            <if test="inventoryDistrictkey != null and inventoryDistrictkey != ''">
-                and inventory_district_key = #{inventoryDistrictkey}
-            </if>
-            <if test="inventoryKey != null and inventoryKey != ''">
-                and inventory_key = #{inventoryKey}
-            </if>
-            <if test="sort != null and sort != ''">
-                and sort = #{sort}
+                and district_name like concat('%', #{districtName}, '%')
             </if>
             <if test="status != null and status != ''">
                 and status = #{status}
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                and inventory_key = #{inventoryKey}
             </if>
         </where>
     </select>

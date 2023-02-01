@@ -30,7 +30,7 @@ public class TransferIntegrateImpl implements TransferIntegrateService {
     @Override
     public Map<String, Object> queryByPage(TransferIntegrate transferIntegrate, Integer startRows, Integer pageSize) {
         List<TransferIntegrate> records;
-        long total;
+        Integer total;
         Integer type=transferIntegrate.getType();
 //        if(null!=type&&type==0){
 //            String shopCode=transferIntegrate.getInShopCode();

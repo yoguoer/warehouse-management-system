@@ -34,7 +34,7 @@ public class SalesIntegrateImpl implements SalesIntegrateService {
         String goodsCode=salesIntegrate.getGoodsCode();
         String customerCode=salesIntegrate.getCustomerCode();
         List<SalesIntegrate> records;
-        long total;
+        Integer total;
         if(null!=shopCode){
             records = this.salesIntegrateMapper.queryAllByShop(shopCode,startRows, pageSize);
             total = this.salesIntegrateMapper.countByShop(salesIntegrate);

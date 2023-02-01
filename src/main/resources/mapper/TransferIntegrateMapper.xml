@@ -69,24 +69,28 @@
     </select>
 
     <!--统计总行数-->
-    <select id="countByGoods" resultType="java.lang.Long">
+    <select id="countByGoods" resultType="java.lang.Integer">
         select count(*)
-        from transfer_check
-        join input_warehouse on input_warehouse.input_warehouse_key=transfer_check.input_warehouse_key
-        join output_warehouse on output_warehouse.output_warehouse_key=transfer_check.output_warehouse_key
-        <where>
-            <if test="InShopCode != null and InShopCode != ''">
-                and input_warehouse.shop_code = #{InShopCode}
-            </if>
-            <if test="goodsCode != null and goodsCode != ''">
-                and transfer_check.goods_code = #{goodsCode}
-            </if>
-            <if test="OutShopCode != null and OutShopCode != ''">
-                and output_warehouse.shop_code = #{OutShopCode}
-            </if>
-            and check_status=1
-        </where>
-        group by transfer_check.goods_code,output_warehouse.shop_code,input_warehouse.shop_code
+        from
+        (
+            SELECT output_warehouse.goods_code,output_warehouse.goods_name
+            from transfer_check
+            join input_warehouse on input_warehouse.input_warehouse_key=transfer_check.input_warehouse_key
+            join output_warehouse on output_warehouse.output_warehouse_key=transfer_check.output_warehouse_key
+            <where>
+                <if test="InShopCode != null and InShopCode != ''">
+                    and input_warehouse.shop_code = #{InShopCode}
+                </if>
+                <if test="goodsCode != null and goodsCode != ''">
+                    and transfer_check.goods_code = #{goodsCode}
+                </if>
+                <if test="OutShopCode != null and OutShopCode != ''">
+                    and output_warehouse.shop_code = #{OutShopCode}
+                </if>
+                and check_status=1
+            </where>
+            group by transfer_check.goods_code,output_warehouse.shop_code,input_warehouse.shop_code
+        ) as A
     </select>
 </mapper>
 

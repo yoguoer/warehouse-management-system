@@ -34,7 +34,7 @@ public class PurchaseIntegrateImpl implements PurchaseIntegrateService {
         String goodsCode=purchaseIntegrate.getGoodsCode();
         String supplierCode=purchaseIntegrate.getSupplierCode();
         List<PurchaseIntegrate> records;
-        long total;
+        Integer total;
         if(null!=shopCode){
             records = this.purchaseIntegrateMapper.queryAllByShop(shopCode,startRows, pageSize);
             total = this.purchaseIntegrateMapper.countByShop(purchaseIntegrate);
