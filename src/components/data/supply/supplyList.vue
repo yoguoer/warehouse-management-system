@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     search() {
-      SupplierlistPage({ supplierCode: this.supplyId, supplierName: this.supplyName, categoryKey: this.inputCategory, page: this.pageNo, page: 1, size: 20 }).then(res => {
+      SupplierlistPage({ supplierCode: this.supplyId, supplierName: this.supplyName, categoryKey: this.inputCategory, page: this.pageNo, size: this.pageSize }).then(res => {
         this.supplyList = res.data.data.records;
         this.total = res.data.data.total
       });
@@ -136,7 +136,7 @@ export default {
       this.drawer = true
     },
     getSupplierlistPage() {
-      SupplierlistPage({ supplierCode: "", supplierName: "", categoryKey: "", page: this.pageNo, size: this.pageSize }).then((res) => {
+      SupplierlistPage({ supplierCode: this.supplyId, supplierName: this.supplyName, categoryKey: this.inputCategory, page: this.pageNo, size: this.pageSize }).then((res) => {
         this.supplyList = res.data.data.records;
         this.total = res.data.data.total
         console.log(this.total, this.supplyList);
