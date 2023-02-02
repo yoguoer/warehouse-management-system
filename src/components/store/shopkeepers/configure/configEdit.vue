@@ -84,21 +84,23 @@ export default {
     } else {
       this.ifCreate = true
     }
-    // console.log(this.ShopInventoryList)
+    // console.log("ShopInventoryList",this.ShopInventoryList)
   },
   methods: {
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
-          this.shopOptions = res.data.data
+          // this.shopOptions = res.data.data
+          let temp=res.data.data
           this.ShopInventoryList.forEach(t=>{
-          this.shopOptions.forEach(item=>{
+            temp.forEach(item=>{// 去掉已有仓库的
             if(item.shopKey==t.shopKey){
-                let index=this.shopOptions.indexOf(t)
-                this.shopOptions.splice(index,1)
+                let index=temp.indexOf(item)
+                temp.splice(index,1)
               }
             })
           })
+          this.shopOptions = temp
         } else {
           this.$message.error("获取失败!");
         }
