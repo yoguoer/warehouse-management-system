@@ -116,11 +116,11 @@ export default {
       CustomerListpage({
         categoryKey: this.inputCategory,
         customerName: this.inputName,
-        page: 1,
-        size: 20,
+        page: this.pageNo,
+        size: this.pageSize,
       }).then((res) => {
         if (res.data.code === 200) {
-          this.total = res.data.total;
+          this.total = res.data.data.total;
           this.guestList = res.data.data.records;
           console.log(this.total, this.guestList);
         } else {
@@ -131,10 +131,12 @@ export default {
     },
     _pageSize(val) {
       this.pageSize = val
+      this.search()
       this.$forceUpdate()
     },
     _page(val) {
       this.pageNo = val
+      this.search()
       this.$forceUpdate()
     },
     deleteRow(row) {
@@ -156,6 +158,9 @@ export default {
       this.drawer = true;
     },
     reload() {
+      this.inputName=''
+      this.inputCategory=''
+      this.pageNo=1
       this.$refs.leftcard.getTree()
       this.getCustomer()
     },
