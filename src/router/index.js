@@ -312,10 +312,51 @@ const routes = [{
             children: [
               //资料-供应商-供应商
               {
-                path: '/data/supplyList',
-                name: 'supplyList',
-                component: () => import('@/components/data/supply/supplyList.vue')
+                path: '/data/supply/supplyList',
+                name: 'supplyList', 
+                component: () => import('@/components/data/supply/supplyList.vue'),
+                meta: {
+                  keepAlive: true // 需要缓存
+                }
               },
+              {
+                path: '/data/supply/address',
+                name: 'supplyAddress',
+                component: () => import('@/components/data/supply/address/addressTable.vue')
+              },
+              {
+                path: '/data/supply/contact',
+                name: 'supplyContact',
+                component: () => import('@/components/data/supply/contact/contactTable.vue')
+              },
+              {
+                path: '/data/supply/bank',
+                name: 'supplyBank',
+                component: () => import('@/components/data/supply/bank/bankTable.vue')
+              },
+              {
+                path: 'data/supply/detail/:supplierKey',
+                name: 'supplyDetail',
+                component: () => import('@/components/data/supply/supplyDetail/Index.vue'),
+                redirect: { name: 'supply-address' },
+                children: [
+                  {
+                    path: '/data/supply/detail/:supplierKey',
+                    name: 'supply-address',
+                    component: () => import('@/components/data/supply/address/addressTable.vue')
+                  },
+                  {
+                    path: '/data/supply/detail/:supplierKey',
+                    name: 'supply-contact',
+                    component: () => import('@/components/data/supply/contact/contactTable.vue')
+                  },
+                  {
+                    path: '/data/supply/detail/:supplierKey',
+                    name: 'supply-bank',
+                    component: () => import('@/components/data/supply/bank/bankTable.vue')
+                  },
+                ]
+              }
             ]
           },
 

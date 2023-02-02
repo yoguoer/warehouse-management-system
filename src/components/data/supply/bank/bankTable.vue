@@ -1,12 +1,21 @@
 <template>
   <div>
+    <!-- <el-button type="primary" plain size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
+    <!-- <el-button type="primary" plain size="small" icon="el-icon-plus" @click="add()">新增</el-button> -->
+    <!-- <el-divider/> -->
     <div>
-      <el-input placeholder="供应商编号" v-model="supplyId" type="text" size="small" :clearable="true">
-        <template slot="prepend">供应商编号</template>
+      <el-input placeholder="户主名" v-model="accountName" type="text" size="small" :clearable="true">
+        <template slot="prepend">户主名</template>
       </el-input>
-      <el-input placeholder="供应商名称" v-model="supplyName" type="text" size="small" :clearable="true">
-        <template slot="prepend">供应商名称</template>
+      <el-input placeholder="银行名" v-model="accountNumber" type="text" size="small" :clearable="true">
+        <template slot="prepend">银行名</template>
       </el-input>
+      <el-select size="middle" v-model="supplierBillingCode" placeholder="所属供应商" style="width:200px;margin-right:20px"
+        clearable>
+        <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
+          :value="item.supplierCode" placeholder="所属供应商">
+        </el-option>
+      </el-select>
       <el-button type="primary" size="small" @click="search()" icon="el-icon-search">查询</el-button>
       <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
       <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
@@ -14,30 +23,25 @@
       <!-- <el-button type="danger"  size="small" icon="el-icon-refresh" @click="reload()">刷新</el-button> -->
       <el-divider />
     </div>
-    <leftCard :categoryType="categoryType" :title="title" style="height:600px;" ref="leftcard" />
     <div class="list-model">
-      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="supplyList" tooltip-effect="dark"
+      <el-table height="600px" :cell-style="{ padding: '5px' }" border :data="bankList" tooltip-effect="dark"
         @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="supplierCode" sortable label="供应商编号">
+        <el-table-column prop="bankName" label="银行全称">
         </el-table-column>
-        <el-table-column prop="supplierName" label="供应商名称">
+        <el-table-column prop="accountName" label="户主名">
         </el-table-column>
-        <el-table-column label="联系人列表">
+        <el-table-column prop="accountNumber" label="银行账号">
+        </el-table-column>
+        <el-table-column prop="taxNumber" label="税号">
+        </el-table-column>
+        <el-table-column prop="accountTel" label="联系电话">
+        </el-table-column>
+        <el-table-column prop="supplierBillingCode" label="所属供应商">
+        </el-table-column>
+        <el-table-column align="center" fixed="right" width="200px" label="操作">
           <template slot-scope="scope">
-            <span v-for="(item, index) in scope.row.supplierContactList" :key="index" :label="item">
-              <span>
-                {{ item.contactName }};
-              </span>
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="categoryName" label="所属分类">
-        </el-table-column>
-        <el-table-column fixed="right" width="200px" label="操作">
-          <template slot-scope="scope">
-            <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
             <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
               icon="el-icon-delete">删除</el-button>
@@ -49,51 +53,70 @@
           :current="parseInt(pageNo)" :total="total" :page-size.sync="pageSize" :page-no.sync="pageNo"
           @current-change="_page" @size-change="_pageSize"></el-pagination>
       </div>
-      <supplyEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"
-        ref="edit" />
+      <bankEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
     </div>
   </div>
 </template>
 
 <script>
-import supplyEdit from "./supplyEdit";
-import { SupplierlistPage, SupplierDelete, SupplierDeleteList, Supplierlist } from "@/api/data";
-import leftCard from "@/components/public/leftCard.vue";
+import bankEdit from "./bankEdit";
+import { banklistPage, bankDelete, bankDeleteList, Supplierlist } from "@/api/data";
 
 export default {
   name: "slist",
   data() {
     return {
-      categoryType: "SUPPLIER",
-      inputCategory: "",
-      title: "供应商分类",
-      supplyName: "",
-      supplyId: "",
+      accountNumber: "",
+      accountName: "",
+      supplierBillingCode: "",
       pageSize: 10,
       pageNo: 1,
       total: null,
       drawer: false,
       rowData: {},
-      supplyList: [],
-      multipleSelection: []
+      supplyOptions: [],
+      bankList: [],
+      multipleSelection: [],
     };
   },
-  props: {
-  },
-  components: {
-    supplyEdit,
-    leftCard,
-  },
   created() {
-    this.getSupplierlistPage();
+    this.getSupplierlist()
+    if (this.$route.params.supplierKey) {
+      let rowData = localStorage.getItem('supplyDetail')
+      if (rowData) {
+        this.supplierBillingCode = JSON.parse(rowData).supplierBillingCode
+      }
+    }
+    this.getBanklistPage()
   },
   methods: {
+    getSupplierlist() {
+      Supplierlist().then(res => {
+        if (res.data.code == 200) {
+          this.supplyOptions = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
+    clean() {
+      this.accountNumber = ''
+      this.supplierBillingCode = ''
+      this.accountName = ''
+      this.reload()
+    },
     search() {
-      SupplierlistPage({ supplierCode: this.supplyId, supplierName: this.supplyName, categoryKey: this.inputCategory, page: this.pageNo, size: this.pageSize }).then(res => {
-        this.supplyList = res.data.data.records;
-        this.total = res.data.data.total
+      banklistPage({ supplierBillingCode: this.supplierBillingCode, accountName: this.accountName, bankName: this.accountNumber, page: 1, size: this.pageSize }).then((res) => {
+        this.bankList = res.data.data.records;
+        console.log("bankList:", this.bankList);
       });
       this.$forceUpdate();
+    },
+    reload() {
+      this.getBanklistPage()
+    },
+    add() {
+      this.editRow({})
     },
     _pageSize(val) {
       this.pageSize = val;
@@ -107,57 +130,33 @@ export default {
     },
     deleteRow(row) {
       console.log("deleteRow", row)
-      SupplierDelete({ supplierKey: row.supplierKey }).then(res => {
+      bankDelete({ billingKey: row.billingKey }).then(res => {
         if (res.data.code == 200) {
           this.$message.success("删除成功!");
-          this.getSupplierlistPage()
+          this.getBanklistPage()
           this.$forceUpdate()
         } else {
           this.$message.error("删除失败!");
         }
       });
     },
-    //详情
-    openDetail(row) {
-      localStorage.setItem('supplyDetail', JSON.stringify(row))
-      this.$router.push({
-        name: "supplyDetail",
-        params: {
-          supplierKey: row.supplierKey
-        }
-      })
-    },
-    //编辑
     editRow(row) {
-      this.rowData = row
+      console.log("edit")
       this.drawer = true
+      this.rowData = row
     },
-    getSupplierlistPage() {
-      SupplierlistPage({ supplierCode: this.supplyId, supplierName: this.supplyName, categoryKey: this.inputCategory, page: this.pageNo, size: this.pageSize }).then((res) => {
-        this.supplyList = res.data.data.records;
-        this.total = res.data.data.total
-        console.log(this.total, this.supplyList);
+    getBanklistPage() {
+      banklistPage({ supplierBillingCode:this.$route.params.supplierKey ||"",page: this.pageNo, size: this.pageSize }).then((res) => {
+        this.bankList = res.data.data.records;
+        this.total = res.data.data.total;
+        // console.log("bankList:", this.bankList);
       });
       this.$forceUpdate();
     },
     success() {
       this.drawer = false;
       this.rowData = {};
-      this.getSupplierlistPage();
-    },
-    reload() {
-      this.$refs.leftcard.getTree()
-      this.getSupplierlistPage()
-    },
-    add() {
-      this.editRow({})
-    },
-    clean() {
-      this.supplyName = ''
-      this.supplyId = ''
-      this.inputCategory = ''
-      this.$refs.leftcard.isActive = ''
-      this.reload()
+      this.getBanklistPage();
     },
     //批量删除选择
     handleSelectionDelete(val) {
@@ -165,18 +164,18 @@ export default {
     },
     handleDeleteList() {
       if (this.multipleSelection.length > 0) {
-        let supplierkeys = [];
+        let billingKeys = [];
         this.multipleSelection.forEach(item => {
-          supplierkeys.push({ supplierKey: item.supplierKey })
+          billingKeys.push({ billingKey: item.billingKey })
         })
-        console.log(supplierkeys);
+        console.log(billingKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          SupplierDeleteList(supplierkeys).then(response => {
-            this.getSupplierlistPage();
+          bankDeleteList(billingKeys).then(response => {
+            this.getBanklistPage();
             this.$message({
               type: 'success',
               message: '删除成功!'
@@ -198,6 +197,11 @@ export default {
         });
       }
     },
+  },
+  props: {
+  },
+  components: {
+    bankEdit,
   },
 };
 </script>

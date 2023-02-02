@@ -1,83 +1,53 @@
 <template>
-  <div class="wrap-definition" style="padding:20px;">
-    <supplyList ref="supplyList" />
+  <div class="wrap-definition">
+    <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
+      <el-tab-pane label="供应商列表" name="supplyList">
+      </el-tab-pane>
+      <el-tab-pane label="地址" name="supplyAddress">
+      </el-tab-pane>
+      <el-tab-pane label="联系人" name="supplyContact">
+      </el-tab-pane>
+      <el-tab-pane label="开票信息" name="supplyBank">
+      </el-tab-pane>
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
+    </el-tabs>
   </div>
 </template>
 
 <script>
-import supplyList from '@/components/data/supply/supplyList.vue'
 
 export default {
   name: 'supply',
-  data() {
+   data() {
     return {
-    }
+      activeName: 'supplyList'
+   }
   },
   props: {},
   methods: {
+    //换tabs
+    handleClick (v) {
+      this.activeName=v.name
+      this.$router.push({ name: this.activeName })
+    },
   },
   watch: {},
-  created() {
+  created () {
   },
   computed: {
   },
-  mounted() {
+  mounted () {
   },
-  beforeDestroy() {
+  beforeDestroy () {
   },
-  components: {
-    supplyList,
-  }
 }
 </script>
 
 <style lang="scss" rel="stylesheet/scss" scoped>
 .wrap-definition {
   background: #fff;
-
-  .top-title {
-    color: #0066ff;
-    font-size: 18px;
-    line-height: 50px;
-  }
-
-  //  .el-divider--horizontal{
-  //      margin: 20px 0;
-  //    }
-  .el-input-group {
-    width: 300px;
-    margin-right: 20px;
-  }
-
-  .text {
-    font-size: 14px;
-  }
-
-  .item {
-    margin-bottom: 18px;
-  }
-
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-
-  .clearfix:after {
-    clear: both
-  }
-
-  .el-drawer__open .el-drawer.btt {
-    height: 60% !important;
-  }
-
-  .el-dropdown-link {
-    cursor: pointer;
-    color: #409EFF;
-  }
-
-  .el-icon-arrow-down {
-    font-size: 12px;
-  }
 }
 </style>

@@ -606,6 +606,15 @@ export function entityDeleteList(data) {
   });
 }
 
+//查看供应商-地址信息
+export function supplierAddressPage(data) {
+  return request({
+    url: baseUrl + "/supplierAddress/list-page",
+    method: "get",
+    params: data,
+  });
+}
+
 //添加供应商-地址信息
 export function supplierAddressAdd(data) {
   return request({
