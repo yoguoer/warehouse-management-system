@@ -236,7 +236,7 @@ export default {
     handleClose(done) {
       done();
     },
-    search(pageNo = 1, pageSize) {
+    search(pageNo, pageSize) {
       this.query.pageNo = pageNo;
       if (pageSize) {
         this.query.pageSize = pageSize;

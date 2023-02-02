@@ -7,9 +7,9 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="门店" prop="shopCode">
-            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="所属门店" style="width:100%;"
-              @change="getMyPosition()" clearable>
-              <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName" :value="item.shopCode">
+            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="所属门店" style="width:100%;" clearable>
+              <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName" :value="item.shopCode"
+                @click.native="getMyPosition(item)">
               </el-option>
             </el-select>
           </el-form-item>
@@ -86,8 +86,8 @@
 </template>
 
 <script>
-import { shopkeeperWarehouseUpdate, shopkeeperWarehouseAdd, getByshopCode, shopkeeperWarehouseList } from '@/api/warehouse'
-import { shoplist, goodslist, positionList } from '@/api/data'
+import { shopkeeperWarehouseUpdate, shopkeeperWarehouseAdd, getByshopCode, shopkeeperWarehouseList, shopkeeperWarehouseByShopCode } from '@/api/warehouse'
+import { shoplist, positionList } from '@/api/data'
 import moment from 'moment'
 
 export default {
@@ -172,6 +172,12 @@ export default {
       this.ifCreate = true
     }
   },
+  mounted() {
+    if (this.rowData.shopCode) {
+      console.log(this.rowData)
+      this.getgoodslist(this.rowData)
+    }
+  },
   methods: {
     getshopkeeperWarehouseList() {
       shopkeeperWarehouseList().then(res => {
@@ -191,25 +197,17 @@ export default {
         }
       });
     },
-    getgoodslist() {
-      goodslist().then(res => {
+    getgoodslist(item) {
+      shopkeeperWarehouseByShopCode({ shopCode: item.shopCode, shopName: item.shopName }).then(res => {
         if (res.data.code == 200) {
           this.goodsOptions = res.data.data
-          this.goodsOptions.forEach(item => {
-            this.shopGoodsList.forEach(t => {
-              if (item.goodsCode == t.goodsCode && item.goodsName == t.goodsName && t.shopCode == this.ruleForm.shopCode) {
-                let index = this.goodsOptions.indexOf(item)
-                this.goodsOptions.splice(index, 1)
-              }
-            })
-          })
         } else {
           this.$message.error("获取失败!");
         }
       });
     },
-    getMyPosition() {
-      this.getgoodslist()
+    getMyPosition(item) {
+      this.getgoodslist(item)
       getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
         if (res.data.code == 200) {
           this.inventoryKey = res.data.data.inventoryKey

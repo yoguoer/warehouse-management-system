@@ -28,9 +28,13 @@
             <bankTable :bankList="bankList" ref="bankTable" v-if="activeName == 'supply-bank'" />
           </el-tab-pane>
           <el-tab-pane label="仓库" name="supply-inventory">
-            <inventoryTable ref="inventoryTable" v-if="activeName == 'supply-inventory'" :rowData="row"/>
+            <inventoryTable ref="inventoryTable" v-if="activeName == 'supply-inventory'" :rowData="row" />
           </el-tab-pane>
         </el-tabs>
+        <!-- <keep-alive>
+          <router-view v-if="$route.meta.keepAlive"></router-view>
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive"></router-view> -->
       </el-row>
     </div>
   </el-drawer>
