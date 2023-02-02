@@ -87,7 +87,7 @@
 
 <script>
 import { shopkeeperWarehouseUpdate, shopkeeperWarehouseAdd, getByshopCode, shopkeeperWarehouseList, shopkeeperWarehouseByShopCode } from '@/api/warehouse'
-import { shoplist, positionList } from '@/api/data'
+import { positionList } from '@/api/data'
 import moment from 'moment'
 
 export default {
@@ -114,7 +114,6 @@ export default {
       },
       shopOptions: [],
       goodsOptions: [],
-      shopGoodsList: [],
       positionOptions: [],
       rules: {
         shopCode: [
@@ -151,7 +150,6 @@ export default {
 
   },
   created() {
-    this.getshoplist()
     this.getshopkeeperWarehouseList()
     // this.getgoodslist()
     if (this.rowData.shopkeeperWarehouseKey) {
@@ -182,18 +180,9 @@ export default {
     getshopkeeperWarehouseList() {
       shopkeeperWarehouseList().then(res => {
         if (res.data.code == 200) {
-          this.shopGoodsList = res.data.data
-        } else {
-          this.$message.error(res.data.msg);
-        }
-      });
-    },
-    getshoplist() {
-      shoplist().then(res => {
-        if (res.data.code == 200) {
           this.shopOptions = res.data.data
         } else {
-          this.$message.error("获取失败!");
+          this.$message.error(res.data.msg);
         }
       });
     },
