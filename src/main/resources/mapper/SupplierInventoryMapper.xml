@@ -34,6 +34,7 @@
                inventory.district,
                inventory.detail
         from supplier join inventory on supplier.supplier_key=inventory.belong_key
+        order by supplier.supplier_name
     </select>
 
     <!--查询单个-->
@@ -89,6 +90,7 @@
             </if>
             and inventory.inventory_type=1
         </where>
+        order by supplier.supplier_name
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
