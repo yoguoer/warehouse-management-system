@@ -29,10 +29,10 @@
         </el-table-column>
         <el-table-column prop="contactEmail" label="联系邮箱">
         </el-table-column>
-        <el-table-column label="省" prop="province"></el-table-column>
-        <el-table-column label="市" prop="city"></el-table-column>
-        <el-table-column label="区" prop="district"></el-table-column>
-        <el-table-column label="详细地址" prop="detail"></el-table-column>
+        <el-table-column label="省" prop="province" width="120px"></el-table-column>
+        <el-table-column label="市" prop="city" width="120px"></el-table-column>
+        <el-table-column label="区" prop="district" width="120px"></el-table-column>
+        <el-table-column label="详细地址" prop="detail" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column width="200px" fixed="right" label="操作">
           <template slot-scope="scope">
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
@@ -89,20 +89,10 @@ export default {
     //联系人
     getContact() {
       this.allList = []
-      contactListpage({ contactCustomerKey: this.$route.params.customerKey||'', contactName: '', page: this.pageNo, size: this.pageSize }).then(res => {
+      contactListpage({ contactCustomerKey: this.$route.params.customerKey || '', contactName: '', page: this.pageNo, size: this.pageSize }).then(res => {
         if (res.data.code === 200) {
-          // this.total = res.data.data.total
-          // this.allList = res.data.data.records
-          this.allList = []
-          this.total=0
-          //只取客户的联系人
-          res.data.data.records.forEach(item=>{
-            if(item.contactCustomerKey!=null && item.contactCustomerKey!=""){
-              this.allList.push(item)
-              this.total++
-            }
-          })
-          // console.log(this.total, this.allList);
+          this.total = res.data.data.total
+          this.allList = res.data.data.records
         } else {
           console.log('error');
         }
@@ -116,9 +106,9 @@ export default {
     },
     search() {
       //联系人
-      contactListpage({ contactName: this.inputName, contactCustomerKey: this.inputCustomer, contactType: this.inputContactType, page: this.pageNo, size: this.pageSize }).then(res => {
+      contactListpage({ contactName: this.inputName, contactCustomerKey: this.inputCustomer,  page: this.pageNo, size: this.pageSize }).then(res => {
         if (res.data.code === 200) {
-          this.total = res.total
+          this.total = res.data.data.total
           this.allList = res.data.data.records
           // console.log(this.total, this.allList);
         } else {
