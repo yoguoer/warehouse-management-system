@@ -61,8 +61,16 @@ public class ContactServiceImpl implements ContactService {
     public Map<String, Object> queryByPage(Contact contact, Integer startRows, Integer pageSize){
         String contactName=contact.getContactName();
         String contactCustomerKey=contact.getContactCustomerKey();
-        List<Contact> records = this.contactMapper.queryAllByCustomer(contactName,contactCustomerKey, startRows, pageSize);
-        long total = this.contactMapper.countByCustomer(contact);
+        String contactSupplierKey=contact.getContactSupplierKey();
+        List<Contact> records;
+        long total;
+        if(null==contactSupplierKey||""==contactSupplierKey){
+            records = this.contactMapper.queryAllByCustomer(contactName,contactCustomerKey, startRows, pageSize);
+            total = this.contactMapper.countByCustomer(contact);
+        }else{
+            records = this.contactMapper.queryAllBySupplier(contactName,contactSupplierKey, startRows, pageSize);
+            total = this.contactMapper.countBySupplier(contact);
+        }
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

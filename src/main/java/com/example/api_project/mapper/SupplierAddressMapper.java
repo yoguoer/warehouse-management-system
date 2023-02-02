@@ -28,10 +28,9 @@ public interface SupplierAddressMapper {
     /**
      * 查询指定行数据
      *
-     * @param supplierAddress 查询条件
      * @return 对象列表
      */
-    List<SupplierAddress> queryAllByLimit(SupplierAddress supplierAddress,Integer startRows, Integer pageSize);
+    List<SupplierAddress> queryAllByLimit(String supplierAddressKey,Integer startRows, Integer pageSize);
 
     /**
      * 查询指定行数据(供应商)

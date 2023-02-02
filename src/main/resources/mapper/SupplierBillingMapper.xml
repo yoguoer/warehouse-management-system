@@ -81,26 +81,11 @@
             <if test="supplierBillingCode != null and supplierBillingCode != ''">
                 and supplier_billing_code = #{supplierBillingCode}
             </if>
-            <if test="supplierBillingCode != null and supplierBillingCode != ''">
-                and supplier_billing_code = #{supplierBillingCode}
-            </if>
-            <if test="billingKey != null and billingKey != ''">
-                and billing_key = #{billingKey}
-            </if>
-            <if test="taxNumber != null and taxNumber != ''">
-                and tax_number = #{taxNumber}
-            </if>
             <if test="accountName != null and accountName != ''">
-                and account_name = #{accountName}
-            </if>
-            <if test="accountNumber != null and accountNumber != ''">
-                and account_number = #{accountNumber}
+                and account_name like concat('%', #{accountName}, '%')
             </if>
             <if test="bankName != null and bankName != ''">
-                and bank_name = #{bankName}
-            </if>
-            <if test="accountTel != null and accountTel != ''">
-                and account_tel = #{accountTel}
+                and bank_name like concat('%', #{bankName}, '%')
             </if>
         </where>
     </select>

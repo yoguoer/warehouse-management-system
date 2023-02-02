@@ -45,26 +45,8 @@
           province, city, district, detail, address_type, supplier_address_key, address_key
         from supplier_address
         <where>
-            <if test="province != null and province != ''">
-                and province = #{province}
-            </if>
-            <if test="city != null and city != ''">
-                and city = #{city}
-            </if>
-            <if test="district != null and district != ''">
-                and district = #{district}
-            </if>
-            <if test="detail != null and detail != ''">
-                and detail = #{detail}
-            </if>
-            <if test="addressType != null and addressType != ''">
-                and address_type = #{addressType}
-            </if>
             <if test="supplierAddressKey != null and supplierAddressKey != ''">
                 and supplier_address_key = #{supplierAddressKey}
-            </if>
-            <if test="addressKey != null and addressKey != ''">
-                and address_key = #{addressKey}
             </if>
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -75,26 +57,8 @@
         select count(1)
         from supplier_address
         <where>
-            <if test="province != null and province != ''">
-                and province = #{province}
-            </if>
-            <if test="city != null and city != ''">
-                and city = #{city}
-            </if>
-            <if test="district != null and district != ''">
-                and district = #{district}
-            </if>
-            <if test="detail != null and detail != ''">
-                and detail = #{detail}
-            </if>
-            <if test="addressType != null and addressType != ''">
-                and address_type = #{addressType}
-            </if>
             <if test="supplierAddressKey != null and supplierAddressKey != ''">
                 and supplier_address_key = #{supplierAddressKey}
-            </if>
-            <if test="addressKey != null and addressKey != ''">
-                and address_key = #{addressKey}
             </if>
         </where>
     </select>

@@ -47,6 +47,7 @@ public interface ContactMapper {
      * @return 对象列表
      */
     List<Contact> queryAllByCustomer(String contactName,String contactCustomerKey, Integer startRows, Integer pageSize);
+    List<Contact> queryAllBySupplier(String contactName,String contactSupplierKey, Integer startRows, Integer pageSize);
 
 
     /**
@@ -59,6 +60,7 @@ public interface ContactMapper {
 
     long countByCustomer(Contact contact);
 
+    long countBySupplier(Contact contact);
     /**
      * 新增数据
      *
