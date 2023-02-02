@@ -1,5 +1,5 @@
 <template>
-    <el-drawer size="30%" :title="ifCreate ? '新增银行' : '编辑银行'" :visible.sync="drawer" :direction="direction"
+    <el-drawer size="30%" :title="ifCreate ? '新增银行' : '编辑银行'" :visible.sync="drawer" :direction="direction" :append-to-body='true'
       :close-on-press-escape="false" :show-close="false" :wrapperClosable="false">
   
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">

@@ -106,6 +106,9 @@ export default {
       this.reload()
     },
     search() {
+      if (this.supplyDetail.supplierKey) {
+        params.supplierBillingCode = this.supplyDetail.supplierKey
+      }
       banklistPage({ supplierBillingCode: this.supplierBillingCode, accountName: this.accountName, bankName: this.accountNumber, page: 1, size: this.pageSize }).then((res) => {
         this.bankList = res.data.data.records;
         console.log("bankList:", this.bankList);

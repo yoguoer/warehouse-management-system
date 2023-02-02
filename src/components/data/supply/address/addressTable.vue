@@ -75,7 +75,7 @@ export default {
         ...searchData,
       }
       if (this.supplyDetail.supplierKey) {
-        params.supplierKey = this.supplyDetail.supplierKey
+        params.supplierAddressKey = this.supplyDetail.supplierKey
       }
       supplierAddressPage(params).then((res) => {
         this.tableData = res.data.data.records;
@@ -96,6 +96,9 @@ export default {
         supplierAddressKey:searchData.supplierAddressKey,
         page: this.query.pageNo,
         size: this.query.pageSize,
+      }
+      if (this.supplyDetail.supplierKey) {
+        params.supplierAddressKey = this.supplyDetail.supplierKey
       }
       supplierAddressPage(params).then((res) => {
         this.tableData = res.data.data.records;
