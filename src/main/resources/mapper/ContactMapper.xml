@@ -44,6 +44,7 @@
             <if test="contactCustomerKey != null and contactCustomerKey != ''">
                 and contact_customer_key = #{contactCustomerKey}
             </if>
+            and contact_customer_key != ""
         </where>
         order by contact_name
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
@@ -59,6 +60,21 @@
             <if test="contactSupplierKey != null and contactSupplierKey != ''">
                 and contact_supplier_key = #{contactSupplierKey}
             </if>
+        </where>
+    </select>
+
+    <!--统计总行数(客户查询的时候用)-->
+    <select id="countByCustomer" resultType="java.lang.Long">
+        select count(1)
+        from contact
+        <where>
+            <if test="contactName != null and contactName != ''">
+                and contact_name like concat('%', #{contactName}, '%')
+            </if>
+            <if test="contactCustomerKey != null and contactCustomerKey != ''">
+                and contact_customer_key = #{contactCustomerKey}
+            </if>
+            and contact_customer_key != ""
         </where>
     </select>
 

@@ -57,6 +57,8 @@ public interface ContactMapper {
      */
     long count(Contact contact);
 
+    long countByCustomer(Contact contact);
+
     /**
      * 新增数据
      *

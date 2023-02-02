@@ -62,7 +62,7 @@ public class ContactServiceImpl implements ContactService {
         String contactName=contact.getContactName();
         String contactCustomerKey=contact.getContactCustomerKey();
         List<Contact> records = this.contactMapper.queryAllByCustomer(contactName,contactCustomerKey, startRows, pageSize);
-        long total = this.contactMapper.count(contact);
+        long total = this.contactMapper.countByCustomer(contact);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);
