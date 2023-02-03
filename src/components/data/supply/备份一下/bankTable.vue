@@ -68,7 +68,7 @@ export default {
       multipleSelection: [],
       title: "编辑开票信息",
       bankForm: {
-        supplierBillingCode: "",
+        supplierBillingKey: "",
         billingKey: "",
         bankName: "",
         accountNumber: "",
@@ -124,7 +124,7 @@ export default {
     },
     //编辑
     editRow(row) {
-      this.bankForm.supplierBillingCode = row.supplierBillingCode
+      this.bankForm.supplierBillingKey = row.supplierBillingKey
       this.bankForm.billingKey = row.billingKey
       this.bankForm.bankName = row.bankName
       this.bankForm.accountNumber = row.accountNumber
@@ -136,7 +136,7 @@ export default {
     //添加
     add() {
       this.title = "新增开票信息"
-      this.bankForm.supplierBillingCode = this.$parent.$parent.$parent.$parent.$parent.row.supplierKey
+      this.bankForm.supplierBillingKey = this.$parent.$parent.$parent.$parent.$parent.row.supplierKey
       this.dialogVisible = true
       this.ifCreate = true
     },
@@ -165,7 +165,7 @@ export default {
     //新增
     create(formName) {
       let data = {
-        supplierBillingCode: this.bankForm.supplierBillingCode,
+        supplierBillingKey: this.bankForm.supplierBillingKey,
         // billingKey:this.bankForm.billingKey,
         bankName: this.bankForm.bankName,
         accountNumber: this.bankForm.accountNumber,
@@ -197,7 +197,7 @@ export default {
     //更新
     save(formName) {
       let data = {
-        supplierBillingCode: this.bankForm.supplierBillingCode,
+        supplierBillingKey: this.bankForm.supplierBillingKey,
         billingKey: this.bankForm.billingKey,
         bankName: this.bankForm.bankName,
         accountNumber: this.bankForm.accountNumber,
@@ -228,7 +228,7 @@ export default {
     },
     reset() {
       this.bankForm = {
-        supplierBillingCode: "",
+        supplierBillingKey: "",
         billingKey: "",
         bankName: "",
         accountNumber: "",

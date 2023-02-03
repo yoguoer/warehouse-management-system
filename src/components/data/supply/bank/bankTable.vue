@@ -10,7 +10,7 @@
       <el-input placeholder="银行名" v-model="accountNumber" type="text" size="small" :clearable="true">
         <template slot="prepend">银行名</template>
       </el-input>
-      <el-select size="middle" v-model="supplierBillingCode" placeholder="所属供应商" style="width:200px;margin-right:20px"
+      <el-select size="middle" v-model="supplierBillingKey" placeholder="所属供应商" style="width:200px;margin-right:20px"
         clearable>
         <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
           :value="item.supplierCode" placeholder="所属供应商">
@@ -38,7 +38,7 @@
         </el-table-column>
         <el-table-column prop="accountTel" label="联系电话">
         </el-table-column>
-        <el-table-column prop="supplierBillingCode" label="所属供应商">
+        <el-table-column prop="supplierBillingKey" label="所属供应商">
         </el-table-column>
         <el-table-column align="center" fixed="right" width="200px" label="操作">
           <template slot-scope="scope">
@@ -68,7 +68,7 @@ export default {
     return {
       accountNumber: "",
       accountName: "",
-      supplierBillingCode: "",
+      supplierBillingKey: "",
       pageSize: 10,
       pageNo: 1,
       total: null,
@@ -84,7 +84,7 @@ export default {
     if (this.$route.params.supplierKey) {
       let rowData = localStorage.getItem('supplyDetail')
       if (rowData) {
-        this.supplierBillingCode = JSON.parse(rowData).supplierBillingCode
+        this.supplierBillingKey = JSON.parse(rowData).supplierBillingKey
       }
     }
     this.getBanklistPage()
@@ -101,15 +101,15 @@ export default {
     },
     clean() {
       this.accountNumber = ''
-      this.supplierBillingCode = ''
+      this.supplierBillingKey = ''
       this.accountName = ''
       this.reload()
     },
     search() {
       // if (this.supplyDetail.supplierKey) {
-      //   params.supplierBillingCode = this.supplyDetail.supplierKey
+      //   params.supplierBillingKey = this.supplyDetail.supplierKey
       // }
-      banklistPage({ supplierBillingCode: this.supplierBillingCode, accountName: this.accountName, bankName: this.accountNumber, page: 1, size: this.pageSize }).then((res) => {
+      banklistPage({ supplierBillingKey: this.supplierBillingKey, accountName: this.accountName, bankName: this.accountNumber, page: 1, size: this.pageSize }).then((res) => {
         this.bankList = res.data.data.records;
         console.log("bankList:", this.bankList);
       });
@@ -149,7 +149,7 @@ export default {
       this.rowData = row
     },
     getBanklistPage() {
-      banklistPage({ supplierBillingCode:this.$route.params.supplierKey ||"",page: this.pageNo, size: this.pageSize }).then((res) => {
+      banklistPage({ supplierBillingKey:this.$route.params.supplierKey ||"",page: this.pageNo, size: this.pageSize }).then((res) => {
         this.bankList = res.data.data.records;
         this.total = res.data.data.total;
         // console.log("bankList:", this.bankList);

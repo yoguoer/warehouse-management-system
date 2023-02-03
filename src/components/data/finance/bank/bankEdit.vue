@@ -33,8 +33,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="5">
-            <el-form-item label="所属供应商" prop="supplierBillingCode">
-              <el-select size="middle" v-model="ruleForm.supplierBillingCode" placeholder="所属供应商" style="width:270px;"
+            <el-form-item label="所属供应商" prop="supplierBillingKey">
+              <el-select size="middle" v-model="ruleForm.supplierBillingKey" placeholder="所属供应商" style="width:270px;"
                 clearable>
                 <el-option v-for="item in options" :key="item.supplierCode" :label="item.supplierName"
                   :value="item.supplierCode">
@@ -74,7 +74,7 @@ export default {
         taxNumber: "",
         accountTel: "",
         billingKey: "",
-        supplierBillingCode: ""
+        supplierBillingKey: ""
       },
       rules: {
         bankName: [
@@ -92,7 +92,7 @@ export default {
         accountTel: [
           { required: true, message: '请输入联系电话', trigger: 'blur' },
         ],
-        supplierBillingCode: [
+        supplierBillingKey: [
           { required: true, message: '请输入选择所属供应商', trigger: 'blur' },
         ]
       }
@@ -116,7 +116,7 @@ export default {
       this.ruleForm.accountNumber = this.rowData.accountNumber
       this.ruleForm.taxNumber = this.rowData.taxNumber
       this.ruleForm.accountTel = this.rowData.accountTel
-      this.ruleForm.supplierBillingCode = this.rowData.supplierBillingCode
+      this.ruleForm.supplierBillingKey = this.rowData.supplierBillingKey
       this.ruleForm.billingKey = this.rowData.billingKey
     } else {
       this.ifCreate = true
@@ -180,7 +180,7 @@ export default {
         taxNumber: "",
         accountTel: "",
         billingKey: "",
-        supplierBillingCode: ""
+        supplierBillingKey: ""
       }
     }
   },

@@ -10,7 +10,7 @@
       <el-input placeholder="银行名" v-model="accountNumber" type="text" size="small" :clearable="true">
         <template slot="prepend">银行名</template>
       </el-input>
-      <el-select size="middle" v-model="supplierBillingCode" placeholder="所属供应商" style="width:200px;margin-right:20px"
+      <el-select size="middle" v-model="supplierBillingKey" placeholder="所属供应商" style="width:200px;margin-right:20px"
         clearable>
         <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
           :value="item.supplierCode" placeholder="所属供应商">
@@ -38,7 +38,7 @@
         </el-table-column>
         <el-table-column prop="accountTel" label="联系电话">
         </el-table-column>
-        <el-table-column prop="supplierBillingCode" label="所属供应商">
+        <el-table-column prop="supplierBillingKey" label="所属供应商">
         </el-table-column>
         <el-table-column align="center" fixed="right" width="200px" label="操作">
           <template slot-scope="scope">
@@ -68,7 +68,7 @@ export default {
     return {
       accountNumber: "",
       accountName: "",
-      supplierBillingCode:"",
+      supplierBillingKey:"",
       pageSize: 10,
       pageNo: 1,
       total: null,
@@ -95,12 +95,12 @@ export default {
     },
     clean() {
       this.accountNumber = ''
-      this.supplierBillingCode=''
+      this.supplierBillingKey=''
       this.accountName = ''
       this.reload()
     },
     search() {
-      banklistPage({ supplierBillingCode:this.supplierBillingCode,accountName: this.accountName, bankName: this.accountNumber, page: 1, size: 20 }).then((res) => {
+      banklistPage({ supplierBillingKey:this.supplierBillingKey,accountName: this.accountName, bankName: this.accountNumber, page: 1, size: 20 }).then((res) => {
         this.bankList = res.data.data.records;
         console.log("bankList:", this.bankList);
       });
