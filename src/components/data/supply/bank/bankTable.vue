@@ -13,7 +13,7 @@
       <el-select size="middle" v-model="supplierBillingKey" placeholder="所属供应商" style="width:200px;margin-right:20px"
         clearable>
         <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
-          :value="item.supplierCode" placeholder="所属供应商">
+          :value="item.supplierKey" placeholder="所属供应商">
         </el-option>
       </el-select>
       <el-button type="primary" size="small" @click="search()" icon="el-icon-search">查询</el-button>

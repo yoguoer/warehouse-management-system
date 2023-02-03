@@ -37,7 +37,7 @@
               <el-select size="middle" v-model="ruleForm.supplierBillingKey" placeholder="所属供应商" style="width:270px;"
                 clearable>
                 <el-option v-for="item in options" :key="item.supplierCode" :label="item.supplierName"
-                  :value="item.supplierCode">
+                  :value="item.supplierKey">
                 </el-option>
               </el-select>
             </el-form-item>
