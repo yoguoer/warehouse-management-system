@@ -36,8 +36,8 @@
               <el-form-item label="所属供应商" prop="supplierBillingCode">
                 <el-select size="middle" v-model="ruleForm.supplierBillingCode" placeholder="所属供应商" style="width:270px;"
                   clearable>
-                  <el-option v-for="item in options" :key="item.supplierCode" :label="item.supplierName"
-                    :value="item.supplierCode">
+                  <el-option v-for="item in options" :key="item.supplierKey" :label="item.supplierName"
+                    :value="item.supplierKey">
                   </el-option>
                 </el-select>
               </el-form-item>
@@ -120,6 +120,9 @@
         this.ruleForm.billingKey = this.rowData.billingKey
       } else {
         this.ifCreate = true
+      }
+      if(this.$route.params.supplierKey){
+            this.ruleForm.supplierBillingCode = this.$route.params.supplierKey
       }
     },
     methods: {

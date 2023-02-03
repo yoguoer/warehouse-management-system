@@ -181,6 +181,9 @@ export default {
         } else {
             this.ifCreate = true
         }
+        if(this.$route.params.supplierKey){
+            this.ruleForm.supplierAddressKey = this.$route.params.supplierKey
+        }
     }
 }
 </script>

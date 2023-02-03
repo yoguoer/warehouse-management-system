@@ -6,10 +6,12 @@
         <el-row>
           <el-row>
             <el-col :span="7">
-              <el-form-item label="所属客户" prop="contactCustomerKey">
-                <el-select v-model="ruleForm.contactCustomerKey" placeholder="所属客户" clearable style="width:100%;">
-                  <el-option v-for="item in options" :key="item.customerKey" :label="item.customerName"
-                    :value="item.customerKey"></el-option>
+              <el-form-item label="所属供应商" prop="contactSupplierKey">
+                <el-select size="middle" v-model="ruleForm.contactSupplierKey" placeholder="所属供应商" style="width:270px;"
+                  clearable>
+                  <el-option v-for="item in options" :key="item.supplierCode" :label="item.supplierName"
+                    :value="item.supplierKey">
+                  </el-option>
                 </el-select>
               </el-form-item>
             </el-col>
@@ -61,7 +63,7 @@
   
   <script>
   import checkAddress from '@/components/public/checkAddress.vue'
-  import { CustomerList, Contactadd, Contactupdate } from '@/api/data'
+  import { Supplierlist, Contactadd, Contactupdate } from '@/api/data'
   
   export default {
     name: 'guestEdit',
@@ -88,13 +90,13 @@
           },//联系地址
           contactEmail: "",//联系邮箱
           contactTel: "",//联系电话
-          contactCustomerKey: "",//联系人key
+          contactSupplierKey: "",//联系人key
           contactKey: ""//客户key
         },
   
         rules: {
-          contactCustomerKey: [
-            { required: true, message: '请选择客户', trigger: 'blur' },
+          contactSupplierKey: [
+            { required: true, message: '请选择供应商', trigger: 'blur' },
           ],
           contactName: [
             { required: true, message: '请输入联系人姓名', trigger: 'blur' },
@@ -133,9 +135,9 @@
       checkAddress
     },
     created() {
-      this.getCustomer()
+      this.getSupplierlist()
       this.row = this.$route.params.rowData || this.rowData
-      this.ruleForm.contactCustomerKey = this.rowData.contactCustomerKey||this.$route.params.customerKey||""
+      this.ruleForm.contactSupplierKey = this.rowData.contactSupplierKey||this.$route.params.supplierKey||""
       if (this.rowData.contactKey) {
         this.ifCreate = false
         this.ruleForm.contactName = this.rowData.contactName
@@ -145,22 +147,24 @@
         this.ruleForm.address.detail = this.rowData.detail
         this.ruleForm.contactEmail = this.rowData.contactEmail
         this.ruleForm.contactTel = this.rowData.contactTel
-        // this.ruleForm.contactCustomerKey = this.rowData.contactCustomerKey||this.$route.params.customerKey||""
         this.ruleForm.contactCode = this.rowData.contactCode
         this.ruleForm.contactKey = this.rowData.contactKey
       } else {
         this.ifCreate = true
       }
+      if(this.$route.params.supplierKey){
+            this.ruleForm.contactSupplierKey = this.$route.params.supplierKey
+      }
     },
     methods: {
-      getCustomer() {
-        CustomerList({}).then(res => {
-          if (res.data.code === 200) {
+      getSupplierlist() {
+        Supplierlist().then(res => {
+          if (res.data.code == 200) {
             this.options = res.data.data
           } else {
-            console.log('error');
+            this.$message.error("获取失败!");
           }
-        })
+        });
       },
       //重置
       resetForm(formName) {
@@ -183,7 +187,7 @@
           detail: this.ruleForm.address.detail,
           contactEmail: this.ruleForm.contactEmail,
           contactTel: this.ruleForm.contactTel,
-          contactCustomerKey: this.ruleForm.contactCustomerKey,
+          contactSupplierKey: this.ruleForm.contactSupplierKey,
           contactKey: this.ruleForm.contactKey,
           contactCode: this.ruleForm.contactCode
         }
@@ -224,7 +228,7 @@
           detail: this.ruleForm.address.detail,
           contactEmail: this.ruleForm.contactEmail,
           contactTel: this.ruleForm.contactTel,
-          contactCustomerKey: this.ruleForm.contactCustomerKey,
+          contactSupplierKey: this.ruleForm.contactSupplierKey,
           contactKey: this.ruleForm.contactKey,
           contactCode: this.ruleForm.contactCode
         }
@@ -272,7 +276,7 @@
           },//联系地址
           contactEmail: "",//联系邮箱
           contactTel: "",//联系电话
-          contactCustomerKey: "",//联系人key
+          contactSupplierKey: "",//联系人key
           contactKey: ""//客户key
         }
       },
