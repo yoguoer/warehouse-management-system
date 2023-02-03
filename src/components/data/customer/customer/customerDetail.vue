@@ -63,7 +63,7 @@ export default {
     handleClose() {
       // this.$parent.isShow=false
       // this.$router.push({ name: "customerList" })
-      this.isShow = false
+      // this.isShow = false
       localStorage.removeItem('customerDetail')
       this.$router.push({
         name: 'customerList'
