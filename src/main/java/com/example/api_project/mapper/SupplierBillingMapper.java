@@ -31,14 +31,14 @@ public interface SupplierBillingMapper {
      *
      * @return queryBySupplierKey
      */
-    List<SupplierBilling> queryBySupplierKey(String supplierBillingCode);
+    List<SupplierBilling> queryBySupplierKey(String supplierBillingKey);
 
     /**
      * 查询指定行数据
      *
      * @return 对象列表
      */
-    List<SupplierBilling> queryAllByLimit( String supplierBillingCode, String accountName,String bankName,Integer startRows, Integer pageSize);
+    List<SupplierBilling> queryAllByLimit( String supplierBillingKey, String accountName,String bankName,Integer startRows, Integer pageSize);
 
     /**
      * 统计总行数

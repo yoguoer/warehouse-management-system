@@ -11,7 +11,7 @@ public class SupplierBilling implements Serializable {
     /**
      * 与供应商对应的code
      */
-    private String supplierBillingCode;
+    private String supplierBillingKey;
     /**
      * 开票信息本身的key
      */
@@ -37,13 +37,12 @@ public class SupplierBilling implements Serializable {
      */
     private String accountTel;
 
-
-    public String getsupplierBillingCode() {
-        return supplierBillingCode;
+    public String getSupplierBillingKey() {
+        return supplierBillingKey;
     }
 
-    public void setsupplierBillingCode(String supplierBillingCode) {
-        this.supplierBillingCode = supplierBillingCode;
+    public void setSupplierBillingKey(String supplierBillingKey) {
+        this.supplierBillingKey = supplierBillingKey;
     }
 
     public String getBillingKey() {

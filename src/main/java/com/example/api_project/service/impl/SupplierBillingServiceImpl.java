@@ -39,12 +39,12 @@ public class SupplierBillingServiceImpl implements SupplierBillingService {
 
     /**
      *
-     * @param supplierBillingCode
+     * @param supplierBillingKey
      * @return 实例对象
      */
     @Override
-    public List<SupplierBilling> queryBySupplierKey(String supplierBillingCode) {
-        return supplierBillingMapper.queryBySupplierKey(supplierBillingCode);
+    public List<SupplierBilling> queryBySupplierKey(String supplierBillingKey) {
+        return supplierBillingMapper.queryBySupplierKey(supplierBillingKey);
     }
 
     /**
@@ -59,8 +59,8 @@ public class SupplierBillingServiceImpl implements SupplierBillingService {
     public Map<String, Object> queryByPage(SupplierBilling supplierBilling, Integer startRows, Integer pageSize) {
         String accountName=supplierBilling.getAccountName();
         String bankName=supplierBilling.getBankName();
-        String supplierBillingCode=supplierBilling.getsupplierBillingCode();
-        List<SupplierBilling> records = this.supplierBillingMapper.queryAllByLimit(supplierBillingCode,accountName,bankName,startRows, pageSize);
+        String supplierBillingKey=supplierBilling.getSupplierBillingKey();
+        List<SupplierBilling> records = this.supplierBillingMapper.queryAllByLimit(supplierBillingKey,accountName,bankName,startRows, pageSize);
         long total = this.supplierBillingMapper.count(supplierBilling);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
