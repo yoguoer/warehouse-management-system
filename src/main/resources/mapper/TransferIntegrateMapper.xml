@@ -29,7 +29,8 @@
     <!--按照门店编码分类out-->
     <select id="queryAllByShopOut" resultMap="TransferIntegrateMap">
         SELECT output_warehouse.goods_code,output_warehouse.goods_name,
-               output_warehouse.shop_code as OutShopCode,output_warehouse.shop_name as OutShopName,
+               output_warehouse.shop_code as OutShopCode,
+               output_warehouse.shop_name as OutShopName,
             count(case when(check_status=1) then 1 else null end)as transferNum,
             sum(case when(check_status=1) then check_num else null end)as transferSum
         from transfer_check join output_warehouse on output_warehouse.output_warehouse_key=transfer_check.output_warehouse_key
@@ -45,8 +46,10 @@
     <!--按照商品编码-->
     <select id="queryAllByGoods" resultMap="TransferIntegrateMap">
         SELECT output_warehouse.goods_code,output_warehouse.goods_name,
-        input_warehouse.shop_code as InShopCode,input_warehouse.shop_name as InShopName,
-        output_warehouse.shop_code as OutShopCode,output_warehouse.shop_name as OutShopName,
+        input_warehouse.shop_code as InShopCode,
+        input_warehouse.shop_name as InShopName,
+        output_warehouse.shop_code as OutShopCode,
+        output_warehouse.shop_name as OutShopName,
         count(case when(check_status=1) then 1 else null end)as transferNum,
         sum(case when(check_status=1) then check_num else null end)as transferSum
         from transfer_check

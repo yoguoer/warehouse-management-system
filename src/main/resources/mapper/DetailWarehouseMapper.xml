@@ -14,6 +14,8 @@
         <result property="shopkeeperWarehouseKey" column="shopkeeper_warehouse_key" jdbcType="VARCHAR"/>
         <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
         <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -45,8 +47,11 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="DetailWarehouseMap">
         select
-          detail_warehouse_key, input_output_key, type, trans_type,quantity, at_time, start_num, final_num, detail_warehouse.shopkeeper_warehouse_key,shop_code,goods_code
-        from detail_warehouse join shopkeeper_warehouse on detail_warehouse.shopkeeper_warehouse_key = shopkeeper_warehouse.shopkeeper_warehouse_key
+          detail_warehouse_key, input_output_key, type, trans_type,quantity, at_time, start_num, final_num, detail_warehouse.shopkeeper_warehouse_key,shop.shop_code,goods.goods_code,shop.shop_name,goods.goods_name
+        from detail_warehouse
+        join shopkeeper_warehouse on detail_warehouse.shopkeeper_warehouse_key = shopkeeper_warehouse.shopkeeper_warehouse_key
+        join shop on shopkeeper_warehouse.shop_code=shop.shop_code
+        join goods on shopkeeper_warehouse.goods_code=goods.goods_code
         <where>
             <if test="type != null">
                 and type = #{type}

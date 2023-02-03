@@ -46,9 +46,27 @@ public class DetailWarehouse implements Serializable {
     private String shopkeeperWarehouseKey;
     private String shopCode;//门店编码
     private String goodsCode;//商品编码
+    private String shopName;
+    private String goodsName;
     private Integer status;//变化商品的原始状态
     private Integer isDefects;//是否有残次品
     private Integer defectsNum;//退货入库中的残品数
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
 
     public Integer getDefectsNum() {
         return defectsNum;
