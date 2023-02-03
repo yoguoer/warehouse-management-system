@@ -137,7 +137,7 @@ export default {
   computed: {
     tableColumn() {
       return [
-        { prop: "supplierAddressKey", label: "供应商", width: 250 },
+        { prop: "supplierAddressKey", label: "所属供应商", width: 250 },
         { prop: "addressType", label: "地址类型", width: 180 },
         { slots: { name: "column-address" }, label: "地址" },
 

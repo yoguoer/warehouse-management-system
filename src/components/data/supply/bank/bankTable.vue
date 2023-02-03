@@ -28,6 +28,8 @@
         @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column prop="supplierBillingKey" label="所属供应商">
+        </el-table-column>
         <el-table-column prop="bankName" label="银行全称">
         </el-table-column>
         <el-table-column prop="accountName" label="户主名">
@@ -37,8 +39,6 @@
         <el-table-column prop="taxNumber" label="税号">
         </el-table-column>
         <el-table-column prop="accountTel" label="联系电话">
-        </el-table-column>
-        <el-table-column prop="supplierBillingKey" label="所属供应商">
         </el-table-column>
         <el-table-column align="center" fixed="right" width="200px" label="操作">
           <template slot-scope="scope">

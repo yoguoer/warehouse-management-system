@@ -22,6 +22,8 @@
         @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
+        <el-table-column prop="contactSupplierKey" label="所属供应商">
+        </el-table-column>
         <el-table-column prop="contactCode" sortable label="联系人编号">
         </el-table-column>
         <el-table-column prop="contactName" label="联系人名称">
