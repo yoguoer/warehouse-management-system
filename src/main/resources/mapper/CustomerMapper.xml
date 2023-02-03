@@ -53,37 +53,13 @@
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
         select count(1)
-        from customer
+        from customer join category on customer.category_key = category.category_key
         <where>
             <if test="categoryKey != null and categoryKey != ''">
-                and category_key = #{categoryKey}
-            </if>
-            <if test="customerKey != null and customerKey != ''">
-                and customer_key = #{customerKey}
+                and customer.category_key = #{categoryKey,jdbcType=INTEGER}
             </if>
             <if test="customerName != null and customerName != ''">
-                and customer_name = #{customerName}
-            </if>
-            <if test="customerCode != null and customerCode != ''">
-                and customer_code = #{customerCode}
-            </if>
-            <if test="customerEmail != null and customerEmail != ''">
-                and customer_email = #{customerEmail}
-            </if>
-            <if test="customerTel != null and customerTel != ''">
-                and customer_tel = #{customerTel}
-            </if>
-            <if test="province != null and province != ''">
-                and province = #{province}
-            </if>
-            <if test="city != null and city != ''">
-                and city = #{city}
-            </if>
-            <if test="district != null and district != ''">
-                and district = #{district}
-            </if>
-            <if test="detail != null and detail != ''">
-                and detail = #{detail}
+                and customer_name like concat('%', #{customerName}, '%')
             </if>
         </where>
     </select>
