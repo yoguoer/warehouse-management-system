@@ -9,6 +9,8 @@
         <result property="status" column="status" jdbcType="INTEGER"/>
         <result property="alertTime" column="alert_time" jdbcType="VARCHAR"/>
         <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -41,14 +43,16 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="AlertInfoMap">
         select
-          alert_info_key, shop_supplier_code, goods_code, status, alert_time, type
+          alert_info_key, shop_supplier_code, alert_info.goods_code, status, alert_time, type,shop_name,goods_name
         from alert_info
+        join shop on shop.shop_code=alert_info.shop_supplier_code
+        join goods on goods.goods_code=alert_info.goods_code
         <where>
             <if test="shopSupplierCode != null and shopSupplierCode != ''">
                 and shop_supplier_code = #{shopSupplierCode}
             </if>
             <if test="goodsCode != null and goodsCode != ''">
-                and goods_code = #{goodsCode}
+                and alert_info.goods_code = #{goodsCode}
             </if>
             <if test="status != null">
                 and status = #{status}
