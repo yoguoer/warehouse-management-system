@@ -93,13 +93,13 @@ export default {
       this.loadings.table = true;
       const searchData = this.$refs.search.search
       let params = {
-        supplierAddressKey:searchData.supplierAddressKey,
+        supplierAddressKey: searchData.supplierAddressKey||this.$route.params.supplierKey||"",
         page: this.query.pageNo,
         size: this.query.pageSize,
       }
-      if (this.supplyDetail.supplierKey) {
-        params.supplierAddressKey = this.supplyDetail.supplierKey
-      }
+      // if (this.supplyDetail.supplierKey) {
+      //   params.supplierAddressKey = this.supplyDetail.supplierKey
+      // }
       supplierAddressPage(params).then((res) => {
         this.tableData = res.data.data.records;
         this.total = res.data.data.total;

@@ -53,15 +53,15 @@
           @size-change="_pageSize"></el-pagination>
       </div>
       <guestsEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
-      <customerDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()"
-        ref="detail" />
+      <!-- <customerDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()"
+        ref="detail" /> -->
     </div>
   </div>
 </template>
 
 <script>
 import guestsEdit from './customerEdit'
-import customerDetail from "./customerDetail";
+// import customerDetail from "./customerDetail";
 import leftCard from '@/components/public/leftCard.vue'
 import { CustomerListpage, Customerdelete, CustomerdeleteList } from "@/api/data";
 
@@ -73,7 +73,7 @@ export default {
       pageNo: 1,
       total: null,
       drawer: false,
-      isShow:false,
+      // isShow:false,
       rowData: {},
       categoryType: 'CUSTOMER',
       title: "客户分类",
@@ -150,8 +150,15 @@ export default {
     },
     //详情
     openDetail(row) {
-      this.rowData = row;
-      this.isShow = true//详情
+      // this.rowData = row;
+      // this.isShow = true//详情
+      localStorage.setItem('customerDetail', JSON.stringify(row))
+      this.$router.push({
+        name: "customer-contact",
+        params: {
+          customerKey: row.customerKey
+        }
+      })
     },
     editRow(row) {
       this.rowData = row;
@@ -217,7 +224,7 @@ export default {
   },
   components: {
     guestsEdit,
-    customerDetail,
+    // customerDetail,
     leftCard
   }
 }

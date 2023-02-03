@@ -17,7 +17,11 @@
         </el-col>
       </el-row>
       <el-row>
-        <router-view></router-view>
+        <!-- <router-view></router-view> -->
+        <keep-alive>
+          <router-view v-if="$route.meta.keepAlive"></router-view>
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive"></router-view>
       </el-row>
     </div>
   </el-drawer>
@@ -36,7 +40,7 @@ export default {
   },
   props: {
     isShow: {
-      type:Boolean,
+      type: Boolean,
       default: true,
     },
     rowData: {},
@@ -47,14 +51,23 @@ export default {
 
   },
   created() {
-    this.row = this.$route.params.rowData || this.rowData
-    this.$router.push({ name: 'customer-contact', params: { rowData: this.row, customerKey: this.row.customerKey } })
+    let rowData = localStorage.getItem('customerDetail')
+    if (rowData) {
+      this.row = JSON.parse(rowData)
+    }
+    // this.row = this.$route.params.rowData || this.rowData
+    // this.$router.push({ name: 'customer-contact', params: { rowData: this.row, customerKey: this.row.customerKey } })
   },
 
   methods: {
     handleClose() {
-      this.$parent.isShow=false
-      this.$router.push({ name: "customer" })
+      // this.$parent.isShow=false
+      // this.$router.push({ name: "customerList" })
+      this.isShow = false
+      localStorage.removeItem('customerDetail')
+      this.$router.push({
+        name: 'customerList'
+      })
     },
   },
 }

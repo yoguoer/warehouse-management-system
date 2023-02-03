@@ -63,7 +63,7 @@ export default {
       this.$router.push({ name: this.activeName })
     },
     handleClose() {
-       this.isShow=false
+      this.isShow=false
       localStorage.removeItem('supplyDetail')
       this.$router.push({
         name: 'supplyList'

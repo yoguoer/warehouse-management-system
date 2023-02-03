@@ -106,9 +106,9 @@ export default {
       this.reload()
     },
     search() {
-      if (this.supplyDetail.supplierKey) {
-        params.supplierKey = this.supplyDetail.supplierKey
-      }
+      // if (this.supplyDetail.supplierKey) {
+      //   params.supplierKey = this.supplyDetail.supplierKey
+      // }
       //联系人
       contactListpage({ contactName: this.inputName, contactSupplierKey: this.supplierKey, page: this.pageNo, size: this.pageSize }).then(res => {
         if (res.data.code === 200) {

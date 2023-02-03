@@ -226,7 +226,9 @@ const routes = [{
                 path: '/data/inventory/detail',
                 name: 'inventory-detail',
                 component: () => import('@/components/data/inventory/inventory/inventoryDetail.vue'),
-                meta: { keepAlive: true },
+                meta: {
+                  keepAlive: true
+                },
                 children: [
                   //资料-业务实体-库存-详情-区域
                   {
@@ -254,7 +256,9 @@ const routes = [{
                 path: '/data/area/detail',
                 name: 'area-detail',
                 component: () => import('@/components/data/inventory/area/areaDetail.vue'),
-                meta: { keepAlive: true },
+                meta: {
+                  keepAlive: true
+                },
                 children: [
                   //资料-业务实体-区域-详情-仓库
                   {
@@ -282,7 +286,9 @@ const routes = [{
                 path: '/data/position/detail',
                 name: 'position-detail',
                 component: () => import('@/components/data/inventory/position/positionDetail.vue'),
-                meta: { keepAlive: true },
+                meta: {
+                  keepAlive: true
+                },
                 children: [
                   //资料-业务实体-货位-详情-仓库
                   {
@@ -313,7 +319,7 @@ const routes = [{
               //资料-供应商-供应商
               {
                 path: '/data/supply/supplyList',
-                name: 'supplyList', 
+                name: 'supplyList',
                 component: () => import('@/components/data/supply/supplyList.vue'),
                 meta: {
                   keepAlive: true // 需要缓存
@@ -338,9 +344,10 @@ const routes = [{
                 path: 'data/supply/detail/:supplierKey',
                 name: 'supplyDetail',
                 component: () => import('@/components/data/supply/supplyDetail/Index.vue'),
-                redirect: { name: 'supply-address' },
-                children: [
-                  {
+                redirect: {
+                  name: 'supply-address'
+                },
+                children: [{
                     path: '/data/supply/detail/:supplierKey',
                     name: 'supply-address',
                     component: () => import('@/components/data/supply/address/addressTable.vue')
@@ -374,27 +381,33 @@ const routes = [{
               {
                 path: '/data/customerList',
                 name: 'customerList',
-                component: () => import('@/components/data/customer/customer/customerList.vue')
+                component: () => import('@/components/data/customer/customer/customerList.vue'),
+                meta: {
+                  keepAlive: true // 需要缓存
+                }
               },
               //资料-客户-联系人
               {
                 path: '/data/contactList',
                 name: 'contactList',
-                component: () => import('@/components/data/customer/contact/contactList.vue')
+                component: () => import('@/components/data/customer/contact/contactList.vue'),
               },
-            ]
-          },
-          //资料-客户-客户详情页
-          {
-            path: '/data/ccustomerList/detail',
-            name: 'customer-detail',
-            component: () => import('@/components/data/customer/customer/customerDetail.vue'),
-            children: [
-              //资料-客户-客户详情页-所属联系人
+              //资料-客户-客户详情页
               {
-                path: '/data/customerList/:customerKey',
-                name: 'customer-contact',
-                component: () => import('@/components/data/customer/contact/contactList.vue')
+                path: '/data/customerList/detail/:customerKey',
+                name: 'customer-detail',
+                component: () => import('@/components/data/customer/customer/customerDetail.vue'),
+                redirect: {
+                  name: 'customer-contact'
+                },
+                children: [
+                  //资料-客户-客户详情页-所属联系人
+                  {
+                    path: '/data/customerList/detail/:customerKey',
+                    name: 'customer-contact',
+                    component: () => import('@/components/data/customer/contact/contactList.vue')
+                  },
+                ]
               },
             ]
           },
