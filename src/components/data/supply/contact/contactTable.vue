@@ -112,7 +112,7 @@ export default {
       //   params.supplierKey = this.supplyDetail.supplierKey
       // }
       //联系人
-      contactListpage({ contactName: this.inputName, contactSupplierKey: this.supplierKey, page: this.pageNo, size: this.pageSize }).then(res => {
+      contactListpage({ contactName: this.inputName, contactSupplierKey: this.supplierKey, page: 1, size: this.pageSize }).then(res => {
         if (res.data.code === 200) {
           this.total = res.data.data.total
           this.allList = res.data.data.records
