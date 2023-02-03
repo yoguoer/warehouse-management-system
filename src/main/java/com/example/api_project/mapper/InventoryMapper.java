@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface InventoryMapper {
 
+    boolean setNoCategory(Inventory inventory);
+
     //    根据id查仓库名称
     String queryNameById(String inventoryKey);
 
@@ -20,6 +22,8 @@ public interface InventoryMapper {
      * @return 对象列表
      */
     List<Inventory> getList();
+
+    List<Inventory> getListCategory(String categoryKey);
 
     /**
      * 通过ID查询单条数据

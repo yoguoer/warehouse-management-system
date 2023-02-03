@@ -19,6 +19,16 @@ public class ShopServiceImpl implements ShopService {
     @Resource
     private ShopMapper shopMapper;
 
+    public boolean setNoCategory(String categoryKey){
+        List<Shop> shopList= this.shopMapper.getListCategory(categoryKey);
+        boolean flag = false;
+        for(Shop shop:shopList){
+            shop.setCategoryKey("NOCATEGORY_SHOP");
+            flag=this.shopMapper.setNoCategory(shop);
+        }
+        return flag;
+    }
+
     /**
      * 通过ID查询单条数据
      *

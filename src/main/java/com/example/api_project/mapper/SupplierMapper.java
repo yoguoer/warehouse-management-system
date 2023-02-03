@@ -12,6 +12,8 @@ import java.util.List;
  */
 public interface SupplierMapper {
 
+    boolean setNoCategory(Supplier supplier);
+
     //    根据id查供应商名称
     String queryNameById(String supplierKey);
 
@@ -29,6 +31,8 @@ public interface SupplierMapper {
      * @return 对象列表
      */
     List<Supplier> getList();
+
+    List<Supplier> getListCategory(String categoryKey);
 
     /**
      * 查询指定行数据

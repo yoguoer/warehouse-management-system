@@ -20,6 +20,16 @@ public class InventoryServiceImpl implements InventoryService {
     @Autowired
     private InventoryMapper inventoryMapper;
 
+    public boolean setNoCategory(String categoryKey){
+        List<Inventory> inventoryList= this.inventoryMapper.getListCategory(categoryKey);
+        boolean flag = false;
+        for(Inventory inventory:inventoryList){
+            inventory.setCategoryKey("NOCATEGORY_WAREHOUSE");
+            flag=this.inventoryMapper.setNoCategory(inventory);
+        }
+        return flag;
+    }
+
     /**
      * 不分页查询
      */

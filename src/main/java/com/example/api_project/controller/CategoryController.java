@@ -1,11 +1,11 @@
 package com.example.api_project.controller;
 
+import com.example.api_project.service.*;
 import com.example.api_project.vo.tree.TreeBuild;
 import com.example.api_project.vo.tree.TreeNode;
 import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
 import com.example.api_project.pojo.Category;
-import com.example.api_project.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +25,23 @@ public class CategoryController {
      */
     @Autowired
     private CategoryService categoryService;
+
+
+    @Autowired
+    private CustomerService customerService;
+
+    @Autowired
+    private GoodsService goodsService;
+
+    @Autowired
+    private InventoryService inventoryService;
+
+    @Autowired
+    private ShopService shopService;
+
+    @Autowired
+    private SupplierService supplierService;
+
 
     /**
      * 不分页查询
@@ -90,6 +107,20 @@ public class CategoryController {
      */
     @PostMapping ("/delete")
     public Result deleteById(@RequestBody Category category) {
+        String categoryType=category.getCategoryType();
+        String categoryKey=category.getCategoryKey();
+        boolean flag=false;
+        if(categoryType.equals("WAREHOUSE")){
+            flag=this.inventoryService.setNoCategory(categoryKey);
+        } else if (categoryType.equals("SUPPLIER")) {
+            flag=this.supplierService.setNoCategory(categoryKey);
+        } else if (categoryType.equals("SHOP")) {
+            flag=this.shopService.setNoCategory(categoryKey);
+        } else if (categoryType.equals("GOODS")) {
+            flag=this.goodsService.setNoCategory(categoryKey);
+        } else if (categoryType.equals("CUSTOMER")) {
+            flag=this.customerService.setNoCategory(categoryKey);
+        }
         return ResponseData.success(this.categoryService.deleteById(category));
     }
 

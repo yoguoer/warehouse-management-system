@@ -20,6 +20,16 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private GoodsMapper goodsMapper;
 
+    public boolean setNoCategory(String categoryKey){
+        List<Goods> goodsList= this.goodsMapper.getListCategory(categoryKey);
+        boolean flag = false;
+        for(Goods goods:goodsList){
+            goods.setCategoryKey("NOCATEGORY_GOODS");
+            flag=this.goodsMapper.setNoCategory(goods);
+        }
+        return flag;
+    }
+
     /**
      * 不分页查询
      */

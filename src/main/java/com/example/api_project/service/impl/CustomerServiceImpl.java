@@ -24,6 +24,15 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private ContactMapper contactMapper;
 
+    public boolean setNoCategory(String categoryKey){
+        List<Customer> customerList= this.customerMapper.getListCategory(categoryKey);
+        boolean flag = false;
+        for(Customer customer:customerList){
+            customer.setCategoryKey("NOCATEGORY_CUSTOMER");
+            flag=this.customerMapper.setNoCategory(customer);
+        }
+        return flag;
+    }
 
     /**
      * 不分页查询

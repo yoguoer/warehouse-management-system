@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface ShopMapper {
 
+    boolean setNoCategory(Shop shop);
+
     /**
      * 通过ID查询单条数据
      *
@@ -34,6 +36,8 @@ public interface ShopMapper {
      * @return 对象列表
      */
     List<Shop> getList();
+
+    List<Shop> getListCategory(String categoryKey);
 
     /**
      * 统计总行数

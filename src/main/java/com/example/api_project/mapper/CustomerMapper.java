@@ -11,12 +11,16 @@ import java.util.List;
  */
 public interface CustomerMapper {
 
+    boolean setNoCategory(Customer customer);
+
     /**
      * 查询指全部数据
      * 不分页
      * @return 对象列表
      */
     List<Customer> getList();
+
+    List<Customer> getListCategory(String categoryKey);
 
     /**
      * 通过ID查询单条数据

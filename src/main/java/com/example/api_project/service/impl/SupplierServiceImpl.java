@@ -31,6 +31,16 @@ public class SupplierServiceImpl implements SupplierService {
     @Autowired
     private SupplierBillingMapper supplierBillingMapper;
 
+    public boolean setNoCategory(String categoryKey){
+        List<Supplier> supplierList= this.supplierMapper.getListCategory(categoryKey);
+        boolean flag = false;
+        for(Supplier supplier:supplierList){
+            supplier.setCategoryKey("NOCATEGORY_SUPPLIER");
+            flag=this.supplierMapper.setNoCategory(supplier);
+        }
+        return flag;
+    }
+
     /**
      * 通过ID查询单条数据
      *

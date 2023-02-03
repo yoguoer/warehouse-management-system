@@ -55,6 +55,30 @@
         order by goods_name
     </select>
 
+    <select id="getListCategory" resultMap="GoodsMap">
+        select goods_key,
+               brand_code,
+               goods_name,
+               model_code,
+               goods_code,
+               goods_unit,
+               price_latest_purchase,
+               goods_barcode,
+               create_time,
+               state,
+               category_key,
+               unit_description,
+               weight,
+               volume,
+               supplier_key,
+               unit_type,
+               price_retail,
+               price_wholesaler
+        from goods
+        where  category_key = #{categoryKey}
+        order by goods_name
+    </select>
+
     <!--查询单个-->
     <select id="queryById" resultMap="GoodsMap">
         select goods_key,
@@ -190,6 +214,13 @@
         price_retail = values(price_retail),
         price_wholesaler = values(price_wholesaler)
     </insert>
+
+    <!--删除分类时，将该分类下的数据设置为暂未分类 -->
+    <update id="setNoCategory">
+        update goods
+        set category_key = #{categoryKey}
+        where goods_key = #{goodsKey}
+    </update>
 
     <!--通过主键修改数据-->
     <update id="update">

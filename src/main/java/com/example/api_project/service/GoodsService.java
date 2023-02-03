@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public interface GoodsService {
 
+    boolean setNoCategory(String categoryKey);
+
     /**
      * 不分页查询
      */

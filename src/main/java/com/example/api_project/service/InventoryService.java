@@ -12,6 +12,9 @@ import java.util.Map;
  */
 public interface InventoryService {
 
+    boolean setNoCategory(String categoryKey);
+
+
     /**
      * 不分页查询
      */

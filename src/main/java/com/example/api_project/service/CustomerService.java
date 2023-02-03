@@ -13,6 +13,8 @@ import java.util.Map;
  */
 public interface CustomerService {
 
+    boolean setNoCategory(String categoryKey);
+
     /**
      * 不分页查询
      */

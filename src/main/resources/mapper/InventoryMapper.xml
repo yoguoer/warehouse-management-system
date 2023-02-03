@@ -46,6 +46,27 @@
         order by inventory_name
     </select>
 
+    <select id="getListCategory" resultMap="InventoryMap">
+        select category_key,
+               contact_name,
+               inventory_code,
+               inventory_key,
+               inventory_name,
+               inventory_type,
+               tel,
+               zip_code,
+               province,
+               city,
+               district,
+               detail,
+               description,
+               status,
+               belong_key
+        from inventory
+        where  category_key = #{categoryKey}
+        order by inventory_name
+    </select>
+
     <!--分页查询所有-->
     <select id="getListPage" resultMap="InventoryMap">
         select category_key,
@@ -221,6 +242,13 @@
         status = values(status)
         belong_key= values(belong_key)
     </insert>
+
+    <!--删除分类时，将该分类下的数据设置为暂未分类 -->
+    <update id="setNoCategory">
+        update inventory
+        set category_key = #{categoryKey}
+        where inventory_key = #{inventoryKey}
+    </update>
 
     <!--通过主键修改数据-->
     <update id="update">

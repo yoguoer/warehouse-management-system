@@ -26,6 +26,17 @@
         order by supplier_name
     </select>
 
+    <select id="getListCategory" resultMap="SupplierMap">
+        select supplier_key,
+               supplier_name,
+               supplier_code,
+               category_key,
+               superlier_description
+        from supplier
+        where  category_key = #{categoryKey}
+        order by supplier_name
+    </select>
+
     <!--查询单个-->
     <select id="queryById" resultMap="SupplierMap">
         select supplier_key,
@@ -107,6 +118,13 @@
         category_key = values(category_key),
         superlier_description = values(superlier_description)
     </insert>
+
+    <!--删除分类时，将该分类下的数据设置为暂未分类 -->
+    <update id="setNoCategory">
+        update supplier
+        set category_key = #{categoryKey}
+        where supplier_key = #{supplierKey}
+    </update>
 
     <!--通过主键修改数据-->
     <update id="update">

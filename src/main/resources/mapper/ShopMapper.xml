@@ -26,6 +26,14 @@
         order by shop_name
     </select>
 
+    <select id="getListCategory" resultMap="ShopMap">
+        select
+            shop_key, shop_code, shop_name, business_person_code, liable_person_code, shop_status, category_key, description, province, city, district, detail,cooperation_type
+        from shop
+        where  category_key = #{categoryKey}
+        order by shop_name
+    </select>
+
     <!--查询单个-->
     <select id="queryByshopCode" resultMap="ShopMap">
         select
@@ -146,6 +154,13 @@
         detail = values(detail)
         cooperation_type=values(cooperation_type)
     </insert>
+
+    <!--删除分类时，将该分类下的数据设置为暂未分类 -->
+    <update id="setNoCategory">
+        update shop
+        set category_key = #{categoryKey}
+        where shop_key = #{shopKey}
+    </update>
 
     <!--通过主键修改数据-->
     <update id="update">

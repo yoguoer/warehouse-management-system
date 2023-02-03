@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public interface ShopService {
 
+    boolean setNoCategory(String categoryKey);
+
     /**
      * 通过ID查询单条数据
      *

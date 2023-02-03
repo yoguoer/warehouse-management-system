@@ -1,6 +1,6 @@
 package com.example.api_project.service.impl;
 
-import com.example.api_project.mapper.CategoryMapper;
+import com.example.api_project.mapper.*;
 import com.example.api_project.pojo.Category;
 import com.example.api_project.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
