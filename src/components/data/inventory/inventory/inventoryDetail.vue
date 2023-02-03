@@ -25,7 +25,11 @@
           </el-tab-pane>
           <el-tab-pane label="货位" name="inventory-position">
           </el-tab-pane>
-          <router-view></router-view>
+          <!-- <router-view></router-view> -->
+          <keep-alive>
+            <router-view v-if="$route.meta.keepAlive"></router-view>
+          </keep-alive>
+          <router-view v-if="!$route.meta.keepAlive"></router-view>
         </el-tabs>
       </el-row>
     </div>
@@ -58,7 +62,11 @@ export default {
   },
   created() {
     this.row = this.$route.params.rowData || this.rowData
-    this.$router.push({ name: this.activeName, params: { rowData: this.row, inventoryKey: this.row.inventoryKey } })
+    let rowData = localStorage.getItem('inventoryDetail')
+    if (rowData) {
+      this.row = JSON.parse(rowData)
+    }
+    // this.$router.push({ name: this.activeName, params: { rowData: this.row, inventoryKey: this.row.inventoryKey } })
   },
 
   methods: {
@@ -69,9 +77,10 @@ export default {
       this.$forceUpdate();
     },
     handleClose(done) {
-      this.$parent.isShow = false
-      this.myDrawer = this.drawer
-      this.myDrawer = false
+      // this.$parent.isShow = false
+      // this.myDrawer = this.drawer
+      // this.myDrawer = false
+      localStorage.removeItem('inventoryDetail')
       this.$router.push({ name: "inventory" })
     }
   },

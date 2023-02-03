@@ -64,14 +64,14 @@
 
       <positionEdit v-if="positionEditVisable" :dialogVisible="positionEditVisable" :rowData="rowData"
         @close="positionEditVisable = false" @success="success()"></positionEdit>
-      <positionDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" />
+      <!-- <positionDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" /> -->
     </div>
   </div>
 </template>
 
 <script>
 import positionEdit from "./positionEdit.vue";
-import positionDetail from "./positionDetail";
+// import positionDetail from "./positionDetail";
 // import leftCard from '@/components/public/leftCard.vue'
 import { positionlistPage, positionDelete, districtlist, inventorylist, positionDeleteList } from "@/api/data";
 
@@ -85,7 +85,7 @@ export default {
       inputpositionType: "",
       pageSize: 10,
       pageNo: 1,
-      isShow: false,
+      // isShow: false,
       total: null,
       rowData: {},
       positionEditVisable: false,
@@ -104,7 +104,7 @@ export default {
   props: {},
   components: {
     positionEdit,
-    positionDetail
+    // positionDetail
     // leftCard
   },
   created() {
@@ -191,8 +191,9 @@ export default {
     //详情
     openDetail(row) {
       this.rowData = row;
-      this.isShow = true//详情
-      // this.$router.push({ name: "inventory-detail",params:{rowData:this.rowData} })
+      // this.isShow = true//详情
+      localStorage.setItem('positionDetail', JSON.stringify(row))
+      this.$router.push({ name: "position-detail", params: { positionKey: row.positionKey, rowData: this.rowData } })
     },
     editRow(row) {
       this.rowData = row;

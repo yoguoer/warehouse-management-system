@@ -98,7 +98,7 @@ export default {
       inventoryName: "",
       status: "",
       inventoryCode: "",
-      inventoryType:"",
+      inventoryType: "",
       isShow: false,
       multipleSelection: [],
     };
@@ -146,7 +146,7 @@ export default {
       this.inventoryName = ''
       this.status = ''
       this.inventoryCode = ''
-      this.inventoryType=''
+      this.inventoryType = ''
       this.inputCategory = ''
       this.$refs.leftcard.isActive = ''
       this.reload()
@@ -154,13 +154,15 @@ export default {
     //详情
     openDetail(row) {
       this.rowData = row;
-      this.isShow = true//详情
+      // this.isShow = true//详情
+      localStorage.setItem('inventoryDetail', JSON.stringify(row))
+      this.$router.push({ name: "inventory-detail", params: { inventoryKey: row.inventoryKey, rowData: this.rowData } })
     },
     search() {
       inventorylistPage({
         inventoryName: this.inventoryName,
         inventoryCode: this.inventoryCode,
-        inventoryType:this.inventoryType,
+        inventoryType: this.inventoryType,
         categoryKey: this.inputCategory,
         status: this.status,
         page: this.pageNo,

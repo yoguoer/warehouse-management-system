@@ -219,15 +219,18 @@ const routes = [{
               {
                 path: '/data/inventory',
                 name: 'inventory',
-                component: () => import('@/components/data/inventory/inventory/inventoryList.vue')
+                component: () => import('@/components/data/inventory/inventory/inventoryList.vue'),
+                meta: {
+                  keepAlive: true // 需要缓存
+                }
               },
               //资料-业务实体-库存-详情
               {
                 path: '/data/inventory/detail',
                 name: 'inventory-detail',
                 component: () => import('@/components/data/inventory/inventory/inventoryDetail.vue'),
-                meta: {
-                  keepAlive: true
+                redirect: {
+                  name: 'inventory-area'
                 },
                 children: [
                   //资料-业务实体-库存-详情-区域
@@ -249,15 +252,18 @@ const routes = [{
               {
                 path: '/data/area',
                 name: 'area',
-                component: () => import('@/components/data/inventory/area/areaList.vue')
+                component: () => import('@/components/data/inventory/area/areaList.vue'),
+                meta: {
+                  keepAlive: true // 需要缓存
+                }
               },
               //资料-业务实体-区域-详情
               {
                 path: '/data/area/detail',
                 name: 'area-detail',
                 component: () => import('@/components/data/inventory/area/areaDetail.vue'),
-                meta: {
-                  keepAlive: true
+                redirect: {
+                  name: 'area-inventory'
                 },
                 children: [
                   //资料-业务实体-区域-详情-仓库
@@ -279,15 +285,18 @@ const routes = [{
               {
                 path: '/data/position',
                 name: 'position',
-                component: () => import('@/components/data/inventory/position/positionList.vue')
+                component: () => import('@/components/data/inventory/position/positionList.vue'),
+                meta: {
+                  keepAlive: true // 需要缓存
+                }
               },
               //资料-业务实体-货位-详情
               {
                 path: '/data/position/detail',
                 name: 'position-detail',
                 component: () => import('@/components/data/inventory/position/positionDetail.vue'),
-                meta: {
-                  keepAlive: true
+                redirect: {
+                  name: 'position-inventory'
                 },
                 children: [
                   //资料-业务实体-货位-详情-仓库

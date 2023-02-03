@@ -41,8 +41,8 @@
         <el-table-column prop="status" label="区域状态">
           <template slot-scope="scope">
             <!-- <span>{{ scope.row.status == 1 ? '未启用' : (scope.row.status == 2 ? '启用' : '停用') }}</span> -->
-            <el-tag type="warning" size="medium" v-if=" scope.row.status == 1">未启用</el-tag>
-            <el-tag type="success" size="medium" v-if=" scope.row.status == 2">启用</el-tag>
+            <el-tag type="warning" size="medium" v-if="scope.row.status == 1">未启用</el-tag>
+            <el-tag type="success" size="medium" v-if="scope.row.status == 2">启用</el-tag>
             <el-tag type="danger" size="medium" v-if="scope.row.status == 3">停用</el-tag>
           </template>
         </el-table-column>
@@ -66,14 +66,14 @@
 
       <areaEdit v-if="areaEditVisable" :dialogVisible="areaEditVisable" :rowData="rowData"
         @close="areaEditVisable = false" @success="success()"></areaEdit>
-      <areaDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" />
+      <!-- <areaDetail v-if="isShow" :drawer="isShow" :rowData="rowData" @close="isShow = false" @success="success()" /> -->
     </div>
   </div>
 </template>
 
 <script>
 import areaEdit from "./areaEdit.vue";
-import areaDetail from "./areaDetail";
+// import areaDetail from "./areaDetail";
 // import leftCard from '@/components/public/leftCard.vue'
 import { districtlistPage, districtDelete, districtDeleteList, inventorylist } from "@/api/data";
 
@@ -93,7 +93,7 @@ export default {
       status: "",
       inputArea: "",
       inputName: "",
-      isShow: false,
+      // isShow: false,
       multipleSelection: [],
       options1: []
     };
@@ -102,7 +102,7 @@ export default {
   },
   components: {
     areaEdit,
-    areaDetail
+    // areaDetail
     // leftCard
   },
   created() {
@@ -136,8 +136,9 @@ export default {
     //详情
     openDetail(row) {
       this.rowData = row;
-      this.isShow = true//详情
-      // this.$router.push({ name: "inventory-detail",params:{rowData:this.rowData} })
+      // this.isShow = true//详情
+      localStorage.setItem('areaDetail', JSON.stringify(row))
+      this.$router.push({ name: "area-detail", params: { inventoryDistrictkey: row.inventoryDistrictkey, rowData: this.rowData } })
     },
     search() {
       districtlistPage({ districtCode: this.inputArea, districtName: this.inputName, inventoryKey: this.inputInventory, status: this.status, page: this.pageNo, size: this.pageSize }).then((res) => {
