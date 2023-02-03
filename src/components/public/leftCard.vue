@@ -70,9 +70,9 @@ export default {
     remove(data) {
       this.$confirm('确认删除？')
         .then(_ => {
-          let params = { categoryKey: data.categoryKey }
+          let params = { categoryKey: data.categoryKey, categoryType: data.categoryType }
           console.log(this.categoryKeyList)
-          if (data.children.length>0) {
+          if (data.children.length > 0) {
             this.$message({
               message: '含有子节点，不允许删除！',
               type: 'warning'
