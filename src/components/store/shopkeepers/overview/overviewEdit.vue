@@ -159,13 +159,13 @@ export default {
       this.ruleForm.maxNum = this.rowData.maxNum
       this.ruleForm.minNum = this.rowData.minNum
       this.ruleForm.accountNum = this.rowData.accountNum
-      this.ruleForm.occupyNum = this.rowData.occupyNum
-      this.ruleForm.availableNum = this.rowData.availableNum
+      this.ruleForm.occupyNum = this.rowData.occupyNum||0
+      this.ruleForm.availableNum = this.rowData.availableNum||0
       this.ruleForm.countNum = this.rowData.countNum
       this.ruleForm.rejectsNum = this.rowData.rejectsNum
       this.ruleForm.description = this.rowData.description
       this.ruleForm.shopkeeperWarehouseKey = this.rowData.shopkeeperWarehouseKey
-      this.ruleForm.onwayNum = this.rowData.onwayNum
+      this.ruleForm.onwayNum = this.rowData.onwayNum||0
       this.getMyPosition(this.rowData)
     } else {
       this.ifCreate = true
@@ -259,12 +259,12 @@ export default {
             maxNum: this.ruleForm.maxNum,
             minNum: this.ruleForm.minNum,
             accountNum: this.ruleForm.accountNum,
-            occupyNum: this.ruleForm.occupyNum,
-            availableNum: this.ruleForm.availableNum,
+            occupyNum: this.ruleForm.occupyNum||0,
+            availableNum: this.ruleForm.availableNum||0,
             rejectsNum: this.ruleForm.rejectsNum,
             countNum: this.ruleForm.countNum,
             description: this.ruleForm.description,
-            onwayNum: this.ruleForm.onwayNum,
+            onwayNum: this.ruleForm.onwayNum||0,
             operateTime: moment().format("YYYY-MM-DD HH:mm:ss")
           }
           shopkeeperWarehouseAdd(data).then(res => {

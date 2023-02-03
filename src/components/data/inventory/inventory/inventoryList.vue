@@ -46,7 +46,7 @@
         <el-table-column prop="province" label="省" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="city" label="市" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="district" label="区" :show-overflow-tooltip="true"> </el-table-column>
-        <el-table-column prop="detail" label="地址" :show-overflow-tooltip="true"> </el-table-column>
+        <el-table-column prop="detail" label="详细地址" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="status" label="仓库状态">
           <template slot-scope="scope">
             <el-tag type="success" size="medium" v-if="scope.row.status == 1">正常</el-tag>

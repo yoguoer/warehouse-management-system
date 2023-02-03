@@ -124,12 +124,12 @@ export default {
     },
     _pageSize(val) {
       this.pageSize = val;
-      this.search()
+      this.getBanklistPage()
       this.$forceUpdate();
     },
     _page(val) {
       this.pageNo = val;
-      this.search()
+      this.getBanklistPage()
       this.$forceUpdate();
     },
     deleteRow(row) {
