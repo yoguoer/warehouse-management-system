@@ -12,14 +12,14 @@
             </el-col>
             <el-col :span="10">
               <el-form-item label="最大容量(m3):" prop="maxCapacity">
-                <el-input v-model="form.maxCapacity" type="Number" class="form_text" placeholder="最大容量(m3)" clearable></el-input>
+                <el-input v-model="form.maxCapacity" type="Number" :min="0" class="form_text" placeholder="最大容量(m3)" clearable></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="10">
               <el-form-item label="最大重量" prop="maxWeight">
-                <el-input v-model="form.maxWeight" type="Number" class="form_text" placeholder="最大重量" clearable></el-input>
+                <el-input v-model="form.maxWeight" type="Number" :min="0" class="form_text" placeholder="最大重量" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">

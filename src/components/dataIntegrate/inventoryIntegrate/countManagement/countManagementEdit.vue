@@ -24,12 +24,12 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="账面库存" prop="accountNum">
-            <el-input v-model="ruleForm.accountNum" clearable placeholder="账面库存" type="Number" disabled></el-input>
+            <el-input v-model="ruleForm.accountNum" clearable placeholder="账面库存" type="Number"  :min="0" disabled></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <el-form-item label="盘点数" prop="countNum">
-            <el-input v-model="ruleForm.countNum" clearable placeholder="盘点数" type="Number"></el-input>
+            <el-input v-model="ruleForm.countNum" clearable placeholder="盘点数" type="Number" :min="0"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

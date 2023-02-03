@@ -65,19 +65,19 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="起始库存" prop="startNum">
-            <el-input v-model="ruleForm.startNum" clearable placeholder="起始库存" type="Number"></el-input>
+            <el-input v-model="ruleForm.startNum" clearable placeholder="起始库存" :min="0" type="Number"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <el-form-item label="变化数量" prop="quantity">
-            <el-input v-model="ruleForm.quantity" clearable placeholder="变化数量" type="Number"></el-input>
+            <el-input v-model="ruleForm.quantity" clearable placeholder="变化数量" :min="0" type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
           <el-form-item label="结余库存" prop="finalNum">
-            <el-input v-model="ruleForm.finalNum" clearable placeholder="结余库存" type="Number"></el-input>
+            <el-input v-model="ruleForm.finalNum" clearable placeholder="结余库存" :min="0" type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

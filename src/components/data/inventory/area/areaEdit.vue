@@ -39,7 +39,7 @@
           <el-row>
             <el-col :span="10">
               <el-form-item label="排序" prop="sort">
-                <el-input v-model="form.sort" type="Number" class="form_text" placeholder="排序" clearable></el-input>
+                <el-input v-model="form.sort" type="Number" class="form_text" placeholder="排序" clearable :min="0"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">

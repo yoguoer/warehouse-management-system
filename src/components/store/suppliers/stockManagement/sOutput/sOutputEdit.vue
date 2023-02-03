@@ -47,24 +47,24 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="计划数" prop="inputPlan">
-            <el-input v-model="ruleForm.inputPlan" clearable placeholder="计划数" disabled type="Number"></el-input>
+            <el-input v-model="ruleForm.inputPlan" clearable placeholder="计划数" :min="0" disabled type="Number"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <el-form-item label="订购价格" prop="inputPrice">
-            <el-input v-model="ruleForm.inputPrice" clearable placeholder="订购价格" disabled type="Number"></el-input>
+            <el-input v-model="ruleForm.inputPrice" clearable placeholder="订购价格" :min="0" disabled type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
           <el-form-item label="实际数" prop="inputActual">
-            <el-input v-model="ruleForm.inputActual" clearable placeholder="实际数" type="Number"></el-input>
+            <el-input v-model="ruleForm.inputActual" clearable placeholder="实际数" :min="0" type="Number"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <el-form-item label="退货数" prop="returnNum" v-if="ruleForm.type == 1">
-            <el-input v-model="ruleForm.returnNum" clearable placeholder="退货数" type="Number"></el-input>
+            <el-input v-model="ruleForm.returnNum" clearable placeholder="退货数" :min="0" type="Number"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">

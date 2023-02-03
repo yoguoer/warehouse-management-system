@@ -102,19 +102,19 @@
               <el-col :span="7">
                 <el-form-item label="最近进价" prop="priceLatestPurchase">
                   <el-input v-model="ruleForm.priceLatestPurchase" clearable placeholder="最近进价"
-                    type="Number"></el-input>
+                    type="Number" :min="0"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="7">
                 <el-form-item label="批发价" prop="priceWholesaler">
-                  <el-input v-model="ruleForm.priceWholesaler" clearable placeholder="批发价" type="Number"></el-input>
+                  <el-input v-model="ruleForm.priceWholesaler" clearable placeholder="批发价" type="Number" :min="0"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="7">
                 <el-form-item label="零售价" prop="priceRetail">
-                  <el-input v-model="ruleForm.priceRetail" clearable placeholder="零售价" type="Number"></el-input>
+                  <el-input v-model="ruleForm.priceRetail" clearable placeholder="零售价" type="Number" :min="0"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>

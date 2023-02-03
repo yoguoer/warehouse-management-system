@@ -17,14 +17,14 @@
           </el-col>
           <el-col :span="5">
             <el-form-item label="载重" prop="maxWeight">
-              <el-input v-model="ruleForm.maxWeight" type="Number" clearable placeholder="载重"></el-input>
+              <el-input v-model="ruleForm.maxWeight" type="Number" clearable placeholder="载重" :min="0"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="5">
             <el-form-item label="装货体积" prop="maxCapacity">
-              <el-input v-model="ruleForm.maxCapacity" type="Number" clearable placeholder="装货体积"></el-input>
+              <el-input v-model="ruleForm.maxCapacity" type="Number" clearable placeholder="装货体积" :min="0"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="5">

@@ -59,19 +59,19 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="计划入库数" prop="inputPlan">
-            <el-input v-model="ruleForm.inputPlan" clearable placeholder="计划入库数" type="Number"></el-input>
+            <el-input v-model="ruleForm.inputPlan" clearable placeholder="计划入库数" :min="0" type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
           <el-form-item label="入库价格" prop="inputPrice">
-            <el-input v-model="ruleForm.inputPrice" clearable placeholder="入库价格" type="Number"></el-input>
+            <el-input v-model="ruleForm.inputPrice" clearable placeholder="入库价格" :min="0" type="Number"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <el-form-item label="实际数" prop="inputActual">
-            <el-input v-model="ruleForm.inputActual" clearable placeholder="实际数" type="Number"></el-input>
+            <el-input v-model="ruleForm.inputActual" clearable placeholder="实际数" :min="0" type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -139,7 +139,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="退货原因" prop="returnReason">
-            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" type="textarea"></el-input>
+            <el-input v-model="ruleForm.returnReason" clearable placeholder="退货原因" :min="0" type="textarea"></el-input>
           </el-form-item>
         </el-col>
       </el-row>

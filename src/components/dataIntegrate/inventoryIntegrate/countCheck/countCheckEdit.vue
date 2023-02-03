@@ -11,7 +11,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="审批数" prop="checkNum">
-            <el-input v-model="ruleForm.checkNum" clearable placeholder="审批数" type="Number" disabled></el-input>
+            <el-input v-model="ruleForm.checkNum" clearable placeholder="审批数" type="Number" :min="0" disabled></el-input>
           </el-form-item>
         </el-col>
       </el-row>
