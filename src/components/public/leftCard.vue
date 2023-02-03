@@ -70,7 +70,7 @@ export default {
     remove(data) {
       this.$confirm('确认删除？')
         .then(_ => {
-          let params = { categroyKeys: data.categoryKey }
+          let params = { categoryKey: data.categoryKey }
           console.log(this.categoryKeyList)
           if (data.children.length>0) {
             this.$message({
