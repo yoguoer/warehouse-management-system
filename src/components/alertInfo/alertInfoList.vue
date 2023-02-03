@@ -22,9 +22,15 @@
         @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="shopSupplierCode" label="预警对象" :show-overflow-tooltip="true">
+        <el-table-column label="预警对象" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span>{{ scope.row.shopSupplierCode }}·{{ scope.row.shopName }}</span>
+          </template>
         </el-table-column>
-        <el-table-column prop="goodsCode" label="预警商品" :show-overflow-tooltip="true">
+        <el-table-column label="预警商品" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span>{{ scope.row.goodsCode }}·{{ scope.row.goodsName }}</span>
+          </template>
         </el-table-column>
         <el-table-column prop="type" label="类型" :show-overflow-tooltip="true">
           <template slot-scope="scope">

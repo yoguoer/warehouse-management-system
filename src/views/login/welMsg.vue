@@ -6,7 +6,8 @@
                 <el-card shadow="always" body-style="padding:30px;display: inline-flex;height:300px;width:830px;">
                     <div><img :src="welcomePic" alt="" style="width:200px;margin:5px;" /></div>
                     <div style="margin: 30px 0;">
-                        <span> <el-tag type="danger" style="font-size:24px;">{{userInfo.userName}}</el-tag>，欢迎来到商品库存管理系统！</span>
+                        <span> <el-tag type="danger"
+                                style="font-size:24px;">{{ userInfo.userName }}</el-tag>，欢迎来到商品库存管理系统！</span>
                         <DateUtils />
                     </div>
                 </el-card>
@@ -22,14 +23,23 @@
                     </div>
                     <el-table :data="tableData1" height="300" :cell-style="{ padding: '5px' }" border
                         style="width: 100%" tooltip-effect="dark">
-                        <el-table-column prop="shopSupplierCode" label="预警对象" width="180" :show-overflow-tooltip="true">
+                        <el-table-column label="预警对象" :show-overflow-tooltip="true">
+                            <template slot-scope="scope">
+                                <span>{{ scope.row.shopName }}</span>
+                            </template>
                         </el-table-column>
-                        <el-table-column prop="goodsCode" label="预警商品" width="180" :show-overflow-tooltip="true">
+                        <el-table-column label="预警商品" :show-overflow-tooltip="true">
+                            <template slot-scope="scope">
+                                <span>{{ scope.row.goodsName }}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column prop="alertTime" label="预警时间" :show-overflow-tooltip="true">
                         </el-table-column>
                         <el-table-column prop="status" label="状态" :show-overflow-tooltip="true">
-                            <template slot-scope="scope"><span style="color:#2d8bf0">{{ scope.row.status == 1 ? '已处理' :'未处理'}}</span></template>
+                            <template slot-scope="scope"><span style="color:#2d8bf0">{{
+                                scope.row.status == 1 ? '已处理'
+                                    : '未处理'
+                            }}</span></template>
                         </el-table-column>
                     </el-table>
                 </el-card>
@@ -43,18 +53,27 @@
                         <img :src="alertMsg2" alt="" style="width:200px;margin:5px;" />
                         <span> <el-tag type="success"
                                 style="font-size:24px;text-align: center;display: block;">连续未动销预警</el-tag></span>
-                        <el-button style="margin:20px 50px;"  @click="goMore(0)">查看全部</el-button>
+                        <el-button style="margin:20px 50px;" @click="goMore(0)">查看全部</el-button>
                     </div>
                     <el-table :data="tableData2" height="300" :cell-style="{ padding: '5px' }" border
                         style="width: 100%" tooltip-effect="dark">
-                        <el-table-column prop="shopSupplierCode" label="预警对象" width="180" :show-overflow-tooltip="true">
+                        <el-table-column label="预警对象" :show-overflow-tooltip="true">
+                            <template slot-scope="scope">
+                                <span>{{ scope.row.shopName }}</span>
+                            </template>
                         </el-table-column>
-                        <el-table-column prop="goodsCode" label="预警商品" width="180" :show-overflow-tooltip="true">
+                        <el-table-column label="预警商品" :show-overflow-tooltip="true">
+                            <template slot-scope="scope">
+                                <span>{{ scope.row.goodsName }}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column prop="alertTime" label="预警时间" :show-overflow-tooltip="true">
                         </el-table-column>
                         <el-table-column prop="status" label="状态" :show-overflow-tooltip="true">
-                            <template slot-scope="scope"><span style="color:#2d8bf0">{{ scope.row.status == 1 ? '已处理' :'未处理'}}</span></template>
+                            <template slot-scope="scope"><span style="color:#2d8bf0">{{
+                                scope.row.status == 1 ? '已处理'
+                                    : '未处理'
+                            }}</span></template>
                         </el-table-column>
                     </el-table>
                 </el-card>
@@ -66,18 +85,27 @@
                         <img :src="welcomemsg" alt="" style="width:200px;margin:5px;" />
                         <span> <el-tag type="success"
                                 style="font-size:24px;text-align: center;display: block;">缺货预警</el-tag></span>
-                        <el-button style="margin:20px 50px;"  @click="goMore(2)">查看全部</el-button>
+                        <el-button style="margin:20px 50px;" @click="goMore(2)">查看全部</el-button>
                     </div>
                     <el-table :data="tableData3" height="300" :cell-style="{ padding: '5px' }" border
                         style="width: 100%" tooltip-effect="dark">
-                        <el-table-column prop="shopSupplierCode" label="预警对象" width="180" :show-overflow-tooltip="true">
+                        <el-table-column label="预警对象" :show-overflow-tooltip="true">
+                            <template slot-scope="scope">
+                                <span>{{ scope.row.shopName }}</span>
+                            </template>
                         </el-table-column>
-                        <el-table-column prop="goodsCode" label="预警商品" width="180" :show-overflow-tooltip="true">
+                        <el-table-column label="预警商品" :show-overflow-tooltip="true">
+                            <template slot-scope="scope">
+                                <span>{{ scope.row.goodsName }}</span>
+                            </template>
                         </el-table-column>
                         <el-table-column prop="alertTime" label="预警时间" :show-overflow-tooltip="true">
                         </el-table-column>
                         <el-table-column prop="status" label="状态" :show-overflow-tooltip="true">
-                            <template slot-scope="scope"><span style="color:#2d8bf0">{{ scope.row.status == 1 ? '已处理' :'未处理'}}</span></template>
+                            <template slot-scope="scope"><span style="color:#2d8bf0">{{
+                                scope.row.status == 1 ? '已处理'
+                                    : '未处理'
+                            }}</span></template>
                         </el-table-column>
                     </el-table>
                 </el-card>
@@ -124,7 +152,7 @@ export default {
                 shopSupplierCode: "",
                 goodsCode: "",
                 page: 1,
-                size: 20,
+                size: 200,
             }
             alertInfolistPage(params).then(res => {
                 if (res.data.code == 200) {
@@ -143,9 +171,9 @@ export default {
                 }
             });
         },
-        goMore(val){
+        goMore(val) {
             console.log("查看全部")
-            this.$router.push({ name: 'alertInfo', params: { type:val } })
+            this.$router.push({ name: 'alertInfo', params: { type: val } })
         }
     }
 }
