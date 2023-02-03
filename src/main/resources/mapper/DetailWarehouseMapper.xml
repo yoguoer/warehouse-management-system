@@ -22,7 +22,8 @@
     <select id="getForKey" resultMap="DetailWarehouseMap">
         select
             detail_warehouse_key, input_output_key, type, trans_type,quantity, at_time, start_num, final_num, detail_warehouse.shopkeeper_warehouse_key,shop_code,goods_code
-            from detail_warehouse join shopkeeper_warehouse on detail_warehouse.shopkeeper_warehouse_key = shopkeeper_warehouse.shopkeeper_warehouse_key
+            from detail_warehouse
+            join shopkeeper_warehouse on detail_warehouse.shopkeeper_warehouse_key = shopkeeper_warehouse.shopkeeper_warehouse_key
         <where>
             <if test="inputOutputKey != null and inputOutputKey != ''">
                 and input_output_key = #{inputOutputKey}

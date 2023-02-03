@@ -135,12 +135,8 @@
       <if test="userEmail != null and userEmail !=''" >
         user_email = #{userEmail,jdbcType=VARCHAR},
       </if>
-      <if test="userType!= null and userType !=''" >
-        user_type = #{userType,jdbcType=VARCHAR},
-      </if>
-      <if test="userBelong!= null and userBelong !=''" >
-        user_belong = #{userBelong,jdbcType=VARCHAR},
-      </if>
+        user_type = #{userType,jdbcType=INTEGER},
+        user_belong = #{userBelong,jdbcType=INTEGER},
       <if test="passWord!= null and passWord !=''" >
         user_pwd = #{passWord,jdbcType=VARCHAR},
       </if>
@@ -156,8 +152,8 @@
       user_email = #{userEmail,jdbcType=VARCHAR},
       user_sex = #{userSex,jdbcType=VARCHAR},
       user_phone = #{userPhone,jdbcType=VARCHAR},
-      user_type = #{userType,jdbcType=VARCHAR},
-      user_belong = #{userBelong,jdbcType=VARCHAR}
+      user_type = #{userType,jdbcType=INTEGER},
+      user_belong = #{userBelong,jdbcType=INTEGER}
     where user_id = #{userId,jdbcType=VARCHAR}
   </update>
 
