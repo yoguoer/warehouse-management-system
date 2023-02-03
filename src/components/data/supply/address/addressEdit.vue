@@ -36,7 +36,6 @@ export default {
     },
     data() {
         var validatePass = (rule, value, callback) => {
-
             if (this.ruleForm.address.province == '' || this.ruleForm.address.detail == '') {
                 callback(new Error('请输入完整地址'));
             }

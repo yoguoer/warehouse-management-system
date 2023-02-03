@@ -189,6 +189,12 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
   name: 'supplyEdit',
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (this.ruleForm.address.province == '' || this.ruleForm.address.detail == '') {
+        callback(new Error('请输入完整地址'));
+      }
+      callback();
+    };
     return {
       ifCreate: true,
       direction: 'btt',
@@ -271,8 +277,8 @@ export default {
           { required: true, message: '请输入地址类型', trigger: 'blur' },
         ],
         address: [
-          { required: true, message: '请选择地址', trigger: 'blur' },
-        ]
+          { required: true, validator: validatePass, trigger: 'blur' },
+        ],
       },
       rules2: {
         contactNumber: [

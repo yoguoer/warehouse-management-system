@@ -134,6 +134,12 @@ export default {
     },
   },
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (this.form.address.province == '' || this.form.address.detail == '') {
+        callback(new Error('请输入完整地址'));
+      }
+      callback();
+    };
     return {
       userOptions: [],
       userOptions1: [],
@@ -183,7 +189,7 @@ export default {
           { required: true, message: '请选择所属分类', trigger: 'blur' },
         ],
         address: [
-          { required: true, message: '请输入地址', trigger: 'blur' },
+          { required: true, validator: validatePass, trigger: 'blur' },
         ],
       }
     };

@@ -127,6 +127,12 @@ import { Customeradd, Customerupdate, getCategoryTree } from '@/api/data'
 export default {
   name: 'guestEdit',
   data() {
+    var validatePass = (rule, value, callback) => {
+            if (this.ruleForm.address.province == '' || this.ruleForm.address.detail == '') {
+                callback(new Error('请输入完整地址'));
+            }
+            callback();
+        };
     return {
       currentIndex: 0,
       addStr: "",
@@ -203,7 +209,7 @@ export default {
           { required: true, message: '请输入联系人姓名', trigger: 'blur' },
         ],
         contactTypeFlex3: [
-          { required: true, message: '请输入联系地址', trigger: 'blur' }
+          { required: true, validator: validatePass, trigger: 'blur' },
         ],
         contactTypeFlex5: [
           { required: true, message: '请输入联系电话', trigger: 'blur' }

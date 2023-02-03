@@ -133,6 +133,12 @@ export default {
     rowData: {},
   },
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (this.form.address.province == '' || this.form.address.detail == '') {
+        callback(new Error('请输入完整地址'));
+      }
+      callback();
+    };
     return {
       inventory: [],
       list:[],
@@ -185,7 +191,7 @@ export default {
           { required: true, message: '请输入邮编', trigger: 'blur' },
         ],
         address: [
-          { required: true, message: '请输入地址', trigger: 'blur' },
+          { required: true, validator: validatePass, trigger: 'blur' },
         ],
         status: [
           { required: true, message: '请选择仓库状态', trigger: 'blur' },

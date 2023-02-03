@@ -66,6 +66,12 @@ import { CustomerList, Contactadd, Contactupdate } from '@/api/data'
 export default {
   name: 'guestEdit',
   data() {
+    var validatePass = (rule, value, callback) => {
+      if (this.ruleForm.address.province == '' || this.ruleForm.address.detail == '') {
+        callback(new Error('请输入完整地址'));
+      }
+      callback();
+    };
     return {
       options: [],
       addStr: '',
@@ -91,7 +97,6 @@ export default {
         contactCustomerKey: "",//联系人key
         contactKey: ""//客户key
       },
-
       rules: {
         contactCustomerKey: [
           { required: true, message: '请选择客户', trigger: 'blur' },
@@ -103,7 +108,7 @@ export default {
           { required: true, message: '请输入联系人编号', trigger: 'blur' },
         ],
         address: [
-          { required: true, message: '请输入联系地址', trigger: 'blur' }
+          { required: true, validator: validatePass, trigger: 'blur' },
         ],
         contactTel: [
           { required: true, message: '请输入联系电话', trigger: 'blur' }
@@ -135,7 +140,7 @@ export default {
   created() {
     this.getCustomer()
     this.row = this.$route.params.rowData || this.rowData
-    this.ruleForm.contactCustomerKey = this.rowData.contactCustomerKey||this.$route.params.customerKey||""
+    this.ruleForm.contactCustomerKey = this.rowData.contactCustomerKey || this.$route.params.customerKey || ""
     if (this.rowData.contactKey) {
       this.ifCreate = false
       this.ruleForm.contactName = this.rowData.contactName
