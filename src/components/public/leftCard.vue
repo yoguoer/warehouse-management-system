@@ -10,7 +10,7 @@
         :expand-on-click-node="false">
         <span class="custom-tree-node" slot-scope="{ node, data }">
           <span :class="isActive == node.label ? 'custom-tree-node-active' : 'custom-tree-node'">{{ node.label }}</span>
-          <span v-if="node.label !== '全部'">
+          <span v-if="node.label != '全部' && node.label != '暂无分类'">
             <el-button type="text" size="small" @click="() => edit(data)">
               编辑
             </el-button>

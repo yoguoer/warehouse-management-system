@@ -127,14 +127,14 @@ import {getCategoryTree, addCategory, updateCategory} from '@/api/data'
         }
         getCategoryTree(params).then(res=>{
           if (res.data.code === 200) {
-            res.data.data.forEach(item => {
-              if(item.categoryName=='全部'){
-                let index=res.data.data.indexOf(item)
-                res.data.data.splice(index,1)
+          this.list = []
+          res.data.data.forEach(item => {
+            if(item.categoryName !='暂无分类'&&item.categoryName!='全部'){
+                this.list.push(item)
               }
-            });
-            this.list=res.data.data
-            console.log('编辑');
+          });
+          // this.list = res.data.data
+          // console.log(this.list);
           }else{
             console.log('error');
           }
