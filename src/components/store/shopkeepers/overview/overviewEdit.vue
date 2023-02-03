@@ -166,6 +166,7 @@ export default {
       this.ruleForm.description = this.rowData.description
       this.ruleForm.shopkeeperWarehouseKey = this.rowData.shopkeeperWarehouseKey
       this.ruleForm.onwayNum = this.rowData.onwayNum
+      this.getMyPosition(this.rowData)
     } else {
       this.ifCreate = true
     }
@@ -199,8 +200,9 @@ export default {
       this.getgoodslist(item)
       getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
         if (res.data.code == 200) {
-          this.inventoryKey = res.data.data.inventoryKey
-          positionList({ inventoryKey: res.data.data.inventoryKey }).then(res => {
+          this.inventoryKey = res.data.data[0].inventoryKey
+          console.log(res.data.data.inventoryKey)
+          positionList({ inventoryKey: res.data.data[0].inventoryKey }).then(res => {
             if (res.data.code == 200) {
               this.positionOptions = res.data.data
             } else {

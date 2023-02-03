@@ -132,7 +132,7 @@ export default {
       });
     },
     getTableData(pageNo = 1, pageSize) {
-      this.query.pageNo = pageNo;
+      // this.query.pageNo = pageNo;
       if (pageSize) {
         this.query.pageSize = pageSize;
       }
@@ -140,7 +140,7 @@ export default {
 
       let params = {
         // ...this.query,
-        page: this.query.pageNo,
+        page: this.query.pageNo||pageNo,
         size: this.query.pageSize,
         shopCode: "",
         goodsCode: "",
