@@ -72,7 +72,7 @@ export default {
         .then(_ => {
           let params = { categroyKeys: data.categoryKey }
           console.log(this.categoryKeyList)
-          if (data.children) {
+          if (data.children.length>0) {
             this.$message({
               message: '含有子节点，不允许删除！',
               type: 'warning'
