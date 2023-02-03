@@ -27,6 +27,7 @@
       <if test="userType != null" >
         user_type = #{userType,jdbcType=VARCHAR}
       </if>
+      order by user_name
       and user_belong=0
     </where>
   </select>
@@ -37,6 +38,7 @@
     <include refid="Base_Column_List" />
     from user
     where user_phone = #{userPhone}
+    order by user_name
   </select>
 
 <!--  根据id删除用户-->
