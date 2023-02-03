@@ -78,7 +78,7 @@ export default {
       // this.myDrawer = this.drawer
       // this.myDrawer = false
       localStorage.removeItem('areaDetail')
-      this.$router.push({ name: "area" })
+      this.$router.push({ name: "areaList" })
     }
   },
 }

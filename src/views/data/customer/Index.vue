@@ -7,7 +7,11 @@
       <el-tab-pane label="全部联系人" name="contactList">
         <!-- <contactList ref="contactList"/> -->
       </el-tab-pane>
-      <router-view></router-view>
+      <!-- <router-view></router-view> -->
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
     </el-tabs>
   </div>
 </template>

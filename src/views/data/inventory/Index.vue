@@ -1,13 +1,17 @@
 <template>
   <div class="wrap-definition">
     <el-tabs type="border-card" v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="仓库" name="inventory">
+      <el-tab-pane label="仓库" name="inventoryList">
       </el-tab-pane>
-      <el-tab-pane label="区域" name="area">
+      <el-tab-pane label="区域" name="areaList">
       </el-tab-pane>
-      <el-tab-pane label="货位" name="position">
+      <el-tab-pane label="货位" name="positionList">
       </el-tab-pane>
-      <router-view></router-view>
+      <!-- <router-view></router-view> -->
+      <keep-alive>
+        <router-view v-if="$route.meta.keepAlive"></router-view>
+      </keep-alive>
+      <router-view v-if="!$route.meta.keepAlive"></router-view>
     </el-tabs>
   </div>
 </template>
@@ -17,7 +21,7 @@ export default {
   name: 'supply',
   data() {
     return {
-      activeName: 'inventory',
+      activeName: 'inventoryList',
     }
   },
   props: {},

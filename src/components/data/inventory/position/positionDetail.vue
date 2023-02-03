@@ -78,7 +78,7 @@ export default {
       // this.myDrawer = this.drawer
       // this.myDrawer = false
       localStorage.removeItem('positionDetail')
-      this.$router.push({ name: "position" })
+      this.$router.push({ name: "positionList" })
     }
   },
 }

@@ -81,7 +81,7 @@ export default {
       // this.myDrawer = this.drawer
       // this.myDrawer = false
       localStorage.removeItem('inventoryDetail')
-      this.$router.push({ name: "inventory" })
+      this.$router.push({ name: "inventoryList" })
     }
   },
 }

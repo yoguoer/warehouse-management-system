@@ -211,14 +211,14 @@ const routes = [{
             name: 'inventory',
             component: () => import('@/views/data/inventory/Index.vue'),
             redirect: {
-              name: 'inventory'
+              name: 'inventoryList'
             },
             // ----------------Tabs里面------------------
             children: [
               //资料-仓库管理-库存
               {
-                path: '/data/inventory',
-                name: 'inventory',
+                path: '/data/inventoryList',
+                name: 'inventoryList',
                 component: () => import('@/components/data/inventory/inventory/inventoryList.vue'),
                 meta: {
                   keepAlive: true // 需要缓存
@@ -251,7 +251,7 @@ const routes = [{
               //资料-仓库管理-区域
               {
                 path: '/data/area',
-                name: 'area',
+                name: 'areaList',
                 component: () => import('@/components/data/inventory/area/areaList.vue'),
                 meta: {
                   keepAlive: true // 需要缓存
@@ -284,7 +284,7 @@ const routes = [{
               //资料-仓库管理-货位
               {
                 path: '/data/position',
-                name: 'position',
+                name: 'positionList',
                 component: () => import('@/components/data/inventory/position/positionList.vue'),
                 meta: {
                   keepAlive: true // 需要缓存
