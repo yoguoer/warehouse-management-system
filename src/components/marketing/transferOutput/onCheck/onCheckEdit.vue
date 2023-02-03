@@ -431,7 +431,7 @@ export default {
               this.ruleForm.outputActual = this.ruleForm.checkNum
               let data = {
                 shopCode: this.ruleForm.outputShopCode,
-                shopName: this.ruleForm.outputShopCode,
+                shopName: this.ruleForm.outputShopName,
                 goodsCode: this.ruleForm.goodsCode,
                 goodsName: this.ruleForm.goodsName,
                 isDeleted: this.ruleForm.isDeleted,
@@ -558,7 +558,7 @@ export default {
               this.ruleForm.outputActual = this.ruleForm.checkNum
               let data = {
                 shopCode: this.ruleForm.outputShopCode,
-                shopName: this.ruleForm.outputShopCode,
+                shopName: this.ruleForm.outputShopName,
                 goodsCode: this.ruleForm.goodsCode,
                 goodsName: this.ruleForm.goodsName,
                 isDeleted: this.ruleForm.isDeleted,
@@ -623,7 +623,7 @@ export default {
                         status: this.rowData.status,
                         detailWarehouseKey: "",
                         goodsCode:this.ruleForm.goodsCode,
-                        shopCode:this.ruleForm.outputShopName,
+                        shopCode:this.ruleForm.outputShopCode,
                       }
                       detailWarehouseAdd(detailData).then(res => {
                         console.log(res.data.data)
