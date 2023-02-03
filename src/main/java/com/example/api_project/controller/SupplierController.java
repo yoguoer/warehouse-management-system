@@ -107,9 +107,9 @@ public class SupplierController {
         }
         //插入开票信息
         List<SupplierBilling> supplierBillingList = supplier.getSupplierBillingList();
-        String supplierBillingCode = supplier.getSupplierCode();
+        String supplierBillingKey = supplier.getSupplierKey();
         for (SupplierBilling supplierBilling : supplierBillingList) {
-            supplierBilling.setsupplierBillingCode(supplierBillingCode);
+            supplierBilling.setSupplierBillingKey(supplierBillingKey);
             Integer billingKey = random.nextInt(9000) + 1000;
             supplierBilling.setBillingKey(System.currentTimeMillis() + String.valueOf(billingKey));
             this.supplierBillingService.insert(supplierBilling);
@@ -189,13 +189,13 @@ public class SupplierController {
         });
 
         //修改开票信息
-        String supplierBillingCode = supplier.getSupplierCode();//取出code
+        String supplierBillingKey = supplier.getSupplierKey();//取出code
         List<SupplierBilling> supplierBillingList = supplier.getSupplierBillingList();
         for (SupplierBilling supplierBilling : supplierBillingList) {
             String BELLINGKEY=supplierBilling.getBillingKey();
             //添加(BELLINGKEY)
             if(BELLINGKEY==null || BELLINGKEY==""){
-                supplierBilling.setsupplierBillingCode(supplierBillingCode);
+                supplierBilling.setSupplierBillingKey(supplierBillingKey);
                 supplierBilling.setBillingKey(System.currentTimeMillis() + String.valueOf(contactKey));
                 this.supplierBillingService.insert(supplierBilling);
             }else{//BELLINGKEY,更新
@@ -203,12 +203,12 @@ public class SupplierController {
             }
         }
         //取出数据库中现有的
-        List<SupplierBilling> billingList = this.supplierBillingService.queryBySupplierKey(supplierBillingCode);
+        List<SupplierBilling> billingList = this.supplierBillingService.queryBySupplierKey(supplierBillingKey);
         List<String> newList2 = new ArrayList<>();
         //把存进来的列表中数据的key留起来
         supplierBillingList.forEach(item -> {
-            if (!newList2.contains(item.getsupplierBillingCode())) {
-                newList2.add(item.getsupplierBillingCode());
+            if (!newList2.contains(item.getSupplierBillingKey())) {
+                newList2.add(item.getSupplierBillingKey());
             }
         });
         //取出缺少的，那些就是要删掉的

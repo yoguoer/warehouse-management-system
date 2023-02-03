@@ -63,8 +63,8 @@ public class SupplierServiceImpl implements SupplierService {
                 item.setSupplierAddressList(supplierAddressList);
             }
             //获取开票信息列表
-            String supplierBillingCode= item.getSupplierKey();
-            List<SupplierBilling> supplierBillingList=this.supplierBillingMapper.queryBySupplierKey(supplierBillingCode);
+            String supplierBillingKey= item.getSupplierKey();
+            List<SupplierBilling> supplierBillingList=this.supplierBillingMapper.queryBySupplierKey(supplierBillingKey);
             if(null!=supplierBillingList) {
                 item.setSupplierBillingList(supplierBillingList);
             }
@@ -106,8 +106,8 @@ public class SupplierServiceImpl implements SupplierService {
                     item.setSupplierAddressList(supplierAddressList);
                 }
                 //获取开票信息列表
-                String supplierBillingCode= item.getSupplierCode();
-                List<SupplierBilling> supplierBillingList=this.supplierBillingMapper.queryBySupplierKey(supplierBillingCode);
+                String supplierBillingKey= item.getSupplierKey();
+                List<SupplierBilling> supplierBillingList=this.supplierBillingMapper.queryBySupplierKey(supplierBillingKey);
                 if(null!=supplierBillingList) {
                     item.setSupplierBillingList(supplierBillingList);
                 }
