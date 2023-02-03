@@ -146,7 +146,7 @@ export default {
   },
   methods: {
     getTableData(pageNo = 1, pageSize) {
-      this.query.pageNo = pageNo;
+      this.query.pageNo = pageNo||1;
       if (pageSize) {
         this.query.pageSize = pageSize;
       }
@@ -158,7 +158,7 @@ export default {
         size: this.query.pageSize,
       };
       shoplistPage(params).then((res) => {
-        if (res.data.code === 200) {
+        if (res.data.code == 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
           console.log(this.total, this.tableData);
@@ -236,7 +236,7 @@ export default {
     handleClose(done) {
       done();
     },
-    search(pageNo, pageSize) {
+    search(pageNo=1, pageSize) {
       this.query.pageNo = pageNo;
       if (pageSize) {
         this.query.pageSize = pageSize;
