@@ -106,7 +106,7 @@ export default {
     },
     search() {
       //联系人
-      contactListpage({ contactName: this.inputName, contactCustomerKey: this.inputCustomer,  page: this.pageNo, size: this.pageSize }).then(res => {
+      contactListpage({ contactName: this.inputName, contactCustomerKey: this.inputCustomer,  page: 1, size: this.pageSize }).then(res => {
         if (res.data.code === 200) {
           this.total = res.data.data.total
           this.allList = res.data.data.records

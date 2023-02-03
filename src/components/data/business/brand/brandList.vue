@@ -67,7 +67,7 @@ export default {
   methods: {
     search() {
       if (this.brandId || this.brandName) {
-        brandlistPage({ brandName: this.brandName, brandCode: this.brandId, page: this.pageNo, size: this.pageSize }).then((res) => {
+        brandlistPage({ brandName: this.brandName, brandCode: this.brandId, page: 1, size: this.pageSize }).then((res) => {
           this.brandList = res.data.data.records;
           this.total = res.data.data.total;
           console.log("brandList:", this.brandList);

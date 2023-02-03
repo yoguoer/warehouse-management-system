@@ -102,6 +102,7 @@ export default {
     search() {
       banklistPage({ supplierBillingKey:this.supplierBillingKey,accountName: this.accountName, bankName: this.accountNumber, page: 1, size: 20 }).then((res) => {
         this.bankList = res.data.data.records;
+        this.total=res.data.data.total
         console.log("bankList:", this.bankList);
       });
       this.$forceUpdate();

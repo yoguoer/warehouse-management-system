@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     search() {
-      vehiclelistPage({ page: this.pageNo, size: this.pageSize, vehicleType: this.inputvehicleType, vehicleCode: this.inputvehicleCode }).then(res => {
+      vehiclelistPage({ page: 1, size: this.pageSize, vehicleType: this.inputvehicleType, vehicleCode: this.inputvehicleCode }).then(res => {
         this.carList = res.data.data.records;
         this.total = res.data.data.total
         console.log("carList:", this.carList);

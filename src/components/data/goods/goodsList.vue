@@ -2,14 +2,14 @@
   <div>
     <div>
       <el-input placeholder="商品货号" v-model="goodsCode" type="text" clearable size="small"
-        style="width:300px;margin-right:20px">
+        style="width:200px;margin-right:20px">
         <template slot="prepend">商品货号</template>
       </el-input>
       <el-input placeholder="商品名" v-model="goodsName" type="text" clearable size="small"
-        style="width:300px;margin-right:20px">
+        style="width:200px;margin-right:20px">
         <template slot="prepend">商品名</template>
       </el-input>
-      <el-select size="middle" v-model="supplierKey" placeholder="所属供应商" style="width:200px;margin-right:20px"
+      <el-select size="middle" v-model="supplierKey" placeholder="所属供应商" style="width:300px;margin-right:20px"
         clearable>
         <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
           :value="item.supplierKey" placeholder="所属供应商">
@@ -19,7 +19,7 @@
         <el-option v-for="item in brandOptions" :key="item.brandKey" :label="item.brandName" :value="item.brandCode">
         </el-option>
       </el-select>
-      <el-select size="mini" v-model="state" placeholder="状态" style="width:200px;margin-right:20px;">
+      <el-select size="mini" v-model="state" placeholder="状态" style="width:80px;margin-right:20px;">
         <el-option label="上架" :value="1"></el-option>
         <el-option label="下架" :value="0"></el-option>
       </el-select>

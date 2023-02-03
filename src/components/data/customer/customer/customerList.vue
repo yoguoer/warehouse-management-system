@@ -116,7 +116,7 @@ export default {
       CustomerListpage({
         categoryKey: this.inputCategory,
         customerName: this.inputName,
-        page: this.pageNo,
+        page: 1,
         size: this.pageSize,
       }).then((res) => {
         if (res.data.code === 200) {
@@ -131,12 +131,12 @@ export default {
     },
     _pageSize(val) {
       this.pageSize = val
-      this.search()
+      this.getCustomer()
       this.$forceUpdate()
     },
     _page(val) {
       this.pageNo = val
-      this.search()
+      this.getCustomer()
       this.$forceUpdate()
     },
     deleteRow(row) {
