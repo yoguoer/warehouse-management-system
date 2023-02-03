@@ -18,7 +18,7 @@
             category_key, category_type, level, sort, create_time, parent_category_key, category_name
         from category
         where category_type = #{categoryType}
-        order by category_name
+        order by sort,category_name
     </select>
 
     <!--查询单个-->
