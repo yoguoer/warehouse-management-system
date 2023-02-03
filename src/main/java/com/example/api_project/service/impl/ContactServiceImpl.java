@@ -64,7 +64,7 @@ public class ContactServiceImpl implements ContactService {
         String contactSupplierKey=contact.getContactSupplierKey();
         List<Contact> records;
         long total;
-        if(null==contactSupplierKey||""==contactSupplierKey){
+        if(null!=contactCustomerKey){
             records = this.contactMapper.queryAllByCustomer(contactName,contactCustomerKey, startRows, pageSize);
             total = this.contactMapper.countByCustomer(contact);
         }else{
