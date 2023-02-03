@@ -164,7 +164,7 @@ export default {
         inventoryDistrictkey: this.inputDistrict,
         positionType: this.inputpositionType,
         inventoryKey: this.inputInventory,
-        page: this.pageNo,
+        page: 1,
         size: this.pageSize
       }).then((res) => {
         this.list = res.data.data.records;

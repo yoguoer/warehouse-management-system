@@ -141,7 +141,7 @@ export default {
       this.$router.push({ name: "area-detail", params: { inventoryDistrictkey: row.inventoryDistrictkey, rowData: this.rowData } })
     },
     search() {
-      districtlistPage({ districtCode: this.inputArea, districtName: this.inputName, inventoryKey: this.inputInventory, status: this.status, page: this.pageNo, size: this.pageSize }).then((res) => {
+      districtlistPage({ districtCode: this.inputArea, districtName: this.inputName, inventoryKey: this.inputInventory, status: this.status, page: 1, size: this.pageSize }).then((res) => {
         this.list = res.data.data.records;
         this.total = res.data.data.total
         // console.log("区域")

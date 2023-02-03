@@ -165,7 +165,7 @@ export default {
         inventoryType: this.inventoryType,
         categoryKey: this.inputCategory,
         status: this.status,
-        page: this.pageNo,
+        page: 1,
         size: this.pageSize,
       }).then((res) => {
         this.list = res.data.data.records;
