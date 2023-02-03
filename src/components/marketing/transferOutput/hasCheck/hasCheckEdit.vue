@@ -320,7 +320,10 @@ export default {
       this.ruleForm.checkTime = this.rowData.checkTime
       this.ruleForm.outputWarehouseKey = this.rowData.outputWarehouseKey
       this.ruleForm.returnNum = this.rowData.returnNum
-      this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
+      // this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
+      if(this.rowData.createTime){
+        this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
+      }
     } else {
       this.ifCreate = true
     }
