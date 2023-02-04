@@ -32,6 +32,8 @@ public interface InputWarehouseMapper {
      */
     List<InputWarehouse> queryAllByLimit(String shopCode,String goodsCode,String supplierCode,String inventoryCode,Integer status,Integer type,Integer isDeleted, Integer startRows, Integer pageSize);
 
+    List<InputWarehouse> queryAllInOrder(String shopCode,String goodsCode,String supplierCode,String inventoryCode,Integer status,Integer type,Integer isDeleted, Integer startRows, Integer pageSize);
+
     /**
      * 统计总行数
      *
@@ -39,6 +41,8 @@ public interface InputWarehouseMapper {
      * @return 总行数
      */
     long count(InputWarehouse inputWarehouse);
+
+    long countInOrder(InputWarehouse inputWarehouse);
 
     /**
      * 新增数据

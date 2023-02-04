@@ -52,8 +52,16 @@ public class InputWarehouseServiceImpl implements InputWarehouseService {
         Integer status=inputWarehouse.getStatus();
         Integer type=inputWarehouse.getType();
         Integer isDeleted=inputWarehouse.getIsDeleted();
-        List<InputWarehouse> records = this.inputWarehouseMapper.queryAllByLimit(shopCode,goodsCode,supplierCode,inventoryCode,status,type,isDeleted,startRows,  pageSize);
-        long total = this.inputWarehouseMapper.count(inputWarehouse);
+        List<InputWarehouse> records;
+        long total;
+        //查询在单和生产的
+        if(null!=status&&status==12){
+            records = this.inputWarehouseMapper.queryAllInOrder(shopCode,goodsCode,supplierCode,inventoryCode,status,type,isDeleted,startRows,  pageSize);
+            total = this.inputWarehouseMapper.countInOrder(inputWarehouse);
+        }else{
+            records = this.inputWarehouseMapper.queryAllByLimit(shopCode,goodsCode,supplierCode,inventoryCode,status,type,isDeleted,startRows,  pageSize);
+            total = this.inputWarehouseMapper.count(inputWarehouse);
+        }
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
         res.put("total",total);

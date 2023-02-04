@@ -77,6 +77,37 @@
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
+    <!--查询指定行数据-->
+    <select id="queryAllInOrder" resultMap="InputWarehouseMap">
+        select
+        input_warehouse_key, shop_code, shop_name, goods_code, goods_name, supplier_code,input_shop_code,input_shop_name, supplier_name, input_plan, input_price, input_actual, inventory_code, position_code, create_time, deadline_time, vehicle_code, status, type, shop_people_code, inventory_people_code, return_reason,is_deleted,return_num
+        from input_warehouse
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
+            </if>
+            <if test="inventoryCode != null and inventoryCode != ''">
+                and inventory_code = #{inventoryCode}
+            </if>
+
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="isDeleted != null">
+                and is_deleted = #{isDeleted}
+            </if>
+            and status &lt; 2
+        </where>
+        order by status, create_time
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
         select count(1)
@@ -103,6 +134,33 @@
             <if test="isDeleted != null">
                 and is_deleted = #{isDeleted}
             </if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="countInOrder" resultType="java.lang.Long">
+        select count(1)
+        from input_warehouse
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
+            </if>
+            <if test="inventoryCode != null and inventoryCode != ''">
+                and inventory_code = #{inventoryCode}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="isDeleted != null">
+                and is_deleted = #{isDeleted}
+            </if>
+            and status &lt; 2
         </where>
     </select>
 
