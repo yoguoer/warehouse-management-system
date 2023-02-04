@@ -57,6 +57,8 @@
             <if test="shopCode != null and shopCode != ''">
                 and shop.shop_code = #{shopCode}
             </if>
+--             仓库正常1
+            and inventory.status=1
         </where>
     </select>
 

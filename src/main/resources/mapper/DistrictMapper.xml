@@ -58,7 +58,7 @@
                 and status = #{status}
             </if>
             <if test="inventoryKey != null and inventoryKey != ''">
-                and inventory_key = #{inventoryKey}
+                and district.inventory_key = #{inventoryKey}
             </if>
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}

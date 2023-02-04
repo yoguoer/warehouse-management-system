@@ -19,16 +19,21 @@
 
     <!--查询所有-->
     <select id="getList" resultMap="PositionMap">
-        select inventory_district_key,
-               inventory_key,
+        select position.inventory_district_key,
+               position.inventory_key,
                position_code,
                position_type,
                maxWeight,
                max_capacity,
-               description,
+               position.description,
                position_key
         from position
-        where inventory_key=#{inventoryKey}
+            join inventory on inventory.inventory_key=position.inventory_key
+            join district on district.inventory_district_key=position.inventory_district_key
+        where position.inventory_key=#{inventoryKey}
+--          仓库状态正常1  区域状态启用2
+            and inventory.status = 1
+            and district.status = 2
         order by position_code
     </select>
 
@@ -75,10 +80,10 @@
         join district on district.inventory_district_key=position.inventory_district_key
         <where>
             <if test="inventoryDistrictkey != null and inventoryDistrictkey != ''">
-                and inventory_district_key = #{inventoryDistrictkey}
+                and position.inventory_district_key = #{inventoryDistrictkey}
             </if>
             <if test="inventoryKey != null and inventoryKey != ''">
-                and inventory_key = #{inventoryKey}
+                and position.inventory_key = #{inventoryKey}
             </if>
             <if test="positionCode != null and positionCode != ''">
                 and position_code like concat('%', #{positionCode}, '%')
@@ -86,7 +91,6 @@
             <if test="positionType != null and positionType != ''">
                 and position_type = #{positionType}
             </if>
-            and district.status = 2
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
@@ -107,18 +111,6 @@
             </if>
             <if test="positionType != null and positionType != ''">
                 and position_type = #{positionType,jdbcType=VARCHAR}
-            </if>
-            <if test="maxWeight != null and maxWeight != ''">
-                and maxWeight = #{maxWeight,jdbcType=VARCHAR}
-            </if>
-            <if test="maxCapacity != null and maxCapacity != ''">
-                and columax_capacity = #{maxCapacity,jdbcType=VARCHAR}
-            </if>
-            <if test="description != null and description != ''">
-                and description = #{description,jdbcType=VARCHAR}
-            </if>
-            <if test="positionKey != null and positionKey != ''">
-                and position_key = #{positionKey,jdbcType=VARCHAR}
             </if>
         </where>
     </select>
