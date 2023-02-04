@@ -10,6 +10,9 @@
         <template v-slot:column-address="props">
           <div>{{ props.row.province }}{{props.row.city}}{{props.row.district}}{{props.row.detail }}</div>
         </template>
+        <template v-slot:column-supplier="props">
+          <div>{{ props.row.supplierCode }}{{ props.row.supplierName }}</div>
+        </template>
 
         <template v-slot:column-todo="props">
           <el-button class="prohibitclick" @click="editRow(props.row)" type="text" size="small">编辑</el-button>
@@ -139,10 +142,10 @@ export default {
   computed: {
     tableColumn() {
       return [
-        { prop: "supplierAddressKey", label: "所属供应商", width: 250 },
+        // { prop: "supplierAddressKey", label: "所属供应商", width: 250 },
+        { slots: { name: "column-supplier" }, label: "所属供应商" },
         { prop: "addressType", label: "地址类型", width: 180 },
         { slots: { name: "column-address" }, label: "地址" },
-
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: '120px' },
       ];
     },

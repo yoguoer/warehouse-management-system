@@ -16,7 +16,7 @@
         @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="customerCode" sortable label="客户编号" :show-overflow-tooltip="true">
+        <el-table-column prop="customerCode" sortable label="客户编号" :show-overflow-tooltip="true" width="120px">
         </el-table-column>
         <el-table-column prop="customerName" label="客户名称" :show-overflow-tooltip="true">
         </el-table-column>

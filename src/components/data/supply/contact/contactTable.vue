@@ -22,19 +22,22 @@
         @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="contactSupplierKey" label="所属供应商">
+        <el-table-column label="所属供应商" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+           <span>{{ scope.row.supplierCode }}{{ scope.row.supplierName }}</span>
+          </template>
         </el-table-column>
-        <el-table-column prop="contactCode" sortable label="联系人编号">
+        <el-table-column prop="contactCode" sortable label="联系人编号" :show-overflow-tooltip="true" width="120px">
         </el-table-column>
-        <el-table-column prop="contactName" label="联系人名称">
+        <el-table-column prop="contactName" label="联系人名称" :show-overflow-tooltip="true" width="120px">
         </el-table-column>
-        <el-table-column prop="contactTel" label="联系电话">
+        <el-table-column prop="contactTel" label="联系电话" :show-overflow-tooltip="true" width="150px">
         </el-table-column>
-        <el-table-column prop="contactEmail" label="联系邮箱">
+        <el-table-column prop="contactEmail" label="联系邮箱" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column label="省" prop="province" width="120px"></el-table-column>
-        <el-table-column label="市" prop="city" width="120px"></el-table-column>
-        <el-table-column label="区" prop="district" width="120px"></el-table-column>
+        <el-table-column label="省" prop="province" width="100px" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="市" prop="city" width="100px" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="区" prop="district" width="100px" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column label="详细地址" prop="detail" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column width="200px" fixed="right" label="操作">
           <template slot-scope="scope">

@@ -20,7 +20,7 @@
         @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="supplierCode" sortable label="供应商编号">
+        <el-table-column prop="supplierCode" sortable label="供应商编号" width="120px">
         </el-table-column>
         <el-table-column prop="supplierName" label="供应商名称">
         </el-table-column>
