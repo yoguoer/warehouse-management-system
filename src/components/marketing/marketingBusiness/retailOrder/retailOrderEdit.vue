@@ -1,6 +1,7 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction" :close-on-click-modal="false" 
-    :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
+  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction"
+    :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" :wrapperClosable="false"
+    :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-row>
@@ -124,7 +125,7 @@ import { CustomerList, positionList, vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import moment from 'moment'
-import { detailWarehouseUpdate, detailWarehouseAdd,shopkeeperWarehouseByShopCode } from '@/api/warehouse'
+import { detailWarehouseUpdate, detailWarehouseAdd, shopkeeperWarehouseByShopCode } from '@/api/warehouse'
 import { ShopInventoryList } from "@/api/warehouse";
 
 export default {
@@ -260,17 +261,22 @@ export default {
         console.log(err)
       });
     },
+    unique(arr) {
+      const res = new Map();
+      return arr.filter((arr) => !res.has(arr.shopKey) && res.set(arr.shopKey, 1));
+    },
     getshoplist() {
       ShopInventoryList().then(res => {
         if (res.data.code == 200) {
-          this.shopOptions = res.data.data
+          // this.shopOptions = res.data.data
+          this.shopOptions = this.unique(res.data.data)
         } else {
           this.$message.error("获取失败!");
         }
       })
     },
     getgoodslist(item) {
-      shopkeeperWarehouseByShopCode({shopCode:item.shopCode,shopName:item.shopName}).then(res => {
+      shopkeeperWarehouseByShopCode({ shopCode: item.shopCode, shopName: item.shopName }).then(res => {
         if (res.data.code == 200) {
           this.goodsOptions = res.data.data
         } else {
@@ -298,7 +304,7 @@ export default {
       });
     },
     setShopName(item) {
-      this.goodsOptions=[]
+      this.goodsOptions = []
       this.getShopInventoryList()
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
       this.getgoodslist(item)
@@ -383,7 +389,7 @@ export default {
                 startNum: "",
                 finalNum: "",
                 atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-                status:this.rowData.status,
+                status: this.rowData.status,
                 detailWarehouseKey: "",
                 shopCode: this.ruleForm.shopCode,
                 goodsCode: this.ruleForm.goodsCode,
@@ -446,7 +452,7 @@ export default {
                 startNum: "",
                 finalNum: "",
                 atTime: moment().format("YYYY-MM-DD HH:mm:ss"),
-                status:this.rowData.status,
+                status: this.rowData.status,
                 detailWarehouseKey: "",
                 shopCode: this.ruleForm.shopCode,
                 goodsCode: this.ruleForm.goodsCode,

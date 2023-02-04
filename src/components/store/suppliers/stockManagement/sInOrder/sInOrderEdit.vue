@@ -262,6 +262,10 @@ export default {
         }
       });
     },
+    unique(arr) {
+      const res = new Map();
+      return arr.filter((arr) => !res.has(arr.shopKey) && res.set(arr.shopKey, 1));
+    },
     getShopInventoryList(item) {
       ShopInventoryList({ shopCode: item }).then(res => {
         if (res.data.code == 200) {

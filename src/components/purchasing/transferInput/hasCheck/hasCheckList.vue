@@ -177,11 +177,17 @@ export default {
         }
       });
     },
+    unique(arr) {
+      const res = new Map();
+      return arr.filter((arr) => !res.has(arr.shopKey) && res.set(arr.shopKey, 1));
+    },
     getshoplist() {
       ShopInventoryList().then(res => {
         if (res.data.code == 200) {
           this.shopOptions = []
-          res.data.data.forEach(item => {
+          // this.shopOptions = res.data.data
+          let temp = this.unique(res.data.data)
+          temp.forEach(item => {
             this.shopOptions.push({ label: item.shopName, value: item.shopCode })
           });
         } else {

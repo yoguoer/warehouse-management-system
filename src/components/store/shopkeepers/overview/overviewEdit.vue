@@ -9,7 +9,7 @@
           <el-form-item label="门店" prop="shopCode">
             <el-select size="middle" v-model="ruleForm.shopCode" placeholder="所属门店" style="width:100%;" clearable>
               <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName" :value="item.shopCode"
-                @click.native="getMyPosition(item)">
+                @click.native="getInventoryList(item)">
               </el-option>
             </el-select>
           </el-form-item>
@@ -26,6 +26,16 @@
       </el-row>
       <el-row>
         <el-col :span="10">
+          <el-form-item label="仓库" prop="inventoryCode">
+            <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
+              ref="inventorySelect">
+              <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
+                :label="item.inventoryName" :value="item.inventoryCode">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
           <el-form-item label="库位" prop="positionCode">
             <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable>
               <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
@@ -34,44 +44,46 @@
             </el-select>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="10">
           <el-form-item label="库存上限" prop="maxNum">
             <el-input v-model="ruleForm.maxNum" clearable placeholder="库存上限" type="Number" :min="0"
               @blur="onInputNumChange('maxNum')"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="10">
           <el-form-item label="库存下限" prop="minNum">
             <el-input v-model="ruleForm.minNum" clearable placeholder="库存下限" type="Number" :min="0"
               @blur="onInputNumChange('minNum')"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="10">
           <el-form-item label="现存量" prop="accountNum">
             <el-input v-model="ruleForm.accountNum" clearable placeholder="现存量" type="Number" :min="0"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="10">
           <el-form-item label="占用数" prop="occupyNum">
             <el-input v-model="ruleForm.occupyNum" clearable placeholder="占用数" type="Number" :min="0"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="10">
           <el-form-item label="在途数" prop="onwayNum">
             <el-input v-model="ruleForm.onwayNum" clearable placeholder="在途数" type="Number" :min="0"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="10">
           <el-form-item label="残品数" prop="rejectsNum">
             <el-input v-model="ruleForm.rejectsNum" clearable placeholder="残品数" type="Number" :min="0"></el-input>
           </el-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="10">
           <el-form-item label="备注" prop="description">
             <el-input v-model="ruleForm.description" clearable placeholder="备注" type="textarea"></el-input>
@@ -111,6 +123,7 @@ export default {
         countNum: "",
         rejectsNum: "",
         description: "",
+        inventoryCode:"",
         shopkeeperWarehouseKey: "",
         onwayNum: "",
         operateTime: ""
@@ -118,6 +131,7 @@ export default {
       shopOptions: [],
       goodsOptions: [],
       allGoods: [],
+      inventoryOptions:[],
       positionOptions: [],
       rules: {
         shopCode: [
@@ -202,17 +216,15 @@ export default {
         this.$message.warning('库存上限应不得小于库存下限')
       }
     },
+    unique(arr) {
+      const res = new Map();
+      return arr.filter((arr) => !res.has(arr.shopKey) && res.set(arr.shopKey, 1));
+    },
     getShopInventoryList() {
-      // shopkeeperWarehouseList().then(res => {
-      //   if (res.data.code == 200) {
-      //     this.shopOptions = res.data.data
-      //   } else {
-      //     this.$message.error(res.data.msg);
-      //   }
-      // });
       ShopInventoryList().then(res => {
         if (res.data.code == 200) {
-          this.shopOptions = res.data.data
+          // this.shopOptions = res.data.data
+          this.shopOptions = this.unique(res.data.data)
         } else {
           this.$message.error("获取失败!");
         }
@@ -222,7 +234,7 @@ export default {
       shopkeeperWarehouseByShopCode({ shopCode: item.shopCode, shopName: item.shopName }).then(res => {
         if (res.data.code == 200) {
           this.goodsOptions = []
-          if (res.data.data.length==0) {
+          if (res.data.data.length == 0) {
             this.goodsOptions = this.allGoods
           } else {
             this.allGoods.forEach(item => {
@@ -240,24 +252,55 @@ export default {
         }
       });
     },
-    getMyPosition(item) {
+    getInventoryList(item) {
       this.getgoodslist(item)
       getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
         if (res.data.code == 200) {
-          this.inventoryKey = res.data.data[0].inventoryKey
-          console.log(res.data.data.inventoryKey)
-          positionList({ inventoryKey: res.data.data[0].inventoryKey }).then(res => {
+          this.inventoryOptions = res.data.data
+          this.getpositionList()
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
+    getpositionList() {
+      this.inventoryOptions.forEach(item => {
+        if (item.inventoryCode == this.ruleForm.inventoryCode) {
+          positionList({ inventoryKey: item.inventoryKey }).then(res => {
             if (res.data.code == 200) {
               this.positionOptions = res.data.data
             } else {
               this.$message.error("获取失败!");
             }
           });
-        } else {
-          this.$message.error("获取失败!");
         }
-      });
+      })
     },
+    setPosition() {
+      let choosenItem = this.inventoryOptions.filter(item => {
+        return item.inventoryCode == this.ruleForm.inventoryCode
+      });
+      this.getpositionList(choosenItem[0].inventoryKey)
+    },
+    // 门店和仓库一对一的时候
+    // getMyPosition(item) {
+    //   this.getgoodslist(item)
+    //   getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
+    //     if (res.data.code == 200) {
+    //       // this.inventoryKey = res.data.data[0].inventoryKey
+    //       // console.log(res.data.data.inventoryKey)
+    //       positionList({ inventoryKey: res.data.data[0].inventoryKey }).then(res => {
+    //         if (res.data.code == 200) {
+    //           this.positionOptions = res.data.data
+    //         } else {
+    //           this.$message.error("获取失败!");
+    //         }
+    //       });
+    //     } else {
+    //       this.$message.error("获取失败!");
+    //     }
+    //   });
+    // },
     close() {
       this.$parent.drawer = false
     },

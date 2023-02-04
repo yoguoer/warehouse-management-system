@@ -4,6 +4,9 @@
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
+        <template v-slot:column-inv="props">
+          <span>{{  props.row.inventoryCode }}{{  props.row.inventoryName }}</span>
+        </template>
         <template v-slot:column-time="props">
           <span>{{ props.row.operateTime }}</span>
         </template>
@@ -57,10 +60,11 @@ export default {
         { prop: "shopName", label: "门店名称" },
         { prop: "goodsCode", label: "商品编码" },
         { prop: "goodsName", label: "商品名称" },
-        { prop: "priceLatestPurchase", label: "采购价" },
         { prop: "modelCode", label: "型号" },
-        { prop: "inventoryCode", label: "仓库编码" },
-        { prop: "positionCode", label: "货位编码" },
+        { prop: "priceLatestPurchase", label: "采购价" },
+        // { prop: "inventoryCode", label: "仓库编码" },
+        { slots: { name: "column-inv" }, label: "仓库"},
+        { prop: "positionCode", label: "货位" },
         { prop: "maxNum", label: "库存上限" },
         { prop: "minNum", label: "库存下限" },
         { prop: "accountNum", label: "现存量" },

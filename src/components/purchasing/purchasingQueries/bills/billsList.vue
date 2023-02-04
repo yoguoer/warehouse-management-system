@@ -212,12 +212,18 @@ export default {
         }
       });
     },
+    unique(arr) {
+      const res = new Map();
+      return arr.filter((arr) => !res.has(arr.shopKey) && res.set(arr.shopKey, 1));
+    },
     getinventorylist() {
       ShopInventoryList().then(res => {
         if (res.data.code == 200) {
           this.inventoryOptions = []
-          res.data.data.forEach(item => {
-            this.inventoryOptions.push({ label: item.inventoryName, value: item.inventoryCode })
+          // this.shopOptions = res.data.data
+          let temp = this.unique(res.data.data)
+          temp.forEach(item => {
+            this.shopOptions.push({ label: item.shopName, value: item.shopCode })
           });
         } else {
           this.$message.error("获取失败!");

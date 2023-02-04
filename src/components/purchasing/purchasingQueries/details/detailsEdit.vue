@@ -353,10 +353,15 @@ export default {
         }
       });
     },
+    unique(arr) {
+      const res = new Map();
+      return arr.filter((arr) => !res.has(arr.shopKey) && res.set(arr.shopKey, 1));
+    },
     getShopInventoryList(item) {
       ShopInventoryList({ shopCode: item }).then(res => {
         if (res.data.code == 200) {
-          this.inventoryOptions = res.data.data
+          // this.shopOptions = res.data.data
+          this.shopOptions = this.unique(res.data.data)
         } else {
           this.$message.error("获取失败!");
         }
