@@ -374,7 +374,7 @@ export default {
         if (res.data.code == 200) {
           // this.shopOptions = res.data.data
           this.shopOptions = this.unique(res.data.data)
-          this.inputShopOptions = res.data.data
+          this.inputShopOptions = this.unique(res.data.data)
         } else {
           this.$message.error("获取失败!");
         }

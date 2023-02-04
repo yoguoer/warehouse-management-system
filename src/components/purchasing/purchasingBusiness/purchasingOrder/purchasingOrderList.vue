@@ -68,10 +68,7 @@ export default {
       statusOptions: [
         { label: "在单", value: 0 },
         { label: "生产", value: 1 },
-        { label: "在途", value: 2 },
-        { label: "入库", value: 3 },
-        { label: "占用", value: 4 },
-        { label: "出库", value: 5 }],
+        { label: "在途", value: 2 }],
       //   typeOptions:[
       //     {label:"采购入库",value:0},
       //     {label:"调货入库",value:1}]
@@ -262,7 +259,7 @@ export default {
         type: 0
       }).then((res) => {
         if (res.data.code === 200) {
-          // this.total = res.data.data.total;
+          this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
@@ -270,8 +267,6 @@ export default {
               this.tableData.push(item)
             }
           })
-          this.total=this.tableData.length
-          // console.log(this.total, this.tableData);
         } else {
           console.log("error");
         }

@@ -166,22 +166,10 @@
                         "componentName": "purchasingStrategy",
                         "children": [
                             {
-                                "name": "库存预警补货",
-                                "icon": "",
-                                "level": 3,
-                                "componentName": "warning"
-                            },
-                            {
                                 "name": "缺货补货",
                                 "icon": "",
                                 "level": 3,
                                 "componentName": "lack"
-                            },
-                            {
-                                "name": "智能补货",
-                                "icon": "",
-                                "level": 3,
-                                "componentName": "smart"
                             }
                         ]
                     },
