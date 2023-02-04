@@ -11,6 +11,10 @@
         <result property="maxCapacity" column="max_capacity" jdbcType="INTEGER"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="positionKey" column="position_key" jdbcType="VARCHAR"/>
+        <result property="inventoryName" column="inventory_name" jdbcType="VARCHAR"/>
+        <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
+        <result property="districtCode" column="district_code" jdbcType="VARCHAR"/>
+        <result property="districtName" column="district_name" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询所有-->
@@ -30,15 +34,19 @@
 
     <!--查询所有-->
     <select id="getListPage" resultMap="PositionMap">
-        select inventory_district_key,
-               inventory_key,
+        select position.inventory_district_key,
+               inventory_name,inventory_code,
+               district_code,district_name,
+               position.inventory_key,
                position_code,
                position_type,
                maxWeight,
                max_capacity,
-               description,
+               position.description,
                position_key
         from position
+        join inventory on inventory.inventory_key=position.inventory_key
+        join district on district.inventory_district_key=position.inventory_district_key
         order by position_key desc
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
@@ -60,9 +68,11 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="PositionMap">
         select
-        inventory_district_key, inventory_key, position_code, position_type, maxWeight, max_capacity, description,
+            position.inventory_district_key,inventory_name,inventory_code,district_code,district_name, position.inventory_key, position_code, position_type, maxWeight, max_capacity, position.description,
         position_key
         from position
+        join inventory on inventory.inventory_key=position.inventory_key
+        join district on district.inventory_district_key=position.inventory_district_key
         <where>
             <if test="inventoryDistrictkey != null and inventoryDistrictkey != ''">
                 and inventory_district_key = #{inventoryDistrictkey}

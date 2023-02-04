@@ -10,6 +10,8 @@
         <result property="inventoryKey" column="inventory_key" jdbcType="VARCHAR"/>
         <result property="sort" column="sort" jdbcType="INTEGER"/>
         <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="inventoryName" column="inventory_name" jdbcType="VARCHAR"/>
+        <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
@@ -32,8 +34,9 @@
     <!--分页查询所有-->
     <select id="getListPage" resultMap="DistrictMap">
         select
-            description, district_code,district_name, inventory_district_key, inventory_key, sort,status
+            district.description,inventory_name,inventory_code, district_code,district_name, inventory_district_key, district.inventory_key, sort,district.status
         from district
+        join inventory on inventory.inventory_key=district.inventory_key
         order by inventory_district_key desc
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
@@ -41,8 +44,9 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="DistrictMap">
         select
-          description, district_code,district_name, inventory_district_key, inventory_key, sort,status
+            district.description,inventory_name,inventory_code, district_code,district_name, inventory_district_key, district.inventory_key, sort,district.status
         from district
+        join inventory on inventory.inventory_key=district.inventory_key
         <where>
             <if test="districtCode != null and districtCode != ''">
                 and district_code like concat('%', #{districtCode}, '%')

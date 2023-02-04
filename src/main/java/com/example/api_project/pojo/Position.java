@@ -9,6 +9,42 @@ public class Position {
     private Integer maxCapacity; //最大容量(m3)
     private String description; //备注
     private String positionKey;
+    private String districtCode;//区域号
+    private String districtName;//区域名称
+    private String inventoryCode; //仓库编号
+    private String inventoryName; //仓库名
+
+    public String getDistrictCode() {
+        return districtCode;
+    }
+
+    public void setDistrictCode(String districtCode) {
+        this.districtCode = districtCode;
+    }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName;
+    }
+
+    public String getInventoryCode() {
+        return inventoryCode;
+    }
+
+    public void setInventoryCode(String inventoryCode) {
+        this.inventoryCode = inventoryCode;
+    }
+
+    public String getInventoryName() {
+        return inventoryName;
+    }
+
+    public void setInventoryName(String inventoryName) {
+        this.inventoryName = inventoryName;
+    }
 
     public String getInventoryDistrictkey() {
         return inventoryDistrictkey;
