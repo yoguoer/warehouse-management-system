@@ -82,9 +82,9 @@ export default {
         // { slots: { name: "column-type" }, label: "类型" },
         // { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
+        { prop: "vehicleCode", label: "车辆编码" },
         { prop: "returnNum", label: "退货数" },
         { prop: "returnReason", label: "退货原因" },
-        { prop: "vehicleCode", label: "车辆编码" },
         { slots: { name: "column-status" }, label: "状态" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
@@ -221,7 +221,7 @@ export default {
         goodsCode: "",
         supplierCode: "",
         inventoryCode: "",
-        status: "",
+        status: 3,
         isDeleted: 0,
         type: ""
       };
@@ -256,7 +256,7 @@ export default {
         goodsCode: searchData.goodsCode,
         supplierCode: searchData.supplierCode,
         inventoryCode: "",
-        status: "",
+        status: 3,
         isDeleted: 0,
         type: ""
       }).then((res) => {

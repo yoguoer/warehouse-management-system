@@ -214,9 +214,9 @@ export default {
         goodsCode: "",
         supplierCode: "",
         inventoryCode: "",
-        status: "",
+        status: 12,
         isDeleted: 0,
-        type: ""
+        type: 0
       };
       inputWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
@@ -249,9 +249,9 @@ export default {
         goodsCode: searchData.goodsCode,
         supplierCode: searchData.supplierCode,
         inventoryCode: "",
-        status: searchData.status,
+        status: searchData.status||12,
         isDeleted: 0,
-        type: ""
+        type: 0
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;

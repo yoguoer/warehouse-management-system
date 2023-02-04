@@ -67,8 +67,7 @@ export default {
       supplierOptions: [],
       statusOptions: [
         { label: "在单", value: 0 },
-        { label: "生产", value: 1 },
-        { label: "在途", value: 2 }],
+        { label: "生产", value: 1 }],
       //   typeOptions:[
       //     {label:"采购入库",value:0},
       //     {label:"调货入库",value:1}]
@@ -218,7 +217,7 @@ export default {
         goodsCode: "",
         supplierCode: "",
         inventoryCode: "",
-        status: "",
+        status: 12,
         isDeleted: 0,
         type: 0
       };
@@ -254,7 +253,7 @@ export default {
         goodsCode: searchData.goodsCode,
         supplierCode: searchData.supplierCode,
         inventoryCode: "",
-        status: searchData.status,
+        status: searchData.status||12,
         isDeleted: 0,
         type: 0
       }).then((res) => {
