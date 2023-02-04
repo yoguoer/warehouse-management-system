@@ -403,10 +403,6 @@ export default {
                 this.$parent.success()
                 this.$parent.drawer=false
                 this.$forceUpdate()
-
-
-
-
               } else {
                 this.$message.success("新增成功!");
                 this.$parent.success()

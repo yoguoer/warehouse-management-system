@@ -5,7 +5,12 @@
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-inv="props">
-          <span>{{  props.row.inventoryCode }}{{  props.row.inventoryName }}</span>
+          <span v-if="props.row.positionCode=='00000000000000000'">-</span>
+          <span v-else>{{  props.row.inventoryCode }}{{  props.row.inventoryName }}</span>
+        </template>
+        <template v-slot:column-pop="props">
+          <span v-if="props.row.positionCode=='00000000000000000'">-</span>
+          <span v-else>{{  props.row.positionCode }}</span>
         </template>
         <template v-slot:column-time="props">
           <span>{{ props.row.operateTime }}</span>
@@ -64,7 +69,8 @@ export default {
         { prop: "priceLatestPurchase", label: "采购价" },
         // { prop: "inventoryCode", label: "仓库编码" },
         { slots: { name: "column-inv" }, label: "仓库"},
-        { prop: "positionCode", label: "货位" },
+        { slots: { name: "column-pop" }, label: "货位"},
+        // { prop: "positionCode", label: "货位" },
         { prop: "maxNum", label: "库存上限" },
         { prop: "minNum", label: "库存下限" },
         { prop: "accountNum", label: "现存量" },
