@@ -76,6 +76,26 @@
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
+    <!--查询指定行数据In-->
+    <select id="queryAllByLimitInOrder" resultMap="TransferCheckMap">
+        select
+        <include refid="Base_Column_input" />
+        from transfer_check join input_warehouse on input_warehouse.input_warehouse_key=transfer_check.input_warehouse_key
+        <where>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                and transfer_check.input_shop_code = #{inputShopCode}
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                and transfer_check.output_shop_code = #{outputShopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+                and check_status != 1
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
     <!--统计总行数In-->
     <select id="countIn" resultType="java.lang.Long">
         select count(*)
@@ -93,6 +113,24 @@
             <if test="checkStatus != null and checkStatus != ''">
                 and check_status = #{checkStatus}
             </if>
+        </where>
+    </select>
+
+    <!--统计总行数In-->
+    <select id="countInOrder" resultType="java.lang.Long">
+        select count(*)
+        from transfer_check join input_warehouse on input_warehouse.input_warehouse_key=transfer_check.input_warehouse_key
+        <where>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                and transfer_check.input_shop_code = #{inputShopCode}
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                and transfer_check.output_shop_code = #{outputShopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+                and check_status != 1
         </where>
     </select>
 
@@ -118,6 +156,26 @@
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
+    <!--查询指定行数据Out-->
+    <select id="queryAllByLimitOutOrder" resultMap="TransferCheckMap">
+        select
+        <include refid="Base_Column_output" />
+        from transfer_check  join output_warehouse on output_warehouse.output_warehouse_key=transfer_check.output_warehouse_key
+        <where>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                and transfer_check.input_shop_code = #{inputShopCode}
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                and transfer_check.output_shop_code = #{outputShopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+                and check_status != 1
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
     <!--统计总行数Out-->
     <select id="countOut" resultType="java.lang.Long">
         select count(*)
@@ -135,6 +193,24 @@
             <if test="checkStatus != null and checkStatus != ''">
                 and check_status = #{checkStatus}
             </if>
+        </where>
+    </select>
+
+    <!--统计总行数Out-->
+    <select id="countOutOrder" resultType="java.lang.Long">
+        select count(*)
+        from transfer_check  join output_warehouse on output_warehouse.output_warehouse_key=transfer_check.output_warehouse_key
+        <where>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                and transfer_check.input_shop_code = #{inputShopCode}
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                and transfer_check.output_shop_code = #{outputShopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+                and check_status != 1
         </where>
     </select>
 

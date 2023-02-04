@@ -47,11 +47,23 @@ public class TransferCheckServiceImpl implements TransferCheckService {
         Integer checkType=transferCheck.getCheckType();
         Integer checkStatus=transferCheck.getCheckStatus();
         if(checkType==0){
-            total = this.transferCheckMapper.countIn(transferCheck);
-            records = transferCheckMapper.queryAllByLimitIn(checkStatus,goodsCode,inputShopCode,outputShopCode,startRows, pageSize);
+            if(null!=checkStatus&&checkStatus==13){
+                //查询未审批和驳回的
+                records = this.transferCheckMapper.queryAllByLimitInOrder(checkStatus,goodsCode,inputShopCode,outputShopCode,startRows, pageSize);
+                total = this.transferCheckMapper.countInOrder(transferCheck);
+            }else{
+                total = this.transferCheckMapper.countIn(transferCheck);
+                records = transferCheckMapper.queryAllByLimitIn(checkStatus,goodsCode,inputShopCode,outputShopCode,startRows, pageSize);
+            }
         }else{
-            total = this.transferCheckMapper.countOut(transferCheck);
-            records = transferCheckMapper.queryAllByLimitOut(checkStatus,goodsCode,inputShopCode,outputShopCode,startRows, pageSize);
+            if(null!=checkStatus&&checkStatus==13){
+                //查询未审批和驳回的
+                records = this.transferCheckMapper.queryAllByLimitOutOrder(checkStatus,goodsCode,inputShopCode,outputShopCode,startRows, pageSize);
+                total = this.transferCheckMapper.countOutOrder(transferCheck);
+            }else{
+                total = this.transferCheckMapper.countOut(transferCheck);
+                records = transferCheckMapper.queryAllByLimitOut(checkStatus,goodsCode,inputShopCode,outputShopCode,startRows, pageSize);
+            }
         }
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
