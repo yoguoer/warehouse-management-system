@@ -86,6 +86,7 @@
             <if test="positionType != null and positionType != ''">
                 and position_type = #{positionType}
             </if>
+            and district.status = 2
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
