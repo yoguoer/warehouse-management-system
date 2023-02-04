@@ -212,19 +212,12 @@ export default {
         goodsCode: "",
         outputShopCode: "",
         checkType: 0,
-        checkStatus: "",
+        checkStatus: 13,
       };
       transferCheckListPage(params).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
-          // this.tableData = res.data.data.records;
-          this.tableData = []
-          res.data.data.records.forEach(item => {
-            if (item.checkStatus == 0 || item.checkStatus == 2) {
-              this.tableData.push(item)
-            }
-          })
-          // console.log(this.total, this.tableData);
+          this.tableData = res.data.data.records;
         } else {
           console.log("error");
         }
@@ -246,7 +239,7 @@ export default {
         goodsCode: searchData.goodsCode,
         outputShopCode: searchData.outputShopCode,
         checkType: 0,
-        checkStatus: searchData.checkStatus,
+        checkStatus: searchData.checkStatus||13,
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
