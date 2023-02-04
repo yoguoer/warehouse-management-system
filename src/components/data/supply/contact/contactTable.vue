@@ -81,6 +81,9 @@ export default {
   created() {
     this.getContact()
     this.getSupplierlist()
+    if (this.$route.params.supplierKey) {
+      this.supplierKey=this.$route.params.supplierKey
+    }
   },
   methods: {
     getSupplierlist() {

@@ -91,6 +91,9 @@ export default {
       }
     }
     this.getBanklistPage()
+    if (this.$route.params.supplierKey) {
+      this.supplierBillingKey=this.$route.params.supplierKey
+    }
   },
   methods: {
     getSupplierlist() {

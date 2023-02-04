@@ -37,12 +37,12 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="所属仓库" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-           <span>{{ scope.row.inventoryCode }}{{ scope.row.inventoryName }}</span>
+            <span>{{ scope.row.inventoryCode }}{{ scope.row.inventoryName }}</span>
           </template>
         </el-table-column>
         <el-table-column label="所属区域" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-           <span>{{ scope.row.districtCode }}{{ scope.row.districtName }}</span>
+            <span>{{ scope.row.districtCode }}{{ scope.row.districtName }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="positionCode" label="货位编号" width="120px">
@@ -118,10 +118,18 @@ export default {
     // leftCard
   },
   created() {
+    // console.log(this.$route.params.rowData)
     if (this.$route.params.inventoryKey) {
-      this.query.inventoryKey = this.$route.params.inventoryKey
+      this.query.inventoryKey = this.$route.params.inventoryKey || ""
+      this.inputInventory = this.$route.params.inventoryKey || ""
+      this.getdistrictlist()
     } if (this.$route.params.rowData) {
       this.query.inventoryDistrictkey = this.$route.params.rowData.inventoryDistrictkey || ""
+      if (this.$route.params.rowData.inventoryKey) {
+        this.inputInventory = this.$route.params.rowData.inventoryKey || ""
+        this.getdistrictlist()
+      }
+      this.inputDistrict = this.$route.params.rowData.inventoryDistrictkey || ""
     }
     this.getinventorylist()
     this.getPositionlistPage();

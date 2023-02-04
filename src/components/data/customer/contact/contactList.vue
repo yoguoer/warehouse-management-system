@@ -80,6 +80,9 @@ export default {
   created() {
     this.getContact()
     this.getCustomer()
+    if (this.$route.params.customerKey) {
+      this.inputCustomer=this.$route.params.customerKey
+    }
   },
   methods: {
     getCustomer() {

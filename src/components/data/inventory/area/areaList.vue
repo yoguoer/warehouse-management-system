@@ -113,6 +113,7 @@ export default {
   created() {
     this.getinventorylist()
     this.getDistrictlistPage()
+    this.inputInventory=this.$route.params.inventoryKey||""
   },
   methods: {
     getinventorylist() {
