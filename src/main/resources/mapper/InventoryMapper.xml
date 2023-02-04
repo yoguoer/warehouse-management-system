@@ -43,6 +43,7 @@
                status,
                belong_key
         from inventory
+        where inventory_key != '00000000000000000'
         order by inventory_name
     </select>
 
@@ -64,6 +65,7 @@
                belong_key
         from inventory
         where  category_key = #{categoryKey}
+        and inventory_key != '00000000000000000'
         order by inventory_name
     </select>
 
@@ -85,6 +87,7 @@
                status,
                belong_key
         from inventory
+        where inventory_key != '00000000000000000'
         order by inventory_name
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
@@ -141,6 +144,7 @@
             <if test="belongKey != null and belongKey != ''">
                 and belong_key = #{belongKey}
             </if>
+            and inventory_key != '00000000000000000'
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
@@ -195,6 +199,7 @@
             <if test="belongKey != null and belongKey != ''">
                 and belong_key = #{belongKey}
             </if>
+            and inventory_key != '00000000000000000'
         </where>
     </select>
 

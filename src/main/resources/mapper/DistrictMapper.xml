@@ -28,6 +28,7 @@
             description, district_code,district_name, inventory_district_key, inventory_key, sort,status
         from district
         where inventory_key = #{inventoryKey}
+          and district.inventory_key != '00000000000000000'
         order by district_name
     </select>
 
@@ -60,6 +61,7 @@
             <if test="inventoryKey != null and inventoryKey != ''">
                 and district.inventory_key = #{inventoryKey}
             </if>
+            and district.inventory_key != '00000000000000000'
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
@@ -81,6 +83,7 @@
             <if test="inventoryKey != null and inventoryKey != ''">
                 and inventory_key = #{inventoryKey}
             </if>
+            and district.inventory_key != '00000000000000000'
         </where>
     </select>
 

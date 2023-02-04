@@ -33,6 +33,7 @@
         where position.inventory_key=#{inventoryKey}
             and inventory.status = 1
             and district.status = 2
+            and position.inventory_key != '00000000000000000'
         order by position_code
     </select>
 
@@ -90,6 +91,7 @@
             <if test="positionType != null and positionType != ''">
                 and position_type = #{positionType}
             </if>
+            and position.inventory_key != '00000000000000000'
         </where>
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
@@ -111,6 +113,7 @@
             <if test="positionType != null and positionType != ''">
                 and position_type = #{positionType,jdbcType=VARCHAR}
             </if>
+            and position.inventory_key != '00000000000000000'
         </where>
     </select>
 
