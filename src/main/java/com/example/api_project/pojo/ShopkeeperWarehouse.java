@@ -68,6 +68,15 @@ public class ShopkeeperWarehouse implements Serializable {
     private Float priceRetail;//零售价
     private Float priceWholesaler;//批发价
     private Float priceLatestPurchase;//最近进价
+    private String inventoryName; //仓库名
+
+    public String getInventoryName() {
+        return inventoryName;
+    }
+
+    public void setInventoryName(String inventoryName) {
+        this.inventoryName = inventoryName;
+    }
 
     public Float getPriceRetail() {
         return priceRetail;
