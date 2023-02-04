@@ -15,7 +15,7 @@
           <span v-if="props.row.returnSum&&props.row.inStoreSum">{{((props.row.returnSum/props.row.inStoreSum)*100).toFixed(2)}}%</span>
         </template>
         <!-- <template v-slot:column-todo="props">
-          <el-button type="text" style="visibility:hidden"></el-button>
+          <el-button type="text" style="visibility:hidden">空</el-button>
           <el-button v-if="props.row.checkStatus != 1" @click="editRow(props.row)" type="text" icon="el-icon-s-check">审批</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>

@@ -19,12 +19,12 @@
           <span v-if="props.row.deadlineTime">{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button type="text" style="visibility:hidden"></el-button>
+          <el-button type="text" style="visibility:hidden">空</el-button>
           <!-- <el-button v-if="props.row.returnReason" @click="editRow(props.row)" type="text"
             icon="el-icon-s-check">审批</el-button> -->
-          <el-button v-if="props.row.status < 2 && props.row.type == 0" @click="editRow1(props.row)" type="text"
+          <el-button v-if="props.row.status < 1" @click="editRow1(props.row)" type="text"
             icon="el-icon-s-ticket">接收订单</el-button>
-          <el-button v-if="props.row.status < 2 && props.row.type == 0" @click="editRow1(props.row)" type="text"
+          <el-button v-if="props.row.status < 2" @click="editRow1(props.row)" type="text"
             icon="el-icon-s-promotion">发出货物</el-button>
         </template>
       </TableList>

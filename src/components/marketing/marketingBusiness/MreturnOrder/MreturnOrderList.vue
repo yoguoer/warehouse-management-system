@@ -23,7 +23,7 @@
           <span v-if="props.row.checkTime">{{ props.row.checkTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button type="text" style="visibility:hidden"></el-button>
+          <el-button type="text" style="visibility:hidden">空</el-button>
           <el-button v-if="props.row.checkStatus!=1" @click="editRow(props.row)" type="text" icon="el-icon-s-check">审批</el-button>
           <el-button v-if="props.row.checkStatus==1" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>

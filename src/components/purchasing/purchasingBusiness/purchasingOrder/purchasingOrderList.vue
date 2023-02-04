@@ -25,6 +25,7 @@
           <span v-if="props.row.deadlineTime">{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
+          <el-button type="text" style="visibility:hidden">空</el-button>
           <el-button v-if="props.row.status==0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button v-if="props.row.status==0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
@@ -85,20 +86,20 @@ export default {
         { prop: "goodsName", label: "商品名称" },
         { prop: "supplierCode", label: "供应商编码" },
         { prop: "supplierName", label: "供应商名称" },
-        { prop: "inputPlan", label: "计划数" },
-        { prop: "inputPrice", label: "入库价格" },
+        { prop: "inputPlan", label: "计划数",width:100 },
+        { prop: "inputPrice", label: "入库价格",width:100 },
         // { prop: "inputActual", label: "实际数" },
         // { prop: "inventoryCode", label: "仓库编码" },
         // { prop: "positionCode", label: "货位编码" },
         // { prop: "vehicleCode", label: "车辆编码" },
-        { slots: { name: "column-status" }, label: "状态" },
+        { slots: { name: "column-status" }, label: "状态",width:100 },
         { slots: { name: "column-type" }, label: "入库类型" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
         // { prop: "returnReason", label: "退货原因" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 200 },
       ];
     },
     searchConfig() {

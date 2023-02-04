@@ -28,7 +28,7 @@
           <span>{{ props.row.isDeleted == '0' ? '否' : (props.row.isDeleted == '1' ? '是' : '-') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button type="text" style="visibility:hidden"></el-button>
+          <el-button type="text" style="visibility:hidden">空</el-button>
           <el-button v-show="!props.row.returnNum&&props.row.status==3&&props.row.type!=1" @click="editRow1(props.row)" type="text"
             icon="el-icon-truck">退货</el-button>
           <el-button v-if="userType==0" @click="editRow(props.row)" type="text"

@@ -421,6 +421,7 @@ export default {
                 detailWarehouseKey: "",
                 shopCode: this.ruleForm.shopCode,
                 goodsCode: this.ruleForm.goodsCode,
+                positionCode: this.ruleForm.positionCode,
               }
               detailWarehouseAdd(data).then(res => {
                 if (res.data.code == 200) {
@@ -489,6 +490,7 @@ export default {
                 detailWarehouseKey: "",
                 shopCode: this.ruleForm.shopCode,
                 goodsCode: this.ruleForm.goodsCode,
+                positionCode: this.ruleForm.positionCode,
               }
               detailWarehouseAdd(data).then(res => {
                 if (res.data.code == 200) {
