@@ -38,7 +38,7 @@
         <el-col :span="10">
           <el-form-item label="库位" prop="positionCode">
             <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable>
-              <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
+              <el-option v-for="item in positionOptions" :key="item.positionKey" :label="item.positionCode"
                 :value="item.positionCode" clearable placeholder="库位">
               </el-option>
             </el-select>
@@ -152,9 +152,9 @@ export default {
         accountNum: [
           { required: true, message: '请设置现存量', trigger: 'blur' },
         ],
-        // occupyNum: [
-        //   { required: true, message: '请设置占用数', trigger: 'blur' },
-        // ],
+        inventoryCode: [
+          { required: true, message: '请选择仓库', trigger: 'blur' },
+        ],
       }
     }
   },
@@ -168,8 +168,8 @@ export default {
 
   },
   created() {
-    this.getShopInventoryList()
-    this.getAllgoods()
+    this.getShopList()
+    this.getgoodsList()
     if (this.rowData.shopkeeperWarehouseKey) {
       this.ruleForm.shopCode = this.rowData.shopCode
       this.ruleForm.goodsCode = this.rowData.goodsCode
@@ -182,24 +182,25 @@ export default {
       this.ruleForm.countNum = this.rowData.countNum
       this.ruleForm.rejectsNum = this.rowData.rejectsNum
       this.ruleForm.description = this.rowData.description
+      this.ruleForm.inventoryCode = this.rowData.inventoryCode
       this.ruleForm.shopkeeperWarehouseKey = this.rowData.shopkeeperWarehouseKey
       this.ruleForm.onwayNum = this.rowData.onwayNum || 0
-      this.getMyPosition(this.rowData)
     } else {
       this.ifCreate = true
     }
-  },
-  mounted() {
     if (this.rowData.shopCode) {
-      console.log(this.rowData)
-      this.getgoodslist(this.rowData)
+      this.getInventoryList(this.rowData)
+    }if(this.rowData.inventoryCode){
+      this.getpositionList()
     }
   },
+  mounted() {
+  },
   methods: {
-    getAllgoods() {
+    getgoodsList() {
       goodslist().then(res => {
         if (res.data.code == 200) {
-          this.allGoods = res.data.data
+          this.goodsOptions = res.data.data
           // console.log(this.allGoods,"allGoods")
         } else {
           this.$message.error("获取失败!");
@@ -220,7 +221,7 @@ export default {
       const res = new Map();
       return arr.filter((arr) => !res.has(arr.shopKey) && res.set(arr.shopKey, 1));
     },
-    getShopInventoryList() {
+    getShopList() {
       ShopInventoryList().then(res => {
         if (res.data.code == 200) {
           // this.shopOptions = res.data.data
@@ -230,31 +231,28 @@ export default {
         }
       })
     },
-    getgoodslist(item) {
-      shopkeeperWarehouseByShopCode({ shopCode: item.shopCode, shopName: item.shopName }).then(res => {
-        if (res.data.code == 200) {
-          this.goodsOptions = []
-          if (res.data.data.length == 0) {
-            this.goodsOptions = this.allGoods
-          } else {
-            this.allGoods.forEach(item => {
-              res.data.data.forEach(goods => {
-                if (item.goodsCode != goods.goodsCode) {
-                  this.goodsOptions.push(item)
-                }
-              })
-            })
-          }
-          // console.log("goodsOptions",this.goodsOptions)
-          // this.goodsOptions = res.data.data
-        } else {
-          this.$message.error("获取失败!");
-        }
-      });
-    },
-    getInventoryList(item) {
-      this.getgoodslist(item)
-      getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
+    // getgoodslist(item) {
+    //   shopkeeperWarehouseByShopCode({ shopCode: item.shopCode, shopName: item.shopName }).then(res => {
+    //     if (res.data.code == 200) {
+    //       this.goodsOptions = []
+    //       if (res.data.data.length == 0) {
+    //         this.goodsOptions = this.allGoods
+    //       } else {
+    //         this.allGoods.forEach(item => {
+    //           res.data.data.forEach(goods => {
+    //             if (item.goodsCode != goods.goodsCode) {
+    //               this.goodsOptions.push(item)
+    //             }
+    //           })
+    //         })
+    //       }
+    //     } else {
+    //       this.$message.error("获取失败!");
+    //     }
+    //   });
+    // },
+    async getInventoryList(item) {
+      getByshopCode({ shopCode: item.shopCode }).then(res => {
         if (res.data.code == 200) {
           this.inventoryOptions = res.data.data
           this.getpositionList()
