@@ -86,6 +86,7 @@
     <select id="count" resultType="java.lang.Long">
         select count(1)
         from supplier_billing
+        join supplier on supplier.supplier_key=supplier_billing.supplier_billing_key
         <where>
             <if test="supplierBillingKey != null and supplierBillingKey != ''">
                 and supplier_billing_key = #{supplierBillingKey}

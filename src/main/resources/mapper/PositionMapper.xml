@@ -17,7 +17,7 @@
         <result property="districtName" column="district_name" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <!--查询所有-->
+    <!--查询所有 仓库状态正常1  区域状态启用2-->
     <select id="getList" resultMap="PositionMap">
         select position.inventory_district_key,
                position.inventory_key,
@@ -31,7 +31,6 @@
             join inventory on inventory.inventory_key=position.inventory_key
             join district on district.inventory_district_key=position.inventory_district_key
         where position.inventory_key=#{inventoryKey}
---          仓库状态正常1  区域状态启用2
             and inventory.status = 1
             and district.status = 2
         order by position_code

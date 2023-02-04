@@ -61,6 +61,7 @@
     <select id="count" resultType="java.lang.Long">
         select count(1)
         from supplier_address
+        join supplier on supplier.supplier_key=supplier_address.supplier_address_key
         <where>
             <if test="supplierAddressKey != null and supplierAddressKey != ''">
                 and supplier_address_key = #{supplierAddressKey}

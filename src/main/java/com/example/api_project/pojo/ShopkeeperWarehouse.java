@@ -69,6 +69,19 @@ public class ShopkeeperWarehouse implements Serializable {
     private Float priceWholesaler;//批发价
     private Float priceLatestPurchase;//最近进价
     private String inventoryName; //仓库名
+    /**
+     * 门店状态
+     */
+    private Integer shopStatus;
+
+
+    public Integer getShopStatus() {
+        return shopStatus;
+    }
+
+    public void setShopStatus(Integer shopStatus) {
+        this.shopStatus = shopStatus;
+    }
 
     public String getInventoryName() {
         return inventoryName;

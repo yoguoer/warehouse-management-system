@@ -19,13 +19,13 @@
     </resultMap>
 
     <!--查询所有（不分页）-->
-    <select id="getList" resultType="SupplierInventory">
-        select supplier.supplier_key,
-               supplier.supplier_code,
-               supplier.supplier_name,
-               inventory.inventory_key,
-               inventory.inventory_code,
-               inventory.inventory_name,
+    <select id="getList" resultMap="SupplierInventoryMap">
+        select supplier_key,
+               supplier_code,
+               supplier_name,
+               inventory_key,
+               inventory_code,
+               inventory_name,
                inventory.description,
                inventory.status,
                inventory.belong_key,
@@ -34,7 +34,7 @@
                inventory.district,
                inventory.detail
         from supplier join inventory on supplier.supplier_key=inventory.belong_key
-        order by supplier.supplier_name
+        order by supplier_name
     </select>
 
     <!--查询单个-->

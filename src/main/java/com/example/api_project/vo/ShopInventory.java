@@ -15,6 +15,18 @@ public class ShopInventory {
     private String city;//市
     private String district;//区
     private String detail;//具体地址
+    /**
+     * 门店状态
+     */
+    private Integer shopStatus;
+
+    public Integer getShopStatus() {
+        return shopStatus;
+    }
+
+    public void setShopStatus(Integer shopStatus) {
+        this.shopStatus = shopStatus;
+    }
 
     public String getProvince() {
         return province;
