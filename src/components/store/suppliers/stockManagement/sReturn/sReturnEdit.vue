@@ -77,7 +77,7 @@
               </el-option>
               <el-option label="同意" :value="1">
                 <span style="float: left">
-                  <i class="el-icon-check" :disabled="item.disabled"></i> 同意
+                  <i class="el-icon-check" :disabled="isDisabled"></i> 同意
                 </span>
               </el-option>
               <el-option label="驳回" :value="2">
@@ -106,7 +106,7 @@
 <script>
 import { returnCheckUpdate, returnCheckAdd } from '@/api/check'
 import { shoplist, goodslist, positionList } from '@/api/data'
-import { ShopInventoryList } from '@/api/warehouse'
+import { ShopInventoryList,supplierInventoryList } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import moment from 'moment'
 import { detailWarehouseAdd } from '@/api/warehouse'
@@ -184,6 +184,7 @@ export default {
         }]
       },
       value2: '',
+      isDisabled:false,
       rules: {
         description: [
           { required: true, message: '请输入审批意见', trigger: 'blur' },
@@ -249,7 +250,7 @@ export default {
       this.supplierOptions.forEach(item=>{
         if(item.supplierCode==this.rowData.supplierCode){
           if(item.status!=1){
-            this.statusOptions[2].disabled=true
+            this.isDisabled=true
           }
         }
       })

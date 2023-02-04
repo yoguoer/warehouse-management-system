@@ -5,11 +5,42 @@
             <div style="margin:10px;">
                 <el-card shadow="always" body-style="padding:30px;display: inline-flex;height:300px;width:830px;">
                     <div><img :src="welcomePic" alt="" style="width:200px;margin:5px;" /></div>
-                    <div style="margin: 30px 0;">
-                        <span> <el-tag type="danger"
-                                style="font-size:24px;">{{ userInfo.userName }}</el-tag>，欢迎来到商品库存管理系统！</span>
-                        <DateUtils />
-                    </div>
+                    <el-form>
+                        <el-row>
+                            <div style="margin: 30px 0;">
+                                <span> <el-tag type="danger" style="font-size:24px;">{{
+                                    userInfo.userName
+                                }}</el-tag>，欢迎来到商品库存管理系统！</span>
+                                <DateUtils />
+                            </div>
+                        </el-row>
+                        <el-row>
+                            <el-col :span="6">
+                                <a href="/purchasing/purchasingBusiness/purchasingOrder">
+                                    <div><img :src="input" alt="" style="width:80px;margin:5px;" /></div>
+                                    <span style="margin-left:20px;">采购</span>
+                                </a>
+                            </el-col>
+                            <el-col :span="6">
+                                <a href="/marketing/marketingBusiness/retailOrder">
+                                    <div><img :src="output" alt="" style="width:80px;margin:5px;" /></div>
+                                    <span style="margin-left:20px;">销售</span>
+                                </a>
+                            </el-col>
+                            <el-col :span="6">
+                                <a href="/store/shopkeepers/overview">
+                                    <div><img :src="inventory" alt="" style="width:80px;margin:5px;" /></div>
+                                    <span style="margin-left:20px;">库存</span>
+                                </a>
+                            </el-col>
+                            <el-col :span="6">
+                                <a href="/data">
+                                    <div><img :src="data" alt="" style="width:80px;margin:5px;" /></div>
+                                    <span style="margin-left:20px;">资料</span>
+                                </a>
+                            </el-col>
+                        </el-row>
+                    </el-form>
                 </el-card>
             </div>
             <!-- 满仓预警 -->
@@ -121,6 +152,10 @@ import welcomePic from '@/assets/svg/welcome-pic.svg'
 import welcomemsg from '@/assets/svg/welcome-msg.svg'
 import alertMsg1 from '@/assets/svg/alertMsg1.svg'
 import alertMsg2 from '@/assets/svg/alertMsg2.svg'
+import input from '@/assets/svg/input.svg'
+import output from '@/assets/svg/output.svg'
+import data from '@/assets/svg/data.svg'
+import inventory from '@/assets/svg/inventory.svg'
 import { alertInfolistPage } from "@/api/welcome";
 import { METHODS } from "http"
 
@@ -132,6 +167,10 @@ export default {
             welcomemsg: welcomemsg,
             alertMsg1: alertMsg1,
             alertMsg2: alertMsg2,
+            input: input,
+            output: output,
+            data: data,
+            inventory: inventory,
             tableData1: [],//满仓预警
             tableData2: [],//连续未动销预警
             tableData3: [],//缺货预警

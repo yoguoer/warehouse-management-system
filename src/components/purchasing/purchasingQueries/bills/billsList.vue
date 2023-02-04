@@ -81,10 +81,7 @@ export default {
       statusOptions: [
         { label: "在单", value: 0 },
         { label: "生产", value: 1 },
-        { label: "在途", value: 2 },
-        { label: "入库", value: 3 },
-        { label: "占用", value: 4 },
-        { label: "出库", value: 5 }],
+        { label: "在途", value: 2 }],
       typeOptions: [
         { label: "采购入库", value: 0 },
         { label: "调货入库", value: 1 }],

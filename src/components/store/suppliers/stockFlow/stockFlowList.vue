@@ -20,7 +20,7 @@
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden">空</el-button>
-          <!-- <el-button v-if="props.row.returnReason" @click="editRow(props.row)" type="text"
+          <!-- <el-button v-if="props.row.returnReason&&!props.row.returnNum" @click="editRow(props.row)" type="text"
             icon="el-icon-s-check">审批</el-button> -->
           <el-button v-if="props.row.status < 1" @click="editRow1(props.row)" type="text"
             icon="el-icon-s-ticket">接收订单</el-button>
