@@ -75,9 +75,9 @@
                   <i class="el-icon-minus"></i> 未审批
                 </span>
               </el-option>
-              <el-option label="同意" :value="1" :disabled="((item.status==1)?false:true)||item.disabled">
+              <el-option label="同意" :value="1">
                 <span style="float: left">
-                  <i class="el-icon-check"></i> 同意
+                  <i class="el-icon-check" :disabled="item.disabled"></i> 同意
                 </span>
               </el-option>
               <el-option label="驳回" :value="2">
@@ -109,7 +109,7 @@ import { shoplist, goodslist, positionList } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import moment from 'moment'
-import { detailWarehouseUpdate, detailWarehouseAdd, shopkeeperWarehouseList, } from '@/api/warehouse'
+import { detailWarehouseAdd } from '@/api/warehouse'
 
 export default {
   name: 'guestEdit',
@@ -245,6 +245,15 @@ export default {
     }
   },
   methods: {
+    setSupplierInventoryStatus(){
+      this.supplierOptions.forEach(item=>{
+        if(item.supplierCode==this.rowData.supplierCode){
+          if(item.status!=1){
+            this.statusOptions[2].disabled=true
+          }
+        }
+      })
+    },
     getUserList() {
       UserList({ userType: 2 }).then(res => {
         this.userOptions = res.data.data
@@ -277,10 +286,11 @@ export default {
         }
       });
     },
-    getSupplierlist() {
+    async getSupplierlist() {
       supplierInventoryList().then(res => {
         if (res.data.code == 200) {
           this.supplierOptions = res.data.data
+          this.setSupplierInventoryStatus()
         } else {
           this.$message.error("获取失败!");
         }

@@ -70,7 +70,7 @@
         <el-col :span="10">
           <el-form-item label="接收状态" prop="status" v-if="ruleForm.status < 3">
             <el-select size="middle" v-model="ruleForm.status" placeholder="接收状态" style="width:100%;" clearable>
-              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value"  :disabled="((item.status==1)?false:true)||item.disabled">
+              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="item.disabled">
               </el-option>
             </el-select>
           </el-form-item>
@@ -241,6 +241,15 @@ export default {
     }
   },
   methods: {
+    setSupplierInventoryStatus(){
+      this.supplierOptions.forEach(item=>{
+        if(item.supplierCode==this.rowData.supplierCode){
+          if(item.status!=1){
+            this.statusOptions[2].disabled=true
+          }
+        }
+      })
+    },
     getvehicleList() {
       vehicleList().then(res => {
         if (res.data.code == 200) {
@@ -276,10 +285,11 @@ export default {
         }
       });
     },
-    getSupplierlist() {
+    async getSupplierlist() {
       supplierInventoryList().then(res => {
         if (res.data.code == 200) {
           this.supplierOptions = res.data.data
+          this.setSupplierInventoryStatus()
         } else {
           this.$message.error("获取失败!");
         }

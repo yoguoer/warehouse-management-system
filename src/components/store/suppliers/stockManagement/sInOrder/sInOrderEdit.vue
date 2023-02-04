@@ -30,7 +30,7 @@
           <el-form-item label="供应商" prop="supplierCode">
             <el-select size="middle" v-model="ruleForm.supplierCode" placeholder="供应商" style="width:100%;" clearable
               disabled ref="supplierSelect">
-              <el-option @click.native="setSupplierName" v-for="item in supplierOptions" :key="item.supplierKey"
+              <el-option @click.native="setSupplierName(item)" v-for="item in supplierOptions" :key="item.supplierKey"
                 :label="item.supplierName" :value="item.supplierCode">
               </el-option>
             </el-select>
@@ -65,7 +65,7 @@
         <el-col :span="10">
           <el-form-item label="接收状态" prop="status">
             <el-select size="middle" v-model="ruleForm.status" placeholder="接收状态" style="width:100%;" clearable>
-              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value" :disabled="((item.status==1)?false:true)||item.disabled">
+              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value"  :disabled="item.disabled">
               </el-option>
             </el-select>
           </el-form-item>
@@ -127,6 +127,7 @@ export default {
         inputShopCode: "",
         inputShopName: "",
       },
+      supplierStatus:'',
       shopOptions: [],
       goodsOptions: [],
       positionOptions: [],
@@ -225,7 +226,21 @@ export default {
       this.ifCreate = true
     }
   },
+  mounted(){
+    
+  },
   methods: {
+    setSupplierInventoryStatus(){
+      this.supplierOptions.forEach(item=>{
+        if(item.supplierCode==this.rowData.supplierCode){
+          if(item.status!=1){
+            this.statusOptions[2].disabled=true
+          }
+        }
+      console.log(this.statusOptions)
+
+      })
+    },
     getvehicleList() {
       vehicleList().then(res => {
         if (res.data.code == 200) {
@@ -253,10 +268,12 @@ export default {
         }
       });
     },
-    getSupplierlist() {
+    async getSupplierlist() {
       supplierInventoryList().then(res => {
         if (res.data.code == 200) {
           this.supplierOptions = res.data.data
+          // console.log("supplierOptions", this.supplierOptions)
+          this.setSupplierInventoryStatus()
         } else {
           this.$message.error("获取失败!");
         }
@@ -278,8 +295,9 @@ export default {
     setShopName() {
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
     },
-    setSupplierName() {
+    setSupplierName(item) {
       this.ruleForm.supplierName = this.$refs.supplierSelect.selectedLabel
+      this.supplierStatus=item.staut
     },
     setGoodsName() {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
@@ -331,10 +349,6 @@ export default {
                 this.$parent.success()
                 this.$parent.drawer=false
                 this.$forceUpdate()
-
-
-
-
               } else {
                 this.$message.success("新增成功!");
                 this.$parent.success()
