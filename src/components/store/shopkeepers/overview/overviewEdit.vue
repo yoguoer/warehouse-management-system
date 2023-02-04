@@ -200,7 +200,7 @@ export default {
     getgoodsList() {
       goodslist().then(res => {
         if (res.data.code == 200) {
-          this.goodsOptions = res.data.data
+          this.allGoods = res.data.data
           // console.log(this.allGoods,"allGoods")
         } else {
           this.$message.error("获取失败!");
@@ -231,27 +231,29 @@ export default {
         }
       })
     },
-    // getgoodslist(item) {
-    //   shopkeeperWarehouseByShopCode({ shopCode: item.shopCode, shopName: item.shopName }).then(res => {
-    //     if (res.data.code == 200) {
-    //       this.goodsOptions = []
-    //       if (res.data.data.length == 0) {
-    //         this.goodsOptions = this.allGoods
-    //       } else {
-    //         this.allGoods.forEach(item => {
-    //           res.data.data.forEach(goods => {
-    //             if (item.goodsCode != goods.goodsCode) {
-    //               this.goodsOptions.push(item)
-    //             }
-    //           })
-    //         })
-    //       }
-    //     } else {
-    //       this.$message.error("获取失败!");
-    //     }
-    //   });
-    // },
+    getgoodsfinal(item) {
+      shopkeeperWarehouseByShopCode({ shopCode: item.shopCode, shopName: item.shopName }).then(res => {
+        if (res.data.code == 200) {
+          if (!res.data.data) {
+            this.goodsOptions = this.allGoods
+          } else {
+            this.goodsOptions = this.allGoods
+            this.goodsOptions.forEach(item => {
+              res.data.data.forEach(goods => {
+                if (item.goodsCode == goods.goodsCode) {
+                  let index=this.goodsOptions.indexOf(item)
+                  this.goodsOptions.splice(index,1)
+                }
+              })
+            })
+          }
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     async getInventoryList(item) {
+      this.getgoodsfinal(item)
       getByshopCode({ shopCode: item.shopCode }).then(res => {
         if (res.data.code == 200) {
           this.inventoryOptions = res.data.data
