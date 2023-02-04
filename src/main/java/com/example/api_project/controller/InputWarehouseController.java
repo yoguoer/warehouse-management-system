@@ -103,7 +103,7 @@ public class InputWarehouseController {
                 shopkeeperWarehouse.setOnwayNum(onWayNum);//设置新的在途数
                 shopkeeperWarehouse.setAvailableNum(shopkeeperWarehouse.getAccountNum()+onWayNum-shopkeeperWarehouse.getOccupyNum());//设置可用数
                 this.shopkeeperWarehouseService.update(shopkeeperWarehouse);
-            }else{
+            }else{//不存在，新建一个
                 ShopkeeperWarehouse shopkeeperWarehouse=new ShopkeeperWarehouse();
                 Random random = new Random();
                 Integer number = random.nextInt(9000) + 1000;

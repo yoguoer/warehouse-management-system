@@ -51,6 +51,16 @@ public class DetailWarehouse implements Serializable {
     private Integer status;//变化商品的原始状态
     private Integer isDefects;//是否有残次品
     private Integer defectsNum;//退货入库中的残品数
+    private String positionCode; //货位编号
+
+
+    public String getPositionCode() {
+        return positionCode;
+    }
+
+    public void setPositionCode(String positionCode) {
+        this.positionCode = positionCode;
+    }
 
     public String getShopName() {
         return shopName;

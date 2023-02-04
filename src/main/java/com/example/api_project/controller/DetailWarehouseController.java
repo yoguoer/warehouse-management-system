@@ -73,12 +73,14 @@ public class DetailWarehouseController {
         detailWarehouse.setDetailWarehouseKey(System.currentTimeMillis() + String.valueOf(number));
         ShopkeeperWarehouse shopkeeperWarehouse;
         //不存在ShopkeeperWarehouseKey，需要初始化设置一下
-        if(null==detailWarehouse.getShopkeeperWarehouseKey()||""==detailWarehouse.getShopkeeperWarehouseKey()){
+        if(""==detailWarehouse.getShopkeeperWarehouseKey()){
             String shopCode=detailWarehouse.getShopCode();
             String goodsCode=detailWarehouse.getGoodsCode();
             shopkeeperWarehouse=shopkeeperWarehouseService.queryForKey(shopCode,goodsCode);
             detailWarehouse.setShopkeeperWarehouseKey(shopkeeperWarehouse.getShopkeeperWarehouseKey());
             detailWarehouse.setStartNum(shopkeeperWarehouse.getAccountNum());
+            String positionCode=detailWarehouse.getPositionCode();
+            shopkeeperWarehouse.setPositionCode(positionCode);
         }else {//已经存在，直接通过ShopkeeperWarehouseKey来查
             shopkeeperWarehouse = shopkeeperWarehouseService.queryById(detailWarehouse.getShopkeeperWarehouseKey());
             detailWarehouse.setStartNum(shopkeeperWarehouse.getAccountNum());
@@ -144,7 +146,12 @@ public class DetailWarehouseController {
             shopkeeperWarehouse.setAvailableNum(result.getFinalNum()+onwayNum-occupyNum);
         }
 
-        this.shopkeeperWarehouseService.update(shopkeeperWarehouse);
+        //不存在ShopkeeperWarehouseKey，新建
+        if(""==detailWarehouse.getShopkeeperWarehouseKey()){
+            this.shopkeeperWarehouseService.insert(shopkeeperWarehouse);
+        }else {
+            this.shopkeeperWarehouseService.update(shopkeeperWarehouse);
+        }
         return ResponseData.success(this.queryById(result.getDetailWarehouseKey()));
     }
 
