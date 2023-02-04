@@ -9,21 +9,25 @@
         <result property="detail" column="detail" jdbcType="VARCHAR"/>
         <result property="addressType" column="address_type" jdbcType="VARCHAR"/>
         <result property="supplierAddressKey" column="supplier_address_key" jdbcType="VARCHAR"/>
+        <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
+        <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
         <result property="addressKey" column="address_key" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询所有（不分页）-->
     <select id="getList" resultMap="SupplierAddressMap">
         select
-            province, city, district, detail, address_type, supplier_address_key, address_key
+            province, city, district, detail, address_type, supplier_code,supplier_address_key,supplier_name, address_key
         from supplier_address
+        join supplier on supplier.supplier_key=supplier_address.supplier_address_key
     </select>
 
     <!--根据supplierAddressKey查询-->
     <select id="queryBySupplierKey" resultMap="SupplierAddressMap">
         select
-            province, city, district, detail, address_type, supplier_address_key, address_key
+            province, city, district, detail, address_type, supplier_code,supplier_address_key,supplier_name, address_key
         from supplier_address
+        join supplier on supplier.supplier_key=supplier_address.supplier_address_key
         <where>
             <if test="supplierAddressKey != null and supplierAddressKey != ''">
                 and supplier_address_key = #{supplierAddressKey}
@@ -42,8 +46,9 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="SupplierAddressMap">
         select
-          province, city, district, detail, address_type, supplier_address_key, address_key
+          province, city, district, detail, address_type, supplier_code,supplier_address_key,supplier_name, address_key
         from supplier_address
+        join supplier on supplier.supplier_key=supplier_address.supplier_address_key
         <where>
             <if test="supplierAddressKey != null and supplierAddressKey != ''">
                 and supplier_address_key = #{supplierAddressKey}

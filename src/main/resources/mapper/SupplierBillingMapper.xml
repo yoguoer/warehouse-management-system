@@ -4,6 +4,8 @@
 
     <resultMap type="com.example.api_project.pojo.SupplierBilling" id="SupplierBillingMap">
         <result property="supplierBillingKey" column="supplier_billing_key" jdbcType="VARCHAR"/>
+        <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
+        <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
         <result property="billingKey" column="billing_key" jdbcType="VARCHAR"/>
         <result property="taxNumber" column="tax_number" jdbcType="VARCHAR"/>
         <result property="accountName" column="account_name" jdbcType="VARCHAR"/>
@@ -15,6 +17,8 @@
     <!--查询所有（不分页）-->
     <select id="getList" resultMap="SupplierBillingMap">
         select supplier_billing_key,
+               supplier_name,
+               supplier_code,
                billing_key,
                tax_number,
                account_name,
@@ -22,11 +26,14 @@
                bank_name,
                account_tel
         from supplier_billing
+        join supplier on supplier.supplier_key=supplier_billing.supplier_billing_key
     </select>
 
     <!--根据supplierAddressKey查询-->
     <select id="queryBySupplierKey" resultMap="SupplierBillingMap">
         select supplier_billing_key,
+               supplier_name,
+               supplier_code,
                billing_key,
                tax_number,
                account_name,
@@ -34,6 +41,7 @@
                bank_name,
                account_tel
         from supplier_billing
+        join supplier on supplier.supplier_key=supplier_billing.supplier_billing_key
         <where>
             <if test="supplierBillingKey != null and supplierBillingKey != ''">
                 and supplier_billing_key = #{supplierBillingKey}
@@ -57,8 +65,9 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="SupplierBillingMap">
         select
-        supplier_billing_key, billing_key, tax_number, account_name, account_number, bank_name, account_tel
+        supplier_billing_key,supplier_name,supplier_code, billing_key, tax_number, account_name, account_number, bank_name, account_tel
         from supplier_billing
+        join supplier on supplier.supplier_key=supplier_billing.supplier_billing_key
         <where>
             <if test="supplierBillingKey != null and supplierBillingKey != ''">
                 and supplier_billing_key = #{supplierBillingKey}

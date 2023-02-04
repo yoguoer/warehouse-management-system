@@ -5,8 +5,6 @@ import java.io.Serializable;
 /**
  * 供应商的地址表(SupplierAddress)实体类
  *
- * @author makejava
- * @since 2022-11-24 14:37:10
  */
 public class SupplierAddress implements Serializable {
     private static final long serialVersionUID = -43812140793386705L;
@@ -34,11 +32,29 @@ public class SupplierAddress implements Serializable {
      * 地址对应的供应商编号
      */
     private String supplierAddressKey;
+    private String supplierName;//供应商名称
+    private String supplierCode;//供应商编号
     /**
      * 地址本身的key
      */
     private String addressKey;
 
+
+    public String getSupplierCode() {
+        return supplierCode;
+    }
+
+    public void setSupplierCode(String supplierCode) {
+        this.supplierCode = supplierCode;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
 
     public String getProvince() {
         return province;

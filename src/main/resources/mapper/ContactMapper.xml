@@ -14,6 +14,10 @@
         <result property="district" column="district" jdbcType="VARCHAR"/>
         <result property="detail" column="detail" jdbcType="VARCHAR"/>
         <result property="contactCode" column="contact_code" jdbcType="VARCHAR"/>
+        <result property="customerName" column="customer_name" jdbcType="VARCHAR"/>
+        <result property="customerCode" column="customer_code" jdbcType="VARCHAR"/>
+        <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
+        <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询全部-->
@@ -35,8 +39,9 @@
     <!--查询指定行数据(客户查询的时候用)-->
     <select id="queryAllByCustomer" resultMap="ContactMap">
         select
-          contact_name, contact_key, contact_tel, contact_Email, province, contact_customer_key,city, district, detail, contact_code
+            customer_name,customer_code,contact_name, contact_key, contact_tel, contact_Email, contact.province, contact_customer_key,contact.city, contact.district, contact.detail, contact_code
         from contact
+        join customer on contact.contact_customer_key=customer.customer_key
         <where>
             <if test="contactName != null and contactName != ''">
                 and contact_name like concat('%', #{contactName}, '%')
@@ -53,8 +58,9 @@
     <!--查询指定行数据(供应商查询的时候用)-->
     <select id="queryAllBySupplier" resultMap="ContactMap">
         select
-        contact_name, contact_key, contact_tel, contact_Email, province, contact_supplier_key,city, district, detail, contact_code
+            supplier_name,supplier_code,contact_name, contact_key, contact_tel, contact_Email, contact.province, contact_supplier_key,contact.city, contact.district, contact.detail, contact_code
         from contact
+        join supplier on contact.contact_supplier_key=supplier.supplier_key
         <where>
             <if test="contactName != null and contactName != ''">
                 and contact_name like concat('%', #{contactName}, '%')
