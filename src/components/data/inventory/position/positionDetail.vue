@@ -10,7 +10,7 @@
           <span>货位类型: {{ row.positionType == 'store' ? '存储位' : '集货位' }}</span>
         </el-col>
         <el-col :span="5">
-          <span>最大重量: {{ row.maxWeight }}</span>
+          <span>最大重量(kg): {{ row.maxWeight }}</span>
         </el-col>
         <el-col :span="5">
           <span>最大容量(m3): {{ row.maxCapacity }}</span>

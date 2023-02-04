@@ -18,8 +18,8 @@
           </el-row>
           <el-row>
             <el-col :span="10">
-              <el-form-item label="最大重量" prop="maxWeight">
-                <el-input v-model="form.maxWeight" type="Number" :min="0" class="form_text" placeholder="最大重量" clearable></el-input>
+              <el-form-item label="最大重量(kg)" prop="maxWeight">
+                <el-input v-model="form.maxWeight" type="Number" :min="0" class="form_text" placeholder="最大重量(kg)" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="10">

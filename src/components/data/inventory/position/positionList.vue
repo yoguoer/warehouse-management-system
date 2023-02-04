@@ -35,17 +35,27 @@
         @selection-change="handleSelectionDelete" style="width: auto; margin-top: 20px"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="positionCode" label="货位编号">
+        <el-table-column label="所属仓库" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+           <span>{{ scope.row.inventoryCode }}{{ scope.row.inventoryName }}</span>
+          </template>
         </el-table-column>
-        <el-table-column prop="positionType" label="货位类型">
+        <el-table-column label="所属区域" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+           <span>{{ scope.row.districtCode }}{{ scope.row.districtName }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="positionCode" label="货位编号" width="120px">
+        </el-table-column>
+        <el-table-column prop="positionType" label="货位类型" width="120px">
           <template slot-scope="scope">{{ scope.row.positionType == 'store' ? '存储位' : '集货位' }}</template>
         </el-table-column>
-        <el-table-column prop="maxWeight" label="最大重量">
+        <el-table-column prop="maxWeight" label="最大重量(kg)" width="120px">
         </el-table-column>
-        <el-table-column prop="maxCapacity" label="最大容量(m3)">
+        <el-table-column prop="maxCapacity" label="最大容量(m3)" width="120px">
         </el-table-column>
-        <el-table-column prop="inventoryDistrictkey" label="所属区域">
-        </el-table-column>
+        <!-- <el-table-column prop="inventoryDistrictkey" label="所属区域">
+        </el-table-column> -->
         <el-table-column prop="description" label="备注">
         </el-table-column>
         <el-table-column fixed="right" width="210px" label="操作" style="margin-top: -10px!important;">
