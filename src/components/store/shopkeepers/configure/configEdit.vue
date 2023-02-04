@@ -90,17 +90,17 @@ export default {
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
-          // this.shopOptions = res.data.data
-          let temp=res.data.data
-          this.ShopInventoryList.forEach(t=>{
-            temp.forEach(item=>{// 去掉已有仓库的
-            if(item.shopKey==t.shopKey){
-                let index=temp.indexOf(item)
-                temp.splice(index,1)
-              }
-            })
-          })
-          this.shopOptions = temp
+          this.shopOptions = res.data.data
+          // let temp=res.data.data
+          // this.ShopInventoryList.forEach(t=>{
+          //   temp.forEach(item=>{// 去掉已有仓库的
+          //   if(item.shopKey==t.shopKey){
+          //       let index=temp.indexOf(item)
+          //       temp.splice(index,1)
+          //     }
+          //   })
+          // })
+          // this.shopOptions = temp
         } else {
           this.$message.error("获取失败!");
         }
