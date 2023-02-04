@@ -136,7 +136,7 @@ export default {
       SupplierlistPage({ supplierCode: this.supplyId, supplierName: this.supplyName, categoryKey: this.inputCategory, page: this.pageNo, size: this.pageSize }).then((res) => {
         this.supplyList = res.data.data.records;
         this.total = res.data.data.total
-        console.log(this.total, this.supplyList);
+        // console.log(this.total, this.supplyList);
       });
       this.$forceUpdate();
     },

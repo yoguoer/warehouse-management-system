@@ -220,7 +220,7 @@ export default {
       };
       inputWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
-          // this.total = res.data.data.total;
+          this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
@@ -228,8 +228,6 @@ export default {
               this.tableData.push(item)
             }
           })
-          this.total=this.tableData.length
-          console.log(this.total, this.tableData);
         } else {
           console.log("error");
         }
@@ -256,7 +254,7 @@ export default {
         type: ""
       }).then((res) => {
         if (res.data.code === 200) {
-          // this.total = res.data.data.total;
+          this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
           this.tableData=[]
           res.data.data.records.forEach(item=>{
@@ -264,8 +262,6 @@ export default {
               this.tableData.push(item)
             }
           })
-          this.total=this.tableData.length
-          console.log(this.total, this.tableData);
         } else {
           console.log("error");
         }

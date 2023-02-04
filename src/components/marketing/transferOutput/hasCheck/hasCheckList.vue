@@ -216,7 +216,7 @@ export default {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
-          console.log(this.total, this.tableData);
+          // console.log(this.total, this.tableData);
         } else {
           console.log("error");
         }
@@ -243,7 +243,7 @@ export default {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
-          console.log(this.total, this.tableData);
+          // console.log(this.total, this.tableData);
         } else {
           console.log("error");
         }

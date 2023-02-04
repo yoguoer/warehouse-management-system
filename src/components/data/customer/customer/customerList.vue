@@ -98,7 +98,7 @@ export default {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.guestList = res.data.data.records;
-          console.log(this.total, this.guestList);
+          // console.log(this.total, this.guestList);
         } else {
           console.log("error");
         }
@@ -122,7 +122,7 @@ export default {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.guestList = res.data.data.records;
-          console.log(this.total, this.guestList);
+          // console.log(this.total, this.guestList);
         } else {
           console.log("error");
         }

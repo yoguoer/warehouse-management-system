@@ -226,7 +226,6 @@ export default {
       this.ruleForm.inputShopCode = this.rowData.inputShopCode
       this.ruleForm.inputShopName = this.rowData.inputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
-      setGoodsName(this.rowData)
     } else {
       this.ifCreate = true
     }
@@ -270,10 +269,9 @@ export default {
       });
     },
     getSupplierlist(supplierKey) {
-      this.supplierOptions = []
       SupplierdataById({ supplierKey: supplierKey }).then(res => {
+        this.supplierOptions=[]
         if (res.data.code == 200) {
-          // this.supplierOptions = res.data.data
           this.supplierOptions.push(res.data.data)
         } else {
           this.$message.error("获取失败!");
@@ -287,6 +285,7 @@ export default {
       this.ruleForm.supplierName = this.$refs.supplierSelect.selectedLabel
     },
     setGoodsName(item) {
+      // console.log("goods",item)
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
       this.ruleForm.inputPrice = item.priceLatestPurchase
       this.getSupplierlist(item.supplierKey)
