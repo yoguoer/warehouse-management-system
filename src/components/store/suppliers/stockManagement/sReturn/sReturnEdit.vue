@@ -75,7 +75,7 @@
                   <i class="el-icon-minus"></i> 未审批
                 </span>
               </el-option>
-              <el-option label="同意" :value="1">
+              <el-option label="同意" :value="1" :disabled="((item.status==1)?false:true)||item.disabled">
                 <span style="float: left">
                   <i class="el-icon-check"></i> 同意
                 </span>
@@ -105,7 +105,7 @@
 
 <script>
 import { returnCheckUpdate, returnCheckAdd } from '@/api/check'
-import { shoplist, goodslist, Supplierlist, positionList } from '@/api/data'
+import { shoplist, goodslist, positionList } from '@/api/data'
 import { ShopInventoryList } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import moment from 'moment'
@@ -278,7 +278,7 @@ export default {
       });
     },
     getSupplierlist() {
-      Supplierlist().then(res => {
+      supplierInventoryList().then(res => {
         if (res.data.code == 200) {
           this.supplierOptions = res.data.data
         } else {

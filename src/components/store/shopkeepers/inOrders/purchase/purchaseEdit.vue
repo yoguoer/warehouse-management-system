@@ -44,27 +44,8 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="10">
-          <el-form-item label="仓库" prop="inventoryCode">
-            <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
-              ref="inventorySelect">
-              <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
-                :label="item.inventoryName" :value="item.inventoryCode">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col> -->
       </el-row>
       <el-row>
-        <!-- <el-col :span="10">
-          <el-form-item label="库位" prop="positionCode">
-            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable>
-              <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
-                :value="item.positionCode" clearable placeholder="库位">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col> -->
         <el-col :span="10">
           <el-form-item label="计划入库数" prop="inputPlan">
             <el-input v-model="ruleForm.inputPlan" clearable :min="0" placeholder="计划入库数" type="Number"></el-input>

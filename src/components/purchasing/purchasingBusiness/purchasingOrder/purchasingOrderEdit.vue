@@ -44,27 +44,8 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <!-- <el-col :span="10">
-          <el-form-item label="仓库" prop="inventoryCode">
-            <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
-              ref="inventorySelect">
-              <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
-                :label="item.inventoryName" :value="item.inventoryCode">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col> -->
       </el-row>
       <el-row>
-        <!-- <el-col :span="10">
-          <el-form-item label="库位" prop="positionCode">
-            <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable>
-              <el-option v-for="item in positionOptions" :key="item.positionCode" :label="item.positionCode"
-                :value="item.positionCode" clearable placeholder="库位">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col> -->
         <el-col :span="10">
           <el-form-item label="计划入库数" prop="inputPlan">
             <el-input v-model="ruleForm.inputPlan" clearable placeholder="计划入库数" :min="0" type="Number"></el-input>
@@ -220,7 +201,6 @@ export default {
   created() {
     this.getshoplist()
     this.getgoodslist()
-    // this.getSupplierlist()
     this.getUserList()
     if (this.rowData.inputWarehouseKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
@@ -239,7 +219,6 @@ export default {
       this.ruleForm.deadlineTime = this.rowData.deadlineTime
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
       this.ruleForm.status = this.rowData.status
-      // this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.isDeleted = this.rowData.isDeleted
@@ -247,6 +226,7 @@ export default {
       this.ruleForm.inputShopCode = this.rowData.inputShopCode
       this.ruleForm.inputShopName = this.rowData.inputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
+      setGoodsName(this.rowData)
     } else {
       this.ifCreate = true
     }

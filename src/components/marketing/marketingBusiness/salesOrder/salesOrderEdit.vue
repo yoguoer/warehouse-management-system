@@ -6,10 +6,10 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="门店" prop="shopCode">
-            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable
+            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="" style="width:100%;" clearable
               ref="selection">
               <el-option @click.native="setShopName(item)" v-for="item in shopOptions" :key="item.shopKey"
-                :label="item.shopName" :value="item.shopCode">
+                :label="item.shopName" :value="item.shopCode" :disabled="(item.shopStatus==6||item.shopStatus==1)?false:true">
               </el-option>
             </el-select>
           </el-form-item>
@@ -41,7 +41,7 @@
             <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
               ref="inventorySelect">
               <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
-                :label="item.inventoryName" :value="item.inventoryCode">
+                :label="item.inventoryName" :value="item.inventoryCode" :disabled="(item.status==1)?false:true">
               </el-option>
             </el-select>
           </el-form-item>
@@ -80,9 +80,9 @@
       </el-row>
       <el-row>
         <el-col :span="10">
-          <el-form-item label="门店操作员" prop="shopPeopleCode">
-            <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;"
+          <el-form-item label="操作员" prop="shopPeopleCode">
+            <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="操作员"></el-input> -->
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="操作员" style="width:100%;"
               clearable>
               <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
               </el-option>
@@ -138,9 +138,9 @@ import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
 import { goodslist, CustomerList, positionList, vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
-import { detailWarehouseUpdate, detailWarehouseAdd,shopkeeperWarehouseByShopCode } from '@/api/warehouse'
+import { detailWarehouseAdd,shopkeeperWarehouseByShopCode,shopkeeperWarehouseList } from '@/api/warehouse'
 import moment from 'moment'
-import { ShopInventoryList } from "@/api/warehouse";
+// import { ShopInventoryList } from "@/api/warehouse";
 
 export default {
   name: 'guestEdit',
@@ -212,7 +212,7 @@ export default {
       value2: '',
       rules: {
         shopCode: [
-          { required: true, message: '请选择门店', trigger: 'blur' },
+          { required: true, message: '请选择', trigger: 'blur' },
         ],
         goodsCode: [
           { required: true, message: '请选择商品', trigger: 'blur' },
@@ -313,7 +313,7 @@ export default {
       return arr.filter((arr) => !res.has(arr.shopKey) && res.set(arr.shopKey, 1));
     },
     getshoplist() {
-      ShopInventoryList().then(res => {
+      shopkeeperWarehouseList().then(res => {
         if (res.data.code == 200) {
           // this.shopOptions = res.data.data
           this.shopOptions = this.unique(res.data.data)

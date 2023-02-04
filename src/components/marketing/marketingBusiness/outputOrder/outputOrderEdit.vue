@@ -9,7 +9,7 @@
             <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable
               ref="selection">
               <el-option @click.native="setShopName" v-for="item in shopOptions" :key="item.shopKey"
-                :label="item.shopName" :value="item.shopCode">
+                :label="item.shopName" :value="item.shopCode" :disabled="(item.shopStatus==6||item.shopStatus==1)?false:true">
               </el-option>
             </el-select>
           </el-form-item>
@@ -41,7 +41,7 @@
             <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
               ref="inventorySelect">
               <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
-                :label="item.inventoryName" :value="item.inventoryCode">
+                :label="item.inventoryName" :value="item.inventoryCode" :disabled="(item.status==1)?false:true">
               </el-option>
             </el-select>
           </el-form-item>

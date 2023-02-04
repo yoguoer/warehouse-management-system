@@ -103,7 +103,7 @@
             <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
               ref="inventorySelect">
               <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
-                :label="item.inventoryName" :value="item.inventoryCode">
+                :label="item.inventoryName" :value="item.inventoryCode" :disabled="(item.status==1)?false:true">
               </el-option>
             </el-select>
           </el-form-item>

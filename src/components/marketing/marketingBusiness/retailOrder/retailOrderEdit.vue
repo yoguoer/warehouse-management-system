@@ -10,7 +10,7 @@
             <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable
               ref="selection">
               <el-option @click.native="setShopName(item)" v-for="item in shopOptions" :key="item.shopKey"
-                :label="item.shopName" :value="item.shopCode">
+                :label="item.shopName" :value="item.shopCode" :disabled="(item.shopStatus==6||item.shopStatus==1)?false:true">
               </el-option>
             </el-select>
           </el-form-item>
@@ -43,7 +43,7 @@
             <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
               ref="inventorySelect">
               <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
-                :label="item.inventoryName" :value="item.inventoryCode">
+                :label="item.inventoryName" :value="item.inventoryCode" :disabled="(item.status==1)?false:true">
               </el-option>
             </el-select>
           </el-form-item>
@@ -125,8 +125,8 @@ import { CustomerList, positionList, vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 import moment from 'moment'
-import { detailWarehouseUpdate, detailWarehouseAdd, shopkeeperWarehouseByShopCode } from '@/api/warehouse'
-import { ShopInventoryList } from "@/api/warehouse";
+import { detailWarehouseUpdate, detailWarehouseAdd, shopkeeperWarehouseByShopCode,shopkeeperWarehouseList } from '@/api/warehouse'
+// import { ShopInventoryList } from "@/api/warehouse";
 
 export default {
   name: 'guestEdit',
@@ -266,7 +266,7 @@ export default {
       return arr.filter((arr) => !res.has(arr.shopKey) && res.set(arr.shopKey, 1));
     },
     getshoplist() {
-      ShopInventoryList().then(res => {
+      shopkeeperWarehouseList().then(res => {
         if (res.data.code == 200) {
           // this.shopOptions = res.data.data
           this.shopOptions = this.unique(res.data.data)

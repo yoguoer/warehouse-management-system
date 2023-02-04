@@ -7,9 +7,9 @@
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table"
         :multiCheck="multiCheck">
 
-        <template v-slot:column-address="props">
+        <!-- <template v-slot:column-address="props">
           <div>{{ props.row.province }}{{props.row.city}}{{props.row.district}}{{props.row.detail }}</div>
-        </template>
+        </template> -->
         <template v-slot:column-supplier="props">
           <div>{{ props.row.supplierCode }}{{ props.row.supplierName }}</div>
         </template>
@@ -145,7 +145,11 @@ export default {
         // { prop: "supplierAddressKey", label: "所属供应商", width: 250 },
         { slots: { name: "column-supplier" }, label: "所属供应商" },
         { prop: "addressType", label: "地址类型", width: 180 },
-        { slots: { name: "column-address" }, label: "地址" },
+        // { slots: { name: "column-address" }, label: "地址" },
+        { prop: "province", label: "省", width:"100px" },
+        { prop: "city", label: "市", width:"100px" },
+        { prop: "district", label: "区", width:"100px" },
+        { prop: "detail", label: "详细地址" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: '120px' },
       ];
     },

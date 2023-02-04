@@ -9,7 +9,7 @@
             <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable
               ref="selection">
               <el-option @click.native="setShopName" v-for="item in shopOptions" :key="item.shopKey"
-                :label="item.shopName" :value="item.shopCode" :disabled="item.shopCode==ruleForm.inputShopCode">
+                :label="item.shopName" :value="item.shopCode" :disabled="((item.shopStatus==6||item.shopStatus==1)?false:true)||item.shopCode==ruleForm.inputShopCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -31,7 +31,7 @@
             <el-select size="middle" v-model="ruleForm.inputShopCode" placeholder="调货门店" style="width:100%;" clearable
               ref="inputShopSelect">
               <el-option @click.native="setinputShopName" v-for="item in inputShopOptions" :key="item.shopKey"
-                :label="item.shopName" :value="item.shopCode"  :disabled="item.shopCode==ruleForm.shopCode">
+                :label="item.shopName" :value="item.shopCode"  :disabled="((item.shopStatus==6||item.shopStatus==1)?false:true)||item.shopCode==ruleForm.shopCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -183,9 +183,6 @@ export default {
         ],
         supplierCode: [
           { required: true, message: '请选择供应商', trigger: 'blur' },
-        ],
-        inventoryCode: [
-          { required: true, message: '请选择仓库', trigger: 'blur' },
         ],
         inputPlan : [
           { required: true, message: '请设置计划入库数', trigger: 'blur' },

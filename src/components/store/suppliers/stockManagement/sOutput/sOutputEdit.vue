@@ -70,7 +70,7 @@
         <el-col :span="10">
           <el-form-item label="接收状态" prop="status" v-if="ruleForm.status < 3">
             <el-select size="middle" v-model="ruleForm.status" placeholder="接收状态" style="width:100%;" clearable>
-              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value"  :disabled="item.disabled">
+              <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value"  :disabled="((item.status==1)?false:true)||item.disabled">
               </el-option>
             </el-select>
           </el-form-item>
@@ -103,8 +103,8 @@
 
 <script>
 import { inputWarehouseUpdate, inputWarehouseAdd } from '@/api/purchasing'
-import { shoplist, goodslist, inventorylist, Supplierlist, positionList, vehicleList } from '@/api/data'
-import { ShopInventoryList } from '@/api/warehouse'
+import { shoplist, goodslist, positionList, vehicleList } from '@/api/data'
+import { ShopInventoryList,supplierInventoryList } from '@/api/warehouse'
 import { UserList } from '@/api/api'
 
 export default {
@@ -277,7 +277,7 @@ export default {
       });
     },
     getSupplierlist() {
-      Supplierlist().then(res => {
+      supplierInventoryList().then(res => {
         if (res.data.code == 200) {
           this.supplierOptions = res.data.data
         } else {
