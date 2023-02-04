@@ -36,14 +36,16 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="库存上限" prop="maxNum">
-            <el-input v-model="ruleForm.maxNum" clearable placeholder="库存上限" type="Number" :min="0" @blur="onInputNumChange('maxNum')"></el-input>
+            <el-input v-model="ruleForm.maxNum" clearable placeholder="库存上限" type="Number" :min="0"
+              @blur="onInputNumChange('maxNum')"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
           <el-form-item label="库存下限" prop="minNum">
-            <el-input v-model="ruleForm.minNum" clearable placeholder="库存下限" type="Number" :min="0" @blur="onInputNumChange('minNum')"></el-input>
+            <el-input v-model="ruleForm.minNum" clearable placeholder="库存下限" type="Number" :min="0"
+              @blur="onInputNumChange('minNum')"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -86,9 +88,10 @@
 </template>
 
 <script>
-import { shopkeeperWarehouseUpdate, shopkeeperWarehouseAdd, getByshopCode, shopkeeperWarehouseList, shopkeeperWarehouseByShopCode } from '@/api/warehouse'
+import { shopkeeperWarehouseUpdate, shopkeeperWarehouseAdd, getByshopCode, ShopInventoryList, shopkeeperWarehouseByShopCode } from '@/api/warehouse'
 import { positionList } from '@/api/data'
 import moment from 'moment'
+import { goodslist } from '@/api/data'
 
 export default {
   name: 'guestEdit',
@@ -114,6 +117,7 @@ export default {
       },
       shopOptions: [],
       goodsOptions: [],
+      allGoods: [],
       positionOptions: [],
       rules: {
         shopCode: [
@@ -150,8 +154,8 @@ export default {
 
   },
   created() {
-    this.getshopkeeperWarehouseList()
-    // this.getgoodslist()
+    this.getShopInventoryList()
+    this.getAllgoods()
     if (this.rowData.shopkeeperWarehouseKey) {
       this.ruleForm.shopCode = this.rowData.shopCode
       this.ruleForm.goodsCode = this.rowData.goodsCode
@@ -159,13 +163,13 @@ export default {
       this.ruleForm.maxNum = this.rowData.maxNum
       this.ruleForm.minNum = this.rowData.minNum
       this.ruleForm.accountNum = this.rowData.accountNum
-      this.ruleForm.occupyNum = this.rowData.occupyNum||0
-      this.ruleForm.availableNum = this.rowData.availableNum||0
+      this.ruleForm.occupyNum = this.rowData.occupyNum || 0
+      this.ruleForm.availableNum = this.rowData.availableNum || 0
       this.ruleForm.countNum = this.rowData.countNum
       this.ruleForm.rejectsNum = this.rowData.rejectsNum
       this.ruleForm.description = this.rowData.description
       this.ruleForm.shopkeeperWarehouseKey = this.rowData.shopkeeperWarehouseKey
-      this.ruleForm.onwayNum = this.rowData.onwayNum||0
+      this.ruleForm.onwayNum = this.rowData.onwayNum || 0
       this.getMyPosition(this.rowData)
     } else {
       this.ifCreate = true
@@ -178,29 +182,59 @@ export default {
     }
   },
   methods: {
-    onInputNumChange(typeName){
+    getAllgoods() {
+      goodslist().then(res => {
+        if (res.data.code == 200) {
+          this.allGoods = res.data.data
+          // console.log(this.allGoods,"allGoods")
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
+    onInputNumChange(typeName) {
       if (this.ruleForm.maxNum < this.ruleForm.minNum) {
-        if(typeName='maxNum'){
-          this.ruleForm.maxNum=''
-        }else{
-          this.ruleForm.minNum=''
+        if (typeName = 'maxNum') {
+          this.ruleForm.maxNum = ''
+        } else {
+          this.ruleForm.minNum = ''
         }
         this.$message.warning('库存上限应不得小于库存下限')
       }
     },
-    getshopkeeperWarehouseList() {
-      shopkeeperWarehouseList().then(res => {
+    getShopInventoryList() {
+      // shopkeeperWarehouseList().then(res => {
+      //   if (res.data.code == 200) {
+      //     this.shopOptions = res.data.data
+      //   } else {
+      //     this.$message.error(res.data.msg);
+      //   }
+      // });
+      ShopInventoryList().then(res => {
         if (res.data.code == 200) {
           this.shopOptions = res.data.data
         } else {
-          this.$message.error(res.data.msg);
+          this.$message.error("获取失败!");
         }
-      });
+      })
     },
     getgoodslist(item) {
       shopkeeperWarehouseByShopCode({ shopCode: item.shopCode, shopName: item.shopName }).then(res => {
         if (res.data.code == 200) {
-          this.goodsOptions = res.data.data
+          this.goodsOptions = []
+          if (res.data.data.length==0) {
+            this.goodsOptions = this.allGoods
+          } else {
+            this.allGoods.forEach(item => {
+              res.data.data.forEach(goods => {
+                if (item.goodsCode != goods.goodsCode) {
+                  this.goodsOptions.push(item)
+                }
+              })
+            })
+          }
+          // console.log("goodsOptions",this.goodsOptions)
+          // this.goodsOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
         }
@@ -259,12 +293,12 @@ export default {
             maxNum: this.ruleForm.maxNum,
             minNum: this.ruleForm.minNum,
             accountNum: this.ruleForm.accountNum,
-            occupyNum: this.ruleForm.occupyNum||0,
-            availableNum: this.ruleForm.availableNum||0,
+            occupyNum: this.ruleForm.occupyNum || 0,
+            availableNum: this.ruleForm.availableNum || 0,
             rejectsNum: this.ruleForm.rejectsNum,
             countNum: this.ruleForm.countNum,
             description: this.ruleForm.description,
-            onwayNum: this.ruleForm.onwayNum||0,
+            onwayNum: this.ruleForm.onwayNum || 0,
             operateTime: moment().format("YYYY-MM-DD HH:mm:ss")
           }
           shopkeeperWarehouseAdd(data).then(res => {
