@@ -73,7 +73,7 @@
                 and is_deleted = #{isDeleted}
             </if>
         </where>
-        order by create_time
+        order by create_time,status
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
