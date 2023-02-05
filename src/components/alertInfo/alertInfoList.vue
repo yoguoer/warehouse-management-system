@@ -32,14 +32,14 @@
             <span>{{ scope.row.goodsCode }}·{{ scope.row.goodsName }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="type" label="类型" :show-overflow-tooltip="true">
+        <el-table-column prop="type" label="类型" :show-overflow-tooltip="true" width="120px">
           <template slot-scope="scope">
             <span>{{ scope.row.type == 0 ? '连续未动销预警' : (scope.row.type == 1 ? '满仓预警' : '缺货预警') }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="alertTime" label="预警时间" :show-overflow-tooltip="true">
+        <el-table-column prop="alertTime" label="预警时间" :show-overflow-tooltip="true" width="200px">
         </el-table-column>
-        <el-table-column prop="status" label="状态" :show-overflow-tooltip="true">
+        <el-table-column prop="status" label="状态" :show-overflow-tooltip="true" width="100px">
           <template slot-scope="scope">
             <span style="color:#2d8bf0">{{ scope.row.status == 1 ? '已处理' : '未处理' }}</span>
           </template>

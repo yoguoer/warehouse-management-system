@@ -1,5 +1,5 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction"
+  <el-dialog size="30%" :title="ifCreate ? '新增零售单' : '编辑零售单'" :visible.sync="drawer" :direction="direction"
     :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" :wrapperClosable="false"
     :append-to-body='true' width="1200px">
 
@@ -189,6 +189,12 @@ export default {
         ],
         type: [
           { required: true, message: '请设置出库类型', trigger: 'blur' },
+        ],
+        shopPeopleCode: [
+          { required: true, message: '请设置门店操作员', trigger: 'blur' },
+        ],
+        inventoryPeopleCode: [
+          { required: true, message: '请设置仓库操作员', trigger: 'blur' },
         ],
       }
     }

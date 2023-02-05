@@ -89,6 +89,9 @@ export default {
         accountNum: [
           { required: true, message: '请设置账面库存', trigger: 'blur' },
         ],
+        countNum: [
+          { required: true, message: '请设置盘点数', trigger: 'blur' },
+        ],
       }
     }
   },

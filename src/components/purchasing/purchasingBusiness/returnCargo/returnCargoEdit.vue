@@ -1,5 +1,5 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction" :close-on-click-modal="false" 
+  <el-dialog size="30%" :title="ifCreate ? '新增确认入库单' : '确认入库编辑'" :visible.sync="drawer" :direction="direction" :close-on-click-modal="false" 
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -213,6 +213,9 @@ export default {
         ],
         inventoryCode: [
           { required: true, message: '请选择仓库', trigger: 'blur' },
+        ],
+        positionCode: [
+          { required: true, message: '请选择货位', trigger: 'blur' },
         ],
         inputPlan: [
           { required: true, message: '请设置计划数', trigger: 'blur' },

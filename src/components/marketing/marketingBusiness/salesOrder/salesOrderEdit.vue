@@ -1,5 +1,5 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增销售单' : '编辑与发货'" :visible.sync="drawer" :direction="direction" :close-on-click-modal="false" 
+  <el-dialog size="30%" :title="ifCreate ? '新增销售单' : (output?'发货':'编辑销售单')" :visible.sync="drawer" :direction="direction" :close-on-click-modal="false" 
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -7,7 +7,7 @@
         <el-col :span="10">
           <el-form-item label="门店" prop="shopCode">
             <el-select size="middle" v-model="ruleForm.shopCode" placeholder="" style="width:100%;" clearable
-              ref="selection">
+              ref="selection" :disabled="output">
               <el-option @click.native="setShopName(item)" v-for="item in shopOptions" :key="item.shopKey"
                 :label="item.shopName" :value="item.shopCode" :disabled="(item.shopStatus==6||item.shopStatus==1)?false:true">
               </el-option>
@@ -17,7 +17,7 @@
         <el-col :span="10">
           <el-form-item label="商品" prop="goodsCode">
             <el-select size="middle" v-model="ruleForm.goodsCode" placeholder="商品" style="width:100%;" clearable
-              ref="goodsSelect">
+              ref="goodsSelect" :disabled="output">
               <el-option @click.native="setGoodsName(item)" v-for="item in goodsOptions" :key="item.goodsCode"
                 :label="item.goodsName" :value="item.goodsCode">
               </el-option>
@@ -29,13 +29,54 @@
         <el-col :span="10">
           <el-form-item label="客户" prop="customerCode">
             <el-select size="middle" v-model="ruleForm.customerCode" placeholder="客户" style="width:100%;" clearable
-              ref="customerSelect">
+              ref="customerSelect" :disabled="output">
               <el-option @click.native="setCustomerName" v-for="item in customerOptions" :key="item.customerKey"
                 :label="item.customerName" :value="item.customerCode">
               </el-option>
             </el-select>
           </el-form-item>
         </el-col>
+        <el-col :span="10">
+          <el-form-item label="出库价格" prop="outputPrice">
+            <el-input  :disabled="output" v-model="ruleForm.outputPrice" clearable placeholder="出库价格" :min="0" type="Number"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="10">
+          <el-form-item label="计划出库数" prop="outputPlan">
+            <el-input  :disabled="output" v-model="ruleForm.outputPlan" clearable placeholder="计划出库数" :min="0" type="Number"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
+          <el-form-item label="出库类型" prop="type">
+            <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable :disabled="output">
+              <!-- <el-option label="零售出库" :value="0"></el-option> -->
+              <el-option label="客户订购出库" :value="1"></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="10">
+          <el-form-item label="门店操作员" prop="shopPeopleCode">
+            <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="操作员"></el-input> -->
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;"
+              clearable :disabled="output">
+              <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
+          <span style="margin-left: 8%;">起止日期</span>
+          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right"
+            size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
+            :picker-options="pickerOptions" @change="setTime" value-format="yyyy-MM-dd HH:mm:ss" :disabled="output">
+          </el-date-picker>
+        </el-col>
+      </el-row>
+      <el-row v-if="output">
         <el-col :span="10">
           <el-form-item label="仓库" prop="inventoryCode">
             <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
@@ -46,8 +87,6 @@
             </el-select>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="10">
           <el-form-item label="库位" prop="positionCode">
             <el-select size="middle" v-model="ruleForm.positionCode" placeholder="库位" style="width:100%;" clearable>
@@ -56,45 +95,6 @@
               </el-option>
             </el-select>
           </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item label="计划出库数" prop="outputPlan">
-            <el-input v-model="ruleForm.outputPlan" clearable placeholder="计划出库数" :min="0" type="Number"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10">
-          <el-form-item label="出库价格" prop="outputPrice">
-            <el-input v-model="ruleForm.outputPrice" clearable placeholder="出库价格" :min="0" type="Number"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <el-form-item label="出库类型" prop="type">
-            <el-select size="small" v-model="ruleForm.type" placeholder="出库类型" clearable>
-              <!-- <el-option label="零售出库" :value="0"></el-option> -->
-              <el-option label="客户订购出库" :value="1"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10">
-          <el-form-item label="操作员" prop="shopPeopleCode">
-            <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="操作员"></el-input> -->
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="操作员" style="width:100%;"
-              clearable>
-              <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10">
-          <span style="margin-left: 8%;">起止日期</span>
-          <el-date-picker style="width:310px;margin-left: 10px;" v-model="value2" type="daterange" align="right"
-            size="large" unlink-panels range-separator="至" start-placeholder="预计日期" end-placeholder="最迟日期"
-            :picker-options="pickerOptions" @change="setTime" value-format="yyyy-MM-dd HH:mm:ss">
-          </el-date-picker>
         </el-col>
       </el-row>
       <el-row v-if="output">
@@ -223,14 +223,29 @@ export default {
         inventoryCode: [
           { required: true, message: '请选择仓库', trigger: 'blur' },
         ],
+        positionCode: [
+          { required: true, message: '请选择货位', trigger: 'blur' },
+        ],
         outputPlan: [
           { required: true, message: '请设置计划出库数', trigger: 'blur' },
         ],
         outputPrice: [
           { required: true, message: '请设置出库价格', trigger: 'blur' },
         ],
+        outputActual: [
+          { required: true, message: '请设置实际出库数', trigger: 'blur' },
+        ],
         type: [
           { required: true, message: '请设置出库类型', trigger: 'blur' },
+        ],
+        type: [
+          { required: true, message: '请设置出库类型', trigger: 'blur' },
+        ],
+        shopPeopleCode: [
+          { required: true, message: '请设置门店操作员', trigger: 'blur' },
+        ],
+        inventoryPeopleCode: [
+          { required: true, message: '请设置仓库操作员', trigger: 'blur' },
         ],
       }
     }
