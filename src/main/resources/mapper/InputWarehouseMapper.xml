@@ -268,15 +268,11 @@
             <if test="inventoryPeopleCode != null and inventoryPeopleCode != ''">
                 inventory_people_code = #{inventoryPeopleCode},
             </if>
-            <if test="returnReason != null and returnReason != ''">
                 return_reason = #{returnReason},
-            </if>
             <if test="isDeleted != null">
                 is_deleted = #{isDeleted},
             </if>
-            <if test="returnNum != null">
                 return_num = #{returnNum},
-            </if>
             <if test="inputShopCode != null and inputShopCode != ''">
                 input_shop_code = #{inputShopCode},
             </if>

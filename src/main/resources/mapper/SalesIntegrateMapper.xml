@@ -36,6 +36,7 @@
             and customer_code!=""
         </where>
         group by shop_code
+        order by outputSum DESC
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
@@ -77,6 +78,7 @@
             and customer_code!=""
         </where>
         group by goods_code
+        order by outputSum DESC
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
@@ -118,6 +120,7 @@
             and customer_code!=""
         </where>
         group by customer_code
+        order by outputSum DESC
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 

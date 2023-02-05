@@ -68,6 +68,7 @@
             and check_status=1
         </where>
         group by transfer_check.goods_code,output_warehouse.shop_code,input_warehouse.shop_code
+        order by transferSum DESC
         limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
     </select>
 
