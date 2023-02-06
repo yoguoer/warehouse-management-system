@@ -97,7 +97,7 @@
           <el-form-item label="车辆" prop="vehicleCode">
             <el-select size="middle" v-model="ruleForm.vehicleCode" placeholder="车辆" style="width:100%;" clearable>
               <el-option v-for="item in vehicleOptions" :key="item.vehicleKey" :label="item.vehicleCode"
-                :value="item.vehicleCode">
+                :value="item.vehicleCode" @change="checkNum">
               </el-option>
             </el-select>
           </el-form-item>
@@ -205,6 +205,7 @@ export default {
         outputShopCode: "",
         inputShopCode: "",
       },
+      availableNum:'',
       shopOptions: [],
       goodsOptions: [],
       positionOptions: [],
@@ -419,6 +420,17 @@ export default {
     },
     setGoodsName() {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
+      this.shopOptions.forEach(item=>{
+        if(item.goodsCode==item.goodsCode&&item.shopCode==this.ruleForm.shopCode){
+          this.availableNum=item.availableNum
+        }
+      })
+    },
+    checkNum(){
+      if(this.ruleForm.outputPlan>this.availableNum&&this.ruleForm.checkStatus==1){
+        this.$message.error(`超过最大可用数：${this.availableNum}`);
+        this.ruleForm.outputPlan=''
+      }
     },
     setTime() {
       this.ruleForm.createTime = this.value2[0]

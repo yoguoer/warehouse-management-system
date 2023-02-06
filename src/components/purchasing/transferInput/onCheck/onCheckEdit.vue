@@ -170,7 +170,11 @@ export default {
             end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
             picker.$emit('pick', [start, end]);
           }
-        }]
+        }],
+        disabledDate: (time) => {
+          return new Date(time).getTime() < new Date().getTime() - 1 * 24 * 3600 * 1000
+            || new Date(time).getTime() > new Date().getTime() + 30 * 24 * 3600 * 1000 * 6;
+        }
       },
       value2: '',
       rules: {

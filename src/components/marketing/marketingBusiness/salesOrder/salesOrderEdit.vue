@@ -49,7 +49,7 @@
         <el-col :span="10">
           <el-form-item label="计划出库数" prop="outputPlan">
             <el-input :disabled="output" v-model="ruleForm.outputPlan" clearable placeholder="计划出库数" :min="0"
-              type="Number"></el-input>
+              type="Number" @blur="checkNum"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -178,6 +178,7 @@ export default {
         outputShopCode: "",
         outputShopName: "",
       },
+      availableNum:'',
       shopOptions: [],
       goodsOptions: [],
       positionOptions: [],
@@ -384,11 +385,22 @@ export default {
     },
     setCustomerName() {
       this.ruleForm.customerName = this.$refs.customerSelect.selectedLabel
+      this.shopOptions.forEach(item=>{
+        if(item.goodsCode==item.goodsCode&&item.shopCode==this.ruleForm.shopCode){
+          this.availableNum=item.availableNum
+        }
+      })
     },
     setGoodsName(item) {
       console.log(this.$refs.goodsSelect.selectedLabel)
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
       this.ruleForm.outputPrice = item.priceWholesaler
+    },
+    checkNum(){
+      if(this.ruleForm.outputPlan>this.availableNum){
+        this.$message.error(`超过最大可用数：${this.availableNum}`);
+        this.ruleForm.outputPlan=''
+      }
     },
     setPosition() {
       this.ruleForm.inventoryName = this.$refs.inventorySelect.selectedLabel
