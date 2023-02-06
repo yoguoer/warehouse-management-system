@@ -9,7 +9,7 @@
           <el-form-item label="门店" prop="shopCode">
             <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable
               ref="selection">
-              <el-option @click.native="setShopName(item)" v-for="item in shopOptions" :key="item.shopKey"
+              <el-option @click.native="setShopName(item)" v-for="item in shopOptions" :key="item.shopCode"
                 :label="item.shopName" :value="item.shopCode" :disabled="(item.shopStatus==6||item.shopStatus==1)?false:true">
               </el-option>
             </el-select>
@@ -267,15 +267,18 @@ export default {
         console.log(err)
       });
     },
-    // unique(arr) {
-    //   const res = new Map();
-    //   return arr.filter((arr) => !res.has(arr.shopKey) && res.set(arr.shopKey, 1));
-    // },
     getshoplist() {
       shopkeeperWarehouseList().then(res => {
         if (res.data.code == 200) {
           this.shopOptions = res.data.data
-          // this.shopOptions = this.unique(res.data.data)
+          res.data.data.forEach(t=>{
+            this.shopOptions.forEach(item=>{// 去掉已有仓库的
+            if(item.shopCode==t.shopCode){
+                let index=this.shopOptions.indexOf(item)
+                this.shopOptions.splice(index,1)
+              }
+            })
+          })
         } else {
           this.$message.error("获取失败!");
         }
