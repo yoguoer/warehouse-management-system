@@ -1,6 +1,7 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增销售单' : (output?'发货':'编辑销售单')" :visible.sync="drawer" :direction="direction" :close-on-click-modal="false" 
-    :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
+  <el-dialog size="30%" :title="ifCreate ? '新增销售单' : (output ? '发货' : '编辑销售单')" :visible.sync="drawer"
+    :direction="direction" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false"
+    :wrapperClosable="false" :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-row>
@@ -9,7 +10,8 @@
             <el-select size="middle" v-model="ruleForm.shopCode" placeholder="" style="width:100%;" clearable
               ref="selection" :disabled="output">
               <el-option @click.native="setShopName(item)" v-for="item in shopOptions" :key="item.shopKey"
-                :label="item.shopName" :value="item.shopCode" :disabled="(item.shopStatus==6||item.shopStatus==1)?false:true">
+                :label="item.shopName" :value="item.shopCode"
+                :disabled="(item.shopStatus == 6 || item.shopStatus == 1) ? false : true">
               </el-option>
             </el-select>
           </el-form-item>
@@ -38,14 +40,16 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="出库价格" prop="outputPrice">
-            <el-input  :disabled="output" v-model="ruleForm.outputPrice" clearable placeholder="出库价格" :min="0" type="Number"></el-input>
+            <el-input :disabled="output" v-model="ruleForm.outputPrice" clearable placeholder="出库价格" :min="0"
+              type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
           <el-form-item label="计划出库数" prop="outputPlan">
-            <el-input  :disabled="output" v-model="ruleForm.outputPlan" clearable placeholder="计划出库数" :min="0" type="Number"></el-input>
+            <el-input :disabled="output" v-model="ruleForm.outputPlan" clearable placeholder="计划出库数" :min="0"
+              type="Number"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -61,8 +65,8 @@
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
             <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="操作员"></el-input> -->
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;"
-              clearable :disabled="output">
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable
+              :disabled="output">
               <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
               </el-option>
             </el-select>
@@ -82,7 +86,7 @@
             <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
               ref="inventorySelect">
               <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
-                :label="item.inventoryName" :value="item.inventoryCode" :disabled="(item.status==1)?false:true">
+                :label="item.inventoryName" :value="item.inventoryCode" :disabled="(item.status == 1) ? false : true">
               </el-option>
             </el-select>
           </el-form-item>
@@ -138,7 +142,7 @@ import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
 import { goodslist, CustomerList, positionList, vehicleList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'
 import { UserList } from '@/api/api'
-import { detailWarehouseAdd,shopkeeperWarehouseByShopCode,shopkeeperWarehouseList } from '@/api/warehouse'
+import { detailWarehouseAdd, shopkeeperWarehouseByShopCode, shopkeeperWarehouseList } from '@/api/warehouse'
 import moment from 'moment'
 // import { ShopInventoryList } from "@/api/warehouse";
 
@@ -207,7 +211,11 @@ export default {
             end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
             picker.$emit('pick', [start, end]);
           }
-        }]
+        }],
+        disabledDate: (time) => {
+          return new Date(time).getTime() < new Date().getTime() - 1 * 24 * 3600 * 1000
+            || new Date(time).getTime() > new Date().getTime() + 30 * 24 * 3600 * 1000 * 6;
+        }
       },
       value2: '',
       rules: {
@@ -327,11 +335,11 @@ export default {
       shopkeeperWarehouseList().then(res => {
         if (res.data.code == 200) {
           this.shopOptions = res.data.data
-          res.data.data.forEach(t=>{
-            this.shopOptions.forEach(item=>{// 去掉已有仓库的
-            if(item.shopCode==t.shopCode){
-                let index=this.shopOptions.indexOf(item)
-                this.shopOptions.splice(index,1)
+          res.data.data.forEach(t => {
+            this.shopOptions.forEach(item => {// 去掉已有仓库的
+              if (item.shopCode == t.shopCode) {
+                let index = this.shopOptions.indexOf(item)
+                this.shopOptions.splice(index, 1)
               }
             })
           })
@@ -341,12 +349,12 @@ export default {
       })
     },
     getgoodslist(item) {
-      shopkeeperWarehouseByShopCode({shopCode:item.shopCode,shopName:item.shopName}).then(res => {
+      shopkeeperWarehouseByShopCode({ shopCode: item.shopCode, shopName: item.shopName }).then(res => {
         if (res.data.code == 200) {
           this.goodsOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
-        }      
+        }
       });
     },
     getCustomerList() {
@@ -368,8 +376,8 @@ export default {
         }
       });
     },
-    setShopName(item ) {
-      this.goodsOptions=[]
+    setShopName(item) {
+      this.goodsOptions = []
       this.getShopInventoryList()
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
       this.getgoodslist(item)

@@ -1,6 +1,7 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增采购单' : '编辑采购单'" :visible.sync="drawer" :direction="direction" :close-on-click-modal="false" 
-    :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
+  <el-dialog size="30%" :title="ifCreate ? '新增采购单' : '编辑采购单'" :visible.sync="drawer" :direction="direction"
+    :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" :wrapperClosable="false"
+    :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-row>
@@ -161,7 +162,11 @@ export default {
             end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
             picker.$emit('pick', [start, end]);
           }
-        }]
+        }],
+        disabledDate: (time) => {
+          return new Date(time).getTime() < new Date().getTime() - 1 * 24 * 3600 * 1000
+            || new Date(time).getTime() > new Date().getTime() + 30 * 24 * 3600 * 1000 * 6;
+        }
       },
       value2: '',
       rules: {
@@ -270,7 +275,7 @@ export default {
     },
     getSupplierlist(supplierKey) {
       SupplierdataById({ supplierKey: supplierKey }).then(res => {
-        this.supplierOptions=[]
+        this.supplierOptions = []
         if (res.data.code == 200) {
           this.supplierOptions.push(res.data.data)
         } else {

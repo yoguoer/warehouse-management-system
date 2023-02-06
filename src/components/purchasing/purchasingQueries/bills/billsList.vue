@@ -220,7 +220,7 @@ export default {
           // this.shopOptions = res.data.data
           let temp = this.unique(res.data.data)
           temp.forEach(item => {
-            this.shopOptions.push({ label: item.shopName, value: item.shopCode })
+            this.inventoryOptions.push({ label: item.shopName, value: item.shopCode })
           });
         } else {
           this.$message.error("获取失败!");
