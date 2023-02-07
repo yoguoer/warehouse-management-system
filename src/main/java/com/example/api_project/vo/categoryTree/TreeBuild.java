@@ -1,4 +1,4 @@
-package com.example.api_project.vo.tree;
+package com.example.api_project.vo.categoryTree;
 
 import java.util.ArrayList;
 import java.util.List;

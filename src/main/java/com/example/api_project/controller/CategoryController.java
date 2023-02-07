@@ -1,8 +1,8 @@
 package com.example.api_project.controller;
 
 import com.example.api_project.service.*;
-import com.example.api_project.vo.tree.TreeBuild;
-import com.example.api_project.vo.tree.TreeNode;
+import com.example.api_project.vo.categoryTree.TreeBuild;
+import com.example.api_project.vo.categoryTree.TreeNode;
 import com.example.api_project.model.ResponseData;
 import com.example.api_project.model.Result;
 import com.example.api_project.pojo.Category;
@@ -60,7 +60,6 @@ public class CategoryController {
         treeNodeList = treeBuild.buildTree();
         // Result：个人封装返回的结果体
         return ResponseData.success(treeNodeList);
-//        return ResponseData.success(this.categoryService.querylist(categoryType));
     }
 
     /**

@@ -1,4 +1,4 @@
-package com.example.api_project.vo.tree;
+package com.example.api_project.vo.categoryTree;
 
 import com.example.api_project.pojo.Category;
 

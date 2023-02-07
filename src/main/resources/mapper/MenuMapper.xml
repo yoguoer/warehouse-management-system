@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.MenuMapper">
+
+    <resultMap type="com.example.api_project.pojo.Menu" id="MenuMap">
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="icon" column="icon" jdbcType="VARCHAR"/>
+        <result property="component_name" column="componentName" jdbcType="VARCHAR"/>
+        <result property="level" column="level" jdbcType="INTEGER"/>
+        <result property="parentMenuKey" column="parent_menu_key" jdbcType="VARCHAR"/>
+        <result property="menuKey" column="menu_key" jdbcType="VARCHAR"/>
+        <result property="menuRole" column="menu_role" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MenuMap">
+        select
+          name, icon, component_name, level, parent_menu_key, menu_key, menu_role
+        from menu
+        where menu_key = #{menuKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="getMenuList" resultMap="MenuMap">
+        select
+          name, icon, component_name, level, parent_menu_key, menu_key, menu_role
+        from menu
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="icon != null and icon != ''">
+                and icon = #{icon}
+            </if>
+            <if test="componentName != null and componentName != ''">
+                and component_name = #{componentName}
+            </if>
+            <if test="level != null">
+                and level = #{level}
+            </if>
+            <if test="parentMenuKey != null and parentMenuKey != ''">
+                and parent_menu_key = #{parentMenuKey}
+            </if>
+            <if test="menuKey != null and menuKey != ''">
+                and menu_key = #{menuKey}
+            </if>
+            <if test="menuRole != null and menuRole != ''">
+                and menu_role = #{menuRole}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from menu
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="icon != null and icon != ''">
+                and icon = #{icon}
+            </if>
+            <if test="componentName != null and componentName != ''">
+                and component_name = #{componentName}
+            </if>
+            <if test="level != null">
+                and level = #{level}
+            </if>
+            <if test="parentMenuKey != null and parentMenuKey != ''">
+                and parent_menu_key = #{parentMenuKey}
+            </if>
+            <if test="menuKey != null and menuKey != ''">
+                and menu_key = #{menuKey}
+            </if>
+            <if test="menuRole != null and menuRole != ''">
+                and menu_role = #{menuRole}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="menuKey" useGeneratedKeys="true">
+        insert into menu(name, icon, component_name, level, parent_menu_key, menu_role)
+        values (#{name}, #{icon}, #{componentName}, #{level}, #{parentMenuKey}, #{menuRole})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="menuKey" useGeneratedKeys="true">
+        insert into menu(name, icon, component_name, level, parent_menu_key, menu_role)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.name}, #{entity.icon}, #{entity.componentName}, #{entity.level}, #{entity.parentMenuKey}, #{entity.menuRole})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="menuKey" useGeneratedKeys="true">
+        insert into menu(name, icon, component_name, level, parent_menu_key, menu_role)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.icon}, #{entity.componentName}, #{entity.level}, #{entity.parentMenuKey}, #{entity.menuRole})
+        </foreach>
+        on duplicate key update
+        name = values(name),
+        icon = values(icon),
+        component_name = values(component_name),
+        level = values(level),
+        parent_menu_key = values(parent_menu_key),
+        menu_role = values(menu_role)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update menu
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="icon != null and icon != ''">
+                icon = #{icon},
+            </if>
+            <if test="componentName != null and componentName != ''">
+                component_name = #{componentName},
+            </if>
+            <if test="level != null">
+                level = #{level},
+            </if>
+            <if test="parentMenuKey != null and parentMenuKey != ''">
+                parent_menu_key = #{parentMenuKey},
+            </if>
+            <if test="menuRole != null and menuRole != ''">
+                menu_role = #{menuRole},
+            </if>
+        </set>
+        where menu_key = #{menuKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from menu where menu_key = #{menuKey}
+    </delete>
+
+</mapper>
+
