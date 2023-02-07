@@ -37,3 +37,12 @@ export function getUserInfo(data) {
     data: qs.parse(data),
   });
 }
+
+// 获取菜单
+export function getMenuList(data) {
+  return request({
+    url: baseURL + "/menu/list",
+    method: "get",
+    params: qs.parse(data),
+  });
+}

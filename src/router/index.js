@@ -43,12 +43,12 @@ const routes = [{
         name: "welcome",
         component: () => import("@/views/login/welcome.vue"),
       },
-      //测试页
-      {
-        path: "/HelloWorld",
-        name: "HelloWorld",
-        component: () => import("@/components/HelloWorld"),
-      },
+      // //测试页
+      // {
+      //   path: "/HelloWorld",
+      //   name: "HelloWorld",
+      //   component: () => import("@/components/HelloWorld"),
+      // },
       //预警信息页
       {
         path: "/alertInfo/:type",
