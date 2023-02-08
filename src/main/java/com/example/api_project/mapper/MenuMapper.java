@@ -21,11 +21,9 @@ public interface MenuMapper {
     /**
      * 查询指定行数据
      *
-     * @param menu 查询条件
-     * @param pageable         分页对象
      * @return 对象列表
      */
-    List<Menu> getMenuList(Menu menu);
+    List<Menu> getMenuList(String menuRole);
 
     /**
      * 统计总行数

@@ -36,7 +36,19 @@ public class Menu implements Serializable {
      * 菜单可用角色权限
      */
     private String menuRole;
+    /**
+     * 菜单可用类型
+     */
+    private String menuType;
 
+
+    public String getMenuType() {
+        return menuType;
+    }
+
+    public void setMenuType(String menuType) {
+        this.menuType = menuType;
+    }
 
     public String getName() {
         return name;
@@ -93,6 +105,5 @@ public class Menu implements Serializable {
     public void setMenuRole(String menuRole) {
         this.menuRole = menuRole;
     }
-
 }
 
