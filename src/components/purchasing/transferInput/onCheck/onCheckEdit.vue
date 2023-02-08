@@ -5,8 +5,8 @@
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-row>
         <el-col :span="10">
-          <el-form-item label="门店" prop="shopCode">
-            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable
+          <el-form-item label="申请门店" prop="shopCode">
+            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="申请门店" style="width:100%;" clearable
               ref="selection">
               <el-option @click.native="setShopName" v-for="item in shopOptions" :key="item.shopKey"  :disabled="((item.shopStatus==6||item.shopStatus==1)?false:true)||item.shopCode==ruleForm.inputShopCode"
                 :label="item.shopName" :value="item.shopCode">
@@ -48,7 +48,7 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="计划入库数" prop="inputPlan">
-            <el-input v-model="ruleForm.inputPlan" clearable :min="0" placeholder="计划入库数" type="Number"></el-input>
+            <el-input v-model="ruleForm.inputPlan" clearable :min="0" placeholder="计划入库数" type="Number" @blur="checkNum"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -317,6 +317,18 @@ export default {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
       this.ruleForm.inputPrice = item.priceLatestPurchase
       this.getOneHaveIt()
+    },
+    checkNum(){
+      this.inputShopOptions.forEach(item=>{
+        if(item.goodsCode==item.goodsCode&&item.shopCode==this.ruleForm.inputShopCode){
+          this.availableNum=item.availableNum
+        }
+      })
+      // console.log("----------",this.availableNum)
+      if(this.ruleForm.inputPlan>this.availableNum){
+        this.$message.error(`超过最大可用数：${this.availableNum}`);
+        this.ruleForm.inputPlan=''
+      }
     },
     setTime() {
       this.ruleForm.createTime = this.value2[0]

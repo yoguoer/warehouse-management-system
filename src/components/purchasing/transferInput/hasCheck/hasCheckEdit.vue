@@ -1,15 +1,15 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction" :close-on-click-modal="false" 
+  <el-dialog size="30%" :title="ifCreate ? '新增调货申请' : '编辑调货申请'" :visible.sync="drawer" :direction="direction" :close-on-click-modal="false" 
     :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-row>
         <el-col :span="10">
-          <el-form-item label="门店" prop="shopCode">
-            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="门店" style="width:100%;" clearable
+          <el-form-item label="申请门店" prop="shopCode">
+            <el-select size="middle" v-model="ruleForm.shopCode" placeholder="申请门店" style="width:100%;" clearable
               ref="selection">
-              <el-option @click.native="setShopName" v-for="item in shopOptions" :key="item.shopKey"
-                :label="item.shopName" :value="item.shopCode" :disabled="((item.shopStatus==6||item.shopStatus==1)?false:true)||item.shopCode==ruleForm.inputShopCode">
+              <el-option @click.native="setShopName" v-for="item in shopOptions" :key="item.shopKey"  :disabled="((item.shopStatus==6||item.shopStatus==1)?false:true)||item.shopCode==ruleForm.inputShopCode"
+                :label="item.shopName" :value="item.shopCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -31,7 +31,7 @@
             <el-select size="middle" v-model="ruleForm.inputShopCode" placeholder="调货门店" style="width:100%;" clearable
               ref="inputShopSelect">
               <el-option @click.native="setinputShopName" v-for="item in inputShopOptions" :key="item.shopKey"
-                :label="item.shopName" :value="item.shopCode"  :disabled="((item.shopStatus==6||item.shopStatus==1)?false:true)||item.shopCode==ruleForm.shopCode">
+                :label="item.shopName" :value="item.shopCode" :disabled="((item.shopStatus==6||item.shopStatus==1)?false:true)||item.shopCode==ruleForm.shopCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -48,12 +48,12 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="计划入库数" prop="inputPlan">
-            <el-input v-model="ruleForm.inputPlan" clearable placeholder="计划入库数"></el-input>
+            <el-input v-model="ruleForm.inputPlan" clearable :min="0" placeholder="计划入库数" type="Number" @blur="checkNum"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
           <el-form-item label="入库价格" prop="inputPrice">
-            <el-input v-model="ruleForm.inputPrice" clearable placeholder="入库价格"></el-input>
+            <el-input v-model="ruleForm.inputPrice" clearable :min="0" placeholder="入库价格" type="Number"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -98,8 +98,7 @@ import { transferCheckUpdate, transferCheckAdd } from '@/api/check'
 import { goodslist } from '@/api/data'
 import { UserList } from '@/api/api'
 import moment from 'moment'
-import { getByshopCode } from '@/api/warehouse'
-import { ShopInventoryList,shopkeeperWarehouseList } from "@/api/warehouse"
+import { ShopInventoryList,shopkeeperWarehouseList } from "@/api/warehouse";
 
 export default {
   name: 'guestEdit',
@@ -171,12 +170,19 @@ export default {
             end.setTime(end.getTime() + 3600 * 1000 * 24 * 90);
             picker.$emit('pick', [start, end]);
           }
-        }]
+        }],
+        disabledDate: (time) => {
+          return new Date(time).getTime() < new Date().getTime() - 1 * 24 * 3600 * 1000
+            || new Date(time).getTime() > new Date().getTime() + 30 * 24 * 3600 * 1000 * 6;
+        }
       },
       value2: '',
       rules: {
         shopCode: [
           { required: true, message: '请选择门店', trigger: 'blur' },
+        ],
+        inputShopCode: [
+          { required: true, message: '请选择调货门店', trigger: 'blur' },
         ],
         goodsCode: [
           { required: true, message: '请选择商品', trigger: 'blur' },
@@ -226,7 +232,7 @@ export default {
       this.ruleForm.deadlineTime = this.rowData.deadlineTime
       this.ruleForm.vehicleCode = this.rowData.vehicleCode
       this.ruleForm.status = this.rowData.status
-      this.ruleForm.type = this.rowData.type
+      // this.ruleForm.type = this.rowData.type
       this.ruleForm.shopPeopleCode = this.rowData.shopPeopleCode
       this.ruleForm.inventoryPeopleCode = this.rowData.inventoryPeopleCode
       this.ruleForm.isDeleted = this.rowData.isDeleted
@@ -241,9 +247,10 @@ export default {
       this.ruleForm.checkTime = this.rowData.checkTime
       this.ruleForm.outputWarehouseKey = this.rowData.outputWarehouseKey
       this.ruleForm.returnNum = this.rowData.returnNum
-      if(this.rowData.createTime!=""){
+      if(this.rowData.createTime){
         this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
       }
+      // this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
     } else {
       this.ifCreate = true
     }
@@ -266,20 +273,10 @@ export default {
         if (res.data.code == 200) {
           // this.shopOptions = res.data.data
           this.shopOptions = this.unique(res.data.data)
-          this.inputShopOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
         }
       })
-    },
-    getgoodslist() {
-      goodslist().then(res => {
-        if (res.data.code == 200) {
-          this.goodsOptions = res.data.data
-        } else {
-          this.$message.error("获取失败!");
-        }
-      });
     },
     getOneHaveIt() {
       shopkeeperWarehouseList().then(res => {
@@ -295,6 +292,21 @@ export default {
         }
       });
     },
+    getgoodslist() {
+      goodslist().then(res => {
+        if (res.data.code == 200) {
+          // this.goodsOptions = res.data.data
+          this.goodsOptions=[]
+          res.data.data.forEach(item=>{
+            if(item.state==1){
+              this.goodsOptions.push(item)
+            }
+          })
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     setShopName() {
       this.ruleForm.shopName = this.$refs.selection.selectedLabel
     },
@@ -306,6 +318,18 @@ export default {
       this.ruleForm.inputPrice = item.priceLatestPurchase
       this.getOneHaveIt()
     },
+    checkNum(){
+      this.inputShopOptions.forEach(item=>{
+        if(item.goodsCode==item.goodsCode&&item.shopCode==this.ruleForm.inputShopCode){
+          this.availableNum=item.availableNum
+        }
+      })
+      // console.log("----------",this.availableNum)
+      if(this.ruleForm.inputPlan>this.availableNum){
+        this.$message.error(`超过最大可用数：${this.availableNum}`);
+        this.ruleForm.inputPlan=''
+      }
+    },
     setTime() {
       this.ruleForm.createTime = this.value2[0]
       this.ruleForm.deadlineTime = this.value2[1]
@@ -313,6 +337,7 @@ export default {
     },
     close() {
       this.$parent.drawer = false
+      this.$emit('close')
     },
     save(formName) {
       this.ruleForm.createTime = this.value2[0]

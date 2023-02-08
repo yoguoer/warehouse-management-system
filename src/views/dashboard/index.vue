@@ -103,10 +103,12 @@ export default {
     console.log("当前所在：", this.selOneMenu)
   },
   created() {
+    let user = JSON.parse(localStorage.getItem("userInfo"))
+
     //判断用户身份
-    this.userType = this.$store.state.userType
-    this.userName = this.$store.state.userName
-    this.menuType = this.$store.state.userBelong
+    this.userType = this.$store.state.userType || user.userType
+    this.userName = this.$store.state.userName || user.userName
+    this.menuType = this.$store.state.userBelong || user.userBelong
     //处理刷新后活跃标签信息丢失的问题
     if (sessionStorage.getItem("selOneMenu")) {
       this.selOneMenu = sessionStorage.getItem("selOneMenu")

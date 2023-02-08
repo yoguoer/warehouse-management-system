@@ -29,7 +29,7 @@
           <el-form-item label="调货出库门店" prop="outputShopCode">
             <el-select size="middle" v-model="ruleForm.outputShopCode" placeholder="调货出库门店" style="width:100%;" disabled
               clearable ref="inputShopSelect">
-              <el-option @click.native="setoutputShopName" v-for="item in inputShopOptions" :key="item.shopKey"
+              <el-option @click.native="setoutputShopName" v-for="item in outputShopOptions" :key="item.shopKey"
                 :label="item.shopName" :value="item.shopCode">
               </el-option>
             </el-select>
@@ -73,7 +73,7 @@
                   <i class="el-icon-minus"></i> 未审批
                 </span>
               </el-option>
-              <el-option label="同意" :value="1" @click.native="ifShow = true">
+              <el-option label="同意" :value="1" @click.native="checkNum" >
                 <span style="float: left">
                   <i class="el-icon-check"></i> 同意
                 </span>
@@ -97,7 +97,7 @@
           <el-form-item label="车辆" prop="vehicleCode">
             <el-select size="middle" v-model="ruleForm.vehicleCode" placeholder="车辆" style="width:100%;" clearable>
               <el-option v-for="item in vehicleOptions" :key="item.vehicleKey" :label="item.vehicleCode"
-                :value="item.vehicleCode" @change="checkNum">
+                :value="item.vehicleCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -159,10 +159,10 @@ import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
 import { goodslist, vehicleList, positionList } from '@/api/data'
 import { UserList } from '@/api/api'
 import moment from 'moment'
-import { ShopInventoryList } from '@/api/warehouse'
+import { ShopInventoryList,shopkeeperWarehouseList } from '@/api/warehouse'
 import { getByshopCode } from '@/api/warehouse'
 import { inputWarehouseUpdate } from '@/api/purchasing'
-import { detailWarehouseUpdate, detailWarehouseAdd, shopkeeperWarehouseList, } from '@/api/warehouse'
+import { detailWarehouseUpdate, detailWarehouseAdd } from '@/api/warehouse'
 
 export default {
   name: 'guestEdit',
@@ -209,7 +209,7 @@ export default {
       shopOptions: [],
       goodsOptions: [],
       positionOptions: [],
-      inputShopOptions: [],
+      outputShopOptions: [],
       inventoryOptions: [],
       vehicleOptions: [],
       userOptions: [],
@@ -293,6 +293,7 @@ export default {
   },
   created() {
     this.getshoplist()
+    this.getOutshoplist()
     this.getgoodslist()
     this.getUserList()
     this.getvehicleList()
@@ -333,6 +334,7 @@ export default {
       if(this.rowData.createTime){
         this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
       }
+      this.checkNum()
     }
     if (this.ruleForm.outputWarehouseKey) {
       this.ifCreate = false
@@ -370,12 +372,29 @@ export default {
       const res = new Map();
       return arr.filter((arr) => !res.has(arr.shopKey) && res.set(arr.shopKey, 1));
     },
+    getOutshoplist() {
+      shopkeeperWarehouseList().then(res => {
+        if (res.data.code == 200) {
+          this.outputShopOptions = res.data.data
+          res.data.data.forEach(t=>{
+            this.outputShopOptions.forEach(item=>{// 去掉已有仓库的
+            if(item.shopCode==t.shopCode){
+                let index=this.outputShopOptions.indexOf(item)
+                this.outputShopOptions.splice(index,1)
+              }
+            })
+          })
+        } else {
+          this.$message.error("获取失败!");
+        }
+      })
+    },
     getshoplist() {
       ShopInventoryList().then(res => {
         if (res.data.code == 200) {
           // this.shopOptions = res.data.data
           this.shopOptions = this.unique(res.data.data)
-          this.inputShopOptions = this.unique(res.data.data)
+          // this.outputShopOptions = this.unique(res.data.data)
         } else {
           this.$message.error("获取失败!");
         }
@@ -420,16 +439,19 @@ export default {
     },
     setGoodsName() {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
-      this.shopOptions.forEach(item=>{
-        if(item.goodsCode==item.goodsCode&&item.shopCode==this.ruleForm.shopCode){
+    },
+    checkNum(){
+      this.outputShopOptions.forEach(item=>{
+        if(item.goodsCode==item.goodsCode&&item.shopCode==this.ruleForm.outputShopCode){
           this.availableNum=item.availableNum
         }
       })
-    },
-    checkNum(){
-      if(this.ruleForm.outputPlan>this.availableNum&&this.ruleForm.checkStatus==1){
+      // console.log("----------",this.availableNum)
+      if(this.ruleForm.checkNum>this.availableNum&&this.ruleForm.checkStatus==1){
         this.$message.error(`超过最大可用数：${this.availableNum}`);
-        this.ruleForm.outputPlan=''
+        this.ruleForm.checkStatus=0
+      }else if(this.ruleForm.checkNum<this.availableNum&&this.ruleForm.checkStatus==1){
+        this.ifShow=true
       }
     },
     setTime() {
