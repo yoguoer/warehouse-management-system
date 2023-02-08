@@ -6,7 +6,7 @@
 
       <el-submenu :index="item.componentName" v-for="item in menuList" :key="item.componentName+ ''">
         <template slot="title">
-          <i class="item.icon"></i>
+          <i :class="item.icon"></i>
           <span>{{item.name}}</span>
         </template>
         <el-menu-item-group v-for="children in item.children" :key="children.componentName+ ''">
