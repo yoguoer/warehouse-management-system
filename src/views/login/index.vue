@@ -184,6 +184,12 @@ export default {
             localStorage.setItem("userInfo", JSON.stringify(res.data.data.user))
             localStorage.setItem("token", res.data.data.token)
             localStorage.setItem("userId", res.data.data.user.userId)
+
+            this.$store.dispatch("saveUserId", res.data.data.user.userId)
+            this.$store.dispatch("saveUserName", res.data.data.user.userName)
+            this.$store.dispatch("saveUserType", res.data.data.user.userType)
+            this.$store.dispatch("saveUserbelong", res.data.data.user.userBelong)
+
             //登陆，默认到欢迎页面
             sessionStorage.setItem("selOneMenu", '')
             this.$router.push({ name: 'welcome' });

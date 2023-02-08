@@ -1,7 +1,8 @@
 const state = {
   userId:"",
   userName:"",
-  userType:""
+  userType:"",
+  userBelong:"",
 }
 
 const actions = {
@@ -13,6 +14,9 @@ const actions = {
   },
   saveUserType({commit}, userType) {
     commit('SET_USERTYPE', userType)
+  },
+  saveUserbelong({commit}, userBelong) {
+    commit('SET_USERBELONG', userBelong)
   }
 }
 
@@ -27,6 +31,9 @@ const mutations = {
   SET_USERTYPE: (state, userType) => {
     state.userType = userType
   },
+  SET_USERBELONG: (state, userBelong) => {
+    state.userBelong = userBelong
+  },
 }
 
 // 获取状态信息
@@ -39,6 +46,9 @@ const getters = {
    },
    getUserType (state) {
     return state.userType
+   },
+   getUserBelong (state) {
+    return state.userBelong
    },
 }
 

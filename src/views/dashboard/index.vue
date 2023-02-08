@@ -45,12 +45,12 @@
       <el-menu v-if="isShow && subMenuList.length != 0" class="el-menu-vertical-demo" @select="handleSelect"
         mode="horizontal">
         <div v-for="(group, index) in subMenuList" :key="index">
-          <el-menu-item v-if="!group.children.length>0" :index="group.componentName + ''">
+          <el-menu-item v-if="!group.children.length > 0" :index="group.componentName + ''">
             <!-- <i :class="'iconfont ' + group.icon"></i> -->
             <span slot="title">{{ group.name }}</span>
           </el-menu-item>
 
-          <el-submenu v-if="group.children.length>0" :index="group.componentName + ''">
+          <el-submenu v-if="group.children.length > 0" :index="group.componentName + ''">
             <template slot="title">
               <!-- <i :class="'icon' + group.icon"></i> -->
               <span slot="title">{{ group.name }}</span>
@@ -67,7 +67,7 @@
     <el-main>
       <router-view></router-view>
     </el-main>
-    <leftMenu ref="left" :menuList="menuList"/>
+    <leftMenu ref="left" :menuList="menuList" />
   </div>
 </template>
 
@@ -92,7 +92,7 @@ export default {
       closeMenu: closeMenu,
       userName: "", // 用户名
       userType: "",//角色
-      menuType:"",//归属
+      menuType: "",//归属
       selOneMenu: '',
       menuState: 'close',//左侧菜单状态
       menuList: [],
@@ -104,11 +104,9 @@ export default {
   },
   created() {
     //判断用户身份
-    let user = JSON.parse(localStorage.getItem("userInfo"))
-    this.userType = user.userType
-    this.userName = user.userName
-    this.menuType=user.userBelong
-    // console.log('用户角色', this.userType)
+    this.userType = this.$store.state.userType
+    this.userName = this.$store.state.userName
+    this.menuType = this.$store.state.userBelong
     //处理刷新后活跃标签信息丢失的问题
     if (sessionStorage.getItem("selOneMenu")) {
       this.selOneMenu = sessionStorage.getItem("selOneMenu")
@@ -126,11 +124,11 @@ export default {
   },
   methods: {
     getmenu() {
-      menuGetUserMenu({menuRole:this.userType,menuType:this.menuType}).then((res) => {
+      menuGetUserMenu({ menuRole: this.userType, menuType: this.menuType }).then((res) => {
         console.log(res.data, "menuGetUserMenu");
         if (res.data.code === 200) {
           this.$store.dispatch("saveMenu", res.data.data);
-          this.menuList=res.data.data.menu
+          this.menuList = res.data.data.menu
         } else {
           this.$message({
             message: res.data.msg,
