@@ -101,6 +101,7 @@ export default {
   },
   mounted() {
     console.log("当前所在：", this.selOneMenu)
+    this.getmenu()
   },
   created() {
     let user = JSON.parse(localStorage.getItem("userInfo"))
@@ -117,7 +118,6 @@ export default {
     if (this.selOneMenu = 'welcome') {
       this.isShow = false
     }
-    this.getmenu()
   },
   components: {
     leftMenu
