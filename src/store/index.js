@@ -3,7 +3,9 @@ import Vuex from 'vuex'
 import common from './modules/common.js'
 import menu from './modules/menu.js'
 import createPersistedState from 'vuex-persistedstate'
-import $api from '@/api/api.js'
+import user from './modules/user.js'
+
+
 Vue.use(Vuex)
 export default new Vuex.Store({
   plugins: [
@@ -19,6 +21,7 @@ export default new Vuex.Store({
   },
   modules: {
     menu,
-    common
+    common,
+    user
   }
 })
