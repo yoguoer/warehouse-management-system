@@ -45,12 +45,12 @@
       <el-menu v-if="isShow && subMenuList.length != 0" class="el-menu-vertical-demo" @select="handleSelect"
         mode="horizontal">
         <div v-for="(group, index) in subMenuList" :key="index">
-          <el-menu-item v-if="!group.children" :index="group.componentName + ''">
+          <el-menu-item v-if="!group.children.length>0" :index="group.componentName + ''">
             <!-- <i :class="'iconfont ' + group.icon"></i> -->
             <span slot="title">{{ group.name }}</span>
           </el-menu-item>
 
-          <el-submenu v-if="group.children" :index="group.componentName + ''">
+          <el-submenu v-if="group.children.length>0" :index="group.componentName + ''">
             <template slot="title">
               <!-- <i :class="'icon' + group.icon"></i> -->
               <span slot="title">{{ group.name }}</span>
@@ -80,7 +80,7 @@ import openMenu from "@/assets/images/openMenu.png";
 import closeMenu from "@/assets/images/closeMenu.png";
 import leftMenu from './leftMenu.vue'
 import { menu } from "@/utils/menu.json";
-// import {getUserInfo} from "../../api/login";
+import { menuGetUserMenu } from "../../api/login";
 
 export default {
   name: "App",
@@ -92,6 +92,7 @@ export default {
       closeMenu: closeMenu,
       userName: "", // 用户名
       userType: "",//角色
+      menuType:"",//归属
       selOneMenu: '',
       menuState: 'close',//左侧菜单状态
       menuList: [],
@@ -103,28 +104,20 @@ export default {
   },
   created() {
     //判断用户身份
-    this.menuList = menu.menu
-    console.log("菜单：", this.menuList)
     let user = JSON.parse(localStorage.getItem("userInfo"))
     this.userType = user.userType
     this.userName = user.userName
-    // getUserInfo(user).then(res => {
-    //     let userInfo=res.data.data||[]
-    //     this.userType=userInfo.userType
-    //     this.userName=userInfo.userName
-    //     console.log(this.userInfo)
-    //   }).catch(err => {
-    //       console.log(err);
-    // });
-    console.log('用户角色', this.userType)
+    this.menuType=user.userBelong
+    // console.log('用户角色', this.userType)
     //处理刷新后活跃标签信息丢失的问题
     if (sessionStorage.getItem("selOneMenu")) {
       this.selOneMenu = sessionStorage.getItem("selOneMenu")
       this.getMenuSubList(this.selOneMenu)
     }
-    if(this.selOneMenu='welcome'){
-      this.isShow=false
+    if (this.selOneMenu = 'welcome') {
+      this.isShow = false
     }
+    this.getmenu()
   },
   components: {
     leftMenu
@@ -132,6 +125,20 @@ export default {
   watch: {
   },
   methods: {
+    getmenu() {
+      menuGetUserMenu({menuRole:this.userType,menuType:this.menuType}).then((res) => {
+        console.log(res.data, "menuGetUserMenu");
+        if (res.data.code === 200) {
+          this.$store.dispatch("saveMenu", res.data.data);
+          this.menuList=res.data.data.menu
+        } else {
+          this.$message({
+            message: res.data.msg,
+            type: "warning",
+          })
+        }
+      })
+    },
     handleSelect(index) {
       this.$router.push({ name: index })
     },

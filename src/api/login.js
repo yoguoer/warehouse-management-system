@@ -39,7 +39,7 @@ export function getUserInfo(data) {
 }
 
 // 获取菜单
-export function getMenuList(data) {
+export function menuGetUserMenu(data) {
   return request({
     url: baseURL + "/menu/list",
     method: "get",
