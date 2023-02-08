@@ -67,7 +67,7 @@
     <el-main>
       <router-view></router-view>
     </el-main>
-    <leftMenu ref="left" />
+    <leftMenu ref="left" :menuList="menuList"/>
   </div>
 </template>
 
