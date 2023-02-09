@@ -310,10 +310,12 @@ export default {
       getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
         if (res.data.code == 200) {
           // this.inventoryOptions = res.data.data
-          this.inventoryOptions=[]
-          res.data.data.forEach(item => {
+          this.inventoryOptions=res.data.data
+          this.inventoryOptions.forEach(item => {
             if (item.status == 1) {
-              this.inventoryOptions.push(item)
+              item.disabled=false
+            }else{
+              item.disabled=true
             }
           })
           this.getpositionList()
@@ -339,8 +341,8 @@ export default {
       this.ruleForm.inventoryName = this.$refs.inventorySelect.selectedLabel
       let choosenItem = this.inventoryOptions.filter(item => {
         return item.inventoryCode == this.ruleForm.inventoryCode
-      });
-      this.getpositionList(choosenItem[0].inventoryKey)
+      })
+      this.getpositionList(choosenItem[0].inventoryKey||'')
     },
     getpositionList() {
       this.inventoryOptions.forEach(item => {
