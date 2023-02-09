@@ -3,6 +3,8 @@ const state = {
   userName:"",
   userType:"",
   userBelong:"",
+  userPhone:"",
+  userCode:""
 }
 
 const actions = {
@@ -11,6 +13,12 @@ const actions = {
   },
   saveUserName({commit}, userName) {
     commit('SET_USERNAME', userName)
+  },
+  saveUserCode({commit}, userCode) {
+    commit('SET_USERCODE', userCode)
+  },
+  saveUserPhone({commit}, userPhone) {
+    commit('SET_USERPHONE', userPhone)
   },
   saveUserType({commit}, userType) {
     commit('SET_USERTYPE', userType)
@@ -27,6 +35,12 @@ const mutations = {
   },
   SET_USERNAME: (state, userName) => {
     state.userName = userName
+  },
+  SET_USERCODE: (state, userCode) => {
+    state.userCode = userCode
+  },
+  SET_USERPHONE: (state, userPhone) => {
+    state.userPhone = userPhone
   },
   SET_USERTYPE: (state, userType) => {
     state.userType = userType
@@ -49,6 +63,12 @@ const getters = {
    },
    getUserBelong (state) {
     return state.userBelong
+   },
+   getUserCode (state) {
+    return state.userCode
+   },
+   getUserPhone (state) {
+    return state.userPhone
    },
 }
 

@@ -88,7 +88,7 @@ export default {
   },
   methods: {
     getUserInfo() {
-      let user = JSON.parse(localStorage.getItem("userInfo"))
+      let user = this.$store.state.user
       getUserInfo(user).then(res => {
         this.userInfo = res.data.data || []
         localStorage.setItem("userInfo", JSON.stringify(this.userInfo))

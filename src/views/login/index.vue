@@ -186,6 +186,8 @@ export default {
             localStorage.setItem("userId", res.data.data.user.userId)
 
             this.$store.dispatch("saveUserId", res.data.data.user.userId)
+            this.$store.dispatch("saveUserPhone", res.data.data.user.userPhone)
+            this.$store.dispatch("saveUserCode", res.data.data.user.userCode)
             this.$store.dispatch("saveUserName", res.data.data.user.userName)
             this.$store.dispatch("saveUserType", res.data.data.user.userType)
             this.$store.dispatch("saveUserbelong", res.data.data.user.userBelong)
