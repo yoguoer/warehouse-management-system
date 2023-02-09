@@ -37,7 +37,8 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public List<Menu> getMenuList(Menu menu) {
         String menuRole=menu.getMenuRole();
-        return this.menuMapper.getMenuList(menuRole);
+        String menuType=menu.getMenuType();
+        return this.menuMapper.getMenuList(menuRole,menuType);
     }
 
     /**

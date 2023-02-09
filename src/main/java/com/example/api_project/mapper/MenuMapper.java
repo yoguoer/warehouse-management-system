@@ -23,7 +23,7 @@ public interface MenuMapper {
      *
      * @return 对象列表
      */
-    List<Menu> getMenuList(String menuRole);
+    List<Menu> getMenuList(String menuRole,String menuType);
 
     /**
      * 统计总行数
