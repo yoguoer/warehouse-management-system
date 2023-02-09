@@ -5,6 +5,14 @@
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
         :loading="loadings.table">
+        <template v-slot:column-inv="props">
+          <span v-if="props.row.positionCode=='00000000000000000'">-</span>
+          <span v-else>{{  props.row.inventoryCode }}{{  props.row.inventoryName }}</span>
+        </template>
+        <template v-slot:column-pop="props">
+          <span v-if="props.row.positionCode=='00000000000000000'">-</span>
+          <span v-else>{{  props.row.positionCode }}</span>
+        </template>
         <template v-slot:column-how="props">
           <span v-if="!props.row.countNum">-</span>
           <span v-else-if="props.row.accountNum == props.row.countNum">盘平</span>
@@ -95,8 +103,10 @@ export default {
         { prop: "goodsCode", label: "商品编码" },
         { prop: "goodsName", label: "商品名称" },
         { prop: "modelCode", label: "型号" },
-        { prop: "inventoryCode", label: "仓库编码" },
-        { prop: "positionCode", label: "货位编码" },
+        // { prop: "inventoryCode", label: "仓库编码" },
+        // { prop: "positionCode", label: "货位编码" },
+        { slots: { name: "column-inv" }, label: "仓库"},
+        { slots: { name: "column-pop" }, label: "货位"},
         { prop: "accountNum", label: "账面库存" },
         { prop: "countNum", label: "清点数" },
         { slots: { name: "column-how" }, label: "盘点情况" },
