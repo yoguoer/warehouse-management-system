@@ -777,13 +777,13 @@ const routes = [{
           {
             path: '/store/inOrder/sales',
             name: 'sales',
-            component: () => import('@/components/store/shopkeepers/inOrders/sales/salesList.vue')
+            component: () => import('@/components/marketing/marketingBusiness/salesOrder/salesOrderList.vue')
           },
           //库存-零售商库存-在单库存-采购  
           {
             path: '/store/inOrder/purchase',
             name: 'purchase',
-            component: () => import('@/components/store/shopkeepers/inOrders/purchase/purchaseList.vue')
+            component: () => import('@/components/purchasing/purchasingBusiness/purchasingOrder/purchasingOrderList.vue')
           },
         ]
       },
