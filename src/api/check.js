@@ -48,7 +48,7 @@ export function returnCheckDeleteList(data) {
   });
 }
 
-//查询采购退货单inputOutputKey
+//查询采购/销售退货单inputOutputKey
 export function returnCheckByKey(data) {
   return request({
     url: baseUrl + "/returnCheck/getById",

@@ -164,7 +164,6 @@
 </template>
 
 <script>
-import { outputWarehouseUpdate, outputWarehouseAdd } from '@/api/marketing'
 import { returnCheckAdd } from '@/api/check'
 import { shoplist, goodslist, CustomerList, positionList } from '@/api/data'
 import { getByshopCode } from '@/api/warehouse'

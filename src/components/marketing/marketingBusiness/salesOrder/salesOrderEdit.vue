@@ -410,11 +410,11 @@ export default {
     checkNum1(){
       this.shopOptions.forEach(item=>{
         if(item.goodsCode==item.goodsCode&&item.shopCode==this.ruleForm.shopCode){
-          this.availableNum=item.availableNum
+          this.accountNum=item.accountNum
         }
       })
-      if(this.ruleForm.outputActual>this.availableNum){
-        this.$message.error(`超过最大可用数：${this.availableNum}`);
+      if(this.ruleForm.outputActual>this.accountNum){
+        this.$message.error(`超过最大可用数：${this.accountNum}`);
         this.ruleForm.checkNum1=''
       }
     },

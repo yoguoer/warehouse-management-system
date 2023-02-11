@@ -1,6 +1,6 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" />
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
@@ -31,8 +31,8 @@
         <template v-slot:column-todo="props">
           <el-button v-if="props.row.status == 4" @click="editRow1(props.row)" type="text"
             icon="el-icon-s-promotion">发货</el-button>
-          <el-button v-show="!props.row.returnNum&&props.row.status==5&&props.row.type<2" @click="editRow2(props.row)" type="text"
-            icon="el-icon-truck">退货</el-button>
+          <el-button v-show="!props.row.returnNum && props.row.status == 5 && props.row.type < 2" @click="editRow2(props.row)"
+            type="text" icon="el-icon-truck">退货</el-button>
           <!-- <el-button v-if="props.row.returnNum&&props.row.status==5" @click="editRow3(props.row)" type="text"
             icon="el-icon-s-check">审批</el-button> -->
           <el-button v-if="userType == 0 && props.row.isDeleted == 0" @click="editRow(props.row)" type="text"
@@ -72,7 +72,7 @@ export default {
   data() {
     return {
       total: null,
-      hidden:true,
+      hidden: true,
       drawer: false,
       rowData: {},
       drawer1: false,
@@ -331,12 +331,18 @@ export default {
       this.drawer1 = true;
     },
     editRow2(row) {
-      this.rowData2 = row;
-      this.drawer2 = true;
+      returnCheckByKey({ checkType: 1, inputOutputKey: row.outputWarehouseKey }).then(res => {
+        if (res.data.code == 200 && res.data.data!=null) {
+          this.rowData2 = res.data.data;
+          this.drawer2 = true;
+          console.log(this.rowData2)
+        } else {
+          this.rowData2 = row;
+          this.drawer2 = true;
+        }
+      })
     },
     editRow3(row) {
-      // this.rowData3 = row;
-      // this.drawer3 = true;
       returnCheckByKey({ checkType: 1, inputOutputKey: row.outputWarehouseKey }).then(res => {
         if (res.data.code == 200) {
           this.rowData3 = res.data.data

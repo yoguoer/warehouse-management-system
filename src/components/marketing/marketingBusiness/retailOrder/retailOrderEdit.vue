@@ -276,15 +276,6 @@ export default {
       shopkeeperWarehouseList().then(res => {
         if (res.data.code == 200) {
           this.shopOptions = this.unique(res.data.data)
-          // this.shopOptions = res.data.data
-          // res.data.data.forEach(t=>{
-          //   this.shopOptions.forEach(item=>{
-          //   if(item.shopCode==t.shopCode){
-          //       let index=this.shopOptions.indexOf(item)
-          //       this.shopOptions.splice(index,1)
-          //     }
-          //   })
-          // })
         } else {
           this.$message.error("获取失败!");
         }
@@ -293,7 +284,13 @@ export default {
     getgoodslist(item) {
       shopkeeperWarehouseByShopCode({ shopCode: item.shopCode, shopName: item.shopName }).then(res => {
         if (res.data.code == 200) {
-          this.goodsOptions = res.data.data
+          // this.goodsOptions = res.data.data
+          this.goodsOptions = []
+          res.data.data.forEach(item=>{
+            if(item.accountNum>0){
+              this.goodsOptions.push(item)
+            }
+          })
         } else {
           this.$message.error("获取失败!");
         }
@@ -338,8 +335,8 @@ export default {
       })
     },
     checkNum(){
-      if(this.ruleForm.outputPlan>this.availableNum){
-        this.$message.error(`超过最大可用数：${this.availableNum}`);
+      if(this.ruleForm.outputPlan>this.accountNum){
+        this.$message.error(`超过最大可用数：${this.accountNum}`);
         this.ruleForm.outputPlan=''
       }
     },
