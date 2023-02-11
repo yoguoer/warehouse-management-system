@@ -268,18 +268,23 @@ export default {
         console.log(err)
       });
     },
+    unique(arr) {
+      const res = new Map();
+      return arr.filter((arr) => !res.has(arr.shopCode) && res.set(arr.shopCode, 1));
+    },
     getshoplist() {
       shopkeeperWarehouseList().then(res => {
         if (res.data.code == 200) {
-          this.shopOptions = res.data.data
-          res.data.data.forEach(t=>{
-            this.shopOptions.forEach(item=>{// 去掉已有仓库的
-            if(item.shopCode==t.shopCode){
-                let index=this.shopOptions.indexOf(item)
-                this.shopOptions.splice(index,1)
-              }
-            })
-          })
+          this.shopOptions = this.unique(res.data.data)
+          // this.shopOptions = res.data.data
+          // res.data.data.forEach(t=>{
+          //   this.shopOptions.forEach(item=>{
+          //   if(item.shopCode==t.shopCode){
+          //       let index=this.shopOptions.indexOf(item)
+          //       this.shopOptions.splice(index,1)
+          //     }
+          //   })
+          // })
         } else {
           this.$message.error("获取失败!");
         }

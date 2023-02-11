@@ -113,7 +113,7 @@
         </el-col>
         <el-col :span="10">
           <el-form-item label="实际数" prop="outputActual">
-            <el-input v-model="ruleForm.outputActual" clearable placeholder="实际数" :min="0" type="Number"></el-input>
+            <el-input v-model="ruleForm.outputActual" clearable placeholder="实际数" :min="0" type="Number"  @blur="checkNum1"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
@@ -332,18 +332,23 @@ export default {
         console.log(err)
       });
     },
+    unique(arr) {
+      const res = new Map();
+      return arr.filter((arr) => !res.has(arr.shopCode) && res.set(arr.shopCode, 1));
+    },
     getshoplist() {
       shopkeeperWarehouseList().then(res => {
         if (res.data.code == 200) {
-          this.shopOptions = res.data.data
-          res.data.data.forEach(t => {
-            this.shopOptions.forEach(item => {// 去掉已有仓库的
-              if (item.shopCode == t.shopCode) {
-                let index = this.shopOptions.indexOf(item)
-                this.shopOptions.splice(index, 1)
-              }
-            })
-          })
+          this.shopOptions = this.unique(res.data.data)
+          // this.shopOptions = res.data.data
+          // res.data.data.forEach(t=>{
+          //   this.shopOptions.forEach(item=>{
+          //   if(item.shopCode==t.shopCode){
+          //       let index=this.shopOptions.indexOf(item)
+          //       this.shopOptions.splice(index,1)
+          //     }
+          //   })
+          // })
         } else {
           this.$message.error("获取失败!");
         }
@@ -400,6 +405,17 @@ export default {
       if(this.ruleForm.outputPlan>this.availableNum){
         this.$message.error(`超过最大可用数：${this.availableNum}`);
         this.ruleForm.outputPlan=''
+      }
+    },
+    checkNum1(){
+      this.shopOptions.forEach(item=>{
+        if(item.goodsCode==item.goodsCode&&item.shopCode==this.ruleForm.shopCode){
+          this.availableNum=item.availableNum
+        }
+      })
+      if(this.ruleForm.outputActual>this.availableNum){
+        this.$message.error(`超过最大可用数：${this.availableNum}`);
+        this.ruleForm.checkNum1=''
       }
     },
     setPosition() {
