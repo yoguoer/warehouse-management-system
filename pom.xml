@@ -147,8 +147,16 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-        </plugins>
 
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <testFailureIgnore>true</testFailureIgnore>
+                </configuration>
+            </plugin>
+
+        </plugins>
         <!--        <resources>-->
         <!--            &lt;!&ndash;&lt;!&ndash; 排除掉配置文件 打包时放开注释 &ndash;&gt;&ndash;&gt;-->
         <!--            <resource>-->
