@@ -16,25 +16,25 @@
                         </el-row>
                         <el-row>
                             <el-col :span="6">
-                                <a href="/purchasing/purchasingBusiness/purchasingOrder">
+                                <a href="#/purchasing/purchasingBusiness/purchasingOrder">
                                     <div><img :src="input" alt="" style="width:80px;margin:5px;" /></div>
                                     <span style="margin-left:20px;">采购</span>
                                 </a>
                             </el-col>
                             <el-col :span="6">
-                                <a href="/marketing/marketingBusiness/retailOrder">
+                                <a href="#/marketing/marketingBusiness/retailOrder">
                                     <div><img :src="output" alt="" style="width:80px;margin:5px;" /></div>
                                     <span style="margin-left:20px;">销售</span>
                                 </a>
                             </el-col>
                             <el-col :span="6">
-                                <a href="/store/shopkeepers/overview">
+                                <a href="#/store/shopkeepers/overview">
                                     <div><img :src="inventory" alt="" style="width:80px;margin:5px;" /></div>
                                     <span style="margin-left:20px;">库存</span>
                                 </a>
                             </el-col>
                             <el-col :span="6">
-                                <a href="/data">
+                                <a href="#/data">
                                     <div><img :src="data" alt="" style="width:80px;margin:5px;" /></div>
                                     <span style="margin-left:20px;">资料</span>
                                 </a>
