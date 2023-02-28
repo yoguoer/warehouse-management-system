@@ -6,7 +6,6 @@ import com.example.api_project.pojo.AlertInfo;
 import com.example.api_project.pojo.ShopkeeperWarehouse;
 import com.example.api_project.service.AlertInfoService;
 import com.example.api_project.service.ShopkeeperWarehouseService;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
