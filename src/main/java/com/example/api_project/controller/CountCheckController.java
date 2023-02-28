@@ -15,6 +15,8 @@ import java.util.Random;
  */
 @RestController
 @RequestMapping("api/countCheck")
+@CrossOrigin(origins = "*")
+
 public class CountCheckController {
     /**
      * 服务对象

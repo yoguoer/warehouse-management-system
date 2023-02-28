@@ -15,6 +15,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api/entity")
+@CrossOrigin(origins = "*")
+
 public class BusinessEntityController {
     /**
      * 服务对象

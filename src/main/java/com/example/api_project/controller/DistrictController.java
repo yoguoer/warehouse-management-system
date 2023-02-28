@@ -17,6 +17,8 @@ import java.util.Random;
  */
 @RestController
 @RequestMapping("api/district")
+@CrossOrigin(origins = "*")
+
 public class DistrictController {
     /**
      * 服务对象

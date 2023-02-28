@@ -15,6 +15,8 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("api/ShopInventory")
+@CrossOrigin(origins = "*")
+
 public class ShopInventoryController {
     /**
      * 服务对象

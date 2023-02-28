@@ -21,6 +21,8 @@ import java.util.Random;
  */
 @RestController
 @RequestMapping("api/alertInfo")
+@CrossOrigin(origins = "*")
+
 public class AlertInfoController {
     /**
      * 服务对象

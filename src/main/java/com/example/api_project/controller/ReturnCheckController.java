@@ -17,6 +17,8 @@ import java.util.Random;
  */
 @RestController
 @RequestMapping("api/returnCheck")
+@CrossOrigin(origins = "*")
+
 public class ReturnCheckController {
     /**
      * 服务对象

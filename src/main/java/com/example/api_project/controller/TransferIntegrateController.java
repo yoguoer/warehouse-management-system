@@ -5,12 +5,15 @@ import com.example.api_project.model.Result;
 import com.example.api_project.service.TransferIntegrateService;
 import com.example.api_project.vo.TransferIntegrate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/transferIntegrate")
+@CrossOrigin(origins = "*")
+
 public class TransferIntegrateController {
     /**
      * 服务对象

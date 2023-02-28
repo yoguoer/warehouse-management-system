@@ -16,6 +16,8 @@ import java.util.Random;
  */
 @RestController
 @RequestMapping("api/goods")
+@CrossOrigin(origins = "*")
+
 public class GoodsController {
     /**
      * 服务对象

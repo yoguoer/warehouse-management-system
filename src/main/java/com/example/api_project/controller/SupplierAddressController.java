@@ -16,6 +16,8 @@ import java.util.Random;
  */
 @RestController
 @RequestMapping("api/supplierAddress")
+@CrossOrigin(origins = "*")
+
 public class SupplierAddressController {
     /**
      * 服务对象
