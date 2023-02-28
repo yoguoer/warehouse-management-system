@@ -284,13 +284,7 @@ export default {
     getgoodslist(item) {
       shopkeeperWarehouseByShopCode({ shopCode: item.shopCode, shopName: item.shopName }).then(res => {
         if (res.data.code == 200) {
-          // this.goodsOptions = res.data.data
-          this.goodsOptions = []
-          res.data.data.forEach(item=>{
-            if(item.accountNum>0){
-              this.goodsOptions.push(item)
-            }
-          })
+          this.goodsOptions = res.data.data
         } else {
           this.$message.error("获取失败!");
         }
