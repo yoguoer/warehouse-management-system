@@ -10,8 +10,7 @@
       <div class="login-fl fl"><img :src="loginimg" alt=""></div>
       <div class="login-fr fl">
         <ul class="login-tab">
-          <li :class="tabval == item ? 'active' : ''" v-for='(item, index) in tablist' :key="index"
-            @click="ontab(item)">
+          <li :class="tabval == item ? 'active' : ''" v-for='(item, index) in tablist' :key="index" @click="ontab(item)">
             <span>{{ item }}</span>
           </li>
         </ul>
@@ -48,7 +47,7 @@
 
           <el-form-item prop="passWord">
             <el-input placeholder="密码" @keyup.enter.native="submitform('ruleForm', tabval)" type="passWord"
-              v-model="formdata.passWord"></el-input>
+              v-model="formdata.passWord" show-password autocomplete="off"></el-input>
           </el-form-item>
 
           <template v-if="tabval == '注册'">
@@ -104,10 +103,12 @@ export default {
       },
       rules: {
         userPhone: [
-          { required: true, message: '请输入用户手机', trigger: 'blur' }
+          { required: true, message: '请输入用户手机', trigger: 'blur' },
+          // {pattern: /^1[3|4|5|6|7|8|9][0-9]\d{8}$/, message: "请输入正确的手机号码", trigger: "blur"}
         ],
         passWord: [
-          { required: true, message: '请输入密码', trigger: 'blur' }
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          {min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur'}
         ],
         checkPass: [
           { validator: validatePass2, trigger: 'blur' }
@@ -300,7 +301,7 @@ export default {
 }
 
 .login-main {
-  height: 600px;
+  height: 650px;
   width: 1000px;
   background-color: #fff;
   margin: 0 auto;
@@ -359,7 +360,7 @@ export default {
     }
 
     .form-forget {
-      // padding-left: 100px;
+      padding-left: 0;
     }
 
     .el-button {

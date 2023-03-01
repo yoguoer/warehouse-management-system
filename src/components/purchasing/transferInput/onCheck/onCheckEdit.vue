@@ -1,6 +1,7 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增调货申请' : '编辑调货申请'" :visible.sync="drawer" :direction="direction" :close-on-click-modal="false" 
-    :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' width="1200px">
+  <el-dialog size="30%" :title="ifCreate ? '新增调货申请' : '编辑调货申请'" :visible.sync="drawer" :direction="direction"
+    :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" :wrapperClosable="false"
+    :append-to-body='true' width="1200px">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
       <el-row>
@@ -8,7 +9,8 @@
           <el-form-item label="申请门店" prop="shopCode">
             <el-select size="middle" v-model="ruleForm.shopCode" placeholder="申请门店" style="width:100%;" clearable
               ref="selection">
-              <el-option @click.native="setShopName" v-for="item in shopOptions" :key="item.shopKey"  :disabled="((item.shopStatus==6||item.shopStatus==1)?false:true)||item.shopCode==ruleForm.inputShopCode"
+              <el-option @click.native="setShopName" v-for="item in shopOptions" :key="item.shopKey"
+                :disabled="((item.shopStatus == 6 || item.shopStatus == 1) ? false : true) || item.shopCode == ruleForm.inputShopCode"
                 :label="item.shopName" :value="item.shopCode">
               </el-option>
             </el-select>
@@ -31,7 +33,8 @@
             <el-select size="middle" v-model="ruleForm.inputShopCode" placeholder="调货门店" style="width:100%;" clearable
               ref="inputShopSelect">
               <el-option @click.native="setinputShopName" v-for="item in inputShopOptions" :key="item.shopKey"
-                :label="item.shopName" :value="item.shopCode" :disabled="((item.shopStatus==6||item.shopStatus==1)?false:true)||item.shopCode==ruleForm.shopCode">
+                :label="item.shopName" :value="item.shopCode"
+                :disabled="((item.shopStatus == 6 || item.shopStatus == 1) ? false : true) || item.shopCode == ruleForm.shopCode">
               </el-option>
             </el-select>
           </el-form-item>
@@ -48,7 +51,8 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="计划入库数" prop="inputPlan">
-            <el-input v-model="ruleForm.inputPlan" clearable :min="0" placeholder="计划入库数" type="Number" @blur="checkNum"></el-input>
+            <el-input v-model="ruleForm.inputPlan" clearable :min="0" placeholder="计划入库数" type="Number"
+              @blur="checkNum"></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="10">
@@ -61,8 +65,7 @@
         <el-col :span="10">
           <el-form-item label="门店操作员" prop="shopPeopleCode">
             <!-- <el-input v-model="ruleForm.shopPeopleCode" clearable placeholder="门店操作员"></el-input> -->
-            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;"
-              clearable>
+            <el-select size="middle" v-model="ruleForm.shopPeopleCode" placeholder="门店操作员" style="width:100%;" clearable>
               <el-option v-for="item in userOptions" :key="item.userId" :label="item.userName" :value="item.userCode">
               </el-option>
             </el-select>
@@ -98,7 +101,7 @@ import { transferCheckUpdate, transferCheckAdd } from '@/api/check'
 import { goodslist } from '@/api/data'
 import { UserList } from '@/api/api'
 import moment from 'moment'
-import { ShopInventoryList,shopkeeperWarehouseList } from "@/api/warehouse";
+import { ShopInventoryList, shopkeeperWarehouseList } from "@/api/warehouse";
 
 export default {
   name: 'guestEdit',
@@ -145,6 +148,7 @@ export default {
       inputShopOptions: [],
       inventoryOptions: [],
       userOptions: [],
+      ALLgoods: [],
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -190,7 +194,7 @@ export default {
         supplierCode: [
           { required: true, message: '请选择供应商', trigger: 'blur' },
         ],
-        inputPlan : [
+        inputPlan: [
           { required: true, message: '请设置计划入库数', trigger: 'blur' },
         ],
         inputPrice: [
@@ -215,6 +219,7 @@ export default {
     this.getshoplist()
     this.getgoodslist()
     this.getUserList()
+    this.getALLgoods()
     if (this.rowData.transferCheckKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -247,7 +252,7 @@ export default {
       this.ruleForm.checkTime = this.rowData.checkTime
       this.ruleForm.outputWarehouseKey = this.rowData.outputWarehouseKey
       this.ruleForm.returnNum = this.rowData.returnNum
-      if(this.rowData.createTime){
+      if (this.rowData.createTime) {
         this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
       }
       // this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
@@ -281,9 +286,9 @@ export default {
     getOneHaveIt() {
       shopkeeperWarehouseList().then(res => {
         if (res.data.code == 200) {
-          this.inputShopOptions=[]
-          res.data.data.forEach(item=>{
-            if(item.goodsCode==this.ruleForm.goodsCode){
+          this.inputShopOptions = []
+          res.data.data.forEach(item => {
+            if (item.goodsCode == this.ruleForm.goodsCode) {
               this.inputShopOptions.push(item)
             }
           })
@@ -292,15 +297,15 @@ export default {
         }
       });
     },
+    unique1(arr) {
+      const res = new Map();
+      return arr.filter((arr) => !res.has(arr.goodsCode) && res.set(arr.goodsCode, 1));
+    },
     getgoodslist() {
       shopkeeperWarehouseList().then(res => {
         if (res.data.code == 200) {
-          this.goodsOptions=[]
-          res.data.data.forEach(item=>{
-            if(this.goodsOptions.indexOf(item)==-1){
-              this.goodsOptions.push(item)
-            }
-          })
+          this.goodsOptions =  this.unique1(res.data.data)
+
         } else {
           this.$message.error("获取失败!");
         }
@@ -312,21 +317,35 @@ export default {
     setinputShopName() {
       this.ruleForm.inputShopName = this.$refs.inputShopSelect.selectedLabel
     },
+    getALLgoods() {
+      goodslist().then(res => {
+        if (res.data.code == 200) {
+          this.ALLgoods = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     setGoodsName(item) {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
-      this.ruleForm.inputPrice = item.priceLatestPurchase
+      // this.ruleForm.inputPrice = item.priceLatestPurchase
+      this.ALLgoods.forEach(t => {
+        if (t.goodsCode == item.goodsCode) {
+          this.ruleForm.inputPrice = t.priceLatestPurchase
+        }
+      })
       this.getOneHaveIt()
     },
-    checkNum(){
-      this.inputShopOptions.forEach(item=>{
-        if(item.goodsCode==item.goodsCode&&item.shopCode==this.ruleForm.inputShopCode){
-          this.availableNum=item.availableNum
+    checkNum() {
+      this.inputShopOptions.forEach(item => {
+        if (item.goodsCode == item.goodsCode && item.shopCode == this.ruleForm.inputShopCode) {
+          this.availableNum = item.availableNum
         }
       })
       // console.log("----------",this.availableNum)
-      if(this.ruleForm.inputPlan>this.availableNum){
+      if (this.ruleForm.inputPlan > this.availableNum) {
         this.$message.error(`超过最大可用数：${this.availableNum}`);
-        this.ruleForm.inputPlan=''
+        this.ruleForm.inputPlan = ''
       }
     },
     setTime() {
@@ -367,7 +386,7 @@ export default {
             inputShopCode: this.ruleForm.inputShopCode,
             inputShopName: this.ruleForm.inputShopName,
             inputWarehouseKey: this.ruleForm.inputWarehouseKey,
-            isDeleted:0,
+            isDeleted: 0,
           }
           inputWarehouseUpdate(data).then(res => {
             if (res.data.code == 200) {
@@ -383,7 +402,7 @@ export default {
                 checkNum: this.ruleForm.inputPlan,
                 outputShopCode: this.ruleForm.outputShopCode,
                 inputShopCode: this.ruleForm.inputShopCode,
-                checkType:0,
+                checkType: 0,
               }
               transferCheckUpdate(data).then(res => {
                 if (res.data.code == 200) {
@@ -433,7 +452,7 @@ export default {
             inventoryPeopleCode: this.ruleForm.inventoryPeopleCode,
             returnReason: this.ruleForm.returnReason,
             inputWarehouseKey: this.ruleForm.inputWarehouseKey,
-            isDeleted:0,
+            isDeleted: 0,
           }
           inputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {
@@ -449,7 +468,7 @@ export default {
                 checkNum: this.ruleForm.inputPlan,
                 outputShopCode: this.ruleForm.inputShopCode,
                 inputShopCode: this.ruleForm.shopCode,
-                checkType:0,
+                checkType: 0,
               }
               transferCheckAdd(data).then(res => {
                 if (res.data.code == 200) {

@@ -5,7 +5,7 @@
       <div class="header">
         <div class="app-header-left">
           <!-- 左边菜单按钮 -->
-          <el-image style="padding:0 5px" :src="openMenu" alt="1" v-if="menuState=='close'" @click="setMenu()" />
+          <el-image style="padding:0 5px" :src="openMenu" alt="1" v-if="menuState == 'close'" @click="setMenu()" />
           <el-image style="padding:0 5px" :src="closeMenu" alt="1" v-if="menuState == 'open'" @click="setMenu()" />
           <!-- 标题 -->
           <div class="title-container">
@@ -108,7 +108,7 @@ export default {
     // console.log(this.$store.state.user)
     this.userType = this.$store.state.user.userType
     this.userName = this.$store.state.user.userName
-    this.menuType = this.$store.state.user.userBelong 
+    this.menuType = this.$store.state.user.userBelong
     //处理刷新后活跃标签信息丢失的问题
     if (sessionStorage.getItem("selOneMenu")) {
       this.selOneMenu = sessionStorage.getItem("selOneMenu")
@@ -164,9 +164,27 @@ export default {
       }
       else if (val == "logout") {
         console.log('退出')
-        this.$router.push({ name: "login" });
-        localStorage.clear()
-        sessionStorage.clear()
+        this.$confirm('您确定要退出登录吗?', '提示', {
+          confirmButtonText: '确定',  //确认按钮的文字显示
+          type: 'warning',
+          center: true, //文字居中显示
+
+        })
+          .then(() => {
+            this.$message({
+              type: 'success',
+              message: '退出登录成功'
+            })
+            this.$router.push({ name: "login" });
+            localStorage.clear()
+            sessionStorage.clear()
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消退出登录'
+            })
+          })
       }
     },
     _changeMenu(id) {

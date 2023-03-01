@@ -145,6 +145,7 @@ export default {
       inputShopOptions: [],
       inventoryOptions: [],
       userOptions: [],
+      ALLgoods:[],
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -215,6 +216,7 @@ export default {
     this.getshoplist()
     this.getgoodslist()
     this.getUserList()
+    this.getALLgoods()
     if (this.rowData.transferCheckKey) {
       this.ruleForm.inputWarehouseKey = this.rowData.inputWarehouseKey
       this.ruleForm.shopCode = this.rowData.shopCode
@@ -292,15 +294,14 @@ export default {
         }
       });
     },
+    unique1(arr) {
+      const res = new Map();
+      return arr.filter((arr) => !res.has(arr.goodsCode) && res.set(arr.goodsCode, 1));
+    },
     getgoodslist() {
       shopkeeperWarehouseList().then(res => {
         if (res.data.code == 200) {
-          this.goodsOptions=[]
-          res.data.data.forEach(item=>{
-            if(this.goodsOptions.indexOf(item)==-1){
-              this.goodsOptions.push(item)
-            }
-          })
+          this.goodsOptions =  this.unique1(res.data.data)
         } else {
           this.$message.error("获取失败!");
         }
@@ -312,9 +313,23 @@ export default {
     setinputShopName() {
       this.ruleForm.inputShopName = this.$refs.inputShopSelect.selectedLabel
     },
+    getALLgoods() {
+      goodslist().then(res => {
+        if (res.data.code == 200) {
+          this.ALLgoods = res.data.data
+        } else {
+          this.$message.error("获取失败!");
+        }
+      });
+    },
     setGoodsName(item) {
       this.ruleForm.goodsName = this.$refs.goodsSelect.selectedLabel
-      this.ruleForm.inputPrice = item.priceLatestPurchase
+      // this.ruleForm.inputPrice = item.priceLatestPurchase
+      this.ALLgoods.forEach(t=>{
+        if(t.goodsCode==item.goodsCode){
+          this.ruleForm.inputPrice = t.priceLatestPurchase
+        }
+      })
       this.getOneHaveIt()
     },
     checkNum(){
