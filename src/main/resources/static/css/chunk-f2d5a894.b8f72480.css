@@ -1,0 +1,7 @@
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      // "base": #1baeae,
+    ),
+  ),
+);.msg-title{font-weight:500;margin-right:20px;line-height:60px}.list-box-f .cont{width:260px}.el-select{width:100%}.demo-ruleForm{padding:0 80px 50px 80px}.toAddcontact{border:1px solid #eee;padding:20px;margin:20px;width:1300px;float:left}.toAddcontact .add-ruleForm{padding:50px 80px 10px 80px}

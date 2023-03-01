@@ -1,0 +1,7 @@
+.el-select{width:100%}.demo-ruleForm{padding:0 80px 50px 80px}@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      // "base": #1baeae,
+    ),
+  ),
+);.page-box[data-v-cc98815c]{text-align:right;margin:20px}.el-table[data-v-cc98815c]{overflow-y:auto!important;overflow-x:auto!important}.el-input-group[data-v-cc98815c]{width:300px;margin-right:20px}.list-model[data-v-cc98815c]{margin-top:20px}

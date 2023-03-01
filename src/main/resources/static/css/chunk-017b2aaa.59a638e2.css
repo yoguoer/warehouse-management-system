@@ -1,0 +1,7 @@
+.msg-title{font-weight:500;margin-right:20px;line-height:60px}.el-select{width:100%}.demo-ruleForm{padding:0 80px 50px 80px}.toAddcontact{border:1px solid #eee;padding:20px;margin:20px;float:left}.toAddcontact .add-ruleForm{padding:50px 80px 10px 80px}@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      // "base": #1baeae,
+    ),
+  ),
+);.page-box[data-v-95e472f0]{text-align:right;margin:20px}.el-table[data-v-95e472f0]{overflow-y:auto!important;overflow-x:auto!important}.el-input-group[data-v-95e472f0]{width:300px;margin-right:20px}
