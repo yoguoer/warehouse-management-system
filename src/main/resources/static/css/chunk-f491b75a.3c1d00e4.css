@@ -1,0 +1,7 @@
+.dialog_body[data-v-f2cae3c0]{margin-top:-10px}.dialog_body .form_text[data-v-f2cae3c0]{width:350px}.dialog_body .form_select[data-v-f2cae3c0]{width:250px}.dialog_footer[data-v-f2cae3c0]{border-top:1px solid #eee;padding-top:10px;text-align:right}.el-radio-group[data-v-f2cae3c0]{font-size:0;margin:5px}@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      // "base": #1baeae,
+    ),
+  ),
+);.page-box[data-v-0b172a98]{text-align:right;margin:20px}

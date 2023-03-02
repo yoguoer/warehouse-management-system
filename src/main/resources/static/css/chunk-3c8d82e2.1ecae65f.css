@@ -1,0 +1,7 @@
+.el-select{width:100%}.demo-ruleForm{padding:0 80px 50px 80px}.page-box[data-v-10ea8c96]{text-align:right;margin:20px}.el-table[data-v-10ea8c96]{overflow-y:auto!important;overflow-x:auto!important}.el-input-group[data-v-10ea8c96]{width:300px;margin-right:20px}.list-model[data-v-10ea8c96]{margin-top:20px}@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      // "base": #1baeae,
+    ),
+  ),
+);.wrap-definition[data-v-aecdfb1c]{background:#fff}

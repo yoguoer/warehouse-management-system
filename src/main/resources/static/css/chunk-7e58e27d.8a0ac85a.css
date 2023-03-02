@@ -1,0 +1,7 @@
+.dialog_body[data-v-5c45333a]{margin-top:-10px}.dialog_body .form_text[data-v-5c45333a]{width:350px}.dialog_body .form_select[data-v-5c45333a]{width:250px}.dialog_footer[data-v-5c45333a]{border-top:1px solid #eee;padding-top:10px;text-align:right}@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      // "base": #1baeae,
+    ),
+  ),
+);.page-box[data-v-91cd0828]{text-align:right;margin:20px}
