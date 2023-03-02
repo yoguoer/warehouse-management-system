@@ -30,7 +30,7 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="所属供应商" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-           <span>{{ scope.row.supplierCode }}{{ scope.row.supplierName }}</span>
+            <span>{{ scope.row.supplierCode }}{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="bankName" label="银行全称" :show-overflow-tooltip="true">
@@ -92,7 +92,7 @@ export default {
     }
     this.getBanklistPage()
     if (this.$route.params.supplierKey) {
-      this.supplierBillingKey=this.$route.params.supplierKey
+      this.supplierBillingKey = this.$route.params.supplierKey
     }
   },
   methods: {
@@ -117,7 +117,7 @@ export default {
       // }
       banklistPage({ supplierBillingKey: this.supplierBillingKey, accountName: this.accountName, bankName: this.accountNumber, page: 1, size: this.pageSize }).then((res) => {
         this.bankList = res.data.data.records;
-        this.total=res.data.data.total
+        this.total = res.data.data.total
         console.log("bankList:", this.bankList);
       });
       this.$forceUpdate();
@@ -139,15 +139,27 @@ export default {
       this.$forceUpdate();
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      bankDelete({ billingKey: row.billingKey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getBanklistPage()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        bankDelete({ billingKey: row.billingKey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getBanklistPage()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     editRow(row) {
@@ -156,7 +168,7 @@ export default {
       this.rowData = row
     },
     getBanklistPage() {
-      banklistPage({ supplierBillingKey:this.$route.params.supplierKey ||"",page: this.pageNo, size: this.pageSize }).then((res) => {
+      banklistPage({ supplierBillingKey: this.$route.params.supplierKey || "", page: this.pageNo, size: this.pageSize }).then((res) => {
         this.bankList = res.data.data.records;
         this.total = res.data.data.total;
         // console.log("bankList:", this.bankList);

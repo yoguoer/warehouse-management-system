@@ -30,7 +30,7 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="所属供应商" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-           <span>{{ scope.row.supplierCode }}{{ scope.row.supplierName }}</span>
+            <span>{{ scope.row.supplierCode }}{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="bankName" label="银行全称" :show-overflow-tooltip="true">
@@ -63,7 +63,7 @@
 
 <script>
 import bankEdit from "./bankEdit";
-import { banklistPage, bankDelete, bankDeleteList,Supplierlist } from "@/api/data";
+import { banklistPage, bankDelete, bankDeleteList, Supplierlist } from "@/api/data";
 
 export default {
   name: "slist",
@@ -71,13 +71,13 @@ export default {
     return {
       accountNumber: "",
       accountName: "",
-      supplierBillingKey:"",
+      supplierBillingKey: "",
       pageSize: 10,
       pageNo: 1,
       total: null,
       drawer: false,
       rowData: {},
-      supplyOptions:[],
+      supplyOptions: [],
       bankList: [],
       multipleSelection: [],
     };
@@ -98,14 +98,14 @@ export default {
     },
     clean() {
       this.accountNumber = ''
-      this.supplierBillingKey=''
+      this.supplierBillingKey = ''
       this.accountName = ''
       this.reload()
     },
     search() {
-      banklistPage({ supplierBillingKey:this.supplierBillingKey,accountName: this.accountName, bankName: this.accountNumber, page: 1, size: 20 }).then((res) => {
+      banklistPage({ supplierBillingKey: this.supplierBillingKey, accountName: this.accountName, bankName: this.accountNumber, page: 1, size: 20 }).then((res) => {
         this.bankList = res.data.data.records;
-        this.total=res.data.data.total
+        this.total = res.data.data.total
         console.log("bankList:", this.bankList);
       });
       this.$forceUpdate();
@@ -127,15 +127,27 @@ export default {
       this.$forceUpdate();
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      bankDelete({ billingKey: row.billingKey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getBanklistPage()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        bankDelete({ billingKey: row.billingKey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getBanklistPage()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     editRow(row) {

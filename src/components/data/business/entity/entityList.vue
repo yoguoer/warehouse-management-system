@@ -131,15 +131,27 @@ export default {
         });
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      entityDelete({ entityCode: row.entityCode }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        entityDelete({ entityCode: row.entityCode }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     editRow(row) {

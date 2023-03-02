@@ -10,20 +10,21 @@
         <template v-slot:column-transType="props">
           <span>{{
             props.row.transType == 0 ? '采购入库'
-              : (props.row.transType == 1 ? '采购退货出库'
-                : (props.row.transType == 2 ? '零售出库'
-                  : (props.row.transType == 3 ? '零售退货入库'
-                    : (props.row.transType == 4 ? '客户订购出库'
-                      : (props.row.transType == 5 ? '客户订购退货入库' 
+            : (props.row.transType == 1 ? '采购退货出库'
+              : (props.row.transType == 2 ? '零售出库'
+                : (props.row.transType == 3 ? '零售退货入库'
+                  : (props.row.transType == 4 ? '客户订购出库'
+                    : (props.row.transType == 5 ? '客户订购退货入库'
                       : (props.row.transType == 6 ? '调货入库'
-                      : (props.row.transType == 7 ? '调货出库'
-                      : (props.row.transType == 8 ? '盘盈入库'
-                      : (props.row.transType == 9 ? '盘亏出库': '-')))))))))
+                        : (props.row.transType == 7 ? '调货出库'
+                          : (props.row.transType == 8 ? '盘盈入库'
+                            : (props.row.transType == 9 ? '盘亏出库' : '-')))))))))
           }}</span>
         </template>
         <template v-slot:column-quantity="props">
-          <span v-if="props.row.transType==0||props.row.transType==3||props.row.transType==5||props.row.transType==6||props.row.transType==8">+{{props.row.quantity}}</span>
-          <span v-else>-{{props.row.quantity}}</span>
+          <span
+            v-if="props.row.transType == 0 || props.row.transType == 3 || props.row.transType == 5 || props.row.transType == 6 || props.row.transType == 8">+{{ props.row.quantity }}</span>
+          <span v-else>-{{ props.row.quantity }}</span>
         </template>
         <template v-slot:column-atTime="props">
           <span v-if="props.row.atTime">{{ props.row.atTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
@@ -65,8 +66,8 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
-      shopOptions:[],
-      goodsOptions:[],
+      shopOptions: [],
+      goodsOptions: [],
       // 交易类型(0采购入库、1采购退货出库、2零售出库、3零售退货入库、4客户订购出库、5客户订购退货入库、6调货入库、7调货出库)
       transTypeOptions: [
         { label: "采购入库", value: 0 },
@@ -107,7 +108,7 @@ export default {
     },
     searchConfig() {
       return [
-      {
+        {
           label: '请选择',
           placeholder: '请选择门店',
           field: 'shopCode',
@@ -123,7 +124,7 @@ export default {
           type: "select",
           options: this.goodsOptions
         },
-      {
+        {
           label: '请选择',
           placeholder: '请选择变化类型',
           field: 'type',
@@ -158,8 +159,8 @@ export default {
       shoplist().then(res => {
         if (res.data.code == 200) {
           // this.shopOptions = res.data.data
-          res.data.data.forEach(item=>{
-            this.shopOptions.push({label:item.shopName,value:item.shopCode})
+          res.data.data.forEach(item => {
+            this.shopOptions.push({ label: item.shopName, value: item.shopCode })
           })
         } else {
           this.$message.error("获取失败!");
@@ -170,8 +171,8 @@ export default {
       goodslist().then(res => {
         if (res.data.code == 200) {
           // this.goodsOptions = res.data.data
-          res.data.data.forEach(item=>{
-            this.goodsOptions.push({label:item.goodsName,value:item.goodsCode})
+          res.data.data.forEach(item => {
+            this.goodsOptions.push({ label: item.goodsName, value: item.goodsCode })
           })
         } else {
           this.$message.error("获取失败!");
@@ -191,8 +192,8 @@ export default {
         size: this.query.pageSize,
         transType: "",
         type: "",
-        goodsCode:"",
-        shopCode:""
+        goodsCode: "",
+        shopCode: ""
       };
       detailWarehouseListPage(params).then((res) => {
         if (res.data.code === 200) {
@@ -216,8 +217,8 @@ export default {
       detailWarehouseListPage({
         transType: searchData.transType,
         type: searchData.type,
-        goodsCode:searchData.goodsCode,
-        shopCode:searchData.shopCode,
+        goodsCode: searchData.goodsCode,
+        shopCode: searchData.shopCode,
         page: this.query.pageNo,
         size: this.query.pageSize,
       }).then((res) => {
@@ -238,15 +239,27 @@ export default {
       this.drawer = true;
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      detailWarehouseDelete({ detailWarehouseKey: row.detailWarehouseKey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        detailWarehouseDelete({ detailWarehouseKey: row.detailWarehouseKey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     success() {

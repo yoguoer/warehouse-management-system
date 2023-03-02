@@ -7,11 +7,11 @@
         <template v-slot:column-status="props">
           <span>{{
             props.row.status == '0' ? '在单'
-              : (props.row.status == '1' ? '生产'
-                : (props.row.status == '2' ? '在途'
-                  : (props.row.status == '3' ? '入库'
-                    : (props.row.status == '4' ? '占用'
-                      : (props.row.status == '5' ? '出库' : '-')))))
+            : (props.row.status == '1' ? '生产'
+              : (props.row.status == '2' ? '在途'
+                : (props.row.status == '3' ? '入库'
+                  : (props.row.status == '4' ? '占用'
+                    : (props.row.status == '5' ? '出库' : '-')))))
           }}</span>
         </template>
         <template v-slot:column-type="props">
@@ -31,8 +31,8 @@
         <template v-slot:column-todo="props">
           <el-button v-if="props.row.status == 4" @click="editRow1(props.row)" type="text"
             icon="el-icon-s-promotion">发货</el-button>
-          <el-button v-show="!props.row.returnNum && props.row.status == 5 && props.row.type < 2" @click="editRow2(props.row)"
-            type="text" icon="el-icon-truck">退货</el-button>
+          <el-button v-show="!props.row.returnNum && props.row.status == 5 && props.row.type < 2"
+            @click="editRow2(props.row)" type="text" icon="el-icon-truck">退货</el-button>
           <!-- <el-button v-if="props.row.returnNum&&props.row.status==5" @click="editRow3(props.row)" type="text"
             icon="el-icon-s-check">审批</el-button> -->
           <el-button v-if="userType == 0 && props.row.isDeleted == 0" @click="editRow(props.row)" type="text"
@@ -45,11 +45,10 @@
     <!-- 编辑 -->
     <billsEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
     <!-- 发货 -->
-    <outputOrderEdit v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false"
-      @success="success()" />
+    <outputOrderEdit v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false" @success="success()" />
     <!-- 退货 -->
-    <outputOrderReturn v-if="drawer2" :drawer="drawer2" :rowData="rowData2" @close="drawer2 = false"
-      @success="success()" :ifShow="ifShow" />
+    <outputOrderReturn v-if="drawer2" :drawer="drawer2" :rowData="rowData2" @close="drawer2 = false" @success="success()"
+      :ifShow="ifShow" />
     <!-- 审批 -->
     <MreturnOrderEdit v-if="drawer3" :drawer="drawer3" :rowData="rowData3" @close="drawer3 = false"
       @success="success()" />
@@ -332,7 +331,7 @@ export default {
     },
     editRow2(row) {
       returnCheckByKey({ checkType: 1, inputOutputKey: row.outputWarehouseKey }).then(res => {
-        if (res.data.code == 200 && res.data.data!=null) {
+        if (res.data.code == 200 && res.data.data != null) {
           this.rowData2 = res.data.data;
           this.drawer2 = true;
           console.log(this.rowData2)
@@ -354,15 +353,27 @@ export default {
       })
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      outputWarehouseDelete({ outputWarehouseKey: row.outputWarehouseKey, isDeleted: 1 }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        outputWarehouseDelete({ outputWarehouseKey: row.outputWarehouseKey, isDeleted: 1 }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     success() {

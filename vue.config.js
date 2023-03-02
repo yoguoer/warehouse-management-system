@@ -2,8 +2,8 @@
 const path = require("path");
 const resolve = (dir) => path.join(__dirname, dir);
 module.exports = {
-  // publicPath: '/iscm', // 基本路径
-  publicPath: './', 
+  publicPath: '/iscm', // 基本路径
+  // publicPath: './', //阿里云配置 
   // outputDir: 'dist', // 构建时的输出目录
   // assetsDir: 'static', // 放置静态资源的目录
   // indexPath: 'index.html', // html 的输出路径

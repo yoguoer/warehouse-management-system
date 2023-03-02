@@ -1,17 +1,17 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" />
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-status="props">
           <span>{{
             props.row.status == '0' ? '在单'
-              : (props.row.status == '1' ? '生产'
-                : (props.row.status == '2' ? '在途'
-                  : (props.row.status == '3' ? '入库'
-                    : (props.row.status == '4' ? '占用'
-                      : (props.row.status == '5' ? '出库' : '-')))))
+            : (props.row.status == '1' ? '生产'
+              : (props.row.status == '2' ? '在途'
+                : (props.row.status == '3' ? '入库'
+                  : (props.row.status == '4' ? '占用'
+                    : (props.row.status == '5' ? '出库' : '-')))))
           }}</span>
         </template>
         <template v-slot:column-type="props">
@@ -26,15 +26,17 @@
           <span v-if="props.row.deadlineTime">{{ props.row.deadlineTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-show="!props.row.returnNum" @click="editRow1(props.row)" type="text" icon="el-icon-s-promotion">退货</el-button>
-          <el-button  v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
+          <el-button v-show="!props.row.returnNum" @click="editRow1(props.row)" type="text"
+            icon="el-icon-s-promotion">退货</el-button>
+          <el-button v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
     </div>
-    <outputOrderEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"/>
-    <outputOrderReturn v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false" @success="success()" :ifShow="ifShow"/>
+    <outputOrderEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
+    <outputOrderReturn v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false" @success="success()"
+      :ifShow="ifShow" />
   </div>
 </template>
 
@@ -51,7 +53,7 @@ export default {
   name: "slist",
   data() {
     return {
-      hidden:true,
+      hidden: true,
       total: null,
       drawer: false,
       rowData: {},
@@ -66,8 +68,8 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
-      ifShow:false,
-      userType:"",
+      ifShow: false,
+      userType: "",
       shopOptions: [],
       goodsOptions: [],
       inventoryOptions: [],
@@ -89,7 +91,7 @@ export default {
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "positionCode", label: "货位编码" },
         { prop: "vehicleCode", label: "车辆编码" },
-        { slots: { name: "column-status" }, label: "状态"},
+        { slots: { name: "column-status" }, label: "状态" },
         { slots: { name: "column-type" }, label: "出库类型" },
         { prop: "shopPeopleCode", label: "门店操作员" },
         { prop: "inventoryPeopleCode", label: "仓库操作员" },
@@ -224,7 +226,7 @@ export default {
         customerCode: "",
         inventoryCode: "",
         status: 5,
-        isDeleted:0,
+        isDeleted: 0,
         type: 1
       };
       outputWarehouseListPage(params).then((res) => {
@@ -254,7 +256,7 @@ export default {
         customerCode: searchData.customerCode,
         inventoryCode: searchData.inventoryCode,
         status: 5,
-        isDeleted:0,
+        isDeleted: 0,
         type: 1
       }).then((res) => {
         if (res.data.code === 200) {
@@ -276,7 +278,7 @@ export default {
     editRow1(row) {
       returnCheckByKey({ checkType: 1, inputOutputKey: row.outputWarehouseKey }).then(res => {
         if (res.data.code == 200) {
-          this.rowData1 = res.data.data||row
+          this.rowData1 = res.data.data || row
           this.drawer1 = true;
         } else {
           this.$message.error("获取失败!");
@@ -284,15 +286,27 @@ export default {
       })
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      outputWarehouseDelete({ isDeleted:0, outputWarehouseKey: row.outputWarehouseKey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        outputWarehouseDelete({ isDeleted: 0, outputWarehouseKey: row.outputWarehouseKey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     success() {
@@ -317,7 +331,7 @@ export default {
       if (this.multipleSelection.length > 0) {
         let outputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          outputWarehouseKeys.push({ isDeleted:0, outputWarehouseKey: item.outputWarehouseKey })
+          outputWarehouseKeys.push({ isDeleted: 0, outputWarehouseKey: item.outputWarehouseKey })
         })
         console.log(outputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {

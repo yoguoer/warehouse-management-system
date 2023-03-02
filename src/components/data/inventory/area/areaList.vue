@@ -35,7 +35,7 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="所属仓库" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-           <span>{{ scope.row.inventoryCode }}{{ scope.row.inventoryName }}</span>
+            <span>{{ scope.row.inventoryCode }}{{ scope.row.inventoryName }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="districtCode" label="区域号" width="120px">
@@ -113,7 +113,7 @@ export default {
   created() {
     this.getinventorylist()
     this.getDistrictlistPage()
-    this.inputInventory=this.$route.params.inventoryKey||""
+    this.inputInventory = this.$route.params.inventoryKey || ""
   },
   methods: {
     getinventorylist() {
@@ -156,15 +156,27 @@ export default {
       this.$forceUpdate();
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      districtDelete({ inventoryDistrictkey: row.inventoryDistrictkey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getDistrictlistPage()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        districtDelete({ inventoryDistrictkey: row.inventoryDistrictkey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getDistrictlistPage()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     editRow(row) {

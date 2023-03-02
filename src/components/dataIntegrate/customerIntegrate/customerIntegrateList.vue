@@ -2,17 +2,17 @@
   <div style="background:#fff;padding:10px;">
     <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden" />
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
-        :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
-        :loading="loadings.table">
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
+        :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-num="props">
-          <span>{{props.row.occupyNum+props.row.outputNum}}</span>
+          <span>{{ props.row.occupyNum + props.row.outputNum }}</span>
         </template>
         <template v-slot:column-sum="props">
-          <span>{{props.row.occupySum+props.row.outputSum}}</span>
+          <span>{{ props.row.occupySum + props.row.outputSum }}</span>
         </template>
         <template v-slot:column-rate="props">
-          <span v-if="props.row.returnSum&&props.row.outputSum">{{((props.row.returnSum/props.row.outputSum)*100).toFixed(2)}}%</span>
+          <span
+            v-if="props.row.returnSum && props.row.outputSum">{{ ((props.row.returnSum / props.row.outputSum) * 100).toFixed(2) }}%</span>
         </template>
         <!-- <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden">空</el-button>
@@ -140,7 +140,7 @@ export default {
       }
       const searchData = this.$refs.search.search
       salesIntegrateListPage({
-        customerCode: searchData.customerCode||"",
+        customerCode: searchData.customerCode || "",
         page: this.query.pageNo,
         size: this.query.pageSize,
       }).then((res) => {
@@ -157,15 +157,27 @@ export default {
         });
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      shopkeeperWarehouseDelete({ belongKey: row.belongKey, inventoryKey: row.inventoryKey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        shopkeeperWarehouseDelete({ belongKey: row.belongKey, inventoryKey: row.inventoryKey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     reload() {

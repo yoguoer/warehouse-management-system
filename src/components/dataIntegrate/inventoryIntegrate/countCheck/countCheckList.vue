@@ -2,9 +2,8 @@
   <div style="background:#fff;padding:10px;">
     <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden" />
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
-        :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
-        :loading="loadings.table">
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
+        :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-how="props">
           <span v-if="props.row.checkType == 0">盘盈</span>
           <span v-else-if="props.row.checkType == 1">盘亏</span>
@@ -24,13 +23,14 @@
         <template v-slot:column-status="props">
           <span>{{
             props.row.checkStatus == '0' ? '未审批'
-              : (props.row.checkStatus == '1' ? '同意'
-                : (props.row.checkStatus == '2' ? '驳回':"-"))
+            : (props.row.checkStatus == '1' ? '同意'
+              : (props.row.checkStatus == '2' ? '驳回' : "-"))
           }}</span>
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden">空</el-button>
-          <el-button v-if="props.row.checkStatus != 1" @click="editRow(props.row)" type="text" icon="el-icon-s-check">审批</el-button>
+          <el-button v-if="props.row.checkStatus != 1" @click="editRow(props.row)" type="text"
+            icon="el-icon-s-check">审批</el-button>
           <!-- <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button> -->
         </template>
@@ -106,7 +106,7 @@ export default {
     },
     searchConfig() {
       return [
-      {
+        {
           label: '请选择',
           placeholder: '请选择门店',
           field: 'shopCode',
@@ -259,15 +259,27 @@ export default {
       this.drawer = true;
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      shopkeeperWarehouseDelete({ belongKey: row.belongKey, inventoryKey: row.inventoryKey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        shopkeeperWarehouseDelete({ belongKey: row.belongKey, inventoryKey: row.inventoryKey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     success() {

@@ -9,8 +9,7 @@
         style="width:300px;margin-right:20px">
         <template slot="prepend">商品名</template>
       </el-input>
-      <el-select size="middle" v-model="supplierKey" placeholder="所属供应商" style="width:300px;margin-right:20px"
-        clearable>
+      <el-select size="middle" v-model="supplierKey" placeholder="所属供应商" style="width:300px;margin-right:20px" clearable>
         <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
           :value="item.supplierKey" placeholder="所属供应商">
         </el-option>
@@ -47,15 +46,15 @@
         </el-table-column>
         <el-table-column prop="brandCode" label="所属品牌" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="priceLatestPurchase" label="进价" :show-overflow-tooltip="true"  width="80px">
+        <el-table-column prop="priceLatestPurchase" label="进价" :show-overflow-tooltip="true" width="80px">
         </el-table-column>
-        <el-table-column prop="priceRetail" label="零售价" :show-overflow-tooltip="true"  width="80px">
+        <el-table-column prop="priceRetail" label="零售价" :show-overflow-tooltip="true" width="80px">
         </el-table-column>
-        <el-table-column prop="priceWholesaler" label="批发价" :show-overflow-tooltip="true"  width="80px">
+        <el-table-column prop="priceWholesaler" label="批发价" :show-overflow-tooltip="true" width="80px">
         </el-table-column>
         <el-table-column prop="goodsUnit" label="单位" :show-overflow-tooltip="true" width="50px">
         </el-table-column>
-        <el-table-column prop="state" label="状态"  width="80px">
+        <el-table-column prop="state" label="状态" width="80px">
           <template slot-scope="scope">{{ scope.row.state == 1 ? '上架' : '下架' }}</template>
         </el-table-column>
         <el-table-column prop="categoryName" label="所属分类" :show-overflow-tooltip="true">
@@ -179,15 +178,27 @@ export default {
       })
     },
     deleteRow(row) {
-      console.log("deleteRow", row);
-      goodsDelete({ goodsKey: row.goodsKey }).then((res) => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getGoodslistPage();
-          this.$forceUpdate();
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row);
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        goodsDelete({ goodsKey: row.goodsKey }).then((res) => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getGoodslistPage();
+            this.$forceUpdate();
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     editRow(row) {

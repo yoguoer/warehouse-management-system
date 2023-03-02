@@ -1,6 +1,6 @@
 <template>
   <div style="background:#fff;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" />
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table" :height="height">
@@ -12,18 +12,18 @@
         <template v-slot:column-status1="props">
           <span>{{
             props.row.status == '0' ? '在单'
-              : (props.row.status == '1' ? '生产'
-                : (props.row.status == '2' ? '在途'
-                  : (props.row.status == '3' ? '入库'
-                    : (props.row.status == '4' ? '占用'
-                      : (props.row.status == '5' ? '出库' : '-')))))
+            : (props.row.status == '1' ? '生产'
+              : (props.row.status == '2' ? '在途'
+                : (props.row.status == '3' ? '入库'
+                  : (props.row.status == '4' ? '占用'
+                    : (props.row.status == '5' ? '出库' : '-')))))
           }}</span>
         </template>
         <template v-slot:column-status="props">
           <span>{{
             props.row.checkStatus == '0' ? '未审批'
-              : (props.row.checkStatus == '1' ? '同意'
-                : (props.row.checkStatus == '2' ? '驳回':"-"))
+            : (props.row.checkStatus == '1' ? '同意'
+              : (props.row.checkStatus == '2' ? '驳回' : "-"))
           }}</span>
         </template>
         <template v-slot:column-happenTime="props">
@@ -33,14 +33,14 @@
           <span v-if="props.row.checkTime">{{ props.row.checkTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button v-if="props.row.checkStatus!=1" @click="editRow(props.row)" type="text" icon="el-icon-s-check">编辑</el-button>
-          <el-button v-if="props.row.checkStatus!=2" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
-            icon="el-icon-document">删除</el-button>
+          <el-button v-if="props.row.checkStatus != 1" @click="editRow(props.row)" type="text"
+            icon="el-icon-s-check">编辑</el-button>
+          <el-button v-if="props.row.checkStatus != 2" class="prohibitclick" @click="deleteRow(props.row)" type="text"
+            size="small" icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
     </div>
-    <hasCheckEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
-      @success="success()" />
+    <hasCheckEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
   </div>
 </template>
 
@@ -58,7 +58,7 @@ export default {
     return {
       total: null,
       drawer: false,
-      hidden:true,
+      hidden: true,
       height: "600px",
       rowData: {},
       tableData: [],
@@ -209,7 +209,7 @@ export default {
         outputShopCode: "",
         goodsCode: "",
         inputShopCode: "",
-        checkType:1,
+        checkType: 1,
         checkStatus: 1,
       };
       transferCheckListPage(params).then((res) => {
@@ -237,7 +237,7 @@ export default {
         outputShopCode: searchData.outputShopCode,
         goodsCode: searchData.goodsCode,
         inputShopCode: searchData.inputShopCode,
-        checkType:1,
+        checkType: 1,
         checkStatus: 1,
       }).then((res) => {
         if (res.data.code === 200) {
@@ -257,15 +257,27 @@ export default {
       this.drawer = true;
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      transferCheckDelete({ transferCheckKey: row.transferCheckKey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        transferCheckDelete({ transferCheckKey: row.transferCheckKey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     success() {

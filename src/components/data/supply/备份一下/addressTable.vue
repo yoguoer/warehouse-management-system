@@ -4,8 +4,8 @@
     <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
     <el-divider />
 
-    <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
-      :tableColumn="tableColumn" height="500px">
+    <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :tableColumn="tableColumn"
+      height="500px" :multiCheck="multiCheck">
       <template v-slot:column-address="props">
         <span>{{ props.row.province }},{{ props.row.city }},{{ props.row.district }},{{ props.row.detail }}</span>
       </template>
@@ -55,6 +55,7 @@ export default {
       dialogVisible: false,
       ifCreate: false,
       multipleSelection: [],
+      multiCheck: true,
       title: "编辑联系地址",
       addressForm: {
         addressKey: "",
@@ -123,15 +124,27 @@ export default {
     },
     //删除
     deleteRow(row) {
-      supplierAddressDelete({ addressKey: row.addressKey })
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.$message.success('删除成功!')
-            this._handleFresh()
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        supplierAddressDelete({ addressKey: row.addressKey })
+          .then((res) => {
+            if (res.data.code === 200) {
+              this.$message.success('删除成功!')
+              this._handleFresh()
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     },
     _handleFresh() {
       this.$parent.$parent.$parent.$parent.$parent.getData()
@@ -268,6 +281,7 @@ export default {
 .wrap-definition {
   background: #fff;
 }
+
 .page-box {
   text-align: right;
   margin: 20px;

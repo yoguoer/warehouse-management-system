@@ -22,9 +22,9 @@
         </el-table-column>
         <el-table-column label="客户地址" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-              <span>
-                {{ scope.row.province }},{{ scope.row.city }},{{ scope.row.district }},{{ scope.row.detail }}
-              </span>
+            <span>
+              {{ scope.row.province }},{{ scope.row.city }},{{ scope.row.district }},{{ scope.row.detail }}
+            </span>
           </template>
         </el-table-column>
         <el-table-column label="联系人列表" :show-overflow-tooltip="true">
@@ -140,12 +140,24 @@ export default {
       this.$forceUpdate()
     },
     deleteRow(row) {
-      Customerdelete({ customerKey: row.customerKey }).then((res) => {
-        if (res.data.code === 200) {
-          this.$message.success("删除成功!");
-          this.getCustomer();
-          this.$forceUpdate();
-        }
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        Customerdelete({ customerKey: row.customerKey }).then((res) => {
+          if (res.data.code === 200) {
+            this.$message.success("删除成功!");
+            this.getCustomer();
+            this.$forceUpdate();
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     //详情
@@ -165,9 +177,9 @@ export default {
       this.drawer = true;
     },
     reload() {
-      this.inputName=''
-      this.inputCategory=''
-      this.pageNo=1
+      this.inputName = ''
+      this.inputCategory = ''
+      this.pageNo = 1
       this.$refs.leftcard.getTree()
       this.getCustomer()
     },

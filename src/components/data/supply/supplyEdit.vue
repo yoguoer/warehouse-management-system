@@ -511,6 +511,7 @@ export default {
                 this.$parent.success();
                 this.reset()
               } else {
+                this.reset()
                 this.$message.error(res.msg)
               }
             })
@@ -573,6 +574,7 @@ export default {
                 this.$parent.success();
                 this.reset()
               } else {
+                this.reset()
                 this.$message.error(res.msg)
               }
             })
@@ -587,6 +589,7 @@ export default {
     },
 
     reset() {
+      this.value=''
       //联系人列表
       this.contactList = [
         {

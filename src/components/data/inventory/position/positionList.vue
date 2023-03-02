@@ -5,14 +5,13 @@
         style="width: 300px; margin-right: 20px">
         <template slot="prepend">货位编号</template>
       </el-input>
-      <el-select size="small" v-model="inputInventory" clearable placeholder="所属仓库"
-        style="width:200px;margin-right:20px;" @change="getdistrictlist()">
+      <el-select size="small" v-model="inputInventory" clearable placeholder="所属仓库" style="width:200px;margin-right:20px;"
+        @change="getdistrictlist()">
         <el-option v-for="item in options1" :key="item.inventoryKey" :label="item.inventoryName"
           :value="item.inventoryKey">
         </el-option>
       </el-select>
-      <el-select size="small" v-model="inputDistrict" clearable placeholder="所属区域"
-        style="width:200px;margin-right:20px;">
+      <el-select size="small" v-model="inputDistrict" clearable placeholder="所属区域" style="width:200px;margin-right:20px;">
         <el-option v-for="item in options2" :key="item.inventoryDistrictkey" :label="item.districtName"
           :value="item.inventoryDistrictkey">
         </el-option>
@@ -193,18 +192,31 @@ export default {
       this.$forceUpdate();
     },
     deleteRow(row) {
-      console.log("deleteRow", row);
-      positionDelete({ positionKey: row.positionKey }).then(
-        (res) => {
-          if (res.data.code == 200) {
-            this.$message.success("删除成功!");
-            this.getPositionlistPage();
-            this.$forceUpdate();
-          } else {
-            this.$message.error("删除失败!");
+      // console.log("deleteRow", row);
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        positionDelete({ positionKey: row.positionKey }).then(
+          (res) => {
+            if (res.data.code == 200) {
+              this.$message.success("删除成功!");
+              this.getPositionlistPage();
+              this.$forceUpdate();
+            } else {
+              this.$message.error("删除失败!");
+            }
           }
-        }
-      );
+        );
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
+
     },
     //详情
     openDetail(row) {

@@ -7,11 +7,11 @@
         <template v-slot:column-status1="props">
           <span>{{
             props.row.status == '0' ? '在单'
-              : (props.row.status == '1' ? '生产'
-                : (props.row.status == '2' ? '在途'
-                  : (props.row.status == '3' ? '入库'
-                    : (props.row.status == '4' ? '占用'
-                      : (props.row.status == '5' ? '出库' : '-')))))
+            : (props.row.status == '1' ? '生产'
+              : (props.row.status == '2' ? '在途'
+                : (props.row.status == '3' ? '入库'
+                  : (props.row.status == '4' ? '占用'
+                    : (props.row.status == '5' ? '出库' : '-')))))
           }}</span>
         </template>
         <template v-slot:column-type="props">
@@ -21,8 +21,8 @@
         <template v-slot:column-status="props">
           <span>{{
             props.row.checkStatus == '0' ? '未审批'
-              : (props.row.checkStatus == '1' ? '同意'
-                : (props.row.checkStatus == '2' ? '驳回' : "-"))
+            : (props.row.checkStatus == '1' ? '同意'
+              : (props.row.checkStatus == '2' ? '驳回' : "-"))
           }}</span>
         </template>
         <template v-slot:column-happenTime="props">
@@ -251,7 +251,7 @@ export default {
         goodsCode: searchData.goodsCode,
         outputShopCode: searchData.outputShopCode,
         checkType: 0,
-        checkStatus: searchData.checkStatus||13,
+        checkStatus: searchData.checkStatus || 13,
       }).then((res) => {
         this.tableData = []
         if (res.data.code === 200) {
@@ -276,24 +276,33 @@ export default {
       this.drawer = true;
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      transferCheckDelete({ transferCheckKey: row.transferCheckKey }).then(res => {
-        if (res.data.code == 200) {
-          inputWarehouseDelete({ isDeleted: 0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
-            if (res.data.code == 200) {
-              this.$message.success("删除成功!");
-              this.getTableData()
-              this.$forceUpdate()
-            } else {
-              this.$message.error("删除失败!");
-            }
-          });
-          // this.$message.success("删除成功!");
-          // this.getTableData()
-          // this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        transferCheckDelete({ transferCheckKey: row.transferCheckKey }).then(res => {
+          if (res.data.code == 200) {
+            inputWarehouseDelete({ isDeleted: 0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+              if (res.data.code == 200) {
+                this.$message.success("删除成功!");
+                this.getTableData()
+                this.$forceUpdate()
+              } else {
+                this.$message.error("删除失败!");
+              }
+            });
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     success() {

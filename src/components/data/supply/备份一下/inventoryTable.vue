@@ -14,10 +14,10 @@
           <template slot-scope="scope">
             <span>{{
               scope.row.inventoryType == 1 ? '供应商仓库'
-                : (scope.row.inventoryType == 2 ? '门店仓'
-                  : (scope.row.inventoryType == 3 ? '大仓'
-                    : (scope.row.inventoryType == 4 ? '渠道仓'
-                      : (scope.row.inventoryType == 5 ? '直发仓' : '-'))))
+              : (scope.row.inventoryType == 2 ? '门店仓'
+                : (scope.row.inventoryType == 3 ? '大仓'
+                  : (scope.row.inventoryType == 4 ? '渠道仓'
+                    : (scope.row.inventoryType == 5 ? '直发仓' : '-'))))
             }}</span>
           </template>
         </el-table-column>
@@ -55,8 +55,8 @@
     </div>
     <configEdit v-if="drawer" :drawer="drawer" :rowData="row" @close="drawer = false" @success="success()"
       :supplierInventoryList="supplierInventoryList" />
-    <inventoryEdit ref="inventoryEdit" v-if="inventoryEditVisable" :dialogVisible="inventoryEditVisable"
-      :rowData="row" @close="inventoryEditVisable = false" @success="success()" />
+    <inventoryEdit ref="inventoryEdit" v-if="inventoryEditVisable" :dialogVisible="inventoryEditVisable" :rowData="row"
+      @close="inventoryEditVisable = false" @success="success()" />
     <inventoryDetail v-if="isShow" :drawer="isShow" :rowData="row" @close="isShow = false" @success="success()" />
   </div>
 </template>
@@ -124,15 +124,27 @@ export default {
       this.$forceUpdate();
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      supplierInventoryDelete({ belongKey: this.row.belongKey, inventoryKey: row.inventoryKey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getInventorylistPage()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        supplierInventoryDelete({ belongKey: this.row.belongKey, inventoryKey: row.inventoryKey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getInventorylistPage()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     getInventorylistPage() {
@@ -152,8 +164,8 @@ export default {
     },
     add() {
       this.drawer = true
-      this.row={belongKey:this.row.supplierKey}
-      console.log("rowrowrowrow",this.row);
+      this.row = { belongKey: this.row.supplierKey }
+      console.log("rowrowrowrow", this.row);
     },
     //批量删除选择
     handleSelectionDelete(val) {

@@ -36,7 +36,7 @@
           <template slot-scope="scope">
             <span>{{
               scope.row.inventoryType == 1 ? '供应商仓库'
-                : (scope.row.inventoryType == 2 ? '零售商仓库' : '-')
+              : (scope.row.inventoryType == 2 ? '零售商仓库' : '-')
             }}</span>
           </template>
         </el-table-column>
@@ -124,15 +124,27 @@ export default {
       this.$forceUpdate();
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      inventoryDelete({ inventoryKey: row.inventoryKey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getInventorylistPage()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        inventoryDelete({ inventoryKey: row.inventoryKey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getInventorylistPage()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     editRow(row) {

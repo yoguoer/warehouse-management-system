@@ -4,8 +4,7 @@
       <el-input placeholder="联系人名称" v-model="inputName" type="text" size="small" :clearable="true">
         <template slot="prepend">联系人名称</template>
       </el-input>
-      <el-select size="middle" v-model="supplierKey" placeholder="所属供应商" style="width:200px;margin-right:20px"
-        clearable>
+      <el-select size="middle" v-model="supplierKey" placeholder="所属供应商" style="width:200px;margin-right:20px" clearable>
         <el-option v-for="item in supplyOptions" :key="item.supplierKey" :label="item.supplierName"
           :value="item.supplierKey" placeholder="所属供应商">
         </el-option>
@@ -24,7 +23,7 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="所属供应商" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-           <span>{{ scope.row.supplierCode }}{{ scope.row.supplierName }}</span>
+            <span>{{ scope.row.supplierCode }}{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="contactCode" sortable label="联系人编号" :show-overflow-tooltip="true" width="120px">
@@ -82,7 +81,7 @@ export default {
     this.getContact()
     this.getSupplierlist()
     if (this.$route.params.supplierKey) {
-      this.supplierKey=this.$route.params.supplierKey
+      this.supplierKey = this.$route.params.supplierKey
     }
   },
   methods: {
@@ -140,14 +139,26 @@ export default {
       this.$forceUpdate()
     },
     deleteRow(row) {
-      Contactdelete({ contactKey: row.contactKey })
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.$message.success('删除成功!')
-            this.getContact()
-            this.$forceUpdate()
-          }
-        })
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        Contactdelete({ contactKey: row.contactKey })
+          .then((res) => {
+            if (res.data.code === 200) {
+              this.$message.success('删除成功!')
+              this.getContact()
+              this.$forceUpdate()
+            }
+          })
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     },
     editRow(row) {
       this.rowData = row

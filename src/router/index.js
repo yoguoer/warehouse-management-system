@@ -819,10 +819,12 @@ VueRouter.prototype.push = function push(location) {
 };
 
 const router = new VueRouter({
-  // mode: "history",
-  // base: '/iscm',
-  mode: "hash",
-  base: '/',
+  mode: "history",
+  base: '/iscm',
+
+  //阿里云配置 
+  // mode: "hash",
+  // base: '/',
   routes,
 });
 

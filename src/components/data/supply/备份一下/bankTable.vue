@@ -4,8 +4,8 @@
     <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
     <el-divider />
 
-    <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
-      :tableColumn="tableColumn" height="500px">
+    <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :tableColumn="tableColumn"
+      height="500px">
       <template v-slot:column-todo="props">
         <el-button class="prohibitclick" @click="editRow(props.row)" type="text" size="small">编辑</el-button>
         <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small">删除</el-button>
@@ -142,15 +142,27 @@ export default {
     },
     //删除
     deleteRow(row) {
-      supplierBillingDelete({ billingKey: row.billingKey })
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.$message.success('删除成功!')
-            this._handleFresh()
-          } else {
-            this.$message.error(res.msg)
-          }
-        })
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        supplierBillingDelete({ billingKey: row.billingKey })
+          .then((res) => {
+            if (res.data.code === 200) {
+              this.$message.success('删除成功!')
+              this._handleFresh()
+            } else {
+              this.$message.error(res.msg)
+            }
+          })
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     },
     _handleFresh() {
       this.$parent.$parent.$parent.$parent.$parent.getData()
@@ -286,6 +298,7 @@ export default {
   text-align: right;
   margin: 20px;
 }
+
 .wrap-definition {
   background: #fff;
 }

@@ -5,18 +5,19 @@
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-inv="props">
-          <span v-if="props.row.positionCode=='00000000000000000'">-</span>
-          <span v-else>{{  props.row.inventoryCode }}{{  props.row.inventoryName }}</span>
+          <span v-if="props.row.positionCode == '00000000000000000'">-</span>
+          <span v-else>{{ props.row.inventoryCode }}{{ props.row.inventoryName }}</span>
         </template>
         <template v-slot:column-pop="props">
-          <span v-if="props.row.positionCode=='00000000000000000'">-</span>
-          <span v-else>{{  props.row.positionCode }}</span>
+          <span v-if="props.row.positionCode == '00000000000000000'">-</span>
+          <span v-else>{{ props.row.positionCode }}</span>
         </template>
         <template v-slot:column-time="props">
           <span>{{ props.row.operateTime }}</span>
         </template>
         <template v-slot:column-ok="props">
-          <span v-if="props.row.rejectsNum">{{  ((props.row.accountNum-props.row.rejectsNum)/props.row.accountNum).toFixed(2)*100 }}%</span>
+          <span v-if="props.row.rejectsNum">{{
+            ((props.row.accountNum - props.row.rejectsNum) / props.row.accountNum).toFixed(2) * 100 }}%</span>
         </template>
         <template v-slot:column-todo="props">
           <el-button @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
@@ -25,7 +26,7 @@
         </template>
       </TableList>
     </div>
-    <overviewEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"/>
+    <overviewEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
   </div>
 </template>
 
@@ -54,8 +55,8 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
-      shopOptions:[],
-      goodsOptions:[]
+      shopOptions: [],
+      goodsOptions: []
     };
   },
   computed: {
@@ -68,8 +69,8 @@ export default {
         { prop: "modelCode", label: "型号" },
         { prop: "priceLatestPurchase", label: "采购价" },
         // { prop: "inventoryCode", label: "仓库编码" },
-        { slots: { name: "column-inv" }, label: "仓库"},
-        { slots: { name: "column-pop" }, label: "货位"},
+        { slots: { name: "column-inv" }, label: "仓库" },
+        { slots: { name: "column-pop" }, label: "货位" },
         // { prop: "positionCode", label: "货位" },
         { prop: "maxNum", label: "库存上限" },
         { prop: "minNum", label: "库存下限" },
@@ -78,10 +79,10 @@ export default {
         { prop: "occupyNum", label: "占用数" },
         { prop: "availableNum", label: "可用数" },
         { prop: "rejectsNum", label: "残品数" },
-        { slots: { name: "column-ok" }, label: "合格率"},
-        { slots: { name: "column-time" }, label: "最后操作时间"},
+        { slots: { name: "column-ok" }, label: "合格率" },
+        { slots: { name: "column-time" }, label: "最后操作时间" },
         { prop: "description", label: "备注" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right",width:"150px" },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "150px" },
       ];
     },
     searchConfig() {
@@ -92,7 +93,7 @@ export default {
           field: 'shopCode',
           value: '',
           type: "select",
-          options:this.shopOptions
+          options: this.shopOptions
         },
         {
           label: '请选择',
@@ -100,7 +101,7 @@ export default {
           field: 'goodsCode',
           value: '',
           type: "select",
-          options:this.goodsOptions
+          options: this.goodsOptions
         },
       ];
     }
@@ -121,8 +122,8 @@ export default {
       shoplist().then(res => {
         if (res.data.code == 200) {
           // this.shopOptions = res.data.data
-          res.data.data.forEach(item=>{
-            this.shopOptions.push({label:item.shopName,value:item.shopCode})
+          res.data.data.forEach(item => {
+            this.shopOptions.push({ label: item.shopName, value: item.shopCode })
           })
         } else {
           this.$message.error("获取失败!");
@@ -133,8 +134,8 @@ export default {
       goodslist().then(res => {
         if (res.data.code == 200) {
           // this.goodsOptions = res.data.data
-          res.data.data.forEach(item=>{
-            this.goodsOptions.push({label:item.goodsName,value:item.goodsCode})
+          res.data.data.forEach(item => {
+            this.goodsOptions.push({ label: item.goodsName, value: item.goodsCode })
           })
         } else {
           this.$message.error("获取失败!");
@@ -150,7 +151,7 @@ export default {
 
       let params = {
         // ...this.query,
-        page: this.query.pageNo||pageNo,
+        page: this.query.pageNo || pageNo,
         size: this.query.pageSize,
         shopCode: "",
         goodsCode: "",
@@ -196,16 +197,29 @@ export default {
       this.drawer = true;
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      shopkeeperWarehouseDelete({ shopkeeperWarehouseKey: row.shopkeeperWarehouseKey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        shopkeeperWarehouseDelete({ shopkeeperWarehouseKey: row.shopkeeperWarehouseKey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
+
     },
     success() {
       this.drawer = false;

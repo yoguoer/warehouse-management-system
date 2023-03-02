@@ -2,17 +2,16 @@
   <div style="background:#fff;padding:10px;">
     <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden" />
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
-        :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
-        :loading="loadings.table">
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
+        :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-status="props">
           <span>{{
             props.row.status == '0' ? '在单'
-              : (props.row.status == '1' ? '生产'
-                : (props.row.status == '2' ? '在途'
-                  : (props.row.status == '3' ? '入库'
-                    : (props.row.status == '4' ? '占用'
-                      : (props.row.status == '5' ? '出库' : '-')))))
+            : (props.row.status == '1' ? '生产'
+              : (props.row.status == '2' ? '在途'
+                : (props.row.status == '3' ? '入库'
+                  : (props.row.status == '4' ? '占用'
+                    : (props.row.status == '5' ? '出库' : '-')))))
           }}</span>
         </template>
         <template v-slot:column-type="props">
@@ -34,8 +33,7 @@
         </template>
       </TableList>
     </div>
-    <enterWarehouseEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
-      @success="success()" />
+    <enterWarehouseEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
     <enterWarehouseReturn v-if="drawer1" :drawer="drawer1" :rowData="rowData1" @close="drawer1 = false"
       @success="success()" />
   </div>
@@ -255,9 +253,9 @@ export default {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
-          this.tableData=[]
+          this.tableData = []
           res.data.data.records.forEach(item => {
-            if(item.type==0){
+            if (item.type == 0) {
               this.tableData.push(item)
             }
           });
@@ -289,9 +287,9 @@ export default {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
-          this.tableData=[]
+          this.tableData = []
           res.data.data.records.forEach(item => {
-            if(item.type==0){
+            if (item.type == 0) {
               this.tableData.push(item)
             }
           });
@@ -310,7 +308,7 @@ export default {
     editRow1(row) {
       returnCheckByKey({ checkType: 0, inputOutputKey: row.inputWarehouseKey }).then(res => {
         if (res.data.code == 200) {
-          this.rowData1 = res.data.data||row
+          this.rowData1 = res.data.data || row
           this.drawer1 = true;
         } else {
           this.$message.error("获取失败!");
@@ -319,15 +317,27 @@ export default {
       // this.rowData1 = row;
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      inputWarehouseDelete({ isDeleted: 0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        inputWarehouseDelete({ isDeleted: 0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     success() {

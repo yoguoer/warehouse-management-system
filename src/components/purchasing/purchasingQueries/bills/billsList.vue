@@ -1,17 +1,17 @@
 <template>
   <div style="background:#fff;padding:10px;">
-    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden"/>
+    <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" />
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
         :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-status="props">
           <span>{{
             props.row.status == '0' ? '在单'
-              : (props.row.status == '1' ? '生产'
-                : (props.row.status == '2' ? '在途'
-                  : (props.row.status == '3' ? '入库'
-                    : (props.row.status == '4' ? '占用'
-                      : (props.row.status == '5' ? '出库' : '-')))))
+            : (props.row.status == '1' ? '生产'
+              : (props.row.status == '2' ? '在途'
+                : (props.row.status == '3' ? '入库'
+                  : (props.row.status == '4' ? '占用'
+                    : (props.row.status == '5' ? '出库' : '-')))))
           }}</span>
         </template>
         <template v-slot:column-type="props">
@@ -29,11 +29,10 @@
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden">空</el-button>
-          <el-button v-show="!props.row.returnNum&&props.row.status==3&&props.row.type!=1" @click="editRow1(props.row)" type="text"
-            icon="el-icon-truck">退货</el-button>
-          <el-button v-if="userType==0" @click="editRow(props.row)" type="text"
-            icon="el-icon-edit">编辑</el-button>
-          <el-button v-if="userType==0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
+          <el-button v-show="!props.row.returnNum && props.row.status == 3 && props.row.type != 1" @click="editRow1(props.row)"
+            type="text" icon="el-icon-truck">退货</el-button>
+          <el-button v-if="userType == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
+          <el-button v-if="userType == 0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
@@ -59,7 +58,7 @@ export default {
   data() {
     return {
       total: null,
-      hidden:true,
+      hidden: true,
       drawer: false,
       rowData: {},
       drawer1: false,
@@ -318,7 +317,7 @@ export default {
     editRow1(row) {
       returnCheckByKey({ checkType: 0, inputOutputKey: row.inputWarehouseKey }).then(res => {
         if (res.data.code == 200) {
-          this.rowData1 = res.data.data||row
+          this.rowData1 = res.data.data || row
           this.drawer1 = true;
         } else {
           this.$message.error("获取失败!");
@@ -326,15 +325,27 @@ export default {
       })
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey, isDeleted: 1 }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        inputWarehouseDelete({ inputWarehouseKey: row.inputWarehouseKey, isDeleted: 1 }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     success() {

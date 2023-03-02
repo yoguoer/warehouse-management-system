@@ -23,7 +23,7 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column label="所属客户" :show-overflow-tooltip="true">
           <template slot-scope="scope">
-           <span>{{ scope.row.customerCode }}{{ scope.row.customerName }}</span>
+            <span>{{ scope.row.customerCode }}{{ scope.row.customerName }}</span>
           </template>
         </el-table-column>
         <el-table-column prop="contactCode" sortable label="联系人编号" width="120px">
@@ -81,7 +81,7 @@ export default {
     this.getContact()
     this.getCustomer()
     if (this.$route.params.customerKey) {
-      this.inputCustomer=this.$route.params.customerKey
+      this.inputCustomer = this.$route.params.customerKey
     }
   },
   methods: {
@@ -114,7 +114,7 @@ export default {
     },
     search() {
       //联系人
-      contactListpage({ contactName: this.inputName, contactCustomerKey: this.inputCustomer,  page: 1, size: this.pageSize }).then(res => {
+      contactListpage({ contactName: this.inputName, contactCustomerKey: this.inputCustomer, page: 1, size: this.pageSize }).then(res => {
         if (res.data.code === 200) {
           this.total = res.data.data.total
           this.allList = res.data.data.records
@@ -136,14 +136,26 @@ export default {
       this.$forceUpdate()
     },
     deleteRow(row) {
-      Contactdelete({ contactKey: row.contactKey })
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.$message.success('删除成功!')
-            this.getContact()
-            this.$forceUpdate()
-          }
-        })
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        Contactdelete({ contactKey: row.contactKey })
+          .then((res) => {
+            if (res.data.code === 200) {
+              this.$message.success('删除成功!')
+              this.getContact()
+              this.$forceUpdate()
+            }
+          })
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
+      });
     },
     editRow(row) {
       this.rowData = row

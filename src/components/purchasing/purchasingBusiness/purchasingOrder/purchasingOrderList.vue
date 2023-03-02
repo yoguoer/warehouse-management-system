@@ -7,11 +7,11 @@
         <template v-slot:column-status="props">
           <span>{{
             props.row.status == '0' ? '在单'
-              : (props.row.status == '1' ? '生产'
-                : (props.row.status == '2' ? '在途'
-                  : (props.row.status == '3' ? '入库'
-                    : (props.row.status == '4' ? '占用'
-                      : (props.row.status == '5' ? '出库' : '-')))))
+            : (props.row.status == '1' ? '生产'
+              : (props.row.status == '2' ? '在途'
+                : (props.row.status == '3' ? '入库'
+                  : (props.row.status == '4' ? '占用'
+                    : (props.row.status == '5' ? '出库' : '-')))))
           }}</span>
         </template>
         <template v-slot:column-type="props">
@@ -26,14 +26,13 @@
         </template>
         <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden">空</el-button>
-          <el-button v-if="props.row.status==0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
-          <el-button v-if="props.row.status==0" class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
-            icon="el-icon-document">删除</el-button>
+          <el-button v-if="props.row.status == 0" @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
+          <el-button v-if="props.row.status == 0" class="prohibitclick" @click="deleteRow(props.row)" type="text"
+            size="small" icon="el-icon-document">删除</el-button>
         </template>
       </TableList>
     </div>
-    <purchasingOrderEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false"
-      @success="success()" />
+    <purchasingOrderEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()" />
   </div>
 </template>
 
@@ -82,13 +81,13 @@ export default {
         { prop: "goodsName", label: "商品名称" },
         { prop: "supplierCode", label: "供应商编码" },
         { prop: "supplierName", label: "供应商名称" },
-        { prop: "inputPlan", label: "计划数",width:100 },
-        { prop: "inputPrice", label: "入库价格",width:100 },
+        { prop: "inputPlan", label: "计划数", width: 100 },
+        { prop: "inputPrice", label: "入库价格", width: 100 },
         // { prop: "inputActual", label: "实际数" },
         // { prop: "inventoryCode", label: "仓库编码" },
         // { prop: "positionCode", label: "货位编码" },
         // { prop: "vehicleCode", label: "车辆编码" },
-        { slots: { name: "column-status" }, label: "状态",width:100 },
+        { slots: { name: "column-status" }, label: "状态", width: 100 },
         { slots: { name: "column-type" }, label: "入库类型" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
@@ -225,9 +224,9 @@ export default {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
-          this.tableData=[]
-          res.data.data.records.forEach(item=>{
-            if(item.status<2){
+          this.tableData = []
+          res.data.data.records.forEach(item => {
+            if (item.status < 2) {
               this.tableData.push(item)
             }
           })
@@ -253,16 +252,16 @@ export default {
         goodsCode: searchData.goodsCode,
         supplierCode: searchData.supplierCode,
         inventoryCode: "",
-        status: searchData.status||12,
+        status: searchData.status || 12,
         isDeleted: 0,
         type: 0
       }).then((res) => {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           // this.tableData = res.data.data.records;
-          this.tableData=[]
-          res.data.data.records.forEach(item=>{
-            if(item.status<2){
+          this.tableData = []
+          res.data.data.records.forEach(item => {
+            if (item.status < 2) {
               this.tableData.push(item)
             }
           })
@@ -279,15 +278,27 @@ export default {
       this.drawer = true;
     },
     deleteRow(row) {
-      console.log("deleteRow", row)
-      inputWarehouseDelete({ isDeleted:0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.getTableData()
-          this.$forceUpdate()
-        } else {
-          this.$message.error("删除失败!");
-        }
+      // console.log("deleteRow", row)
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        inputWarehouseDelete({ isDeleted: 0, inputWarehouseKey: row.inputWarehouseKey }).then(res => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.getTableData()
+            this.$forceUpdate()
+          } else {
+            this.$message.error("删除失败!");
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
     },
     success() {
@@ -310,7 +321,7 @@ export default {
       if (this.multipleSelection.length > 0) {
         let inputWarehouseKeys = [];
         this.multipleSelection.forEach(item => {
-          inputWarehouseKeys.push({ isDeleted:0, inputWarehouseKey: item.inputWarehouseKey })
+          inputWarehouseKeys.push({ isDeleted: 0, inputWarehouseKey: item.inputWarehouseKey })
         })
         console.log(inputWarehouseKeys);
         this.$confirm('删除操作, 是否继续?', '提示', {

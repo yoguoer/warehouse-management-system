@@ -4,8 +4,7 @@
 
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
-        :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table"
-        :multiCheck="multiCheck">
+        :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table" :multiCheck="multiCheck">
 
         <!-- <template v-slot:column-address="props">
           <div>{{ props.row.province }}{{props.row.city}}{{props.row.district}}{{props.row.detail }}</div>
@@ -27,7 +26,7 @@
 <script>
 import reloadAndsearch from "@/components/public/reloadAndsearch/reloadAndsearch.vue";
 import TableList from "@/components/public/tableList";
-import { supplierAddressPage, supplierAddressDelete, Supplierlist } from "@/api/data";
+import { supplierAddressPage, supplierAddressDelete, Supplierlist,addressDeleteList } from "@/api/data";
 import addressEdit from "./addressEdit";
 export default {
   components: {
@@ -48,6 +47,7 @@ export default {
       rowData: {},
       drawer: false,
       multiCheck: true,
+      multipleSelection: [],
       total: null,
       tableData: [],
       supplierList: []
@@ -86,7 +86,7 @@ export default {
         this.tableData = res.data.data.records;
         this.total = res.data.data.total;
       })
-      .finally(() => {
+        .finally(() => {
           this.loadings.table = false;
         });
     },
@@ -98,7 +98,7 @@ export default {
       this.loadings.table = true;
       const searchData = this.$refs.search.search
       let params = {
-        supplierAddressKey: searchData.supplierAddressKey||this.$route.params.supplierKey||"",
+        supplierAddressKey: searchData.supplierAddressKey || this.$route.params.supplierKey || "",
         page: this.query.pageNo,
         size: this.query.pageSize,
       }
@@ -122,16 +122,68 @@ export default {
       this.drawer = true;
     },
     deleteRow(row) {
-      console.log("deleteRow", row);
-      supplierAddressDelete({ supplierAddressKeys: row.supplierAddressKey }).then((res) => {
-        if (res.data.code == 200) {
-          this.$message.success("删除成功!");
-          this.search();
-          this.$forceUpdate();
-        } else {
-          this.$message.error(res.data.msg);
-        }
+      // console.log("deleteRow", row);
+      this.$confirm('删除操作, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        supplierAddressDelete({ supplierAddressKeys: row.supplierAddressKey }).then((res) => {
+          if (res.data.code == 200) {
+            this.$message.success("删除成功!");
+            this.search();
+            this.$forceUpdate();
+          } else {
+            this.$message.error(res.data.msg);
+          }
+        });
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消删除'
+        });
       });
+    },
+    //批量删除选择
+    handleSelectionDelete(val) {
+      this.multipleSelection = val
+    },
+    handleDeleteList() {
+      if (this.multipleSelection.length > 0) {
+        let addressKeys = [];
+        this.multipleSelection.forEach(item => {
+          addressKeys.push({ addressKey: item.addressKey })
+        })
+        console.log(addressKeys);
+        this.$confirm('删除操作, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          addressDeleteList(addressKeys).then(() => {
+            this.getTableData();
+            this.$message({
+              type: 'success',
+              message: '删除成功!'
+            });
+            this._handleFresh()
+          }).catch(error => {
+            console.log(error);
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+          this.multipleSelection = []
+        });
+      } else {
+        this.$message({
+          type: 'error',
+          message: '至少选择一项'
+        });
+      }
     },
     success() {
       this.drawer = false;
@@ -146,16 +198,16 @@ export default {
         { slots: { name: "column-supplier" }, label: "所属供应商" },
         { prop: "addressType", label: "地址类型", width: 180 },
         // { slots: { name: "column-address" }, label: "地址" },
-        { prop: "province", label: "省", width:"100px" },
-        { prop: "city", label: "市", width:"100px" },
-        { prop: "district", label: "区", width:"100px" },
+        { prop: "province", label: "省", width: "100px" },
+        { prop: "city", label: "市", width: "100px" },
+        { prop: "district", label: "区", width: "100px" },
         { prop: "detail", label: "详细地址" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: '120px' },
       ];
     },
     searchConfig() {
-      return[
-      {
+      return [
+        {
           label: '请选择',
           placeholder: '请选择供应商',
           field: 'supplierAddressKey',
@@ -164,7 +216,7 @@ export default {
           options: this.supplierList
         },
       ]
-     }
+    }
   },
   created() {
     if (this.$route.params.supplierKey) {
