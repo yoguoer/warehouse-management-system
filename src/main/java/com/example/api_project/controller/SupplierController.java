@@ -91,31 +91,46 @@ public class SupplierController {
 
         //插入联系人
         List<Contact> supplierContactList = supplier.getSupplierContactList();
-        String contactSupplierKey = supplier.getSupplierKey();
-        for (Contact contact : supplierContactList) {
-            contact.setContactSupplierKey(contactSupplierKey);
-            Integer contactKey = random.nextInt(9000) + 1000;
-            contact.setContactKey(System.currentTimeMillis() + String.valueOf(contactKey));
-            this.contactService.insert(contact);
+        if(!supplierContactList.isEmpty()){
+            String contactSupplierKey = supplier.getSupplierKey();
+            for (Contact contact : supplierContactList) {
+                if(contact.getContactName()!=""){
+                    contact.setContactSupplierKey(contactSupplierKey);
+                    Integer contactKey = random.nextInt(9000) + 1000;
+                    contact.setContactKey(System.currentTimeMillis() + String.valueOf(contactKey));
+                    this.contactService.insert(contact);
+                }
+            }
         }
+
         //插入联系地址
         List<SupplierAddress> supplierAddressList = supplier.getSupplierAddressList();
-        String supplierAddressKey = supplier.getSupplierKey();
-        for (SupplierAddress supplierAddress : supplierAddressList) {
-            supplierAddress.setSupplierAddressKey(supplierAddressKey);
-            Integer addressKey = random.nextInt(9000) + 1000;
-            supplierAddress.setAddressKey(System.currentTimeMillis() + String.valueOf(addressKey));
-            this.supplierAddressService.insert(supplierAddress);
+        if(!supplierAddressList.isEmpty()){
+            String supplierAddressKey = supplier.getSupplierKey();
+            for (SupplierAddress supplierAddress : supplierAddressList) {
+                if(supplierAddress.getAddressType()!=""){
+                    supplierAddress.setSupplierAddressKey(supplierAddressKey);
+                    Integer addressKey = random.nextInt(9000) + 1000;
+                    supplierAddress.setAddressKey(System.currentTimeMillis() + String.valueOf(addressKey));
+                    this.supplierAddressService.insert(supplierAddress);
+                }
+            }
         }
+
         //插入开票信息
         List<SupplierBilling> supplierBillingList = supplier.getSupplierBillingList();
-        String supplierBillingKey = supplier.getSupplierKey();
-        for (SupplierBilling supplierBilling : supplierBillingList) {
-            supplierBilling.setSupplierBillingKey(supplierBillingKey);
-            Integer billingKey = random.nextInt(9000) + 1000;
-            supplierBilling.setBillingKey(System.currentTimeMillis() + String.valueOf(billingKey));
-            this.supplierBillingService.insert(supplierBilling);
+        if(!supplierBillingList.isEmpty()){
+            String supplierBillingKey = supplier.getSupplierKey();
+            for (SupplierBilling supplierBilling : supplierBillingList) {
+                if(supplierBilling.getAccountName()!=""){
+                    supplierBilling.setSupplierBillingKey(supplierBillingKey);
+                    Integer billingKey = random.nextInt(9000) + 1000;
+                    supplierBilling.setBillingKey(System.currentTimeMillis() + String.valueOf(billingKey));
+                    this.supplierBillingService.insert(supplierBilling);
+                }
+            }
         }
+
         //插入自己
         return ResponseData.success(this.supplierService.insert(supplier));
     }

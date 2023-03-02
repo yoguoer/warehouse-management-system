@@ -78,14 +78,16 @@ public class CustomerController {
         Integer number = random.nextInt(9000) + 1000;
         customer.setCustomerKey(System.currentTimeMillis() + String.valueOf(number));
         List<Contact> customerContactList = customer.getCustomerContactList();
-        String contactCustomerKey = customer.getCustomerKey();
         //插入联系人
         if(!customerContactList.isEmpty()){
+            String contactCustomerKey = customer.getCustomerKey();
             for (Contact contact : customerContactList) {
-                contact.setContactCustomerKey(contactCustomerKey);
-                Integer contactKey = random.nextInt(9000) + 1000;
-                contact.setContactKey(System.currentTimeMillis() + String.valueOf(contactKey));
-                this.contactService.insert(contact);
+                if(contact.getContactName()!=""){
+                    contact.setContactCustomerKey(contactCustomerKey);
+                    Integer contactKey = random.nextInt(9000) + 1000;
+                    contact.setContactKey(System.currentTimeMillis() + String.valueOf(contactKey));
+                    this.contactService.insert(contact);
+                }
             }
         }
         //插入客户
