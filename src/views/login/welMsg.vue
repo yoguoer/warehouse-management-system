@@ -16,25 +16,25 @@
                         </el-row>
                         <el-row>
                             <el-col :span="6">
-                                <a href="/purchasing/purchasingBusiness/purchasingOrder">
+                                <a href="/purchasing/purchasingBusiness/purchasingOrder" @click="setSelFirst('purchasing')">
                                     <div><img :src="input" alt="" style="width:80px;margin:5px;" /></div>
                                     <span style="margin-left:20px;">采购</span>
                                 </a>
                             </el-col>
                             <el-col :span="6">
-                                <a href="/marketing/marketingBusiness/retailOrder">
+                                <a href="/marketing/marketingBusiness/retailOrder" @click="setSelFirst('marketing')">
                                     <div><img :src="output" alt="" style="width:80px;margin:5px;" /></div>
                                     <span style="margin-left:20px;">销售</span>
                                 </a>
                             </el-col>
                             <el-col :span="6">
-                                <a href="/store/shopkeepers/overview">
+                                <a href="/store/shopkeepers/overview" @click="setSelFirst('store')">
                                     <div><img :src="inventory" alt="" style="width:80px;margin:5px;" /></div>
                                     <span style="margin-left:20px;">库存</span>
                                 </a>
                             </el-col>
                             <el-col :span="6">
-                                <a href="/data">
+                                <a href="/data" @click="setSelFirst('data')">
                                     <div><img :src="data" alt="" style="width:80px;margin:5px;" /></div>
                                     <span style="margin-left:20px;">资料</span>
                                 </a>
@@ -184,6 +184,10 @@ export default {
         this.getalertInfolistPage()
     },
     methods: {
+        setSelFirst(name){
+            this.$store.dispatch("saveSelFirstMenu", name)
+            console.log(name)
+        },
         getalertInfolistPage() {
             let params = {
                 type: "",//预警类型（0：连续未动销预警，1：满仓预警，2：缺货预警）

@@ -109,6 +109,11 @@ export default {
     this.userType = this.$store.state.user.userType
     this.userName = this.$store.state.user.userName
     this.menuType = this.$store.state.user.userBelong
+    if(this.$store.state.menu.selFirstMenu){
+      this.selOneMenu = this.$store.state.menu.selFirstMenu
+      this.getMenuSubList(this.selOneMenu)
+      this.isShow=true
+    }
     //处理刷新后活跃标签信息丢失的问题
     if (sessionStorage.getItem("selOneMenu")) {
       this.selOneMenu = sessionStorage.getItem("selOneMenu")
@@ -117,6 +122,7 @@ export default {
     if (this.selOneMenu = 'welcome') {
       this.isShow = false
     }
+    console.log(this.selOneMenu,"----")
   },
   components: {
     leftMenu

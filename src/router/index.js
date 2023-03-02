@@ -819,6 +819,7 @@ VueRouter.prototype.push = function push(location) {
 };
 
 const router = new VueRouter({
+  //本地配置
   mode: "history",
   base: '/iscm',
 
