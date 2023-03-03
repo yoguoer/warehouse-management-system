@@ -1,7 +1,0 @@
-@forward "element-plus/theme-chalk/src/common/var.scss" with (
-  $colors: (
-    "primary": (
-      // "base": #1baeae,
-    ),
-  ),
-);.wrap-definition[data-v-5f9904ef]{background:#fff}.wrap-definition .top-title[data-v-5f9904ef]{color:#06f;font-size:18px;line-height:50px}.wrap-definition .el-input-group[data-v-5f9904ef]{width:300px;margin-right:20px}.wrap-definition .text[data-v-5f9904ef]{font-size:14px}.wrap-definition .item[data-v-5f9904ef]{margin-bottom:18px}.wrap-definition .clearfix[data-v-5f9904ef]:after,.wrap-definition .clearfix[data-v-5f9904ef]:before{display:table;content:""}.wrap-definition .clearfix[data-v-5f9904ef]:after{clear:both}.wrap-definition .el-drawer__open .el-drawer.btt[data-v-5f9904ef]{height:60%!important}.wrap-definition .el-dropdown-link[data-v-5f9904ef]{cursor:pointer;color:#409eff}.wrap-definition .el-icon-arrow-down[data-v-5f9904ef]{font-size:12px}

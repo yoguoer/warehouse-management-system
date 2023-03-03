@@ -1,7 +1,0 @@
-@forward "element-plus/theme-chalk/src/common/var.scss" with (
-  $colors: (
-    "primary": (
-      // "base": #1baeae,
-    ),
-  ),
-);.page-box[data-v-187c50eb]{text-align:right;margin:20px}.el-table[data-v-187c50eb]{overflow-y:auto!important;overflow-x:auto!important}.el-input-group[data-v-187c50eb]{width:300px;margin-right:20px}.list-model[data-v-187c50eb]{margin-top:20px}
