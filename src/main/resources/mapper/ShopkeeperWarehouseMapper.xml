@@ -190,5 +190,18 @@
         delete from shopkeeper_warehouse where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
     </delete>
 
+    <!--查询看看里面还有没有库存-->
+    <select id="findGoodsInWarehouse" resultType="java.lang.Integer">
+        select account_num
+        from shopkeeper_warehouse
+        <where>
+            <if test="positionCode != null and positionCode != ''">
+                and position_code = #{positionCode}
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+        </where>
+    </select>
 </mapper>
 

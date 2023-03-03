@@ -1,8 +1,11 @@
 package com.example.api_project.service.impl;
 
 import com.example.api_project.mapper.InventoryMapper;
+import com.example.api_project.mapper.PositionMapper;
 import com.example.api_project.mapper.ShopInventoryMapper;
+import com.example.api_project.mapper.ShopkeeperWarehouseMapper;
 import com.example.api_project.pojo.Inventory;
+import com.example.api_project.pojo.Position;
 import com.example.api_project.service.ShopInventoryService;
 import com.example.api_project.vo.ShopInventory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,12 @@ public class ShopInventoryImpl implements ShopInventoryService {
 
     @Autowired
     private InventoryMapper inventoryMapper;
+
+    @Autowired
+    private ShopkeeperWarehouseMapper shopkeeperWarehouseMapper;
+
+    @Autowired
+    private PositionMapper positionMapper;
 
     /**
      * 不分页查询
@@ -62,8 +71,30 @@ public class ShopInventoryImpl implements ShopInventoryService {
      * @return 实例对象
      */
     @Override
-    public int update(ShopInventory ShopInventory) {
-        return this.ShopInventoryMapper.update(ShopInventory);
+    public Boolean update(ShopInventory ShopInventory) {
+        Integer status=ShopInventory.getStatus();
+        String inventoryKey=ShopInventory.getInventoryKey();
+        String shopCode=ShopInventory.getShopCode();
+        Boolean flag=false;
+        if(status==2){
+            List<Position> positionList = this.positionMapper.getList(inventoryKey);
+            for(Position position:positionList){
+                String positionCode=position.getPositionCode();
+                Integer accountNum=this.shopkeeperWarehouseMapper.findGoodsInWarehouse(positionCode,shopCode);
+                if(null!=accountNum && accountNum>0){
+                    flag=true;
+                    break;
+                }else{
+                    flag=false;
+                }
+            }
+        }
+        if(flag==false){
+            this.ShopInventoryMapper.update(ShopInventory);
+            return true;
+        }else{
+            return false;
+        }
     }
 
     /**

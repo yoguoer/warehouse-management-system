@@ -54,6 +54,9 @@ public interface ShopkeeperWarehouseMapper {
      */
     long count(ShopkeeperWarehouse shopkeeperWarehouse);
 
+    //查询看看里面还有没有库存
+    Integer findGoodsInWarehouse(String positionCode,String shopCode);
+
     /**
      * 新增数据
      *

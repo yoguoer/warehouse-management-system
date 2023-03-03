@@ -65,7 +65,12 @@ public class ShopInventoryController {
      */
     @PostMapping("/update")
     public Result edit(@RequestBody ShopInventory ShopInventory) {
-        return ResponseData.success(this.ShopInventoryService.update(ShopInventory));
+        Boolean res=this.ShopInventoryService.update(ShopInventory);
+        if(res==true){
+            return ResponseData.success();
+        }else{
+            return ResponseData.error();
+        }
     }
 
     /**
