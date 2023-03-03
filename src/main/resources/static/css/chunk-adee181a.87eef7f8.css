@@ -1,0 +1,7 @@
+@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      // "base": #1baeae,
+    ),
+  ),
+);.wrap-definition[data-v-cfc16ce8]{background:#fff}.wrap-definition .top-title[data-v-cfc16ce8]{color:#06f;font-size:18px;line-height:50px}.wrap-definition .el-input-group[data-v-cfc16ce8]{width:300px;margin-right:20px}.wrap-definition .text[data-v-cfc16ce8]{font-size:14px}.wrap-definition .item[data-v-cfc16ce8]{margin-bottom:18px}.wrap-definition .clearfix[data-v-cfc16ce8]:after,.wrap-definition .clearfix[data-v-cfc16ce8]:before{display:table;content:""}.wrap-definition .clearfix[data-v-cfc16ce8]:after{clear:both}.wrap-definition .el-drawer__open .el-drawer.btt[data-v-cfc16ce8]{height:60%!important}.wrap-definition .el-dropdown-link[data-v-cfc16ce8]{cursor:pointer;color:#409eff}.wrap-definition .el-icon-arrow-down[data-v-cfc16ce8]{font-size:12px}

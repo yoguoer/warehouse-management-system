@@ -1,0 +1,7 @@
+.dialog_body[data-v-e981b200]{margin-top:-10px}.dialog_body .form_text[data-v-e981b200]{width:350px}.dialog_body .form_select[data-v-e981b200]{width:250px}.dialog_footer[data-v-e981b200]{border-top:1px solid #eee;padding-top:10px;text-align:right}.el-radio-group[data-v-e981b200]{font-size:0;margin:5px}@forward "element-plus/theme-chalk/src/common/var.scss" with (
+  $colors: (
+    "primary": (
+      // "base": #1baeae,
+    ),
+  ),
+);.page-box[data-v-3f2e7570]{text-align:right;margin:20px}
