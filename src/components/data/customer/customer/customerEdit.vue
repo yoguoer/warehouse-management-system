@@ -128,11 +128,13 @@ export default {
   name: 'guestEdit',
   data() {
     var validatePass = (rule, value, callback) => {
-            if (this.ruleForm.address.province == '' || this.ruleForm.address.detail == '') {
-                callback(new Error('请输入完整地址'));
-            }
-            callback();
-        };
+      this.tempList.forEach(item => {
+        if (item.address.province == '' || item.address.detail == '') {
+          callback(new Error('请输入完整地址'));
+        }
+      })
+      callback();
+    };
     return {
       currentIndex: 0,
       addStr: "",
@@ -191,7 +193,13 @@ export default {
         ],
         customerName: [
           { required: true, message: '请输入客户名称', trigger: 'blur' }
-        ]
+        ],
+        customerTel: [
+          { required: true, message: '请输入客户手机', trigger: 'blur' }
+        ],
+        // address: [
+        //   { required: true, validator: validatePass, trigger: 'blur' },
+        // ],
       },
 
       addForm: [],
@@ -202,16 +210,16 @@ export default {
         customerCode: [
           { required: true, message: '请输入客户编码', trigger: 'blur' }
         ],
-        customerName: [
-          { required: true, message: '请输入客户名称', trigger: 'blur' }
+        contactCode: [
+          { required: true, message: '请输入联系人编码', trigger: 'blur' }
         ],
         contactName: [
           { required: true, message: '请输入联系人姓名', trigger: 'blur' },
         ],
-        contactTypeFlex3: [
+        address: [
           { required: true, validator: validatePass, trigger: 'blur' },
         ],
-        contactTypeFlex5: [
+        contactTel: [
           { required: true, message: '请输入联系电话', trigger: 'blur' }
         ]
       }
@@ -316,9 +324,9 @@ export default {
         if (res.data.code === 200) {
           this.list = []
           res.data.data.forEach(item => {
-            if(item.categoryName !='暂无分类'&&item.categoryName!='全部'){
-                this.list.push(item)
-              }
+            if (item.categoryName != '暂无分类' && item.categoryName != '全部') {
+              this.list.push(item)
+            }
           });
           // this.list = res.data.data
           // console.log(this.list);
@@ -333,7 +341,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let arr = []
-          if(this.tempList[0].contactName!=""&&this.tempList[0].contactName!=null){
+          if (this.tempList[0].contactName != "" && this.tempList[0].contactName != null) {
             this.tempList.forEach(item => {
               arr.push({
                 contactName: item.contactName,
@@ -388,7 +396,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           let arr = []
-          if(this.tempList[0].contactName!=""&&this.tempList[0].contactName!=null){
+          if (this.tempList[0].contactName != "" && this.tempList[0].contactName != null) {
             this.tempList.forEach(item => {
               arr.push({
                 contactName: item.contactName,

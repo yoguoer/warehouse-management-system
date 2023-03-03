@@ -153,7 +153,7 @@ export default {
         if (res.data.code === 200) {
           this.total = res.data.data.total;
           this.tableData = res.data.data.records;
-          // console.log(this.total, this.tableData);
+          console.log(this.total, this.tableData);
         } else {
           console.log("error");
         }
@@ -191,15 +191,16 @@ export default {
       let ruleForm = {
         belongKey: row.shopKey,
         inventoryKey: row.inventoryKey,
-        status: 2
+        status: 2,
+        shopCode:row.shopCode
       }
       ShopInventoryUpdate(ruleForm).then(res => {
         if (res.data.code == 200) {
-          this.$message.success("编辑成功!");
+          this.$message.success("关仓成功!");
           this.getTableData()
           this.$forceUpdate()
         } else {
-          this.$message.error("编辑失败!");
+          this.$message.error("分区内还有库存，请先处理库存数据为0再关仓!");
         }
       })
     },

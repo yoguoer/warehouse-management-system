@@ -190,7 +190,7 @@ export default {
   name: 'supplyEdit',
   data() {
     var validatePass = (rule, value, callback) => {
-      if (this.ruleForm.address.province == '' || this.ruleForm.address.detail == '') {
+      if (this.ruleForm.address.province == '' || this.ruleForm.address.city == ''||this.ruleForm.address.district == '' ||this.ruleForm.address.detail == '' ) {
         callback(new Error('请输入完整地址'));
       }
       callback();

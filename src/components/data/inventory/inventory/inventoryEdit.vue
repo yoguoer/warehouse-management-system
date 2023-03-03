@@ -29,7 +29,7 @@
             <el-col :span="10">
               <el-form-item label="仓库状态" prop="status">
                 <!-- 1.正常，2.关仓', -->
-                <el-select size="mini" v-model="form.status" placeholder="请选择" style="width: 350px" clearable>
+                <el-select size="mini" v-model="form.status" placeholder="请选择" style="width: 350px" clearable :disabled="ifCreate==true?false:true">
                   <el-option label="正常" :value="1"></el-option>
                   <el-option label="关仓" :value="2"></el-option>
                 </el-select>
