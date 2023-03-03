@@ -34,15 +34,15 @@
         @selection-change="handleSelectionDelete" style="width: auto; margin-top: 20px"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="goodsCode" label="商品货号" :show-overflow-tooltip="true">
+        <el-table-column prop="goodsCode" label="商品货号" sortable :show-overflow-tooltip="true" width="120px">
         </el-table-column>
-        <el-table-column prop="goodsName" label="商品名" :show-overflow-tooltip="true" width="500px">
+        <el-table-column prop="goodsName" label="商品名" sortable :show-overflow-tooltip="true" width="500px">
         </el-table-column>
         <el-table-column prop="goodsBarcode" label="商品条码" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column prop="modelCode" label="型号" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="supplierName" label="所属供应商" :show-overflow-tooltip="true">
+        <el-table-column prop="supplierName" label="所属供应商" :show-overflow-tooltip="true" width="200px">
         </el-table-column>
         <el-table-column prop="brandCode" label="所属品牌" :show-overflow-tooltip="true">
         </el-table-column>
@@ -59,7 +59,7 @@
         </el-table-column>
         <el-table-column prop="categoryName" label="所属分类" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="createTime" label="添加时间" :show-overflow-tooltip="true">
+        <el-table-column prop="createTime" label="添加时间" :show-overflow-tooltip="true" sortable width="120px">
           <template slot-scope="scope">{{ scope.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</template>
         </el-table-column>
         <el-table-column fixed="right" width="250px" label="操作">

@@ -63,10 +63,10 @@ export default {
     tableColumn() {
       return [
         { prop: "supplierCode", label: "供应商编码" },
-        { prop: "supplierName", label: "供应商名称" },
+        { prop: "supplierName", label: "供应商名称",sortable:true },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "inventoryName", label: "仓库名称" },
-        { slots: { name: "column-address" }, label: "仓库地址" },
+        { slots: { name: "column-address" }, label: "仓库地址",sortable:true },
         { slots: { name: "column-status" }, label: "状态" },
         { prop: "description", label: "仓库备注" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right" },

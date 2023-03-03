@@ -11,8 +11,8 @@
           <span>{{ props.row.inOrderSum + props.row.productSum + props.row.onWaySum + props.row.inStoreSum }}</span>
         </template>
         <template v-slot:column-rate="props">
-          <span
-            v-if="props.row.returnSum && props.row.inStoreSum">{{ ((props.row.returnSum / props.row.inStoreSum) * 100).toFixed(2) }}%</span>
+          <span v-if="props.row.returnSum && props.row.inStoreSum">{{ ((props.row.returnSum / props.row.inStoreSum) *
+            100).toFixed(2) }}%</span>
         </template>
         <!-- <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden">空</el-button>
@@ -57,21 +57,21 @@ export default {
   computed: {
     tableColumn() {
       return [
-        { prop: "supplierCode", label: "供应商编码" },
+        { prop: "supplierCode", label: "供应商编码", width: "100px" },
         { prop: "supplierName", label: "供应商名称", width: "300px" },
-        { slots: { name: "column-num" }, label: "总单数(不含退货)", width: "200px" },
-        { slots: { name: "column-sum" }, label: "总数量(不含退货)", width: "200px" },
-        { prop: "inOrderNum", label: "在单订单" },
-        { prop: "inOrderSum", label: "在单数量" },
-        { prop: "productNum", label: "生产订单" },
-        { prop: "productSum", label: "生产数量" },
-        { prop: "onWayNum", label: "在途订单" },
-        { prop: "onWaySum", label: "在途数量" },
-        { prop: "inStoreNum", label: "入库订单" },
-        { prop: "inStoreSum", label: "入库数量" },
-        { prop: "returnCount", label: "有退货订单" },
-        { prop: "returnSum", label: "退货数量" },
-        { slots: { name: "column-rate" }, label: "退货率" },
+        { slots: { name: "column-num" }, label: "总单数(不含退货)", width: "160px", sortable: true },
+        { slots: { name: "column-sum" }, label: "总数量(不含退货)", width: "160px", sortable: true },
+        { prop: "inOrderNum", label: "在单订单", width: "120px", sortable: true },
+        { prop: "inOrderSum", label: "在单数量", width: "120px", sortable: true },
+        { prop: "productNum", label: "生产订单", width: "120px", sortable: true },
+        { prop: "productSum", label: "生产数量", width: "120px", sortable: true },
+        { prop: "onWayNum", label: "在途订单", width: "120px", sortable: true },
+        { prop: "onWaySum", label: "在途数量", width: "120px", sortable: true },
+        { prop: "inStoreNum", label: "入库订单", width: "120px", sortable: true },
+        { prop: "inStoreSum", label: "入库数量", width: "120px", sortable: true },
+        { prop: "returnCount", label: "有退货订单", width: "120px", sortable: true },
+        { prop: "returnSum", label: "退货数量", width: "120px", sortable: true },
+        { slots: { name: "column-rate" }, label: "退货率", width: "120px", sortable: true },
         // { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "120px" },
       ];
     },

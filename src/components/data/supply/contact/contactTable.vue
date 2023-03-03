@@ -34,7 +34,7 @@
         </el-table-column>
         <el-table-column prop="contactEmail" label="联系邮箱" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column label="省" prop="province" width="100px" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column label="省" sortable prop="province" width="100px" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column label="市" prop="city" width="100px" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column label="区" prop="district" width="100px" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column label="详细地址" prop="detail" :show-overflow-tooltip="true"></el-table-column>

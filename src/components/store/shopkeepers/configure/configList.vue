@@ -67,7 +67,7 @@ export default {
     tableColumn() {
       return [
         { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称" },
+        { prop: "shopName", label: "门店名称", sortable: true },
         { prop: "inventoryCode", label: "仓库编码" },
         { prop: "inventoryName", label: "仓库名称" },
         { slots: { name: "column-address" }, label: "仓库地址" },

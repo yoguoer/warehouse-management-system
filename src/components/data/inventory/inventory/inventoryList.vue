@@ -30,8 +30,8 @@
         @selection-change="handleSelectionDelete" style="width: auto; margin-top: 20px"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }" class="table-fixed">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="inventoryCode" label="仓库编号" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column prop="inventoryName" label="仓库名" :show-overflow-tooltip="true"> </el-table-column>
+        <el-table-column prop="inventoryCode"label="仓库编号" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="inventoryName" sortable label="仓库名" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="inventoryType" label="仓库类型" :show-overflow-tooltip="true">
           <template slot-scope="scope">
             <span>{{
@@ -43,7 +43,7 @@
         <el-table-column prop="contactName" label="联系人" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="tel" label="电话" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="zipCode" label="邮编" :show-overflow-tooltip="true"> </el-table-column>
-        <el-table-column prop="province" label="省" :show-overflow-tooltip="true"> </el-table-column>
+        <el-table-column prop="province" sortable label="省" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="city" label="市" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="district" label="区" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="detail" label="详细地址" :show-overflow-tooltip="true"> </el-table-column>

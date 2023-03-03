@@ -10,27 +10,28 @@
             :align="rowItem.align ? rowItem.align : 'center'">
             <template v-for="(rowItem1, rowIdx1) in rowItem.children">
               <el-table-column v-if="rowItem1.slots" :key="rowItem1.slots.name" :label="rowItem1.label"
-                :width="rowItem1.width" :align="rowItem1.align" show-overflow-tooltip :fixed="rowItem.fixed">
+                :sortable="rowItem1.sortable" :width="rowItem1.width" :align="rowItem1.align" show-overflow-tooltip
+                :fixed="rowItem.fixed">
                 <template slot-scope="scope">
                   <slot :name="rowItem1.slots.name" v-bind="scope"></slot>
                 </template>
               </el-table-column>
               <el-table-column v-else :key="(rowItem1.label + rowIdx1)" :prop="rowItem1.prop" :label="rowItem1.label"
-                :width="rowItem1.width" :align="rowItem1.align" :type="rowItem1.type" show-overflow-tooltip
-                :fixed="rowItem.fixed"></el-table-column>
+                :sortable="rowItem1.sortable" :width="rowItem1.width" :align="rowItem1.align" :type="rowItem1.type"
+                show-overflow-tooltip :fixed="rowItem.fixed"></el-table-column>
             </template>
           </el-table-column>
         </template>
         <template v-else>
           <el-table-column v-if="rowItem.slots" :key="rowItem.slots.name" :label="rowItem.label" :width="rowItem.width"
-            :align="rowItem.align" show-overflow-tooltip :fixed="rowItem.fixed">
+            :align="rowItem.align" show-overflow-tooltip :fixed="rowItem.fixed" :sortable="rowItem.sortable">
             <template slot-scope="scope">
               <slot :name="rowItem.slots.name" v-bind="scope"></slot>
             </template>
           </el-table-column>
           <el-table-column v-else :key="rowItem.label + rowIdx" :prop="rowItem.prop" :label="rowItem.label"
             :width="rowItem.width" :align="rowItem.align" :type="rowItem.type" show-overflow-tooltip
-            :fixed="rowItem.fixed"></el-table-column>
+            :fixed="rowItem.fixed" :sortable="rowItem.sortable"></el-table-column>
         </template>
       </template>
     </el-table>

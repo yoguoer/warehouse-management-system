@@ -78,14 +78,14 @@ export default {
   computed: {
     tableColumn() {
       return [
-        { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称",width:"200px" },
-        { prop: "goodsCode", label: "商品编码" },
-        { prop: "goodsName", label: "商品名称",width:"200px" },
-        { prop: "customerCode", label: "客户编码" },
-        { prop: "customerName", label: "客户名称",width:"200px" },
-        { prop: "outputPlan", label: "计划数" },
-        { prop: "outputPrice", label: "出库价格" },
+        { prop: "shopCode", label: "门店编码",width:"120px", sortable: true },
+        { prop: "shopName", label: "门店名称",width:"200px", sortable: true },
+        { prop: "goodsCode", label: "商品编码",width:"120px", sortable: true },
+        { prop: "goodsName", label: "商品名称",width:"200px", sortable: true },
+        { prop: "customerCode", label: "客户编码",width:"120px", sortable: true },
+        { prop: "customerName", label: "客户名称",width:"200px", sortable: true },
+        { prop: "outputPlan", label: "计划数",width:"100px", sortable: true },
+        { prop: "outputPrice", label: "出库价格",width:"120px", sortable: true },
         // { prop: "outputActual", label: "实际数" },
         // { prop: "inventoryCode", label: "仓库编码" },
         // { prop: "positionCode", label: "货位编码" },
@@ -96,8 +96,8 @@ export default {
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
         // { prop: "returnNum", label: "退货数" },
         // { prop: "returnReason", label: "退货原因" },
-        { slots: { name: "column-createTime" }, label: "预计日期" },
-        { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
+        { slots: { name: "column-createTime" }, label: "预计日期",width:"150px", sortable: true },
+        { slots: { name: "column-deadlineTime" }, label: "最迟日期",width:"150px", sortable: true },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 250 },
       ];
     },

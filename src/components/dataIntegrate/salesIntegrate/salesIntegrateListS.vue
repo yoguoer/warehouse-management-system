@@ -11,8 +11,8 @@
           <span>{{ props.row.occupySum + props.row.outputSum }}</span>
         </template>
         <template v-slot:column-rate="props">
-          <span
-            v-if="props.row.returnSum && props.row.outputSum">{{ ((props.row.returnSum / props.row.outputSum) * 100).toFixed(2) }}%</span>
+          <span v-if="props.row.returnSum && props.row.outputSum">{{ ((props.row.returnSum / props.row.outputSum) *
+            100).toFixed(2) }}%</span>
         </template>
         <!-- <template v-slot:column-todo="props">
           <el-button type="text" style="visibility:hidden">空</el-button>
@@ -58,16 +58,16 @@ export default {
     tableColumn() {
       return [
         { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称", width: "300px" },
-        { slots: { name: "column-num" }, label: "总单数(不含退货)", width: "200px" },
-        { slots: { name: "column-sum" }, label: "总数量(不含退货)", width: "200px" },
-        { prop: "occupyNum", label: "占用订单" },
-        { prop: "occupySum", label: "占用数量" },
-        { prop: "outputNum", label: "出库订单" },
-        { prop: "outputSum", label: "出库数量" },
-        { prop: "returnCount", label: "有退货订单" },
-        { prop: "returnSum", label: "退货数量" },
-        { slots: { name: "column-rate" }, label: "退货率" },
+        { prop: "shopName", label: "门店名称", width: "300px", sortable: true },
+        { slots: { name: "column-num" }, label: "总单数(不含退货)", width: "200px", sortable: true },
+        { slots: { name: "column-sum" }, label: "总数量(不含退货)", width: "200px", sortable: true },
+        { prop: "occupyNum", label: "占用订单", sortable: true },
+        { prop: "occupySum", label: "占用数量", sortable: true },
+        { prop: "outputNum", label: "出库订单", sortable: true },
+        { prop: "outputSum", label: "出库数量", sortable: true },
+        { prop: "returnCount", label: "有退货订单", sortable: true },
+        { prop: "returnSum", label: "退货数量", sortable: true },
+        { slots: { name: "column-rate" }, label: "退货率", sortable: true },
         // { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "120px" },
       ];
     },

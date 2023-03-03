@@ -95,13 +95,13 @@ export default {
   computed: {
     tableColumn() {
       return [
-        { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称",width:"200px" },
+        { prop: "shopCode", label: "门店编码",sortable:true },
+        { prop: "shopName", label: "门店名称",width:"200px",sortable:true },
         { slots: { name: "column-cooperation" }, label: "经营类型", width: "100px" },//1A-直营店，1B-加盟店，1C-合作店，1D-代理店，1E-代理商',
         { slots: { name: "column-status" }, label: "店铺状态", width: "100px" },//3A-开业，3B-关店，3C-搬迁，3D-筹备，3E-暂停，3F-预关店',   
         { prop: "businessPersonCode", label: "业务人员" },
         { prop: "liablePersonCode", label: "责任人员" },
-        { prop: "province", label: "省", width: "100px" },
+        { prop: "province", label: "省", width: "100px",sortable:true },
         { prop: "city", label: "市", width: "100px" },
         { prop: "district", label: "区", width: "100px" },
         { prop: "detail", label: "详细地址" },

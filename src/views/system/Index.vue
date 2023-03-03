@@ -41,12 +41,12 @@
             style="width: 100%;min-height:600px;" @selection-change="handleSelectionDelete">
             <el-table-column type="selection" width="55">
             </el-table-column>
-            <el-table-column label="工号">
+            <el-table-column label="工号" sortable>
                 <template slot-scope="scope">
                     <span>{{ scope.row.userCode || '-' }}</span>
                 </template>
             </el-table-column>
-            <el-table-column label="姓名">
+            <el-table-column label="姓名" sortable>
                 <template slot-scope="scope">
                     <span>{{ scope.row.userName || '-' }}</span>
                 </template>

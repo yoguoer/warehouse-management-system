@@ -67,12 +67,12 @@ export default {
   computed: {
     tableColumn() {
       return [
-        { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称",width:"200px" },
-        { prop: "goodsCode", label: "商品编码" },
-        { prop: "goodsName", label: "商品名称",width:"200px" },
-        { prop: "supplierCode", label: "供应商编码" },
-        { prop: "supplierName", label: "供应商名称",width:"200px" },
+        { prop: "shopCode", label: "门店编码", width: "100px" },
+        { prop: "shopName", label: "门店名称", width: "200px", sortable: true },
+        { prop: "goodsCode", label: "商品编码", width: "100px" },
+        { prop: "goodsName", label: "商品名称", width: "200px", sortable: true },
+        { prop: "supplierCode", label: "供应商编码", width: "100px" },
+        { prop: "supplierName", label: "供应商名称", width: "200px", sortable: true },
         { prop: "inputPlan", label: "计划数" },
         { prop: "inputPrice", label: "订购价格" },
         { prop: "inputActual", label: "实际数" },
@@ -85,8 +85,8 @@ export default {
         { prop: "returnNum", label: "退货数" },
         { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-status" }, label: "状态" },
-        { slots: { name: "column-createTime" }, label: "预计日期" },
-        { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
+        { slots: { name: "column-createTime" }, label: "预计日期", sortable: true, width: "150px" },
+        { slots: { name: "column-deadlineTime" }, label: "最迟日期", sortable: true, width: "150px" },
         // { slots: { name: "column-todo" }, label: "操作", fixed: "right"},
       ];
     },

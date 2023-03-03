@@ -19,15 +19,15 @@
         @selection-change="handleSelectionDelete" style="width: auto;margin-top: 20px;"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="vehicleCode" label="车辆编码">
+        <el-table-column prop="vehicleCode" label="车辆编码" sortable>
         </el-table-column>
         <el-table-column prop="vehicleType" label="车型">
         </el-table-column>
         <el-table-column prop="detail" label="详细说明">
         </el-table-column>
-        <el-table-column prop="maxCapacity" sortable label="装货体积">
+        <el-table-column prop="maxCapacity" sortable label="装货体积" sortable> 
         </el-table-column>
-        <el-table-column prop="maxWeight" sortable label="载重">
+        <el-table-column prop="maxWeight" sortable label="载重" sortable>
         </el-table-column>
         <el-table-column prop="description" label="备注">
         </el-table-column>

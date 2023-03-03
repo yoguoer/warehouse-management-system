@@ -38,9 +38,9 @@
             <span>{{ scope.row.inventoryCode }}{{ scope.row.inventoryName }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="districtCode" label="区域号" width="120px">
+        <el-table-column prop="districtCode" label="区域号" sortable width="120px">
         </el-table-column>
-        <el-table-column prop="districtName" label="区域名">
+        <el-table-column prop="districtName" label="区域名" sortable>
         </el-table-column>
         <el-table-column prop="sort" label="排序" width="80px"> </el-table-column>
         <el-table-column prop="status" label="区域状态">

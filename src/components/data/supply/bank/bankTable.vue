@@ -33,7 +33,7 @@
             <span>{{ scope.row.supplierCode }}{{ scope.row.supplierName }}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="bankName" label="银行全称" :show-overflow-tooltip="true">
+        <el-table-column prop="bankName" sortable label="银行全称" :show-overflow-tooltip="true">
         </el-table-column>
         <el-table-column prop="accountName" label="户主名" :show-overflow-tooltip="true" width="100px">
         </el-table-column>

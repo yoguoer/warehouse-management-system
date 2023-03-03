@@ -198,7 +198,7 @@ export default {
         { slots: { name: "column-supplier" }, label: "所属供应商" },
         { prop: "addressType", label: "地址类型", width: 180 },
         // { slots: { name: "column-address" }, label: "地址" },
-        { prop: "province", label: "省", width: "100px" },
+        { prop: "province", label: "省", width: "100px",sortable:true },
         { prop: "city", label: "市", width: "100px" },
         { prop: "district", label: "区", width: "100px" },
         { prop: "detail", label: "详细地址" },
