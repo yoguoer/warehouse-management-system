@@ -71,12 +71,12 @@ export default {
   computed: {
     tableColumn() {
       return [
-        { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称" },
-        { prop: "goodsCode", label: "商品编码" },
-        { prop: "goodsName", label: "商品名称" },
-        { prop: "supplierCode", label: "供应商编码" },
-        { prop: "supplierName", label: "供应商名称" },
+        { prop: "shopCode", label: "门店编码",width:"100px" },
+        { prop: "shopName", label: "门店名称",width:"200px" },
+        { prop: "goodsCode", label: "商品编码",width:"100px" },
+        { prop: "goodsName", label: "商品名称",width:"200px" },
+        { prop: "supplierCode", label: "供应商编码",width:"100px" },
+        { prop: "supplierName", label: "供应商名称",width:"200px" },
         { prop: "inputPlan", label: "计划数" },
         { prop: "inputPrice", label: "入库价格" },
         { prop: "inputActual", label: "实际数" },
@@ -87,7 +87,7 @@ export default {
         { slots: { name: "column-type" }, label: "入库类型" },
         { slots: { name: "column-createTime" }, label: "预计日期" },
         { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
-        { prop: "shopPeopleCode", label: "门店操作员" },
+        { prop: "shopPeopleCode", label: "门店操作员",width:"100px" },
         // { prop: "inventoryPeopleCode", label: "仓库操作员" },
         // { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },

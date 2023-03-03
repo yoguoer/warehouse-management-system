@@ -80,11 +80,11 @@ export default {
     tableColumn() {
       return [
         { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称" },
+        { prop: "shopName", label: "门店名称",width:"200px" },
         { prop: "goodsCode", label: "商品编码" },
-        { prop: "goodsName", label: "商品名称" },
+        { prop: "goodsName", label: "商品名称",width:"200px" },
         { prop: "supplierCode", label: "供应商编码" },
-        { prop: "supplierName", label: "供应商名称" },
+        { prop: "supplierName", label: "供应商名称",width:"200px" },
         { prop: "inputPlan", label: "计划数" },
         { prop: "inputPrice", label: "订购价格" },
         { prop: "inputActual", label: "实际数" },

@@ -77,11 +77,11 @@ export default {
     tableColumn() {
       return [
         { prop: "shopCode", label: "调入门店编码" },
-        { prop: "shopName", label: "调入门店名称" },
+        { prop: "shopName", label: "调入门店名称", width: "200px" },
         { prop: "goodsCode", label: "商品编码" },
         { prop: "goodsName", label: "商品名称" },
         { prop: "inputShopCode", label: "调出门店编码" },
-        { prop: "inputShopName", label: "调出门店名称" },
+        { prop: "inputShopName", label: "调出门店名称", width: "200px" },
         { prop: "inputPlan", label: "申请数" },
         { prop: "inputPrice", label: "入库价格" },
         // { prop: "shopPeopleCode", label: "门店操作员" },

@@ -96,7 +96,7 @@ export default {
     tableColumn() {
       return [
         { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称" },
+        { prop: "shopName", label: "门店名称",width:"200px" },
         { slots: { name: "column-cooperation" }, label: "经营类型", width: "100px" },//1A-直营店，1B-加盟店，1C-合作店，1D-代理店，1E-代理商',
         { slots: { name: "column-status" }, label: "店铺状态", width: "100px" },//3A-开业，3B-关店，3C-搬迁，3D-筹备，3E-暂停，3F-预关店',   
         { prop: "businessPersonCode", label: "业务人员" },

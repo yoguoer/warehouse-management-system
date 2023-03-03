@@ -58,9 +58,9 @@ export default {
     tableColumn() {
       return [
         { prop: "goodsCode", label: "商品编码" },
-        { prop: "goodsName", label: "商品名称" },
-        { slots: { name: "column-num" }, label: "总单数(不含退货)" },
-        { slots: { name: "column-sum" }, label: "总数量(不含退货)" },
+        { prop: "goodsName", label: "商品名称", width: "300px" },
+        { slots: { name: "column-num" }, label: "总单数(不含退货)", width: "200px" },
+        { slots: { name: "column-sum" }, label: "总数量(不含退货)", width: "200px" },
         { prop: "inputPrice", label: "入库价格" },
         { prop: "inOrderNum", label: "在单订单" },
         { prop: "inOrderSum", label: "在单数量" },

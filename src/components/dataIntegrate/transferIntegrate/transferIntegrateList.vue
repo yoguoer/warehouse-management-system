@@ -50,12 +50,12 @@ export default {
   computed: {
     tableColumn() {
       return [
-        { prop: "inShopCode", label: "调入门店编码" },
-        { prop: "inShopName", label: "调入门店名称" },
+        { prop: "inShopCode", label: "调入门店编码", width: "120px" },
+        { prop: "inShopName", label: "调入门店名称", width: "200px" },
         { prop: "goodsCode", label: "商品编码" },
-        { prop: "goodsName", label: "商品名称" },
-        { prop: "outShopCode", label: "调出门店编码" },
-        { prop: "outShopName", label: "调出门店名称" },
+        { prop: "goodsName", label: "商品名称", width: "300px" },
+        { prop: "outShopCode", label: "调出门店编码", width: "120px" },
+        { prop: "outShopName", label: "调出门店名称", width: "200px" },
         { prop: "transferNum", label: "调货单数" },
         { prop: "transferSum", label: "调货商品数" },
         // { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "120px" },

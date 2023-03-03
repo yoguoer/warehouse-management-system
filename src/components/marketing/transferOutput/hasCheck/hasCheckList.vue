@@ -84,11 +84,11 @@ export default {
     tableColumn() {
       return [
         { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称" },
+        { prop: "shopName", label: "门店名称", width: "200px" },
         { prop: "goodsCode", label: "商品编码" },
-        { prop: "goodsName", label: "商品名称" },
-        { prop: "outputShopCode", label: "调往门店编码" },
-        { prop: "outputShopName", label: "调往门店名称" },
+        { prop: "goodsName", label: "商品名称", width: "200px" },
+        { prop: "outputShopCode", label: "调往门店编码", width: "120px" },
+        { prop: "outputShopName", label: "调往门店名称", width: "200px" },
         { prop: "outputPlan", label: "计划数" },
         { prop: "outputPrice", label: "入库价格" },
         { prop: "outputActual", label: "实际数" },
@@ -103,8 +103,8 @@ export default {
         { slots: { name: "column-checkTime" }, label: "审批日期" },
         // { slots: { name: "column-createTime" }, label: "预计日期" },
         // { slots: { name: "column-deadlineTime" }, label: "最迟日期" },
-        { prop: "shopPeopleCode", label: "门店操作员" },
-        { prop: "inventoryPeopleCode", label: "仓库操作员" },
+        { prop: "shopPeopleCode", label: "门店操作员", width: "100px" },
+        { prop: "inventoryPeopleCode", label: "仓库操作员", width: "100px" },
         // { prop: "returnReason", label: "退货原因" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: 150 },
       ];

@@ -99,9 +99,9 @@ export default {
     tableColumn() {
       return [
         { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称" },
+        { prop: "shopName", label: "门店名称", width: "300px" },
         { prop: "goodsCode", label: "商品编码" },
-        { prop: "goodsName", label: "商品名称" },
+        { prop: "goodsName", label: "商品名称", width: "300px" },
         { prop: "modelCode", label: "型号" },
         // { prop: "inventoryCode", label: "仓库编码" },
         // { prop: "positionCode", label: "货位编码" },

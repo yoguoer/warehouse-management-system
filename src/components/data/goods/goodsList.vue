@@ -36,7 +36,7 @@
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column prop="goodsCode" label="商品货号" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column prop="goodsName" label="商品名" :show-overflow-tooltip="true">
+        <el-table-column prop="goodsName" label="商品名" :show-overflow-tooltip="true" width="500px">
         </el-table-column>
         <el-table-column prop="goodsBarcode" label="商品条码" :show-overflow-tooltip="true">
         </el-table-column>
