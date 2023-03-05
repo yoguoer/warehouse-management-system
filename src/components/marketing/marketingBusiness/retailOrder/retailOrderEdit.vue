@@ -329,8 +329,8 @@ export default {
       })
     },
     checkNum(){
-      if(this.ruleForm.outputPlan>this.accountNum){
-        this.$message.error(`超过最大可用数：${this.accountNum}`);
+      if(this.ruleForm.outputPlan>this.availableNum){
+        this.$message.error(`超过最大可用数：${this.availableNum}`);
         this.ruleForm.outputPlan=''
       }
     },
