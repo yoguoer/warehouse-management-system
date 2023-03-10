@@ -121,6 +121,7 @@ public class InputWarehouseController {
                 shopkeeperWarehouse.setAccountNum(0);
                 shopkeeperWarehouse.setMaxNum(300);
                 shopkeeperWarehouse.setMinNum(100);
+                shopkeeperWarehouse.setLongestDay(14);
                 shopkeeperWarehouse.setPositionCode("00000000000000000");
                 shopkeeperWarehouse.setOnwayNum(inputWarehouse.getInputActual());
                 this.shopkeeperWarehouseService.insert(shopkeeperWarehouse);

@@ -26,12 +26,13 @@
         <result property="priceWholesaler" column="price_wholesaler" jdbcType="FLOAT"/>
         <result property="rejectsNum" column="rejects_num" jdbcType="FLOAT"/>
         <result property="shopStatus" column="shop_status" jdbcType="INTEGER"/>
+        <result property="longestDay" column="longest_day" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--通过shopCode查询单条数据-->
     <select id="getList" resultMap="ShopkeeperWarehouseMap">
         select
-            shopkeeper_warehouse_key, shop_status,goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
+            shopkeeper_warehouse_key, shop_status,goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num,longest_day, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
         from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
                                   join goods on goods.goods_code=shopkeeper_warehouse.goods_code
         order by shop.shop_name
@@ -52,7 +53,7 @@
     <!--查询单个-->
     <select id="queryForKey" resultMap="ShopkeeperWarehouseMap">
         select
-        shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num
+        shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num,longest_day, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num
         from shopkeeper_warehouse
         <where>
                 shop_code = #{shopCode}
@@ -63,7 +64,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="ShopkeeperWarehouseMap">
         select
-          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
+          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num,longest_day, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
         from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
                                   join goods on goods.goods_code=shopkeeper_warehouse.goods_code
         where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
@@ -72,7 +73,7 @@
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ShopkeeperWarehouseMap">
         select
-        shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,goods.price_latest_purchase,goods.price_retail,goods.price_wholesaler,shop.shop_name,  shopkeeper_warehouse.position_code, shop.shop_code, max_num, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num,inventory_code,inventory_name
+        shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,goods.price_latest_purchase,goods.price_retail,goods.price_wholesaler,shop.shop_name,  shopkeeper_warehouse.position_code, shop.shop_code, max_num,longest_day, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num,inventory_code,inventory_name
         from shopkeeper_warehouse
             join shop on shop.shop_code=shopkeeper_warehouse.shop_code
             join goods on goods.goods_code=shopkeeper_warehouse.goods_code
@@ -107,23 +108,23 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
-        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num)
-        values (#{shopkeeperWarehouseKey},#{goodsCode}, #{positionCode}, #{shopCode}, #{maxNum}, #{minNum}, #{accountNum}, #{occupyNum},#{onwayNum}, #{availableNum},#{countNum},#{operateTime}, #{description},#{rejectsNum})
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num,longest_day, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num)
+        values (#{shopkeeperWarehouseKey},#{goodsCode}, #{positionCode}, #{shopCode}, #{maxNum}, #{longestDay},#{minNum}, #{accountNum}, #{occupyNum},#{onwayNum}, #{availableNum},#{countNum},#{operateTime}, #{description},#{rejectsNum})
     </insert>
 
     <insert id="insertBatch" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
-        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num)
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num,longest_day, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num)
         values
         <foreach collection="entities" item="entity" separator=",">
-        (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum}, #{entity.minNum}, #{entity.accountNum}, #{entity.occupyNum},#{entity.onwayNum}, #{entity.availableNum},#{entity.countNum}, #{entity.operateTime},#{entity.description}.#{rejectsNum})
+        (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum},#{entity.longestDay}, #{entity.minNum}, #{entity.accountNum}, #{entity.occupyNum},#{entity.onwayNum}, #{entity.availableNum},#{entity.countNum}, #{entity.operateTime},#{entity.description}.#{rejectsNum})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
-        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num)
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num,longest_day, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum}, #{entity.minNum}, #{entity.accountNum},#{entity.onwayNum}, #{entity.occupyNum}, #{entity.availableNum},#{entity.countNum},#{entity.operateTime}, #{entity.description},#{rejectsNum})
+            (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum},#{entity.longestDay}, #{entity.minNum}, #{entity.accountNum},#{entity.onwayNum}, #{entity.occupyNum}, #{entity.availableNum},#{entity.countNum},#{entity.operateTime}, #{entity.description},#{rejectsNum})
         </foreach>
         on duplicate key update
         shopkeeper_warehouse_key=values(shopkeeper_warehouse_key),
@@ -131,6 +132,7 @@
         position_code = values(position_code),
         shop_code = values(shop_code),
         max_num = values(max_num),
+        longest_day=values(longest_day),
         min_num = values(min_num),
         account_num = values(account_num),
         onway_num = values(onway_num),
@@ -157,6 +159,9 @@
             </if>
             <if test="maxNum != null">
                 max_num = #{maxNum},
+            </if>
+            <if test="longestDay != null">
+                longest_day = #{longestDay},
             </if>
             <if test="minNum != null">
                 min_num = #{minNum},

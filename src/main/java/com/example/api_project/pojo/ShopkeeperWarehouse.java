@@ -73,7 +73,15 @@ public class ShopkeeperWarehouse implements Serializable {
      * 门店状态
      */
     private Integer shopStatus;
+    private Integer longestDay;
 
+    public Integer getLongestDay() {
+        return longestDay;
+    }
+
+    public void setLongestDay(Integer longestDay) {
+        this.longestDay = longestDay;
+    }
 
     public Integer getShopStatus() {
         return shopStatus;
