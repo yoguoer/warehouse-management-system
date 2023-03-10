@@ -80,6 +80,7 @@ export default {
         // { prop: "positionCode", label: "货位" },
         { prop: "rejectsNum", label: "残品数", sortable: true,width:"100px" },
         { slots: { name: "column-ok" }, label: "合格率", sortable: true,width:"100px" },
+        { prop: "longestDay", label: "最长未动销天数", sortable: true,width:"100px" },
         { slots: { name: "column-time" }, label: "最后操作时间",width:"150px", sortable: true },
         { prop: "description", label: "备注" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "150px" },

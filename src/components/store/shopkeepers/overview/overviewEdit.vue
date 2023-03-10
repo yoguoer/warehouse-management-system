@@ -3,7 +3,7 @@
     :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" :wrapperClosable="false"
     :append-to-body='true' width="1200px">
 
-    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="130px" class="demo-ruleForm">
       <el-row>
         <el-col :span="10">
           <el-form-item label="门店" prop="shopCode">
@@ -30,7 +30,7 @@
             <el-select size="middle" v-model="ruleForm.inventoryCode" placeholder="仓库" style="width:100%;" clearable
               ref="inventorySelect">
               <el-option @click.native="setPosition" v-for="item in inventoryOptions" :key="item.inventoryKey"
-                :label="item.inventoryName" :value="item.inventoryCode" :disabled="(item.status==1)?false:true">
+                :label="item.inventoryName" :value="item.inventoryCode" :disabled="(item.status == 1) ? false : true">
               </el-option>
             </el-select>
           </el-form-item>
@@ -85,6 +85,11 @@
       </el-row>
       <el-row>
         <el-col :span="10">
+          <el-form-item label="最长未动销天数" prop="longestDay">
+            <el-input v-model="ruleForm.longestDay" clearable placeholder="最长未动销天数" type="Number" :min="0"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
           <el-form-item label="备注" prop="description">
             <el-input v-model="ruleForm.description" clearable placeholder="备注" type="textarea"></el-input>
           </el-form-item>
@@ -118,12 +123,13 @@ export default {
         maxNum: "",
         minNum: "",
         accountNum: "",
+        longestDay: "",
         occupyNum: "",
         availableNum: "",
         countNum: "",
         rejectsNum: "",
         description: "",
-        inventoryCode:"",
+        inventoryCode: "",
         shopkeeperWarehouseKey: "",
         onwayNum: "",
         operateTime: ""
@@ -131,7 +137,7 @@ export default {
       shopOptions: [],
       goodsOptions: [],
       allGoods: [],
-      inventoryOptions:[],
+      inventoryOptions: [],
       positionOptions: [],
       rules: {
         shopCode: [
@@ -151,6 +157,9 @@ export default {
         ],
         accountNum: [
           { required: true, message: '请设置现存量', trigger: 'blur' },
+        ],
+        longestDay: [
+          { required: true, message: '请设置最长未动销天数', trigger: 'blur' },
         ],
         inventoryCode: [
           { required: true, message: '请选择仓库', trigger: 'blur' },
@@ -177,6 +186,7 @@ export default {
       this.ruleForm.maxNum = this.rowData.maxNum
       this.ruleForm.minNum = this.rowData.minNum
       this.ruleForm.accountNum = this.rowData.accountNum
+      this.ruleForm.longestDay= this.rowData.longestDay
       this.ruleForm.occupyNum = this.rowData.occupyNum || 0
       this.ruleForm.availableNum = this.rowData.availableNum || 0
       this.ruleForm.countNum = this.rowData.countNum
@@ -190,7 +200,7 @@ export default {
     }
     if (this.rowData.shopCode) {
       this.getInventoryList(this.rowData)
-    }if(this.rowData.inventoryCode){
+    } if (this.rowData.inventoryCode) {
       this.getpositionList()
     }
   },
@@ -241,8 +251,8 @@ export default {
             this.goodsOptions.forEach(item => {
               res.data.data.forEach(goods => {
                 if (item.goodsCode == goods.goodsCode) {
-                  let index=this.goodsOptions.indexOf(item)
-                  this.goodsOptions.splice(index,1)
+                  let index = this.goodsOptions.indexOf(item)
+                  this.goodsOptions.splice(index, 1)
                 }
               })
             })
@@ -336,6 +346,7 @@ export default {
             maxNum: this.ruleForm.maxNum,
             minNum: this.ruleForm.minNum,
             accountNum: this.ruleForm.accountNum,
+            longestDay: this.ruleForm.longestDay,
             occupyNum: this.ruleForm.occupyNum || 0,
             availableNum: this.ruleForm.availableNum || 0,
             rejectsNum: this.ruleForm.rejectsNum,
