@@ -30,6 +30,8 @@ public interface GoodsMapper {
      */
     Goods queryById(String goodsKey);
 
+    String getNamelyCode(String goodsCode);
+
     /**
      * 查询指全部数据
      *

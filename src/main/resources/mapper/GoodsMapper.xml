@@ -79,6 +79,12 @@
         order by goods_name
     </select>
 
+    <select id="getNamelyCode" resultType="String">
+        select goods_name
+        from goods
+        where goods_code = #{goodsCode}
+    </select>
+
     <!--查询单个-->
     <select id="queryById" resultMap="GoodsMap">
         select goods_key,

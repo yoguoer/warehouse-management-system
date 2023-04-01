@@ -52,6 +52,24 @@ public class CountCheck implements Serializable {
      * 商品编码
      */
     private String goodsCode;
+    private String shopName;
+    private String goodsName;
+
+    public String getShopName() {
+        return shopName;
+    }
+
+    public void setShopName(String shopName) {
+        this.shopName = shopName;
+    }
+
+    public String getGoodsName() {
+        return goodsName;
+    }
+
+    public void setGoodsName(String goodsName) {
+        this.goodsName = goodsName;
+    }
 
     public String getShopCode() {
         return shopCode;

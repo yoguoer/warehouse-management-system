@@ -21,6 +21,9 @@ public interface ShopMapper {
      */
     Shop queryById(String shopKey);
 
+    String getNamelyCode(String shopCode);
+
+
     Shop queryByshopCode(String shopCode);
 
     /**

@@ -72,13 +72,16 @@ public class CustomerServiceImpl implements CustomerService {
         }
 //        String categoryKey=customer.getCategoryKey();
 //        List<Customer> records = customerMapper.queryAllByLimit(categoryKey,customerName,startRows, pageSize);
-        for (Customer item : records) {
-            String contactCustomerKey= item.getCustomerKey();
-            List<Contact> customerContactList=contactMapper.queryByCustomerKey(contactCustomerKey);
-            if(null!=customerContactList){
-                item.setCustomerContactList(customerContactList);
+        if(!records.isEmpty()){
+            for (Customer item : records) {
+                String contactCustomerKey= item.getCustomerKey();
+                List<Contact> customerContactList=contactMapper.queryByCustomerKey(contactCustomerKey);
+                if(null!=customerContactList){
+                    item.setCustomerContactList(customerContactList);
+                }
             }
         }
+
         long total = this.customerMapper.count(customer);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);

@@ -34,6 +34,12 @@
         order by shop_name
     </select>
 
+    <select id="getNamelyCode" resultType="String">
+        select shop_name
+        from shop
+        where shop_code = #{shopCode}
+    </select>
+
     <!--查询单个-->
     <select id="queryByshopCode" resultMap="ShopMap">
         select

@@ -1,5 +1,7 @@
 package com.example.api_project.service.impl;
 
+import com.example.api_project.mapper.GoodsMapper;
+import com.example.api_project.mapper.ShopMapper;
 import com.example.api_project.pojo.CountCheck;
 import com.example.api_project.mapper.CountCheckMapper;
 import com.example.api_project.service.CountCheckService;
@@ -18,6 +20,10 @@ import java.util.Map;
 public class CountCheckServiceImpl implements CountCheckService {
     @Autowired
     private CountCheckMapper countCheckMapper;
+    @Autowired
+    private GoodsMapper goodsMapper;
+    @Autowired
+    private ShopMapper shopMapper;
 
     /**
      * 不分页查询
@@ -50,7 +56,24 @@ public class CountCheckServiceImpl implements CountCheckService {
         String checkPeople=countCheck.getCheckPeople();
         String shopCode=countCheck.getShopCode();
         String goodsCode=countCheck.getGoodsCode();
-        List<CountCheck> records = countCheckMapper.queryAllByLimit(shopCode,goodsCode,checkStatus,checkType,checkPeople,startRows, pageSize);
+        List<CountCheck> records = this.countCheckMapper.queryAllByLimit(shopCode,goodsCode,checkStatus,checkType,checkPeople,startRows, pageSize);
+        if(!records.isEmpty()){
+            for(CountCheck item:records){
+                System.out.println(item.getShopCode());
+                System.out.println(item.getGoodsCode());
+
+                if(item.getGoodsCode()!=""){
+                    goodsCode=item.getGoodsCode();
+                    String goodsName= this.goodsMapper.getNamelyCode(goodsCode);
+                    item.setGoodsName(goodsName);
+                }
+                if(item.getShopCode()!=""){
+                    shopCode=item.getShopCode();
+                    String shopName=this.shopMapper.getNamelyCode(shopCode);
+                    item.setShopName(shopName);
+                }
+            }
+        }
         long total = this.countCheckMapper.count(countCheck);
         Map<String,Object> res = new HashMap<>();
         res.put("records",records);
