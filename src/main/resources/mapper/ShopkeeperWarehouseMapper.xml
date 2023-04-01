@@ -184,8 +184,12 @@
             <if test="description != null and description != ''">
                 description = #{description},
             </if>
-            count_num = #{countNum},
-            rejects_num = #{rejectsNum},
+            <if test="countNum != null">
+                count_num = #{countNum},
+            </if>
+            <if test="rejectsNum != null">
+                rejects_num = #{rejectsNum},
+            </if>
         </set>
         where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
     </update>
