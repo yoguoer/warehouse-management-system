@@ -36,7 +36,8 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="备注" prop="description">
-            <el-input v-model="ruleForm.description" clearable placeholder="备注" type="textarea"></el-input>
+            <el-input v-model="ruleForm.description" clearable placeholder="备注" type="textarea" disabled></el-input>
+            <span>(上次盘亏盘盈审批时间)</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -107,7 +108,7 @@ export default {
   },
   created() {
     this.getshoplist()
-    // this.getgoodslist()
+    this.getgoodslist()
     if (this.rowData.shopkeeperWarehouseKey) {
       this.ruleForm.shopCode = this.rowData.shopCode
       this.ruleForm.goodsCode = this.rowData.goodsCode
@@ -140,14 +141,14 @@ export default {
       goodslist().then(res => {
         if (res.data.code == 200) {
           this.goodsOptions = res.data.data
-          this.shopGoodsList.forEach(t=>{
-            this.goodsOptions.forEach(item=>{
-              if(item.goodsCode==t.goodsCode && t.shopCode==this.ruleForm.shopCode){
-                  let index=this.goodsOptions.indexOf(t)
-                  this.goodsOptions.splice(index,1)
-                }
-              })
-          })
+          // this.shopGoodsList.forEach(t=>{
+          //   this.goodsOptions.forEach(item=>{
+          //     if(item.goodsCode==t.goodsCode && t.shopCode==this.ruleForm.shopCode){
+          //         let index=this.goodsOptions.indexOf(t)
+          //         this.goodsOptions.splice(index,1)
+          //       }
+          //     })
+          // })
         } else {
           this.$message.error("获取失败!");
         }

@@ -1,5 +1,5 @@
 <template>
-  <el-dialog size="30%" :title="ifCreate ? '新增' : '编辑'" :visible.sync="drawer" :direction="direction"
+  <el-dialog size="30%" :title="ifCreate ? '新增商品库存' : '编辑商品库存'" :visible.sync="drawer" :direction="direction"
     :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false" :wrapperClosable="false"
     :append-to-body='true' width="1200px">
 
@@ -247,15 +247,17 @@ export default {
           if (!res.data.data) {
             this.goodsOptions = this.allGoods
           } else {
-            this.goodsOptions = this.allGoods
-            this.goodsOptions.forEach(item => {
-              res.data.data.forEach(goods => {
-                if (item.goodsCode == goods.goodsCode) {
-                  let index = this.goodsOptions.indexOf(item)
-                  this.goodsOptions.splice(index, 1)
-                }
-              })
-            })
+            this.goodsOptions = res.data.data
+
+            // this.goodsOptions = this.allGoods
+            // this.goodsOptions.forEach(item => {
+            //   res.data.data.forEach(goods => {
+            //     if (item.goodsCode == goods.goodsCode) {
+            //       let index = this.goodsOptions.indexOf(item)
+            //       this.goodsOptions.splice(index, 1)
+            //     }
+            //   })
+            // })
           }
         } else {
           this.$message.error("获取失败!");

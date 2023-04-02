@@ -2,20 +2,19 @@
   <div style="background:#fff;padding:10px;">
     <reloadAndsearch ref="search" :config="searchConfig" @search="search" :hidden="hidden" :hidden1="hidden" />
     <div class="list-model">
-      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
-        :multiCheck="multiCheck" :tableColumn="tableColumn" :query.sync="query" :total="total"
-        :loading="loadings.table">
+      <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData" :multiCheck="multiCheck"
+        :tableColumn="tableColumn" :query.sync="query" :total="total" :loading="loadings.table">
         <template v-slot:column-inv="props">
-          <span v-if="props.row.positionCode=='00000000000000000'">-</span>
-          <span v-else>{{  props.row.inventoryCode }}{{  props.row.inventoryName }}</span>
+          <span v-if="props.row.positionCode == '00000000000000000'">-</span>
+          <span v-else>{{ props.row.inventoryCode }}{{ props.row.inventoryName }}</span>
         </template>
         <template v-slot:column-pop="props">
-          <span v-if="props.row.positionCode=='00000000000000000'">-</span>
-          <span v-else>{{  props.row.positionCode }}</span>
+          <span v-if="props.row.positionCode == '00000000000000000'">-</span>
+          <span v-else>{{ props.row.positionCode }}</span>
         </template>
         <template v-slot:column-how="props">
           <span v-if="!props.row.countNum">-</span>
-          <span v-else-if="props.row.accountNum == props.row.countNum">盘平</span>
+          <span v-else-if="props.row.accountNum == props.row.countNum">已盘平</span>
           <!-- 实际清点数 > 账面库存 -->
           <span v-else-if="props.row.accountNum < props.row.countNum">盘盈</span>
           <!-- 实际清点数 < 账面库存 -->
@@ -35,18 +34,19 @@
         <template v-slot:column-status="props">
           <span>{{
             props.row.checkStatus == '0' ? '未审批'
-              : (props.row.checkStatus == '1' ? '同意'
-                : (props.row.checkStatus == '2' ? '驳回' : "-"))
+            : (props.row.checkStatus == '1' ? '同意'
+              : (props.row.checkStatus == '2' ? '驳回' : "-"))
           }}</span>
         </template>
         <template v-slot:column-todo="props">
-          <el-button type="text" v-if="props.row.countCheckKey && props.row.checkStatus == 1"
-            style="color:red">已审核通过</el-button>
+          <!-- <el-button type="text" v-if="props.row.countCheckKey && props.row.checkStatus == 1 && props.row.countNum != props.row.accountNum"
+            style="color:red">已审核通过</el-button> -->
           <el-button v-if="props.row.countNum && !props.row.countCheckKey && props.row.countNum != props.row.accountNum"
             @click="editRow1(props.row)" type="text" icon="el-icon-mouse">提交审核</el-button>
-          <el-button type="text" v-if="props.row.countCheckKey && props.row.checkStatus != 1"
-            @click="editRow2(props.row)" icon="el-icon-edit">编辑</el-button>
-          <el-button @click="editRow(props.row)" type="text" icon="el-icon-notebook-2">设置盘点数</el-button>
+          <el-button type="text" v-if="props.row.countCheckKey && props.row.checkStatus != 1" @click="editRow2(props.row)"
+            icon="el-icon-edit">编辑审核信息</el-button>
+          <el-button v-if="props.row.isSetCount" @click="editRow(props.row)" type="text"
+            icon="el-icon-notebook-2">设置盘点数</el-button>
           <!-- <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button> -->
         </template>
@@ -67,6 +67,7 @@ import countManagementEdit from "./countManagementEdit";
 import countManagementApply from "./countManagementApply";
 import { shoplist, goodslist } from '@/api/data'
 import { countCheckList, countCheckGetById } from '@/api/dataIntegrate'
+import moment from 'moment'
 
 export default {
   name: "slist",
@@ -92,27 +93,27 @@ export default {
       },
       shopOptions: [],
       list: [],
-      goodsOptions: []
+      goodsOptions: [],
     };
   },
   computed: {
     tableColumn() {
       return [
         { prop: "shopCode", label: "门店编码" },
-        { prop: "shopName", label: "门店名称", width: "300px", sortable: true },
+        { prop: "shopName", label: "门店名称", width: "250px", sortable: true },
         { prop: "goodsCode", label: "商品编码" },
         { prop: "goodsName", label: "商品名称", width: "300px", sortable: true },
         { prop: "modelCode", label: "型号" },
         // { prop: "inventoryCode", label: "仓库编码" },
         // { prop: "positionCode", label: "货位编码" },
-        { slots: { name: "column-inv" }, label: "仓库"},
-        { slots: { name: "column-pop" }, label: "货位"},
-        { prop: "accountNum", label: "账面库存",width: "120px", sortable: true },
-        { prop: "countNum", label: "清点数",width: "100px", sortable: true },
-        { slots: { name: "column-how" }, label: "盘点情况" },
-        { slots: { name: "column-much" }, label: "盈亏数量",width: "120px", sortable: true },
+        { slots: { name: "column-inv" }, label: "仓库" },
+        { slots: { name: "column-pop" }, label: "货位" },
+        { prop: "accountNum", label: "账面库存", width: "120px", sortable: true },
+        { prop: "countNum", label: "清点数", width: "100px", sortable: true },
+        { slots: { name: "column-how" }, label: "盘点情况", width: "90px" },
+        { slots: { name: "column-much" }, label: "盘盈盘亏数量", width: "120px" },
         { prop: "description", label: "备注" },
-        { slots: { name: "column-status" }, label: "审批状态" },
+        // { slots: { name: "column-status" }, label: "审批状态" },
         { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: "250px" },
       ];
     },
@@ -154,7 +155,13 @@ export default {
     getcountCheckList() {
       countCheckList().then(res => {
         if (res.data.code == 200) {
-          this.list = res.data.data
+          // this.list = res.data.data
+          this.list = []
+          res.data.data.forEach(item => {
+            if (item.checkStatus != 1) {
+              this.list.push(item)
+            }
+          })
           // console.log(this.list)
         } else {
           this.$message.error("获取失败!");
@@ -206,9 +213,31 @@ export default {
           if (this.list.length == 0) {
             this.tableData.forEach(item => {
               item.countCheckKey = ""
+              if (item.description!=""&&item.description!=null) {
+                let TimeLag = moment().subtract(1, "months").format("YYYY-MM-DD HH:mm:ss");   //当前时间的前1个月时间 
+                // console.log(TimeLag, item.description)
+                if ((TimeLag>item.description)) {
+                  item.isSetCount = true
+                } else {
+                  item.isSetCount = false
+                }
+              }else{
+                item.isSetCount = true
+              }
             })
           } else {
             this.tableData.forEach(item => {
+              if (item.description!=""&&item.description!=null) {
+                let TimeLag = moment().subtract(1, "months").format("YYYY-MM-DD HH:mm:ss");   //当前时间的前1个月时间 
+                // console.log(TimeLag, item.description)
+                if ((TimeLag>item.description)) {
+                  item.isSetCount = true
+                } else {
+                  item.isSetCount = false
+                }
+              }else{
+                item.isSetCount = true
+              }
               this.list.forEach(temp => {
                 if (item.shopkeeperWarehouseKey == temp.shopkeeperWarehouseKey) {
                   item.countCheckKey = temp.countCheckKey
@@ -243,9 +272,31 @@ export default {
           if (this.list.length == 0) {
             this.tableData.forEach(item => {
               item.countCheckKey = ""
+              if (item.description!=""&&item.description!=null) {
+                let TimeLag = moment().subtract(1, "months").format("YYYY-MM-DD HH:mm:ss");   //当前时间的前1个月时间 
+                // console.log(TimeLag, item.description)
+                if (TimeLag>item.description) {
+                  item.isSetCount = true
+                } else {
+                  item.isSetCount = false
+                }
+              }else{
+                item.isSetCount = true
+              }
             })
           } else {
             this.tableData.forEach(item => {
+              if (item.description!=""&&item.description!=null) {
+                let TimeLag = moment().subtract(1, "months").format("YYYY-MM-DD HH:mm:ss");   //当前时间的前1个月时间 
+                // console.log(TimeLag, item.description)
+                if ((TimeLag>item.description)) {
+                  item.isSetCount = true
+                } else {
+                  item.isSetCount = false
+                }
+              }else{
+                item.isSetCount = true
+              }
               this.list.forEach(temp => {
                 if (item.shopkeeperWarehouseKey == temp.shopkeeperWarehouseKey) {
                   item.countCheckKey = temp.countCheckKey

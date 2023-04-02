@@ -18,7 +18,7 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="审批类型" prop="checkType">
-            <el-select size="mini" v-model="ruleForm.checkType" placeholder="审批类型" clearable>
+            <el-select size="mini" v-model="ruleForm.checkType" placeholder="审批类型" disabled>
               <el-option label="盘盈" :value="0"></el-option>
               <el-option label="盘亏" :value="1"></el-option>
             </el-select>

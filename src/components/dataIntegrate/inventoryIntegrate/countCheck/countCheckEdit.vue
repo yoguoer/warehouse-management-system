@@ -75,7 +75,7 @@
 import { countCheckAdd, countCheckUpdate } from '@/api/dataIntegrate'
 import moment from 'moment'
 import { UserList } from '@/api/api'
-import { detailWarehouseUpdate, detailWarehouseAdd } from '@/api/warehouse'
+import { detailWarehouseUpdate, detailWarehouseAdd, shopkeeperWarehouseUpdate } from '@/api/warehouse'
 
 export default {
   name: 'guestEdit',
@@ -169,19 +169,33 @@ export default {
                   }
                   detailWarehouseAdd(data).then(res => {
                     if (res.data.code == 200) {
-                      this.$message.success("新增成功!");
-                      this.$parent.success()
-                      this.$forceUpdate()
+                      let param = {
+                        shopkeeperWarehouseKey:this.ruleForm.shopkeeperWarehouseKey,
+                        description: moment().format("YYYY-MM-DD HH:mm:ss") 
+                      }
+                      shopkeeperWarehouseUpdate(param).then(res => {
+                        if (res.data.code == 200) {
+                          this.$message.success("审批成功!");
+                          this.$parent.success()
+                          this.$forceUpdate()
+                        } else {
+                          this.$message.error("审批失败!");
+                        }
+                      });
+
+                      // this.$message.success("新增成功!");
+                      // this.$parent.success()
+                      // this.$forceUpdate()
                     } else {
-                      this.$message.error("新增失败!");
+                      this.$message.error("审批失败!");
                     }
                   });
                 } else {
-                  this.$message.success("新增成功!");
+                  this.$message.success("审批成功!");
                   this.$parent.success()
                 }
               } else {
-                this.$message.error("编辑失败!");
+                this.$message.error("审批失败!");
               }
             });
           } else {
@@ -225,19 +239,33 @@ export default {
                   }
                   detailWarehouseAdd(data).then(res => {
                     if (res.data.code == 200) {
-                      this.$message.success("新增成功!");
-                      this.$parent.success()
-                      this.$forceUpdate()
+                      let param = {
+                        description: moment().format("YYYY-MM-DD HH:mm:ss"), 
+                        shopkeeperWarehouseKey:this.ruleForm.shopkeeperWarehouseKey
+                      }
+                      shopkeeperWarehouseUpdate(param).then(res => {
+                        if (res.data.code == 200) {
+                          this.$message.success("审批成功!");
+                          this.$parent.success()
+                          this.$forceUpdate()
+                        } else {
+                          this.$message.error("审批失败!");
+                        }
+                      });
+
+                      // this.$message.success("新增成功!");
+                      // this.$parent.success()
+                      // this.$forceUpdate()
                     } else {
-                      this.$message.error("新增失败!");
+                      this.$message.error("审批失败!");
                     }
                   });
                 } else {
-                  this.$message.success("新增成功!");
+                  this.$message.success("审批成功!");
                   this.$parent.success()
                 }
               } else {
-                this.$message.error("新增失败!");
+                this.$message.error("审批失败!");
               }
             });
           } else {

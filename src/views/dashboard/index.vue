@@ -3,6 +3,7 @@
     <!-- 顶部 -->
     <el-header height="75px">
       <div class="header">
+        <!-- 顶部左侧 -->
         <div class="app-header-left">
           <!-- 左边菜单按钮 -->
           <el-image style="padding:0 5px" :src="openMenu" alt="1" v-if="menuState == 'close'" @click="setMenu()" />
@@ -25,6 +26,7 @@
             </div>
           </div>
         </div>
+        <!-- 顶部右侧 -->
         <div class="app-header-right">
           <div>
             <el-dropdown :hide-on-click="false" @command="handleCommand">
@@ -42,6 +44,7 @@
           </div>
         </div>
       </div>
+      <!-- 顶部二级导航栏 -->
       <el-menu v-if="isShow && subMenuList.length != 0" class="el-menu-vertical-demo" @select="handleSelect"
         mode="horizontal">
         <div v-for="(group, index) in subMenuList" :key="index">
@@ -72,9 +75,6 @@
 </template>
 
 <script>
-// import {
-//   authLogout
-// } from "@/api/api.js";
 import logo from "@/assets/images/logo.png";
 import openMenu from "@/assets/images/openMenu.png";
 import closeMenu from "@/assets/images/closeMenu.png";
@@ -109,10 +109,10 @@ export default {
     this.userType = this.$store.state.user.userType
     this.userName = this.$store.state.user.userName
     this.menuType = this.$store.state.user.userBelong
-    if(this.$store.state.menu.selFirstMenu){
+    if (this.$store.state.menu.selFirstMenu) {
       this.selOneMenu = this.$store.state.menu.selFirstMenu
       this.getMenuSubList(this.selOneMenu)
-      this.isShow=true
+      this.isShow = true
     }
     //处理刷新后活跃标签信息丢失的问题
     if (sessionStorage.getItem("selOneMenu")) {
@@ -122,7 +122,7 @@ export default {
     if (this.selOneMenu = 'welcome') {
       this.isShow = false
     }
-    console.log(this.selOneMenu,"----")
+    console.log(this.selOneMenu, "----")
   },
   components: {
     leftMenu
