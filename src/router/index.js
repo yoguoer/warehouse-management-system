@@ -194,7 +194,7 @@ const routes = [{
         path: '/data',
         name: 'data',
         redirect: {
-          name: "customer"
+          name: "supply"
         },
         component: () => import('@/views/data/Index.vue'),
         children: [
@@ -290,7 +290,7 @@ const routes = [{
                   keepAlive: true // 需要缓存
                 }
               },
-              //资料-业务实体-货位-详情
+              //资料-仓库-货位-详情
               {
                 path: '/data/position/detail',
                 name: 'position-detail',
@@ -299,13 +299,13 @@ const routes = [{
                   name: 'position-inventory'
                 },
                 children: [
-                  //资料-业务实体-货位-详情-仓库
+                  //资料-仓库-货位-详情-仓库
                   {
                     path: '/data/position/:positionKey',
                     name: 'position-inventory',
                     component: () => import('@/components/data/inventory/inventory/inventoryList.vue')
                   },
-                  //资料-业务实体-货位-详情-区域
+                  //资料-仓库-货位-详情-区域
                   {
                     path: '/data/position/:positionKey',
                     name: 'position-area',
@@ -427,16 +427,16 @@ const routes = [{
             path: '/data/business',
             name: 'business',
             redirect: {
-              name: "brand"
+              name: "car"
             },
             component: () => import('@/views/data/business/Index.vue'),
             children: [
-              //资料-业务实体-业务主体
-              {
-                path: '/data/business/entity',
-                name: 'entity',
-                component: () => import('@/views/data/business/entity/Index.vue'),
-              },
+              // //资料-业务实体-业务主体
+              // {
+              //   path: '/data/business/entity',
+              //   name: 'entity',
+              //   component: () => import('@/views/data/business/entity/Index.vue'),
+              // },
               //资料-业务实体-品牌
               {
                 path: '/data/business/brand',

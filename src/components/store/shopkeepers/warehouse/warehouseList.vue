@@ -29,7 +29,7 @@
         <template v-slot:column-atTime="props">
           <span v-if="props.row.atTime">{{ props.row.atTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</span>
         </template>
-        <template v-slot:column-todo="props">
+        <template v-slot:column-todo="props" v-if="userType<2">
           <el-button @click="editRow(props.row)" type="text" icon="el-icon-edit">编辑</el-button>
           <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small"
             icon="el-icon-document">删除</el-button>
@@ -58,6 +58,7 @@ export default {
       drawer: false,
       rowData: {},
       tableData: [],
+      userType:"",
       multipleSelection: [],
       loadings: {
         table: true,
@@ -151,6 +152,7 @@ export default {
     reloadAndsearch
   },
   created() {
+    this.userType = this.$store.state.user.userType
     this.getshoplist()
     this.getgoodslist()
   },

@@ -59,8 +59,8 @@
         <el-table-column fixed="right" width="210px" label="操作">
           <template slot-scope="scope">
             <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
-            <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
-            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" icon="el-icon-delete">删除</el-button>
+            <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit"  v-if="userType<2&&userBelong!=1">编辑</el-button>
+            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" icon="el-icon-delete"  v-if="userType<2&&userBelong!=1">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -100,6 +100,8 @@ export default {
       inventoryCode: "",
       inventoryType: "",
       isShow: false,
+      userType:"",
+      userBelong:"",
       multipleSelection: [],
     };
   },
@@ -110,6 +112,8 @@ export default {
     inventoryDetail
   },
   created() {
+    this.userType = this.$store.state.user.userType
+    this.userBelong = this.$store.state.user.userBelong
     this.getInventorylistPage();
   },
   methods: {

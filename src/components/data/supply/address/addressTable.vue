@@ -13,9 +13,9 @@
           <div>{{ props.row.supplierCode }}{{ props.row.supplierName }}</div>
         </template>
 
-        <template v-slot:column-todo="props">
-          <el-button class="prohibitclick" @click="editRow(props.row)" type="text" size="small">编辑</el-button>
-          <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small">删除</el-button>
+        <template v-slot:column-todo="props"  v-if="userType<2&&userBelong!=1">
+          <el-button class="prohibitclick" @click="editRow(props.row)" type="text" size="small" icon="el-icon-edit" >编辑</el-button>
+          <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small" icon="el-icon-delete">删除</el-button>
         </template>
       </TableList>
       <addressEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="_success()" />
@@ -50,6 +50,8 @@ export default {
       multipleSelection: [],
       total: null,
       tableData: [],
+      userType:"",
+      userBelong:"",
       supplierList: []
     }
   },
@@ -202,7 +204,7 @@ export default {
         { prop: "city", label: "市", width: "100px" },
         { prop: "district", label: "区", width: "100px" },
         { prop: "detail", label: "详细地址" },
-        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: '120px' },
+        { slots: { name: "column-todo" }, label: "操作", fixed: "right", width: '200px' },
       ];
     },
     searchConfig() {
@@ -219,6 +221,8 @@ export default {
     }
   },
   created() {
+    this.userType = this.$store.state.user.userType
+    this.userBelong = this.$store.state.user.userBelong
     if (this.$route.params.supplierKey) {
       let rowData = localStorage.getItem('supplyDetail')
       if (rowData) {

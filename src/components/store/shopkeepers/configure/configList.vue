@@ -11,7 +11,7 @@
         <template v-slot:column-address="props">
           <span>{{ props.row.province }}{{ props.row.city }}{{ props.row.district }}{{ props.row.detail }}</span>
         </template>
-        <template v-slot:column-todo="props">
+        <template v-slot:column-todo="props" v-if="userType<2">
           <el-button class="prohibitclick" @click="setClose(props.row)" type="text" size="small"
             v-if="props.row.status == 1" icon="el-icon-moon">设为关仓</el-button>
           <el-button class="prohibitclick" @click="setOpen(props.row)" type="text" size="small"
@@ -42,6 +42,7 @@ export default {
       drawer: false,
       rowData: {},
       tableData: [],
+      userType:"",
       multipleSelection: [],
       loadings: {
         table: true,
@@ -62,6 +63,7 @@ export default {
   },
   created() {
     // this.getTableData()
+    this.userType = this.$store.state.user.userType
   },
   computed: {
     tableColumn() {

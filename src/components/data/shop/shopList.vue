@@ -24,9 +24,9 @@
                     : (props.row.shopStatus == '6' ? '预关店' : '-')))))
           }}</span>
         </template>
-        <template v-slot:column-todo="props">
-          <el-button class="prohibitclick" @click="editRow(props.row)" type="text" size="small">编辑</el-button>
-          <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small">删除</el-button>
+        <template v-slot:column-todo="props" v-if="userType<2">
+          <el-button class="prohibitclick" @click="editRow(props.row)"  icon="el-icon-edit" type="text" size="small">编辑</el-button>
+          <el-button class="prohibitclick" @click="deleteRow(props.row)" type="text" size="small" icon="el-icon-delete">删除</el-button>
         </template>
       </TableList>
       <shopEdit ref="shopEdit" v-if="shopEditVisable" :dialogVisible="shopEditVisable" :rowData="rowData"
@@ -57,6 +57,7 @@ export default {
       inputCategory: "",
       tableData: [],
       multipleSelection: [],
+      userType:"",
       strDelete: '',
       loadings: {
         table: true,
@@ -90,6 +91,7 @@ export default {
     reloadAndsearch
   },
   created() {
+    this.userType = this.$store.state.user.userType
     // this.getTableData()
   },
   computed: {

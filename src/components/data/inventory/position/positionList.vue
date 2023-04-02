@@ -60,8 +60,8 @@
         <el-table-column fixed="right" width="210px" label="操作" style="margin-top: -10px!important;">
           <template slot-scope="scope">
             <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
-            <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
-            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" icon="el-icon-delete">删除</el-button>
+            <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit"  v-if="userType<2&&userBelong!=1">编辑</el-button>
+            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" icon="el-icon-delete"  v-if="userType<2&&userBelong!=1">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -104,6 +104,8 @@ export default {
       options1: [],
       options2: [],
       multipleSelection: [],
+      userType:"",
+      userBelong:"",
       query: {
         inventoryDistrictkey: "",
         inventoryKey: ""
@@ -117,6 +119,8 @@ export default {
     // leftCard
   },
   created() {
+    this.userType = this.$store.state.user.userType
+    this.userBelong = this.$store.state.user.userBelong
     // console.log(this.$route.params.rowData)
     if (this.$route.params.inventoryKey) {
       this.query.inventoryKey = this.$route.params.inventoryKey || ""

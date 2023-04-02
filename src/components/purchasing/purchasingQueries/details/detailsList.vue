@@ -27,7 +27,7 @@
         <template v-slot:column-isDeleted="props">
           <span>{{ props.row.isDeleted == '0' ? '否' : (props.row.isDeleted == '1' ? '是' : '-') }}</span>
         </template>
-        <template v-slot:column-todo="props">
+        <template v-slot:column-todo="props" v-if="userType<1">
           <el-button type="text" style="visibility:hidden">空</el-button>
           <!-- <el-button v-if="props.row.status!=6 && props.row.isDeleted == 0" @click="editRow(props.row)" type="text"
             icon="el-icon-edit">编辑</el-button> -->
@@ -57,6 +57,7 @@ export default {
       hidden: true,
       rowData: {},
       tableData: [],
+      userType:"",
       multipleSelection: [],
       loadings: {
         table: true,
@@ -65,7 +66,6 @@ export default {
         pageNo: 1,
         pageSize: 10,
       },
-      userType: "",
       shopOptions: [],
       goodsOptions: [],
       inventoryOptions: [],
@@ -186,8 +186,7 @@ export default {
     this.getgoodslist()
     this.getSupplierlist()
     this.getinventorylist();
-    let user = JSON.parse(localStorage.getItem("userInfo"))
-    this.userType = user.userType
+    this.userType = this.$store.state.user.userType
   },
   methods: {
     getSupplierlist() {

@@ -38,8 +38,8 @@
         <el-table-column fixed="right" width="200px" label="操作">
           <template slot-scope="scope">
             <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
-            <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
-            <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
+            <el-button  v-if="userType<2&&userBelong!=1" @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
+            <el-button  v-if="userType<2&&userBelong!=1" @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
               icon="el-icon-delete">删除</el-button>
           </template>
         </el-table-column>
@@ -68,11 +68,13 @@ export default {
       inputCategory: "",
       title: "供应商分类",
       supplyName: "",
+      userType:"",
       supplyId: "",
       pageSize: 10,
       pageNo: 1,
       total: null,
       drawer: false,
+      userBelong:"",
       rowData: {},
       supplyList: [],
       multipleSelection: []
@@ -86,6 +88,8 @@ export default {
   },
   created() {
     this.getSupplierlistPage();
+    this.userType = this.$store.state.user.userType
+    this.userBelong = this.$store.state.user.userBelong
   },
   methods: {
     search() {

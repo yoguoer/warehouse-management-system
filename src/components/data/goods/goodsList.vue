@@ -62,7 +62,7 @@
         <el-table-column prop="createTime" label="添加时间" :show-overflow-tooltip="true" sortable width="120px">
           <template slot-scope="scope">{{ scope.row.createTime | datefmt('YYYY-MM-DD HH:mm:ss') }}</template>
         </el-table-column>
-        <el-table-column fixed="right" width="250px" label="操作">
+        <el-table-column fixed="right" width="250px" label="操作"  v-if="userType<2&&userBelong!=1">
           <template slot-scope="scope">
             <el-button class="prohibitclick" @click="setON(scope.row)" type="text" size="small"
               v-if="scope.row.state == 0" icon="el-icon-sunny">上架</el-button>
@@ -111,10 +111,14 @@ export default {
       goodsList: [],
       title: "商品分类",
       categoryType: 'GOODS',
+      userType:"",
+      userBelong:"",
       multipleSelection: [],
     };
   },
   created() {
+    this.userType = this.$store.state.user.userType
+    this.userBelong = this.$store.state.user.userBelong
     this.getGoodslistPage()
     this.getbrandlist();
     this.getSupplierlist()

@@ -43,7 +43,7 @@
         </el-table-column>
         <el-table-column prop="accountTel" label="联系电话" :show-overflow-tooltip="true" width="150px">
         </el-table-column>
-        <el-table-column align="center" fixed="right" width="200px" label="操作">
+        <el-table-column align="center" fixed="right" width="200px" label="操作"  v-if="userType<2&&userBelong!=1">
           <template slot-scope="scope">
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
             <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
@@ -80,9 +80,13 @@ export default {
       supplyOptions: [],
       bankList: [],
       multipleSelection: [],
+      userType:"",
+      userBelong:"",
     };
   },
   created() {
+    this.userType = this.$store.state.user.userType
+    this.userBelong = this.$store.state.user.userBelong
     this.getSupplierlist()
     if (this.$route.params.supplierKey) {
       let rowData = localStorage.getItem('supplyDetail')

@@ -23,7 +23,7 @@
         </el-table-column>
         <el-table-column prop="brandName" label="品牌名称">
         </el-table-column>
-        <el-table-column fixed="right" width="200px" label="操作">
+        <el-table-column fixed="right" width="200px" label="操作" v-if="userType<2">
           <template slot-scope="scope">
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
             <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
@@ -59,10 +59,12 @@ export default {
       rowData: {},
       brandList: [],
       multipleSelection: [],
+      userType:"",
     };
   },
   created() {
     this.getBrandlistPage();
+    this.userType = this.$store.state.user.userType
   },
   methods: {
     search() {

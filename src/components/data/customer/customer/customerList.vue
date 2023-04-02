@@ -38,7 +38,7 @@
         </el-table-column>
         <el-table-column prop="categoryName" label="所属分类" :show-overflow-tooltip="true">
         </el-table-column>
-        <el-table-column width="200px" fixed="right" label="操作">
+        <el-table-column width="200px" fixed="right" label="操作" v-if="userType<2">
           <template slot-scope="scope">
             <el-button @click="openDetail(scope.row)" type="text" icon="el-icon-document">详情</el-button>
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
@@ -80,10 +80,12 @@ export default {
       guestList: [],
       multipleSelection: [],
       inputName: '',
+      userType:"",
       inputCategory: ''
     }
   },
   created() {
+    this.userType = this.$store.state.user.userType
     this.getCustomer()
   },
   methods: {

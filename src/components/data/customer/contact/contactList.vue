@@ -38,7 +38,7 @@
         <el-table-column label="市" prop="city" width="100px"></el-table-column>
         <el-table-column label="区" prop="district" width="100px"></el-table-column>
         <el-table-column label="详细地址" prop="detail" :show-overflow-tooltip="true"></el-table-column>
-        <el-table-column width="200px" fixed="right" label="操作">
+        <el-table-column width="200px" fixed="right" label="操作" v-if="userType<2">
           <template slot-scope="scope">
             <el-button @click="editRow(scope.row)" type="text" icon="el-icon-edit">编辑</el-button>
             <el-button @click.native.prevent="deleteRow(scope.row)" type="text" size="small"
@@ -74,10 +74,12 @@ export default {
       inputName: '',
       inputCustomer: '',
       inputContactType: '',
+      userType:"",
       options: []
     }
   },
   created() {
+    this.userType = this.$store.state.user.userType
     this.getContact()
     this.getCustomer()
     if (this.$route.params.customerKey) {
