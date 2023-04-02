@@ -66,7 +66,7 @@
       </el-table>
       <div class="page-box">
         <el-pagination layout="total, sizes, prev, pager, next, jumper" :page-sizes="[10, 20, 50, 100]"
-          :current="parseInt(pageNo)" :total="total" :page-size="pageSize" :page-no="pageNo" @current-change="_page"
+          :current-page="parseInt(pageNo)" :total="total" :page-size="pageSize" :page-no="pageNo" @current-change="_page"
           @size-change="_pageSize"></el-pagination>
       </div>
       <inventoryEdit ref="inventoryEdit" v-if="inventoryEditVisable" :dialogVisible="inventoryEditVisable"

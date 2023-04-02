@@ -67,7 +67,7 @@
       </el-table>
       <div class="page-box">
         <el-pagination layout="total, sizes, prev, pager, next, jumper" :page-sizes="[10, 20, 50, 100]"
-          :current="parseInt(pageNo)" :total="total" :page-size.sync="pageSize" :page-no.sync="pageNo"
+          :current-page="parseInt(pageNo)" :total="total" :page-size.sync="pageSize" :page-no.sync="pageNo"
           @current-change="_page" @size-change="_pageSize"></el-pagination>
       </div>
 
@@ -237,7 +237,7 @@ export default {
       this.inputDistrict = ''
       this.inputInventory = ''
       this.inputpositionType = ''
-      this.pageNo=1
+      this.pageNo = 1
       this.getPositionlistPage()
       this.getinventorylist()
     },

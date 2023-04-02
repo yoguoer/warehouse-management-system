@@ -71,7 +71,7 @@
             <el-table-column label="用户角色">
                 <template slot-scope="scope">
                     <el-tag :type="scope.row.userType == 0 ? 'danger' : (scope.row.userType == 1 ? 'primary'
-                    : (scope.row.userType == 2 ? 'success' : 'warning'))" disable-transitions>
+                        : (scope.row.userType == 2 ? 'success' : 'warning'))" disable-transitions>
                         {{
                             scope.row.userType == 0 ? '超级管理员' : (scope.row.userType == 1 ? '仓库管理员'
                                 : (scope.row.userType == 2 ? '普通用户' : '未配置'))
@@ -82,12 +82,12 @@
             <el-table-column label="用户类型">
                 <template slot-scope="scope">
                     <el-tag v-if="scope.row.userBelong" :type="scope.row.userBelong == 0 ? 'primary'
-                : (scope.row.userBelong == 1 ? 'success'
-                    : (scope.row.userBelong == 2 ? 'danger' : 'warning'))" disable-transitions>
+                        : (scope.row.userBelong == 1 ? 'success'
+                            : (scope.row.userBelong == 2 ? 'danger' : 'warning'))" disable-transitions>
                         {{
                             scope.row.userBelong == 0 ? '门店用户'
-                                : (scope.row.userBelong == 1 ? '供应商用户'
-                                    : (scope.row.userBelong == 2 ? '全局用户' : "未配置"))
+                            : (scope.row.userBelong == 1 ? '供应商用户'
+                                : (scope.row.userBelong == 2 ? '全局用户' : "未配置"))
                         }}
                     </el-tag>
                 </template>
@@ -103,10 +103,9 @@
             </el-table-column>
         </el-table>
         <!-- 新增 -->
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"
-            size="medium">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" size="medium">
             <el-dialog title="添加" v-if="dialogAdd" :append-to-body='true' :visible.sync="dialogAdd"
-                :before-close="handleClose" width="600px"  :close-on-click-modal="false">
+                :before-close="handleClose" width="600px" :close-on-click-modal="false">
                 <el-form-item label="工号" prop="userCode">
                     <el-input v-model="ruleForm.userCode"></el-input>
                 </el-form-item>
@@ -152,10 +151,9 @@
             </el-dialog>
         </el-form>
         <!-- 编辑 -->
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm1" label-width="100px" class="demo-ruleForm"
-            size="medium">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm1" label-width="100px" class="demo-ruleForm" size="medium">
             <el-dialog title="编辑" v-if="dialogUpdate" :append-to-body='true' :visible.sync="dialogUpdate"
-                :before-close="handleClose" width="600px"  :close-on-click-modal="false">
+                :before-close="handleClose" width="600px" :close-on-click-modal="false">
                 <el-form-item label="工号" prop="userCode">
                     <el-input v-model="ruleForm.userCode"></el-input>
                 </el-form-item>
@@ -203,7 +201,7 @@
         </el-form>
         <div class="page-box">
             <el-pagination layout="total, sizes, prev, pager, next, jumper" :page-sizes="[10, 20, 50, 100]"
-                :current="parseInt(pageNo)" :total="total" :page-size.sync="pageSize" :page-no.sync="pageNo"
+                :current-page="parseInt(pageNo)" :total="total" :page-size.sync="pageSize" :page-no.sync="pageNo"
                 @current-change="_page" @size-change="_pageSize"></el-pagination>
         </div>
     </div>
@@ -522,7 +520,7 @@ export default {
             this.search1 = ''
             this.search2 = ''
             this.search3 = ''
-            this.pageNo=1
+            this.pageNo = 1
             this.getUserListPage()
         }
     },
