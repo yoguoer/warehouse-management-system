@@ -75,7 +75,7 @@ export default {
       this.loadings.table = true;
       const searchData = this.$refs.search.search
       let params = {
-        ...searchData,
+        supplierAddressKey: searchData.supplierAddressKey,
         page: this.query.pageNo,
         size: this.query.pageSize,
       }
@@ -91,7 +91,7 @@ export default {
         });
     },
     search(pageNo, pageSize) {
-      this.query.pageNo = pageNo;
+      // this.query.pageNo = pageNo||1;
       if (pageSize) {
         this.query.pageSize = pageSize;
       }

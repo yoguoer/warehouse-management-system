@@ -250,11 +250,6 @@ export default {
       this.rowData = {};
       this.getGoodslistPage();
     },
-    reload() {
-      this.getGoodslistPage()
-      this.$refs.leftcard.getTree()
-      this.$forceUpdate()
-    },
     add() {
       this.editRow({})
     },
@@ -265,8 +260,10 @@ export default {
       this.goodsCode = ''
       this.state = ''
       this.inputCategory = ''
+      this.pageNo=1
       this.$refs.leftcard.isActive = ''
-      this.reload()
+      this.getGoodslistPage()
+      this.$refs.leftcard.getTree()
     },
     //批量删除选择
     handleSelectionDelete(val) {

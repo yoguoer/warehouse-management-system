@@ -25,9 +25,9 @@
         </el-table-column>
         <el-table-column prop="detail" label="详细说明">
         </el-table-column>
-        <el-table-column prop="maxCapacity" sortable label="装货体积" sortable> 
+        <el-table-column prop="maxCapacity" sortable label="装货体积">
         </el-table-column>
-        <el-table-column prop="maxWeight" sortable label="载重" sortable>
+        <el-table-column prop="maxWeight" sortable label="载重">
         </el-table-column>
         <el-table-column prop="description" label="备注">
         </el-table-column>
@@ -111,7 +111,7 @@ export default {
             this.$message.error("删除失败!");
           }
         });
-        
+
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -120,6 +120,7 @@ export default {
       });
     },
     reload() {
+      this.pageNo = 1
       this.getCarlistPage()
     },
     add() {

@@ -30,7 +30,7 @@
         @selection-change="handleSelectionDelete" style="width: auto; margin-top: 20px"
         :header-cell-style="{ background: '#F2F6FC', color: '#606266' }" class="table-fixed">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="inventoryCode"label="仓库编号" :show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="inventoryCode" label="仓库编号" :show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="inventoryName" sortable label="仓库名" :show-overflow-tooltip="true"> </el-table-column>
         <el-table-column prop="inventoryType" label="仓库类型" :show-overflow-tooltip="true">
           <template slot-scope="scope">
@@ -66,8 +66,8 @@
       </el-table>
       <div class="page-box">
         <el-pagination layout="total, sizes, prev, pager, next, jumper" :page-sizes="[10, 20, 50, 100]"
-          :current="parseInt(pageNo)" :total="total" :page-size.sync="pageSize" :page-no.sync="pageNo"
-          @current-change="_page" @size-change="_pageSize"></el-pagination>
+          :current="parseInt(pageNo)" :total="total" :page-size="pageSize" :page-no="pageNo" @current-change="_page"
+          @size-change="_pageSize"></el-pagination>
       </div>
       <inventoryEdit ref="inventoryEdit" v-if="inventoryEditVisable" :dialogVisible="inventoryEditVisable"
         :rowData="rowData" @close="inventoryEditVisable = false" @success="success()" />
@@ -161,7 +161,9 @@ export default {
       this.inventoryType = ''
       this.inputCategory = ''
       this.$refs.leftcard.isActive = ''
-      this.reload()
+      this.pageNo = 1
+      this.getInventorylistPage()
+      this.$refs.leftcard.getTree()
     },
     //详情
     openDetail(row) {
@@ -203,10 +205,6 @@ export default {
       this.inventoryEditVisable = false
       this.getInventorylistPage()
       this.$forceUpdate()
-    },
-    reload() {
-      this.getInventorylistPage()
-      this.$refs.leftcard.getTree()
     },
     add() {
       this.editRow({})

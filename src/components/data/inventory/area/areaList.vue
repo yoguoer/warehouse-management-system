@@ -206,9 +206,7 @@ export default {
       this.inputName = ''
       this.inputInventory = ''
       this.status = ''
-      this.reload()
-    },
-    reload() {
+      this.pageNo=1
       this.getDistrictlistPage()
       this.getinventorylist()
     },

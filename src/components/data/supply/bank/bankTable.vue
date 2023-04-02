@@ -123,6 +123,7 @@ export default {
       this.$forceUpdate();
     },
     reload() {
+      this.pageNo=1
       this.getBanklistPage()
     },
     add() {

@@ -237,7 +237,9 @@ export default {
       this.inputDistrict = ''
       this.inputInventory = ''
       this.inputpositionType = ''
-      this.reload()
+      this.pageNo=1
+      this.getPositionlistPage()
+      this.getinventorylist()
     },
     getPositionlistPage() {
       positionlistPage({
@@ -259,10 +261,6 @@ export default {
       this.positionEditVisable = false;
       this.rowData = {};
       this.getPositionlistPage();
-    },
-    reload() {
-      this.getPositionlistPage()
-      this.getinventorylist()
     },
     add() {
       this.editRow({})

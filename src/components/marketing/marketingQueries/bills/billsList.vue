@@ -362,7 +362,7 @@ export default {
         outputWarehouseDelete({ outputWarehouseKey: row.outputWarehouseKey, isDeleted: 1 }).then(res => {
           if (res.data.code == 200) {
             this.$message.success("删除成功!");
-            this.getTableData()
+            this.getTableData(this.query.pageNo);
             this.$forceUpdate()
           } else {
             this.$message.error("删除失败!");
@@ -385,7 +385,7 @@ export default {
       this.rowData2 = {};
       this.drawer3 = false;
       this.rowData3 = {};
-      this.getTableData();
+      this.getTableData(this.query.pageNo)
     },
     reload() {
       this.getTableData()

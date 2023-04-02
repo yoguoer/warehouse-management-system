@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="page-box">
     <reloadAndsearch ref="search" :config="searchConfig" @search="search" />
     <div class="list-model">
       <TableList :pageMethod="getTableData" :searchMethod="getTableData" :table-data="tableData"
@@ -140,7 +140,7 @@ export default {
         entityDelete({ entityCode: row.entityCode }).then(res => {
           if (res.data.code == 200) {
             this.$message.success("删除成功!");
-            this.getTableData()
+            this.getTableData(this.query.pageNo)
             this.$forceUpdate()
           } else {
             this.$message.error("删除失败!");
@@ -162,9 +162,10 @@ export default {
     success() {
       this.drawer = false;
       this.rowData = {};
-      this.getTableData();
+      this.getTableData(this.query.pageNo)
     },
     reload() {
+      this.pageNo=1
       this.getTableData()
     },
     add() {
@@ -216,7 +217,7 @@ export default {
 <style lang="scss" scoped>
 .page-box {
   text-align: right;
-  margin: 20px;
+  padding-bottom: 20px;
 }
 
 .el-table {

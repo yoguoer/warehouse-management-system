@@ -454,13 +454,13 @@ export default {
                 }
                 if (this.rowData.status < 3) {
                   detailWarehouseAdd(detailData).then(res => {
-                    this.$message.success("新增成功!");
+                    this.$message.success("编辑成功!");
                     this.$parent.success()
                     this.$forceUpdate()
                   })
                 } else {
                   detailWarehouseUpdate(detailData).then(res => {
-                    this.$message.success("新增成功!");
+                    this.$message.success("编辑成功!");
                     this.$parent.success()
                     this.$forceUpdate()
                   })

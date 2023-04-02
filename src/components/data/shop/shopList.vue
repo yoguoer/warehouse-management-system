@@ -173,7 +173,7 @@ export default {
         shopDelete({ shopKey: row.shopKey }).then(res => {
           if (res.data.code == 200) {
             this.$message.success("删除成功!");
-            this.getTableData()
+            this.getTableData(this.query.pageNo)
             this.$forceUpdate()
           } else {
             this.$message.error("删除失败!");
@@ -264,7 +264,7 @@ export default {
     success() {
       this.rowData = {};
       this.shopEditVisable = false
-      this.getTableData()
+      this.getTableData(this.query.pageNo)
     },
     cleanInput() {
       this.$refs.leftcard.isActive = ""

@@ -285,7 +285,7 @@ export default {
     success() {
       this.drawer = false;
       this.rowData = {}
-      this.getTableData();
+      this.getTableData(this.query.pageNo);
       this.$forceUpdate()
     },
     reload() {

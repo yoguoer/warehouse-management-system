@@ -100,7 +100,9 @@ export default {
       this.accountNumber = ''
       this.supplierBillingKey = ''
       this.accountName = ''
-      this.reload()
+      this.pageNo=1
+      this.getBanklistPage()
+
     },
     search() {
       banklistPage({ supplierBillingKey: this.supplierBillingKey, accountName: this.accountName, bankName: this.accountNumber, page: 1, size: 20 }).then((res) => {
@@ -109,9 +111,6 @@ export default {
         console.log("bankList:", this.bankList);
       });
       this.$forceUpdate();
-    },
-    reload() {
-      this.getBanklistPage()
     },
     add() {
       this.editRow({})
