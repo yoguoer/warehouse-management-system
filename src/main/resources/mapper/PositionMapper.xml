@@ -100,18 +100,20 @@
     <select id="count" resultType="java.lang.Long">
         select count(1)
         from position
+        join inventory on inventory.inventory_key=position.inventory_key
+        join district on district.inventory_district_key=position.inventory_district_key
         <where>
             <if test="inventoryDistrictkey != null and inventoryDistrictkey != ''">
-                and inventory_district_key = #{inventoryDistrictkey,jdbcType=VARCHAR}
+                and position.inventory_district_key = #{inventoryDistrictkey}
             </if>
             <if test="inventoryKey != null and inventoryKey != ''">
-                and inventory_key = #{inventoryKey,jdbcType=VARCHAR}
+                and position.inventory_key = #{inventoryKey}
             </if>
             <if test="positionCode != null and positionCode != ''">
-                and position_code = #{positionCode,jdbcType=VARCHAR}
+                and position_code like concat('%', #{positionCode}, '%')
             </if>
             <if test="positionType != null and positionType != ''">
-                and position_type = #{positionType,jdbcType=VARCHAR}
+                and position_type = #{positionType}
             </if>
             and position.inventory_key != '00000000000000000'
         </where>

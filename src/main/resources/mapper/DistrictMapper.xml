@@ -70,6 +70,7 @@
     <select id="count" resultType="java.lang.Long">
         select count(1)
         from district
+        join inventory on inventory.inventory_key=district.inventory_key
         <where>
             <if test="districtCode != null and districtCode != ''">
                 and district_code like concat('%', #{districtCode}, '%')
@@ -81,7 +82,7 @@
                 and status = #{status}
             </if>
             <if test="inventoryKey != null and inventoryKey != ''">
-                and inventory_key = #{inventoryKey}
+                and district.inventory_key = #{inventoryKey}
             </if>
             and district.inventory_key != '00000000000000000'
         </where>
