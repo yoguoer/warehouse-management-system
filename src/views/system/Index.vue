@@ -522,6 +522,7 @@ export default {
             this.search1 = ''
             this.search2 = ''
             this.search3 = ''
+            this.pageNo=1
             this.getUserListPage()
         }
     },
