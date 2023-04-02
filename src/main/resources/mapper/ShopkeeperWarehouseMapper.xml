@@ -94,8 +94,11 @@
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
         select count(1)
-        from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
-                                  join goods on goods.goods_code=shopkeeper_warehouse.goods_code
+        from shopkeeper_warehouse
+        join shop on shop.shop_code=shopkeeper_warehouse.shop_code
+        join goods on goods.goods_code=shopkeeper_warehouse.goods_code
+        join position on position.position_code=shopkeeper_warehouse.position_code
+        join inventory on  inventory.inventory_key=position.inventory_key
         <where>
             <if test="goodsCode != null and goodsCode != ''">
                 and shopkeeper_warehouse.goods_code like concat('%', #{goodsCode}, '%')
@@ -181,9 +184,7 @@
             <if test="operateTime != null and operateTime != ''">
                 operate_time = #{operateTime},
             </if>
-            <if test="description != null and description != ''">
                 description = #{description},
-            </if>
             <if test="countNum != null">
                 count_num = #{countNum},
             </if>
