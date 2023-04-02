@@ -46,8 +46,8 @@
       </el-table>
       <div class="page-box">
         <el-pagination layout="total, sizes, prev, pager, next, jumper" :page-sizes="[10, 20, 50, 100]"
-          :current="parseInt(pageNo)" :total="total" :page-size="pageSize" :page-no="pageNo"
-          @current-change="_page" @size-change="_pageSize"></el-pagination>
+          :current="parseInt(pageNo)" :total="total" :page-size="pageSize" :page-no="pageNo" @current-change="_page"
+          @size-change="_pageSize"></el-pagination>
       </div>
       <supplyEdit v-if="drawer" :drawer="drawer" :rowData="rowData" @close="drawer = false" @success="success()"
         ref="edit" />
@@ -168,7 +168,6 @@ export default {
       this.$refs.leftcard.isActive = ''
       this.$refs.leftcard.getTree()
       this.getSupplierlistPage()
-      this.$forceUpdate()
     },
     //批量删除选择
     handleSelectionDelete(val) {

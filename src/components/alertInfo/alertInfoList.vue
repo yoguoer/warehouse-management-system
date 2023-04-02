@@ -13,7 +13,7 @@
       </el-select>
       <el-button type="primary" size="small" @click="search()" icon="el-icon-search">查询</el-button>
       <el-button size="small" @click="clean()" icon="el-icon-refresh" type="warning">重置</el-button>
-      <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button>
+      <!-- <el-button type="success" size="small" icon="el-icon-plus" @click="add()">新增</el-button> -->
       <el-button class="el-icon-delete" type="danger" size="small" @click="handleDeleteList()">删除</el-button>
       <el-divider />
     </div>

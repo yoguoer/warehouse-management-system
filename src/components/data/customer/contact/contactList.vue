@@ -109,6 +109,7 @@ export default {
     clean() {
       this.inputName = ''
       this.inputCustomer = ''
+      this.pageNo=1
       this.inputContactType = ''
       this.reload()
     },

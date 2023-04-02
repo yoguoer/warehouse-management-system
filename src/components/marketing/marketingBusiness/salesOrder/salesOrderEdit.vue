@@ -302,6 +302,7 @@ export default {
       this.ruleForm.outputShopCode = this.rowData.outputShopCode
       this.ruleForm.outputShopName = this.rowData.outputShopName
       this.value2 = [this.rowData.createTime, this.rowData.deadlineTime]
+      this.getgoodslist(this.rowData)
     } else {
       this.ifCreate = true
     }
