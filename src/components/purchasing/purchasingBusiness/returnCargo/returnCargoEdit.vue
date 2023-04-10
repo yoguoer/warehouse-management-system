@@ -277,6 +277,8 @@ export default {
     } else {
       this.ifCreate = true
     }
+  },
+  mounted(){
     this.getInventoryByshopCode()
   },
   methods: {
