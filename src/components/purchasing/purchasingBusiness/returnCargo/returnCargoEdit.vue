@@ -324,7 +324,7 @@ export default {
       });
     },
     getInventoryByshopCode() {
-      getByshopCode({ shopCode: this.ruleForm.shopCode }).then(res => {
+      getByshopCode({ shopCode: this.ruleForm.shopCode||this.rowData.shopCode||"" }).then(res => {
         if (res.data.code == 200) {
           // this.inventoryOptions = res.data.data
           this.inventoryOptions=[]
@@ -430,18 +430,18 @@ export default {
               }
               detailWarehouseAdd(data).then(res => {
                 if (res.data.code == 200) {
-                  this.$message.success("编辑成功!");
+                  this.$message.success("入库成功!");
                   this.$parent.success()
                   this.$forceUpdate()
                 } else {
-                  this.$message.error("编辑失败!");
+                  this.$message.error("入库失败!");
                 }
               });
-              // this.$message.success("编辑成功!");
+              // this.$message.success("入库成功!");
               // this.$parent.success()
               // this.$forceUpdate()
             } else {
-              this.$message.error("编辑失败!");
+              this.$message.error("入库失败!");
             }
           });
         } else {
@@ -499,11 +499,11 @@ export default {
               }
               detailWarehouseAdd(data).then(res => {
                 if (res.data.code == 200) {
-                  this.$message.success("编辑成功!");
+                  this.$message.success("入库成功!");
                   this.$parent.success()
                   this.$forceUpdate()
                 } else {
-                  this.$message.error("编辑失败!");
+                  this.$message.error("入库失败!");
                 }
               });
               // this.$message.success("新增成功!");

@@ -1,27 +1,28 @@
 <template>
   <el-drawer size="30%" :title="ifCreate ? '新增门店仓库配置' : '编辑门店仓库配置'" :visible.sync="drawer" :direction="direction"
-    :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true' :close-on-click-modal="false" >
+    :close-on-press-escape="false" :show-close="false" :wrapperClosable="false" :append-to-body='true'
+    :close-on-click-modal="false">
 
     <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="150px" class="demo-ruleForm">
       <el-row>
         <el-row>
           <el-col :span="5">
             <el-form-item label="所属门店" prop="belongKey">
-                <el-select size="middle" v-model="ruleForm.belongKey" placeholder="所属门店" style="width:100%;">
-                  <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName"
-                    :value="item.shopKey" clearable placeholder="所属门店">
-                  </el-option>
-                </el-select>
-              </el-form-item>
+              <el-select size="middle" v-model="ruleForm.belongKey" placeholder="所属门店" style="width:100%;">
+                <el-option v-for="item in shopOptions" :key="item.shopKey" :label="item.shopName" :value="item.shopKey"
+                  clearable placeholder="所属门店">
+                </el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
           <el-col :span="5">
             <el-form-item label="默认仓库" prop="inventoryKey">
-                <el-select size="middle" v-model="ruleForm.inventoryKey" placeholder="默认仓库" style="width:100%;">
-                  <el-option v-for="item in options" :key="item.inventoryKey" :label="item.inventoryName" clearable
-                    :value="item.inventoryKey">
-                  </el-option>
-                </el-select>
-              </el-form-item>
+              <el-select size="middle" v-model="ruleForm.inventoryKey" placeholder="默认仓库" style="width:100%;">
+                <el-option v-for="item in options" :key="item.inventoryKey" :label="item.inventoryName" clearable
+                  :value="item.inventoryKey" @click="setStauts(item)">
+                </el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
         </el-row>
       </el-row>
@@ -40,7 +41,7 @@
 
 <script>
 import { ShopInventoryUpdate, ShopInventoryAdd } from '@/api/warehouse'
-import { inventorylist,shoplist } from '@/api/data'
+import { inventorylist, shoplist } from '@/api/data'
 
 export default {
   name: 'guestEdit',
@@ -51,9 +52,10 @@ export default {
       ruleForm: {
         belongKey: "",
         inventoryKey: "",
+        status: 1,
       },
-      shopOptions:[],
-      options:[],
+      shopOptions: [],
+      options: [],
       rules: {
         belongKey: [
           { required: true, message: '请选择门店', trigger: 'blur' },
@@ -70,7 +72,7 @@ export default {
       default: true,
     },
     rowData: {},
-    ShopInventoryList:[]
+    ShopInventoryList: []
   },
   watch: {
 
@@ -87,6 +89,13 @@ export default {
     // console.log("ShopInventoryList",this.ShopInventoryList)
   },
   methods: {
+    setStatus(item) {
+      this.options.forEach(t => {
+        if (item.inventoryKey == t.inventoryKey && item.belongKey != null || item.belongKey != "") {
+          this.status = 2
+        }
+      })
+    },
     getshoplist() {
       shoplist().then(res => {
         if (res.data.code == 200) {
@@ -111,9 +120,9 @@ export default {
         .then((res) => {
           if (res.data.code === 200) {
             // this.options = res.data.data
-            this.options =[]
+            this.options = []
             res.data.data.forEach(item => {
-              if (item.inventoryType=='2'&&item.belongKey == null||item.belongKey=="") {
+              if (item.inventoryType == '2' && item.belongKey == null || item.belongKey == "") {
                 this.options.push(item)
               }
             });
