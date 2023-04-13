@@ -219,7 +219,7 @@ export default {
     },
     onInputNumChange(typeName) {
       if (this.ruleForm.maxNum < this.ruleForm.minNum) {
-        if (typeName = 'maxNum') {
+        if (typeName == 'maxNum') {
           this.ruleForm.maxNum = ''
         } else {
           this.ruleForm.minNum = ''
