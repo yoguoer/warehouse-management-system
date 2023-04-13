@@ -15,6 +15,8 @@ public interface UserMapper {
 
     User selectByPrimaryKey(String userPhone);
 
+    User selectByCode(String userCode);
+
     int updateByPrimaryKeySelective(User user);
 
     List<User> selectUserPage(String userName, String userType, String userBelong,Integer startRows, Integer pageSize);

@@ -55,12 +55,20 @@ public interface UserService {
     Integer updateUserById(User user);
 
     /**
-     * 根据id查一个用户
+     * 根据phone查一个用户
      *
      * @param user
      * @return 返回码
      */
     User findOneUser(User user);
+
+    /**
+     * 根据userCode查一个用户
+     *
+     * @param user
+     * @return 返回码
+     */
+    User findbyCode(User user);
 
     /**
      * 根据用户id、密码查一个用户

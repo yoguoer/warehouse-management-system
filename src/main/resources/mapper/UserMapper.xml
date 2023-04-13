@@ -9,9 +9,9 @@
     <result property="userEmail" column="user_email" jdbcType="VARCHAR" /><!--邮箱-->
     <result property="passWord" column="user_pwd" jdbcType="VARCHAR" /><!--密码-->
     <result property="userPhone" column="user_phone" jdbcType="VARCHAR" /><!--手机号码-->
-    <result property="userBelong" column="user_belong" jdbcType="VARCHAR" /><!--归属于-->
+    <result property="userBelong" column="user_belong" jdbcType="VARCHAR" /><!--归属于(门店，供应商，全局)-->
     <result property="userType" column="user_type" jdbcType="INTEGER" /><!--户类型(1管理员、0普通用户)-->
-    <result property="userCode" column="user_code" jdbcType="INTEGER" /><!--户类型(1管理员、0普通用户)-->
+    <result property="userCode" column="user_code" jdbcType="VARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
@@ -32,13 +32,20 @@
     </where>
   </select>
 
-<!--  根据id查找用户-->
+<!--  根据phone查找用户-->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
     from user
     where user_phone = #{userPhone}
-    order by user_name
+  </select>
+
+  <!--  根据userCode查一个用户-->
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from user
+    where user_code = #{userCode}
   </select>
 
 <!--  根据id删除用户-->

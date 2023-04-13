@@ -57,6 +57,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findbyCode(User user) {
+        String userCode = user.getUserCode();
+        return userMapper.selectByCode(userCode);
+    }
+
+    @Override
     public User selectForLogin(User user) {
         return userMapper.selectForLogin(user);
     }

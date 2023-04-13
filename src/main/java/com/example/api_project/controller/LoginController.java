@@ -60,15 +60,20 @@ public class LoginController {
     @ResponseBody
     public Result register(@RequestBody User user) {
         if(userService.findOneUser(user)==null){
-            Random random = new Random();
-            Integer number = random.nextInt(9000) + 1000;
-            user.setUserId(System.currentTimeMillis() + String.valueOf(number));
-            Integer i = userService.createUser(user);
-            if(i==1){
-                User u= userService.findOneUser(user);
-                return ResponseData.success(u);
+            System.out.println(userService.findbyCode(user));
+            if(userService.findbyCode(user)==null){
+                Random random = new Random();
+                Integer number = random.nextInt(9000) + 1000;
+                user.setUserId(System.currentTimeMillis() + String.valueOf(number));
+                Integer i = userService.createUser(user);
+                if(i==1){
+                    User u= userService.findOneUser(user);
+                    return ResponseData.success(u);
+                }else{
+                    return ResponseData.error();
+                }
             }else{
-                return ResponseData.error();
+                return ResponseData.error("该账号已存在！");
             }
         }else{
             return ResponseData.error("该账号已存在！");
