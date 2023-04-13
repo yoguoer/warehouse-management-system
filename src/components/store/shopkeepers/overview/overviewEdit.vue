@@ -244,20 +244,10 @@ export default {
     getgoodsfinal(item) {
       shopkeeperWarehouseByShopCode({ shopCode: item.shopCode, shopName: item.shopName }).then(res => {
         if (res.data.code == 200) {
-          if (!res.data.data) {
-            this.goodsOptions = this.allGoods
-          } else {
+          if (res.data.data.length!=0) {
             this.goodsOptions = res.data.data
-
-            // this.goodsOptions = this.allGoods
-            // this.goodsOptions.forEach(item => {
-            //   res.data.data.forEach(goods => {
-            //     if (item.goodsCode == goods.goodsCode) {
-            //       let index = this.goodsOptions.indexOf(item)
-            //       this.goodsOptions.splice(index, 1)
-            //     }
-            //   })
-            // })
+          } else {
+            this.goodsOptions = this.allGoods
           }
         } else {
           this.$message.error("获取失败!");
