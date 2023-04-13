@@ -345,18 +345,18 @@ export default {
           inputWarehouseUpdate(data).then(res => {
             if (res.data.code == 200) {
               if (this.ruleForm.status == 2) {
-                this.$message.success("新增成功!");
+                this.$message.success("处理成功!");
                 this.$parent.success()
                 this.$parent.drawer=false
                 this.$forceUpdate()
               } else {
-                this.$message.success("新增成功!");
+                this.$message.success("处理成功!");
                 this.$parent.success()
                 this.$parent.drawer=false
                 this.$forceUpdate()
               }
             } else {
-              this.$message.error("编辑失败!");
+              this.$message.error("处理失败!");
             }
           });
         } else {
@@ -399,18 +399,18 @@ export default {
           inputWarehouseAdd(data).then(res => {
             if (res.data.code == 200) {
               if (this.ruleForm.status == 2) {
-                this.$message.success("新增成功!");
+                this.$message.success("处理成功!");
                 this.$parent.success()
                 this.$parent.drawer=false
                 this.$forceUpdate()
               } else {
-                this.$message.success("新增成功!");
+                this.$message.success("处理成功!");
                 this.$parent.success()
                 this.$forceUpdate()
               }
 
             } else {
-              this.$message.error("新增失败!");
+              this.$message.error("处理失败!");
             }
           });
         } else {
