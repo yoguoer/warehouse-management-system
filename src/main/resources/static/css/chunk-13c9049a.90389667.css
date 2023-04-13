@@ -1,7 +1,0 @@
-@forward "element-plus/theme-chalk/src/common/var.scss" with (
-  $colors: (
-    "primary": (
-      // "base": #1baeae,
-    ),
-  ),
-);.el-select{width:100%}.demo-ruleForm{padding:0 80px 50px 80px}
