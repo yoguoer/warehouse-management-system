@@ -262,13 +262,13 @@ export default {
       shoplist().then(res => {
         if (res.data.code == 200) {
           this.shopOptions = res.data.data
-          this.inventory.forEach(t => {
-            this.shopOptions.forEach(item => {
-              if (item.shopKey == t.belongKey) {
-                item.disabled=true
-              }
-            })
-          })
+          // this.inventory.forEach(t => {
+          //   this.shopOptions.forEach(item => {
+          //     if (item.shopKey == t.belongKey) {
+          //       item.disabled=true
+          //     }
+          //   })
+          // })
           // console.log("shopOptions",this.shopOptions)
         } else {
           this.$message.error("获取失败!");
