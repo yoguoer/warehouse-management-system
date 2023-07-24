@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.CustomerMapper">
+
+    <resultMap type="com.example.api_project.pojo.Customer" id="CustomerMap">
+        <result property="categoryKey" column="category_key" jdbcType="VARCHAR"/>
+        <result property="customerKey" column="customer_key" jdbcType="VARCHAR"/>
+        <result property="customerName" column="customer_name" jdbcType="VARCHAR"/>
+        <result property="customerCode" column="customer_code" jdbcType="VARCHAR"/>
+        <result property="customerEmail" column="customer_email" jdbcType="VARCHAR"/>
+        <result property="customerTel" column="customer_tel" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="district" column="district" jdbcType="VARCHAR"/>
+        <result property="detail" column="detail" jdbcType="VARCHAR"/>
+
+        <association property="categoryName" javaType="String"
+                     column="{categoryKey=category_key}"
+                     select="com.example.api_project.mapper.CategoryMapper.queryNameById">
+        </association>
+    </resultMap>
+
+    <!--查询全部-->
+    <select id="getList" resultMap="CustomerMap">
+        select
+            category_key, customer_key, customer_name, customer_code, customer_email, customer_tel
+        from customer
+        order by customer_name
+    </select>
+
+    <!--查询全部-->
+    <select id="getListCategory" resultMap="CustomerMap">
+        select
+            category_key, customer_key, customer_name, customer_code, customer_email, customer_tel
+        from customer
+        where  category_key = #{categoryKey}
+        order by customer_name
+    </select>
+    <!--查询单个-->
+    <select id="queryById" resultMap="CustomerMap">
+        select
+          category_key, customer_key, customer_name, customer_code, customer_email, customer_tel
+        from customer
+        where customer_key = #{customerKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CustomerMap">
+        select customer.*, category.category_name
+        from customer join category on customer.category_key = category.category_key
+        <where>
+            <if test="categoryKey != null and categoryKey != ''">
+                and customer.category_key = #{categoryKey,jdbcType=INTEGER}
+            </if>
+            <if test="customerName != null and customerName != ''">
+                and customer_name like concat('%', #{customerName}, '%')
+            </if>
+        </where>
+        order by customer_name
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from customer join category on customer.category_key = category.category_key
+        <where>
+            <if test="categoryKey != null and categoryKey != ''">
+                and customer.category_key = #{categoryKey,jdbcType=INTEGER}
+            </if>
+            <if test="customerName != null and customerName != ''">
+                and customer_name like concat('%', #{customerName}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="customerKey" useGeneratedKeys="true">
+        insert into customer(customer_key,category_key, customer_name, customer_code, customer_email, customer_tel, province,city, district, detail)
+        values (#{customerKey},#{categoryKey}, #{customerName}, #{customerCode}, #{customerEmail}, #{customerTel}, #{province},#{city}, #{district}, #{detail})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="customerKey" useGeneratedKeys="true">
+        insert into customer(category_key, customer_name, customer_code, customer_email, customer_tel, province, city, district, detail)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{categoryKey}, #{customerName}, #{customerCode}, #{customerEmail}, #{customerTel},  #{province}, #{city}, #{district}, #{detail})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="customerKey" useGeneratedKeys="true">
+        insert into customer(category_key, customer_name, customer_code, customer_email, customer_tel,province,city, district, detail)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{categoryKey}, #{customerName}, #{customerCode}, #{customerEmail}, #{customerTel}, #{province},#{city}, #{district}, #{detail})
+        </foreach>
+        on duplicate key update
+        category_key = values(category_key),
+        customer_name = values(customer_name),
+        customer_code = values(customer_code),
+        customer_email = values(customer_email),
+        customer_tel = values(customer_tel),
+        province = values(province),
+        city = values(city),
+        district = values(district),
+        detail = values(detail),
+    </insert>
+
+    <!--删除分类时，将该分类下的数据设置为暂未分类 -->
+    <update id="setNoCategory">
+        update customer
+        set category_key = #{categoryKey}
+        where customer_key = #{customerKey}
+    </update>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update customer
+        <set>
+            <if test="categoryKey != null and categoryKey != ''">
+                category_key = #{categoryKey},
+            </if>
+            <if test="customerName != null and customerName != ''">
+                customer_name = #{customerName},
+            </if>
+            <if test="customerCode != null and customerCode != ''">
+                customer_code = #{customerCode},
+            </if>
+            <if test="customerEmail != null and customerEmail != ''">
+                customer_email = #{customerEmail},
+            </if>
+            <if test="customerTel != null and customerTel != ''">
+                customer_tel = #{customerTel},
+            </if>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="district != null and district != ''">
+                district = #{district},
+            </if>
+                detail = #{detail},
+        </set>
+        where customer_key = #{customerKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from customer where customer_key = #{customerKey}
+    </delete>
+
+</mapper>
+

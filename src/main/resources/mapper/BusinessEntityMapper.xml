@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.BusinessEntityMapper">
+
+    <resultMap type="com.example.api_project.pojo.BusinessEntity" id="BusinessEntityMap">
+        <result property="entityCode" column="entity_code" jdbcType="VARCHAR"/>
+        <result property="entityName" column="entity_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询所有（不分页）-->
+    <select id="getList" resultMap="BusinessEntityMap">
+        select entity_code,
+               entity_name
+        from business_entity
+        order by entity_code desc
+    </select>
+
+    <!--分页查询所有-->
+    <select id="getListPage" resultMap="BusinessEntityMap">
+        select entity_code,
+               entity_name
+        from business_entity
+        order by entity_code desc
+            limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BusinessEntityMap">
+        select
+          entity_code, entity_name
+        from business_entity
+        where entity_code = #{entityCode}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BusinessEntityMap">
+        select
+          entity_code, entity_name
+        from business_entity
+        <where>
+            <if test="entityCode != null and entityCode != ''">
+                and entity_code like concat('%', #{entityCode}, '%')
+            </if>
+            <if test="entityName != null and entityName != ''">
+                and entity_name like concat('%', #{entityName}, '%')
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from business_entity
+        <where>
+            <if test="entityCode != null and entityCode != ''">
+                and entity_code = #{entityCode}
+            </if>
+            <if test="entityName != null and entityName != ''">
+                and entity_name = #{entityName}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="entityCode" useGeneratedKeys="true">
+        insert into business_entity(entity_code,entity_name)
+        values (#{entityCode},#{entityName})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="entityCode" useGeneratedKeys="true">
+        insert into business_entity(entity_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.entityName})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="entityCode" useGeneratedKeys="true">
+        insert into business_entity(entity_name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.entityName})
+        </foreach>
+        on duplicate key update
+        entity_name = values(entity_name)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update business_entity
+        <set>
+            <if test="entityName != null and entityName != ''">
+                entity_name = #{entityName},
+            </if>
+        </set>
+        where entity_code = #{entityCode}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from business_entity where entity_code = #{entityCode}
+    </delete>
+
+</mapper>
+

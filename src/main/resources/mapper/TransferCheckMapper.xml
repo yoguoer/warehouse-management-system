@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.TransferCheckMapper">
+
+    <resultMap type="com.example.api_project.pojo.TransferCheck" id="TransferCheckMap">
+        <result property="transferCheckKey" column="transfer_check_key" jdbcType="VARCHAR"/>
+        <result property="inputShopCode" column="input_shop_code" jdbcType="VARCHAR"/>
+        <result property="outputShopCode" column="output_shop_code" jdbcType="VARCHAR"/>
+        <result property="checkStatus" column="check_status" jdbcType="INTEGER"/>
+        <result property="happenTime" column="happen_time" jdbcType="VARCHAR"/>
+        <result property="checkTime" column="check_time" jdbcType="VARCHAR"/>
+        <result property="checkNum" column="check_num" jdbcType="INTEGER"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="inputWarehouseKey" column="input_warehouse_key" jdbcType="VARCHAR"/>
+        <result property="outputWarehouseKey" column="output_warehouse_key" jdbcType="VARCHAR"/>
+        <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="inputPlan" column="input_plan" jdbcType="INTEGER"/>
+        <result property="inputPrice" column="input_price" jdbcType="FLOAT"/>
+        <result property="inputActual" column="input_actual" jdbcType="INTEGER"/>
+        <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
+        <result property="positionCode" column="position_code" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="deadlineTime" column="deadline_time" jdbcType="VARCHAR"/>
+        <result property="vehicleCode" column="vehicle_code" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="INTEGER"/>
+        <result property="shopPeopleCode" column="shop_people_code" jdbcType="VARCHAR"/>
+        <result property="inventoryPeopleCode" column="inventory_people_code" jdbcType="VARCHAR"/>
+        <result property="outputPlan" column="output_plan" jdbcType="INTEGER"/>
+        <result property="outputPrice" column="output_price" jdbcType="FLOAT"/>
+        <result property="outputActual" column="output_actual" jdbcType="INTEGER"/>
+        <result property="inputShopName" column="input_shop_name" jdbcType="VARCHAR"/>
+        <result property="outputShopName" column="output_shop_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--调货出库-->
+    <sql id="Base_Column_output" >
+        transfer_check_key,output_warehouse.output_shop_code,output_shop_Name,transfer_check.output_shop_code, transfer_check.output_warehouse_key, check_status,check_num, happen_time,check_time, description,input_warehouse_key, shop_code, shop_name, transfer_check.goods_code, goods_name,output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code,vehicle_code,is_deleted,return_num
+    </sql>
+    <!--调货入库-->
+    <sql id="Base_Column_input" >
+        transfer_check_key,input_warehouse.input_shop_code,input_shop_Name,transfer_check.output_shop_code, transfer_check.input_warehouse_key, check_status,check_num, happen_time,check_time, description,output_warehouse_key, shop_code, shop_name, transfer_check.goods_code, goods_name, input_plan, input_price, input_actual, inventory_code, position_code, create_time, deadline_time, vehicle_code, status, type, shop_people_code, inventory_people_code,is_deleted,return_num
+    </sql>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TransferCheckMap">
+        select
+          transfer_check_key, input_shop_code, output_shop_code, check_status, happen_time, check_time, check_num, description, goods_code, input_warehouse_key, output_warehouse_key
+        from transfer_check
+        where transfer_check_key = #{transferCheckKey}
+    </select>
+
+    <!--查询指定行数据In-->
+    <select id="queryAllByLimitIn" resultMap="TransferCheckMap">
+        select
+        <include refid="Base_Column_input" />
+        from transfer_check join input_warehouse on input_warehouse.input_warehouse_key=transfer_check.input_warehouse_key
+        <where>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                and transfer_check.input_shop_code = #{inputShopCode}
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                and transfer_check.output_shop_code = #{outputShopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+            <if test="checkStatus != null and checkStatus != ''">
+                and check_status = #{checkStatus}
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--查询指定行数据In-->
+    <select id="queryAllByLimitInOrder" resultMap="TransferCheckMap">
+        select
+        <include refid="Base_Column_input" />
+        from transfer_check join input_warehouse on input_warehouse.input_warehouse_key=transfer_check.input_warehouse_key
+        <where>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                and transfer_check.input_shop_code = #{inputShopCode}
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                and transfer_check.output_shop_code = #{outputShopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+                and check_status != 1
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数In-->
+    <select id="countIn" resultType="java.lang.Long">
+        select count(*)
+        from transfer_check join input_warehouse on input_warehouse.input_warehouse_key=transfer_check.input_warehouse_key
+        <where>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                and transfer_check.input_shop_code = #{inputShopCode}
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                and transfer_check.output_shop_code = #{outputShopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+            <if test="checkStatus != null and checkStatus != ''">
+                and check_status = #{checkStatus}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数In-->
+    <select id="countInOrder" resultType="java.lang.Long">
+        select count(*)
+        from transfer_check join input_warehouse on input_warehouse.input_warehouse_key=transfer_check.input_warehouse_key
+        <where>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                and transfer_check.input_shop_code = #{inputShopCode}
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                and transfer_check.output_shop_code = #{outputShopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+                and check_status != 1
+        </where>
+    </select>
+
+    <!--查询指定行数据Out-->
+    <select id="queryAllByLimitOut" resultMap="TransferCheckMap">
+        select
+        <include refid="Base_Column_output" />
+        from transfer_check  join output_warehouse on output_warehouse.output_warehouse_key=transfer_check.output_warehouse_key
+        <where>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                and transfer_check.input_shop_code = #{inputShopCode}
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                and transfer_check.output_shop_code = #{outputShopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+            <if test="checkStatus != null and checkStatus != ''">
+                and check_status = #{checkStatus}
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--查询指定行数据Out-->
+    <select id="queryAllByLimitOutOrder" resultMap="TransferCheckMap">
+        select
+        <include refid="Base_Column_output" />
+        from transfer_check  join output_warehouse on output_warehouse.output_warehouse_key=transfer_check.output_warehouse_key
+        <where>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                and transfer_check.input_shop_code = #{inputShopCode}
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                and transfer_check.output_shop_code = #{outputShopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+                and check_status != 1
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数Out-->
+    <select id="countOut" resultType="java.lang.Long">
+        select count(*)
+        from transfer_check  join output_warehouse on output_warehouse.output_warehouse_key=transfer_check.output_warehouse_key
+        <where>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                and transfer_check.input_shop_code = #{inputShopCode}
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                and transfer_check.output_shop_code = #{outputShopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+            <if test="checkStatus != null and checkStatus != ''">
+                and check_status = #{checkStatus}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数Out-->
+    <select id="countOutOrder" resultType="java.lang.Long">
+        select count(*)
+        from transfer_check  join output_warehouse on output_warehouse.output_warehouse_key=transfer_check.output_warehouse_key
+        <where>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                and transfer_check.input_shop_code = #{inputShopCode}
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                and transfer_check.output_shop_code = #{outputShopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and transfer_check.goods_code = #{goodsCode}
+            </if>
+                and check_status != 1
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="transferCheckKey" useGeneratedKeys="true">
+        insert into transfer_check(transfer_check_key,input_shop_code, output_shop_code, check_status, happen_time, check_time, check_num, description, goods_code, input_warehouse_key, output_warehouse_key)
+        values (#{transferCheckKey},#{inputShopCode}, #{outputShopCode}, #{checkStatus}, #{happenTime}, #{checkTime}, #{checkNum}, #{description}, #{goodsCode}, #{inputWarehouseKey}, #{outputWarehouseKey})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="transferCheckKey" useGeneratedKeys="true">
+        insert into transfer_check(transfer_check_key,input_shop_code, output_shop_code, check_status, happen_time, check_time, check_num, description, goods_code, input_warehouse_key, output_warehouse_key)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.transferCheckKey},#{entity.inputShopCode}, #{entity.outputShopCode}, #{entity.checkStatus}, #{entity.happenTime}, #{entity.checkTime}, #{entity.checkNum}, #{entity.description}, #{entity.goodsCode}, #{entity.inputWarehouseKey}, #{entity.outputWarehouseKey})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="transferCheckKey" useGeneratedKeys="true">
+        insert into transfer_check(transfer_check_key,input_shop_code, output_shop_code, check_status, happen_time, check_time, check_num, description, goods_code, input_warehouse_key, output_warehouse_key)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.transferCheckKey},#{entity.inputShopCode}, #{entity.outputShopCode}, #{entity.checkStatus}, #{entity.happenTime}, #{entity.checkTime}, #{entity.checkNum}, #{entity.description}, #{entity.goodsCode}, #{entity.inputWarehouseKey}, #{entity.outputWarehouseKey})
+        </foreach>
+        on duplicate key update
+        transfer_check_key = values(transfer_check_key),
+        input_shop_code = values(input_shop_code),
+        output_shop_code = values(output_shop_code),
+        check_status = values(check_status),
+        happen_time = values(happen_time),
+        check_time = values(check_time),
+        check_num = values(check_num),
+        description = values(description),
+        goods_code = values(goods_code),
+        input_warehouse_key = values(input_warehouse_key),
+        output_warehouse_key = values(output_warehouse_key)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update transfer_check
+        <set>
+            <if test="inputShopCode != null and inputShopCode != ''">
+                input_shop_code = #{inputShopCode},
+            </if>
+            <if test="outputShopCode != null and outputShopCode != ''">
+                output_shop_code = #{outputShopCode},
+            </if>
+            <if test="checkStatus != null">
+                check_status = #{checkStatus},
+            </if>
+            <if test="happenTime != null and happenTime != ''">
+                happen_time = #{happenTime},
+            </if>
+            <if test="checkTime != null and checkTime != ''">
+                check_time = #{checkTime},
+            </if>
+            <if test="checkNum != null">
+                check_num = #{checkNum},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                goods_code = #{goodsCode},
+            </if>
+            <if test="inputWarehouseKey != null and inputWarehouseKey != ''">
+                input_warehouse_key = #{inputWarehouseKey},
+            </if>
+            <if test="outputWarehouseKey != null and outputWarehouseKey != ''">
+                output_warehouse_key = #{outputWarehouseKey},
+            </if>
+        </set>
+        where transfer_check_key = #{transferCheckKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from transfer_check where transfer_check_key = #{transferCheckKey}
+    </delete>
+
+</mapper>
+

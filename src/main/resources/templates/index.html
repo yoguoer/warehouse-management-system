@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+    <p th:text="'hello  '+${username}"></p>
+    <a th:href="@{/login}">返回登录页面</a><br>
+    <a th:href="@{/shop}">购物页</a><br>
+    <a th:href="@{/admin}">管理员后台</a>
+</body>
+</html>

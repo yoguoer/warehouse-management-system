@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.PurchaseIntegrateMapper">
+
+    <resultMap type="com.example.api_project.vo.PurchaseIntegrate" id="PurchaseIntegrateMap">
+        <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
+        <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
+        <result property="inputPlan" column="input_plan" jdbcType="INTEGER"/>
+        <result property="inputPrice" column="input_price" jdbcType="FLOAT"/>
+        <result property="inputActual" column="input_actual" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="returnNum" column="return_num" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--按照门店编码分类-->
+    <select id="queryAllByShop" resultMap="PurchaseIntegrateMap">
+        SELECT shop_code,shop_name,
+        count(case when(status=0) then 1 else null end)as inOrderNum,
+        count(case when(status=1) then 1 else null end)as productNum,
+        count(case when(status=2) then 1 else null end)as onWayNum,
+        count(case when(status=3) then 1 else null end)as inStoreNum,
+        count(case when(return_num) then 1 else null end)as returnCount,
+        sum(case when(status=0) then input_plan else null end) as inOrderSum,
+        sum(case when(status=1) then input_plan else null end) as productSum,
+        sum(case when(status=2) then input_actual else null end) as onWaySum,
+        sum(case when(status=3) then input_actual else null end) as inStoreSum,
+        sum(case when(status=3) then return_num else null end) as returnSum
+        from input_warehouse
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            and is_deleted=0
+            and input_shop_code=""
+            and supplier_code!=""
+        </where>
+        group by shop_code
+        order by inStoreSum DESC
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="countByShop" resultType="java.lang.Integer">
+        select count(*)
+        from
+        (
+            SELECT shop_code,shop_name
+            from input_warehouse
+            <where>
+                <if test="shopCode != null and shopCode != ''">
+                    and shop_code = #{shopCode}
+                </if>
+                and is_deleted=0
+                and input_shop_code=""
+                and supplier_code!=""
+            </where>
+            group by shop_code
+        ) as A
+    </select>
+
+    <!--按照商品编码分类-->
+    <select id="queryAllByGoods" resultMap="PurchaseIntegrateMap">
+        SELECT goods_code,goods_name,input_price,
+        count(case when(status=0) then 1 else null end)as inOrderNum,
+        count(case when(status=1) then 1 else null end)as productNum,
+        count(case when(status=2) then 1 else null end)as onWayNum,
+        count(case when(status=3) then 1 else null end)as inStoreNum,
+        count(case when(return_num) then 1 else null end)as returnCount,
+        sum(case when(status=0) then input_plan else null end) as inOrderSum,
+        sum(case when(status=1) then input_plan else null end) as productSum,
+        sum(case when(status=2) then input_actual else null end) as onWaySum,
+        sum(case when(status=3) then input_actual else null end) as inStoreSum,
+        sum(case when(status=3) then return_num else null end) as returnSum
+        from input_warehouse
+        <where>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            and is_deleted=0
+            and input_shop_code=""
+            and supplier_code!=""
+        </where>
+        group by goods_code
+        order by inStoreSum DESC
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="countByGoods" resultType="java.lang.Integer">
+        select count(*)
+        from
+        (
+            SELECT goods_code,goods_name,input_price
+            from input_warehouse
+            <where>
+                <if test="goodsCode != null and goodsCode != ''">
+                    and goods_code = #{goodsCode}
+                </if>
+                and is_deleted=0
+                and input_shop_code=""
+                and supplier_code!=""
+            </where>
+            group by goods_code
+        ) as A
+    </select>
+
+    <!--按照供应商编码分类-->
+    <select id="queryAllBySupplier" resultMap="PurchaseIntegrateMap">
+        SELECT supplier_code,supplier_name,
+        count(case when(status=0) then 1 else null end)as inOrderNum,
+        count(case when(status=1) then 1 else null end)as productNum,
+        count(case when(status=2) then 1 else null end)as onWayNum,
+        count(case when(status=3) then 1 else null end)as inStoreNum,
+        count(case when(return_num) then 1 else null end)as returnCount,
+        sum(case when(status=0) then input_plan else null end) as inOrderSum,
+        sum(case when(status=1) then input_plan else null end) as productSum,
+        sum(case when(status=2) then input_actual else null end) as onWaySum,
+        sum(case when(status=3) then input_actual else null end) as inStoreSum,
+        sum(case when(status=3) then return_num else null end) as returnSum
+        from input_warehouse
+        <where>
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
+            </if>
+            and is_deleted=0
+            and input_shop_code=""
+            and supplier_code!=""
+        </where>
+        group by supplier_code
+        order by inStoreSum DESC
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="countBySupplier" resultType="java.lang.Integer">
+        select count(*)
+        from
+        (
+            select supplier_code,supplier_name
+            from input_warehouse
+            <where>
+                <if test="supplierCode != null and supplierCode != ''">
+                    and supplier_code = #{supplierCode}
+                </if>
+                and is_deleted=0
+                and input_shop_code=""
+                and supplier_code!=""
+            </where>
+            group by supplier_code
+        ) as A
+    </select>
+</mapper>
+

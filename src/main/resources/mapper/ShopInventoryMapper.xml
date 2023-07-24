@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.ShopInventoryMapper">
+
+    <resultMap type="com.example.api_project.vo.ShopInventory" id="ShopInventoryMap">
+        <result property="shopKey" column="shop_key" jdbcType="VARCHAR"/>
+        <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
+        <result property="inventoryKey" column="inventory_key" jdbcType="VARCHAR"/>
+        <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
+        <result property="inventoryName" column="inventory_name" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="belongKey" column="belong_key" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="district" column="district" jdbcType="VARCHAR"/>
+        <result property="detail" column="detail" jdbcType="VARCHAR"/>
+        <result property="shopStatus" column="shop_status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询所有（不分页）-->
+    <select id="getList" resultMap="ShopInventoryMap">
+        select shop.shop_key,
+               shop.shop_code,
+               shop.shop_name,
+               shop.shop_status,
+               inventory.inventory_key,
+               inventory.inventory_code,
+               inventory.inventory_name,
+               inventory.description,
+               inventory.status,
+               inventory.belong_key,
+               inventory.province,
+               inventory.city,
+               inventory.district,
+               inventory.detail
+        from shop join inventory on shop.shop_key=inventory.belong_key
+        order by shop_name
+    </select>
+
+    <!--查询(shopCode)-->
+    <select id="getByshopCode" resultMap="ShopInventoryMap">
+        select shop.shop_key,
+               shop.shop_code,
+               shop.shop_name,
+               inventory.inventory_key,
+               inventory.inventory_code,
+               inventory.inventory_name,
+               inventory.description,
+               inventory.status,
+               inventory.belong_key,
+               inventory.province,
+               inventory.city,
+               inventory.district,
+               inventory.detail
+        from shop join inventory on shop.shop_key=inventory.belong_key
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop.shop_code = #{shopCode}
+            </if>
+        </where>
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ShopInventoryMap">
+        select shop.shop_key,
+               shop.shop_code,
+               shop.shop_name,
+               inventory.inventory_key,
+               inventory.inventory_code,
+               inventory.inventory_name,
+               inventory.description,
+               inventory.status,
+               inventory.belong_key,
+               inventory.province,
+               inventory.city,
+               inventory.district,
+               inventory.detail
+        from shop join inventory on shop.shop_key=inventory.belong_key
+        where belong_key = #{belongKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ShopInventoryMap">
+        select shop.shop_key,
+        shop.shop_code,
+        shop.shop_name,
+        inventory.inventory_key,
+        inventory.inventory_code,
+        inventory.inventory_name,
+        inventory.description,
+        inventory.status,
+        inventory.belong_key,
+        inventory.province,
+        inventory.city,
+        inventory.district,
+        inventory.detail
+        from shop join inventory on shop.shop_key=inventory.belong_key
+        <where>
+            <if test="shopName != null and shopName != ''">
+                and shop.shop_name like concat('%', #{shopName}, '%')
+            </if>
+            <if test="inventoryName != null and inventoryName != ''">
+                and inventory.inventory_name like concat('%', #{inventoryName}, '%')
+            </if>
+            <if test="shopKey != null and shopKey != ''">
+                and shop.shop_key =#{shopKey}
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                and inventory.inventory_key =#{inventoryKey}
+            </if>
+            <if test="status != null and status != ''">
+                and inventory.status =#{status}
+            </if>
+            and inventory.inventory_type=2
+        </where>
+        order by shop_name
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from shop join inventory on shop.shop_key=inventory.belong_key
+        <where>
+            <if test="shopName != null and shopName != ''">
+                and shop.shop_name like concat('%', #{shopName}, '%')
+            </if>
+            <if test="inventoryName != null and inventoryName != ''">
+                and inventory.inventory_name like concat('%', #{inventoryName}, '%')
+            </if>
+            <if test="shopKey != null and shopKey != ''">
+                and shop.shop_key =#{shopKey}
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                and inventory.inventory_key =#{inventoryKey}
+            </if>
+            <if test="status != null and status != ''">
+                and inventory.status =#{status}
+            </if>
+            and inventory.inventory_type=2
+        </where>
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update inventory
+        <set>
+            <if test="belongKey != null and belongKey != ''">
+                belong_key = #{belongKey},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+        </set>
+        where inventory_key = #{inventoryKey}
+    </update>
+</mapper>
+

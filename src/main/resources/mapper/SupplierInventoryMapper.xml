@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.SupplierInventoryMapper">
+
+    <resultMap type="com.example.api_project.vo.SupplierInventory" id="SupplierInventoryMap">
+        <result property="supplierKey" column="supplier_key" jdbcType="VARCHAR"/>
+        <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
+        <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
+        <result property="inventoryKey" column="inventory_key" jdbcType="VARCHAR"/>
+        <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
+        <result property="inventoryName" column="inventory_name" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="belongKey" column="belong_key" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="district" column="district" jdbcType="VARCHAR"/>
+        <result property="detail" column="detail" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询所有（不分页）-->
+    <select id="getList" resultMap="SupplierInventoryMap">
+        select supplier_key,
+               supplier_code,
+               supplier_name,
+               inventory_key,
+               inventory_code,
+               inventory_name,
+               inventory.description,
+               inventory.status,
+               inventory.belong_key,
+               inventory.province,
+               inventory.city,
+               inventory.district,
+               inventory.detail
+        from supplier join inventory on supplier.supplier_key=inventory.belong_key
+        order by supplier_name
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultType="SupplierInventory">
+        select supplier.supplier_key,
+               supplier.supplier_code,
+               supplier.supplier_name,
+               inventory.inventory_key,
+               inventory.inventory_code,
+               inventory.inventory_name,
+               inventory.description,
+               inventory.status,
+               inventory.belong_key,
+               inventory.province,
+               inventory.city,
+               inventory.district,
+               inventory.detail
+        from supplier join inventory on supplier.supplier_key=inventory.belong_key
+        where belong_key = #{belongKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SupplierInventoryMap">
+        select supplier.supplier_key,
+        supplier.supplier_code,
+        supplier.supplier_name,
+        inventory.inventory_key,
+        inventory.inventory_code,
+        inventory.inventory_name,
+        inventory.description,
+        inventory.status,
+        inventory.belong_key,
+        inventory.province,
+        inventory.city,
+        inventory.district,
+        inventory.detail
+        from supplier join inventory on supplier.supplier_key=inventory.belong_key
+        <where>
+            <if test="supplierName != null and supplierName != ''">
+                and supplier.supplier_name like concat('%', #{supplierName}, '%')
+            </if>
+            <if test="inventoryName != null and inventoryName != ''">
+                and inventory.inventory_name like concat('%', #{inventoryName}, '%')
+            </if>
+            <if test="supplierKey != null and supplierKey != ''">
+                and supplier.supplier_key =#{supplierKey}
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                and inventory.inventory_key =#{inventoryKey}
+            </if>
+            <if test="status != null and status != ''">
+                and inventory.status =#{status}
+            </if>
+            and inventory.inventory_type=1
+        </where>
+        order by supplier.supplier_name
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from supplier join inventory on supplier.supplier_key=inventory.belong_key
+        <where>
+            <if test="supplierName != null and supplierName != ''">
+                and supplier.supplier_name like concat('%', #{supplierName}, '%')
+            </if>
+            <if test="inventoryName != null and inventoryName != ''">
+                and inventory.inventory_name like concat('%', #{inventoryName}, '%')
+            </if>
+            <if test="supplierKey != null and supplierKey != ''">
+                and supplier.supplier_key =#{supplierKey}
+            </if>
+            <if test="inventoryKey != null and inventoryKey != ''">
+                and inventory.inventory_key =#{inventoryKey}
+            </if>
+            <if test="status != null and status != ''">
+                and inventory.status =#{status}
+            </if>
+            and inventory.inventory_type=1
+        </where>
+    </select>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update inventory
+        <set>
+            <if test="belongKey != null and belongKey != ''">
+                belong_key = #{belongKey},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+        </set>
+        where inventory_key = #{inventoryKey}
+    </update>
+</mapper>
+

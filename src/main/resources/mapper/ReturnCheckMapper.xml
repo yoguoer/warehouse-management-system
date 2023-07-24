@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.ReturnCheckMapper">
+
+    <resultMap type="com.example.api_project.pojo.ReturnCheck" id="ReturnCheckMap">
+        <result property="returnCheckKey" column="return_check_key" jdbcType="VARCHAR"/>
+        <result property="inputOutputKey" column="input_output_key" jdbcType="VARCHAR"/>
+        <result property="checkStatus" column="check_status" jdbcType="INTEGER"/>
+        <result property="checkType" column="check_type" jdbcType="INTEGER"/>
+        <result property="checkNum" column="check_num" jdbcType="INTEGER"/>
+        <result property="checkTime" column="check_time" jdbcType="VARCHAR"/>
+        <result property="happenTime" column="happen_time" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="inputWarehouseKey" column="input_warehouse_key" jdbcType="VARCHAR"/>
+        <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
+        <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
+        <result property="inputPlan" column="input_plan" jdbcType="INTEGER"/>
+        <result property="inputPrice" column="input_price" jdbcType="FLOAT"/>
+        <result property="inputActual" column="input_actual" jdbcType="INTEGER"/>
+        <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
+        <result property="positionCode" column="position_code" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="deadlineTime" column="deadline_time" jdbcType="VARCHAR"/>
+        <result property="vehicleCode" column="vehicle_code" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="returnNum" column="return_num" jdbcType="INTEGER"/>
+        <result property="isDeleted" column="is_deleted" jdbcType="INTEGER"/>
+        <result property="shopPeopleCode" column="shop_people_code" jdbcType="VARCHAR"/>
+        <result property="inventoryPeopleCode" column="inventory_people_code" jdbcType="VARCHAR"/>
+        <result property="returnReason" column="return_reason" jdbcType="VARCHAR"/>
+        <result property="customerCode" column="customer_code" jdbcType="VARCHAR"/>
+        <result property="customerName" column="customer_name" jdbcType="VARCHAR"/>
+        <result property="outputPlan" column="output_plan" jdbcType="INTEGER"/>
+        <result property="outputPrice" column="output_price" jdbcType="FLOAT"/>
+        <result property="outputActual" column="output_actual" jdbcType="INTEGER"/>
+        <result property="outputWarehouseKey" column="output_warehouse_key" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--销售-->
+    <sql id="Base_Column_output" >
+        return_check_key, input_output_key, check_status,check_type,check_num, happen_time,check_time, description,output_warehouse_key, shop_code, shop_name, goods_code, goods_name, customer_code, customer_name, output_plan, output_price, output_actual, inventory_code, position_code, create_time, deadline_time, status, type, shop_people_code, inventory_people_code, return_reason,vehicle_code,is_deleted,return_num
+    </sql>
+    <!--采购-->
+    <sql id="Base_Column_input" >
+        return_check_key, input_output_key, check_status,check_type,check_num, happen_time,check_time, description,input_warehouse_key, shop_code, shop_name, goods_code, goods_name, supplier_code, supplier_name, input_plan, input_price, input_actual, inventory_code, position_code, create_time, deadline_time, vehicle_code, status, type, shop_people_code, inventory_people_code, return_reason,is_deleted,return_num
+    </sql>
+
+    <!--查询全部（不分页）-->
+    <select id="getList" resultMap="ReturnCheckMap">
+        select
+            return_check_key, input_output_key, check_status,check_type,check_num, happen_time,check_time, description
+        from return_check
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByIdIn" resultMap="ReturnCheckMap">
+        select
+        <include refid="Base_Column_input" />
+        from return_check join input_warehouse on input_warehouse.input_warehouse_key=return_check.input_output_key
+        <where>
+            <if test="inputOutputKey != null and inputOutputKey != ''">
+                and input_output_key = #{inputOutputKey}
+            </if>
+        </where>
+    </select>
+
+    <!--查询单个-->
+    <select id="queryByIdOut" resultMap="ReturnCheckMap">
+        select
+        <include refid="Base_Column_output" />
+        from return_check join output_warehouse on output_warehouse.output_warehouse_key=return_check.input_output_key
+        <where>
+            <if test="inputOutputKey != null and inputOutputKey != ''">
+                and input_output_key = #{inputOutputKey}
+            </if>
+        </where>
+    </select>
+
+    <!--查询指定行数据(采购)-->
+    <select id="queryAllByLimitInput" resultMap="ReturnCheckMap">
+        select
+        <include refid="Base_Column_input" />
+        from return_check join input_warehouse on input_warehouse.input_warehouse_key=return_check.input_output_key
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
+            </if>
+            <if test="inventoryCode != null and inventoryCode != ''">
+                and inventory_code = #{inventoryCode}
+            </if>
+            <if test="checkStatus != null">
+                and check_status = #{checkStatus}
+            </if>
+            and input_warehouse.is_deleted=0
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--查询指定行销售数据-->
+    <select id="queryAllByLimitOutput" resultMap="ReturnCheckMap">
+        select
+        <include refid="Base_Column_output" />
+        from return_check join output_warehouse on output_warehouse.output_warehouse_key=return_check.input_output_key
+        <where>
+            <if test="checkStatus != null">
+                and check_status = #{checkStatus}
+            </if>
+            and output_warehouse.is_deleted=0
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数(采购)-->
+    <select id="countInput" resultType="java.lang.Long">
+        select count(1)
+        from return_check join input_warehouse on input_warehouse.input_warehouse_key=return_check.input_output_key
+        <where>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            <if test="supplierCode != null and supplierCode != ''">
+                and supplier_code = #{supplierCode}
+            </if>
+            <if test="inventoryCode != null and inventoryCode != ''">
+                and inventory_code = #{inventoryCode}
+            </if>
+            <if test="checkStatus != null">
+                and check_status = #{checkStatus}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数(销售)-->
+    <select id="countOutput" resultType="java.lang.Long">
+        select count(1)
+        from return_check join output_warehouse on output_warehouse.output_warehouse_key=return_check.input_output_key
+        <where>
+            <if test="checkStatus != null">
+                and check_status = #{checkStatus}
+            </if>
+            <if test="checkType != null">
+                and check_type = #{checkType}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into return_check(return_check_key, input_output_key, check_status,check_type,check_num, happen_time,check_time, description)
+        values (#{returnCheckKey}, #{inputOutputKey}, #{checkStatus},#{checkType}, #{checkNum},#{happenTime}, #{checkTime},#{description})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
+        insert into return_check(return_check_key, input_output_key, check_status,check_type,check_num, happen_time,check_time description)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.returnCheckKey}, #{entity.inputOutputKey}, #{entity.checkStatus},#{entity.checkType},#{entity.checkNum}, #{entity.happenTime},#{entity.checkTime}, #{entity.description})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="" useGeneratedKeys="true">
+        insert into return_check(return_check_key, input_output_key, check_status,check_type,check_num, happen_time,check_time, description)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.returnCheckKey}, #{entity.inputOutputKey}, #{entity.checkStatus},#{entity.checkType},#{entity.checkNum}, #{entity.happenTime},#{entity.checkTime}, #{entity.description})
+        </foreach>
+        on duplicate key update
+        return_check_key = values(return_check_key),
+        input_output_key = values(input_output_key),
+        check_status = values(check_status),
+        check_type = values(check_type),
+        check_num = values(check_num),
+        happen_time = values(happen_time),
+        check_time = values(check_time),
+        description = values(description)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update return_check
+        <set>
+            <if test="inputOutputKey != null and inputOutputKey != ''">
+                input_output_key = #{inputOutputKey},
+            </if>
+            <if test="checkStatus != null">
+                check_status = #{checkStatus},
+            </if>
+            <if test="checkType != null">
+                check_type = #{checkType},
+            </if>
+            <if test="checkNum != null">
+                check_num = #{checkNum},
+            </if>
+            <if test="happenTime != null and happenTime != ''">
+                happen_time = #{happenTime},
+            </if>
+            <if test="checkTime != null and checkTime != ''">
+                check_time = #{checkTime},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+        </set>
+        where   return_check_key= #{returnCheckKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from return_check where  return_check_key= #{returnCheckKey}
+    </delete>
+
+</mapper>
+

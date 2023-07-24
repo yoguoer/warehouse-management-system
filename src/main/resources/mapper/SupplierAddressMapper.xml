@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.SupplierAddressMapper">
+
+    <resultMap type="com.example.api_project.pojo.SupplierAddress" id="SupplierAddressMap">
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="district" column="district" jdbcType="VARCHAR"/>
+        <result property="detail" column="detail" jdbcType="VARCHAR"/>
+        <result property="addressType" column="address_type" jdbcType="VARCHAR"/>
+        <result property="supplierAddressKey" column="supplier_address_key" jdbcType="VARCHAR"/>
+        <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
+        <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
+        <result property="addressKey" column="address_key" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询所有（不分页）-->
+    <select id="getList" resultMap="SupplierAddressMap">
+        select
+            province, city, district, detail, address_type, supplier_code,supplier_address_key,supplier_name, address_key
+        from supplier_address
+        join supplier on supplier.supplier_key=supplier_address.supplier_address_key
+    </select>
+
+    <!--根据supplierAddressKey查询-->
+    <select id="queryBySupplierKey" resultMap="SupplierAddressMap">
+        select
+            province, city, district, detail, address_type, supplier_code,supplier_address_key,supplier_name, address_key
+        from supplier_address
+        join supplier on supplier.supplier_key=supplier_address.supplier_address_key
+        <where>
+            <if test="supplierAddressKey != null and supplierAddressKey != ''">
+                and supplier_address_key = #{supplierAddressKey}
+            </if>
+        </where>
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SupplierAddressMap">
+        select
+          province, city, district, detail, address_type, supplier_address_key, address_key
+        from supplier_address
+        where address_key = #{addressKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SupplierAddressMap">
+        select
+          province, city, district, detail, address_type, supplier_code,supplier_address_key,supplier_name, address_key
+        from supplier_address
+        join supplier on supplier.supplier_key=supplier_address.supplier_address_key
+        <where>
+            <if test="supplierAddressKey != null and supplierAddressKey != ''">
+                and supplier_address_key = #{supplierAddressKey}
+            </if>
+        </where>
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from supplier_address
+        join supplier on supplier.supplier_key=supplier_address.supplier_address_key
+        <where>
+            <if test="supplierAddressKey != null and supplierAddressKey != ''">
+                and supplier_address_key = #{supplierAddressKey}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="addressKey" useGeneratedKeys="true">
+        insert into supplier_address(address_key,province, city, district, detail, address_type, supplier_address_key)
+        values (#{addressKey},#{province}, #{city}, #{district}, #{detail}, #{addressType}, #{supplierAddressKey})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="addressKey" useGeneratedKeys="true">
+        insert into supplier_address(province, city, district, detail, address_type, supplier_address_key)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.province}, #{entity.city}, #{entity.district}, #{entity.detail}, #{entity.addressType}, #{entity.supplierAddressKey})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="addressKey" useGeneratedKeys="true">
+        insert into supplier_address(province, city, district, detail, address_type, supplier_address_key)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.province}, #{entity.city}, #{entity.district}, #{entity.detail}, #{entity.addressType}, #{entity.supplierAddressKey})
+        </foreach>
+        on duplicate key update
+        province = values(province),
+        city = values(city),
+        district = values(district),
+        detail = values(detail),
+        address_type = values(address_type),
+        supplier_address_key = values(supplier_address_key)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update supplier_address
+        <set>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="district != null and district != ''">
+                district = #{district},
+            </if>
+                detail = #{detail},
+            <if test="addressType != null and addressType != ''">
+                address_type = #{addressType},
+            </if>
+            <if test="supplierAddressKey != null and supplierAddressKey != ''">
+                supplier_address_key = #{supplierAddressKey},
+            </if>
+        </set>
+        where address_key = #{addressKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from supplier_address where address_key = #{addressKey}
+    </delete>
+
+</mapper>
+

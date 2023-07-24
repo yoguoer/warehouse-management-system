@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.ShopkeeperWarehouseMapper">
+    <resultMap type="com.example.api_project.pojo.ShopkeeperWarehouse" id="ShopkeeperWarehouseMap">
+        <result property="shopkeeperWarehouseKey" column="shopkeeper_warehouse_key" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="inventoryCode" column="inventory_code" jdbcType="VARCHAR"/>
+        <result property="contactName" column="contact_name" jdbcType="VARCHAR"/>
+        <result property="inventoryName" column="inventory_name" jdbcType="VARCHAR"/>
+        <result property="positionCode" column="position_code" jdbcType="VARCHAR"/>
+        <result property="shopCode" column="shop_code" jdbcType="VARCHAR"/>
+        <result property="maxNum" column="max_num" jdbcType="INTEGER"/>
+        <result property="minNum" column="min_num" jdbcType="INTEGER"/>
+        <result property="accountNum" column="account_num" jdbcType="INTEGER"/>
+        <result property="onwayNum" column="onway_num" jdbcType="INTEGER"/>
+        <result property="occupyNum" column="occupy_num" jdbcType="INTEGER"/>
+        <result property="availableNum" column="available_num" jdbcType="INTEGER"/>
+        <result property="countNum" column="count_num" jdbcType="INTEGER"/>
+        <result property="operateTime" column="operate_time" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
+        <result property="modelCode" column="model_code" jdbcType="VARCHAR"/>
+        <result property="priceLatestPurchase" column="price_latest_purchase" jdbcType="FLOAT"/>
+        <result property="priceRetail" column="price_retail" jdbcType="FLOAT"/>
+        <result property="priceWholesaler" column="price_wholesaler" jdbcType="FLOAT"/>
+        <result property="rejectsNum" column="rejects_num" jdbcType="FLOAT"/>
+        <result property="shopStatus" column="shop_status" jdbcType="INTEGER"/>
+        <result property="longestDay" column="longest_day" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--通过shopCode查询单条数据-->
+    <select id="getList" resultMap="ShopkeeperWarehouseMap">
+        select
+            shopkeeper_warehouse_key, shop_status,goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num,longest_day, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
+        from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
+                                  join goods on goods.goods_code=shopkeeper_warehouse.goods_code
+        order by shop.shop_name
+    </select>
+
+    <!--查询全部-->
+    <select id="getByShopCode" resultMap="ShopkeeperWarehouseMap">
+        select
+            goods.goods_code,goods.goods_name,goods.goods_key,price_latest_purchase,price_wholesaler,price_retail
+        from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
+                                  join goods on goods.goods_code=shopkeeper_warehouse.goods_code
+        <where>
+            shopkeeper_warehouse.shop_code = #{shopCode}
+            and shop.shop_name = #{shopName}
+        </where>
+    </select>
+
+    <!--查询单个-->
+    <select id="queryForKey" resultMap="ShopkeeperWarehouseMap">
+        select
+        shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num,longest_day, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num
+        from shopkeeper_warehouse
+        <where>
+                shop_code = #{shopCode}
+                and goods_code = #{goodsCode}
+        </where>
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ShopkeeperWarehouseMap">
+        select
+          shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,shop.shop_name, position_code, shop.shop_code, max_num,longest_day, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num
+        from shopkeeper_warehouse join shop on shop.shop_code=shopkeeper_warehouse.shop_code
+                                  join goods on goods.goods_code=shopkeeper_warehouse.goods_code
+        where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ShopkeeperWarehouseMap">
+        select
+        shopkeeper_warehouse_key, goods.goods_code,goods.goods_name,goods.model_code,goods.price_latest_purchase,goods.price_retail,goods.price_wholesaler,shop.shop_name,  shopkeeper_warehouse.position_code, shop.shop_code, max_num,longest_day, min_num, account_num,onway_num, occupy_num, available_num,count_num,operate_time, shopkeeper_warehouse.description,shopkeeper_warehouse.rejects_num,inventory_code,inventory_name
+        from shopkeeper_warehouse
+            join shop on shop.shop_code=shopkeeper_warehouse.shop_code
+            join goods on goods.goods_code=shopkeeper_warehouse.goods_code
+            join position on position.position_code=shopkeeper_warehouse.position_code
+            join inventory on  inventory.inventory_key=position.inventory_key
+        <where>
+            <if test="goodsCode != null and goodsCode != ''">
+                and shopkeeper_warehouse.goods_code like concat('%', #{goodsCode}, '%')
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                and shopkeeper_warehouse.shop_code like concat('%', #{shopCode}, '%')
+            </if>
+        </where>
+        order by shop.shop_name
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from shopkeeper_warehouse
+        join shop on shop.shop_code=shopkeeper_warehouse.shop_code
+        join goods on goods.goods_code=shopkeeper_warehouse.goods_code
+        join position on position.position_code=shopkeeper_warehouse.position_code
+        join inventory on  inventory.inventory_key=position.inventory_key
+        <where>
+            <if test="goodsCode != null and goodsCode != ''">
+                and shopkeeper_warehouse.goods_code like concat('%', #{goodsCode}, '%')
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                and shopkeeper_warehouse.shop_code like concat('%', #{shopCode}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num,longest_day, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num)
+        values (#{shopkeeperWarehouseKey},#{goodsCode}, #{positionCode}, #{shopCode}, #{maxNum}, #{longestDay},#{minNum}, #{accountNum}, #{occupyNum},#{onwayNum}, #{availableNum},#{countNum},#{operateTime}, #{description},#{rejectsNum})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num,longest_day, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum},#{entity.longestDay}, #{entity.minNum}, #{entity.accountNum}, #{entity.occupyNum},#{entity.onwayNum}, #{entity.availableNum},#{entity.countNum}, #{entity.operateTime},#{entity.description}.#{rejectsNum})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="shopkeeperWarehouseKey" useGeneratedKeys="true">
+        insert into shopkeeper_warehouse(shopkeeper_warehouse_key,goods_code, position_code, shop_code, max_num,longest_day, min_num, account_num, occupy_num,onway_num, available_num,count_num,operate_time, description,rejects_num)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.shopkeeperWarehouseKey},#{entity.goodsCode}, #{entity.positionCode}, #{entity.shopCode}, #{entity.maxNum},#{entity.longestDay}, #{entity.minNum}, #{entity.accountNum},#{entity.onwayNum}, #{entity.occupyNum}, #{entity.availableNum},#{entity.countNum},#{entity.operateTime}, #{entity.description},#{rejectsNum})
+        </foreach>
+        on duplicate key update
+        shopkeeper_warehouse_key=values(shopkeeper_warehouse_key),
+        goods_code = values(goods_code),
+        position_code = values(position_code),
+        shop_code = values(shop_code),
+        max_num = values(max_num),
+        longest_day=values(longest_day),
+        min_num = values(min_num),
+        account_num = values(account_num),
+        onway_num = values(onway_num),
+        occupy_num = values(occupy_num),
+        available_num = values(available_num),
+        count_num = values(count_num),
+        operate_time = values(operate_time)
+        description = values(description)
+        rejects_num=values(rejects_num)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update shopkeeper_warehouse
+        <set>
+            <if test="goodsCode != null and goodsCode != ''">
+                goods_code = #{goodsCode},
+            </if>
+            <if test="positionCode != null and positionCode != ''">
+                position_code = #{positionCode},
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                shop_code = #{shopCode},
+            </if>
+            <if test="maxNum != null">
+                max_num = #{maxNum},
+            </if>
+            <if test="longestDay != null">
+                longest_day = #{longestDay},
+            </if>
+            <if test="minNum != null">
+                min_num = #{minNum},
+            </if>
+            <if test="accountNum != null">
+                account_num = #{accountNum},
+            </if>
+            <if test="onwayNum != null">
+                onway_num = #{onwayNum},
+            </if>
+            <if test="occupyNum != null">
+                occupy_num = #{occupyNum},
+            </if>
+            <if test="availableNum != null">
+                available_num = #{availableNum},
+            </if>
+            <if test="operateTime != null and operateTime != ''">
+                operate_time = #{operateTime},
+            </if>
+                description = #{description},
+            <if test="countNum != null">
+                count_num = #{countNum},
+            </if>
+            <if test="rejectsNum != null">
+                rejects_num = #{rejectsNum},
+            </if>
+        </set>
+        where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from shopkeeper_warehouse where shopkeeper_warehouse_key = #{shopkeeperWarehouseKey}
+    </delete>
+
+    <!--查询看看里面还有没有库存-->
+    <select id="findGoodsInWarehouse" resultType="java.lang.Integer">
+        select account_num
+        from shopkeeper_warehouse
+        <where>
+            <if test="positionCode != null and positionCode != ''">
+                and position_code = #{positionCode}
+            </if>
+            <if test="shopCode != null and shopCode != ''">
+                and shop_code = #{shopCode}
+            </if>
+        </where>
+    </select>
+</mapper>
+

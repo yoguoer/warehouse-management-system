@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.ContactMapper">
+
+    <resultMap type="com.example.api_project.pojo.Contact" id="ContactMap">
+        <result property="contactName" column="contact_name" jdbcType="VARCHAR"/>
+        <result property="contactKey" column="contact_key" jdbcType="VARCHAR"/>
+        <result property="contactTel" column="contact_tel" jdbcType="VARCHAR"/>
+        <result property="contactEmail" column="contact_Email" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="contactCustomerKey" column="contact_customer_key" jdbcType="VARCHAR"/>
+        <result property="contactSupplierKey" column="contact_supplier_key" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="district" column="district" jdbcType="VARCHAR"/>
+        <result property="detail" column="detail" jdbcType="VARCHAR"/>
+        <result property="contactCode" column="contact_code" jdbcType="VARCHAR"/>
+        <result property="customerName" column="customer_name" jdbcType="VARCHAR"/>
+        <result property="customerCode" column="customer_code" jdbcType="VARCHAR"/>
+        <result property="supplierName" column="supplier_name" jdbcType="VARCHAR"/>
+        <result property="supplierCode" column="supplier_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询全部-->
+    <select id="getList" resultMap="ContactMap">
+        select
+            contact_name, contact_key, contact_tel, contact_Email, province, contact_customer_key,contact_supplier_key, city, district, detail, contact_code
+        from contact
+        order by contact_name
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ContactMap">
+        select
+          contact_name, contact_key, contact_tel, contact_Email, province, contact_customer_key,contact_supplier_key, city, district, detail, contact_code
+        from contact
+        where contact_key = #{contactKey}
+    </select>
+
+    <!--查询指定行数据(客户查询的时候用)-->
+    <select id="queryAllByCustomer" resultMap="ContactMap">
+        select
+            customer_name,customer_code,contact_name, contact_key, contact_tel, contact_Email, contact.province, contact_customer_key,contact.city, contact.district, contact.detail, contact_code
+        from contact
+        join customer on contact.contact_customer_key=customer.customer_key
+        <where>
+            <if test="contactName != null and contactName != ''">
+                and contact_name like concat('%', #{contactName}, '%')
+            </if>
+            <if test="contactCustomerKey != null and contactCustomerKey != ''">
+                and contact_customer_key = #{contactCustomerKey}
+            </if>
+            and contact_customer_key != ""
+        </where>
+        order by contact_name
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--查询指定行数据(供应商查询的时候用)-->
+    <select id="queryAllBySupplier" resultMap="ContactMap">
+        select
+            supplier_name,supplier_code,contact_name, contact_key, contact_tel, contact_Email, contact.province, contact_supplier_key,contact.city, contact.district, contact.detail, contact_code
+        from contact
+        join supplier on contact.contact_supplier_key=supplier.supplier_key
+        <where>
+            <if test="contactName != null and contactName != ''">
+                and contact_name like concat('%', #{contactName}, '%')
+            </if>
+            <if test="contactSupplierKey != null and contactSupplierKey != ''">
+                and contact_supplier_key = #{contactSupplierKey}
+            </if>
+            and contact_supplier_key != ""
+        </where>
+        order by contact_name
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--通过contactSupplier查询-->
+    <select id="queryBySupplierKey" resultMap="ContactMap">
+        select
+            contact_name, contact_key, contact_tel, contact_Email, province, contact_supplier_key, city, district, detail, contact_code
+        from contact
+        <where>
+            <if test="contactSupplierKey != null and contactSupplierKey != ''">
+                and contact_supplier_key = #{contactSupplierKey}
+            </if>
+        </where>
+    </select>
+
+    <!--统计总行数(客户查询的时候用)-->
+    <select id="countByCustomer" resultType="java.lang.Long">
+        select count(1)
+        from contact
+        <where>
+            <if test="contactName != null and contactName != ''">
+                and contact_name like concat('%', #{contactName}, '%')
+            </if>
+            <if test="contactCustomerKey != null and contactCustomerKey != ''">
+                and contact_customer_key = #{contactCustomerKey}
+            </if>
+            and contact_customer_key != ""
+        </where>
+    </select>
+
+    <!--统计总行数(供应商查询的时候用)-->
+    <select id="countBySupplier" resultType="java.lang.Long">
+        select count(1)
+        from contact
+        <where>
+            <if test="contactName != null and contactName != ''">
+                and contact_name like concat('%', #{contactName}, '%')
+            </if>
+            <if test="contactSupplierKey != null and contactSupplierKey != ''">
+                and contact_supplier_key = #{contactSupplierKey}
+            </if>
+            and contact_supplier_key != ""
+        </where>
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from contact
+        <where>
+            <if test="contactName != null and contactName != ''">
+                and contact_name = #{contactName}
+            </if>
+            <if test="contactKey != null and contactKey != ''">
+                and contact_key = #{contactKey}
+            </if>
+            <if test="contactTel != null and contactTel != ''">
+                and contact_tel = #{contactTel}
+            </if>
+            <if test="contactEmail != null and contactEmail != ''">
+                and contact_Email = #{contactEmail}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="contactCustomerKey != null and contactCustomerKey != ''">
+                and contact_customer_key = #{contactCustomerKey}
+            </if>
+            <if test="contactSupplierKey != null and contactSupplierKey != ''">
+                and contact_supplier_key = #{contactSupplierKey}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="district != null and district != ''">
+                and district = #{district}
+            </if>
+            <if test="detail != null and detail != ''">
+                and detail = #{detail}
+            </if>
+            <if test="contactCode != null and contactCode != ''">
+                and contact_code = #{contactCode}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="contactName" useGeneratedKeys="true">
+        insert into contact
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="contactName != null and contactName != ''">
+                contact_name,
+            </if>
+            <if test="contactKey != null and contactKey != ''">
+                contact_key,
+            </if>
+            <if test="contactTel != null and contactTel != ''">
+                contact_tel,
+            </if>
+            <if test="contactEmail != null and contactEmail != ''">
+                contact_Email,
+            </if>
+            <if test="province != null and province != ''">
+                province,
+            </if>
+            <if test="city != null and city != ''">
+                city,
+            </if>
+            <if test="district != null and district != ''">
+                district,
+            </if>
+            <if test="detail != null and detail != ''">
+                detail,
+            </if>
+            <if test="contactCode != null and contactCode != ''">
+                contact_code,
+            </if>
+            <if test="contactCustomerKey != null and contactCustomerKey != ''">
+                contact_customer_key,
+            </if>
+            <if test="contactSupplierKey != null and contactSupplierKey != ''">
+                contact_supplier_key,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="contactName != null and contactName != ''">
+                #{contactName},
+            </if>
+            <if test="contactKey != null and contactKey != ''">
+                #{contactKey},
+            </if>
+            <if test="contactTel != null and contactTel != ''">
+                #{contactTel},
+            </if>
+            <if test="contactEmail != null and contactEmail != ''">
+                #{contactEmail},
+            </if>
+            <if test="province != null and province != ''">
+                #{province},
+            </if>
+            <if test="city != null and city != ''">
+                #{city},
+            </if>
+            <if test="district != null and district != ''">
+                #{district},
+            </if>
+            <if test="detail != null and detail != ''">
+                #{detail},
+            </if>
+            <if test="contactCode != null and contactCode != ''">
+                #{contactCode},
+            </if>
+            <if test="contactCustomerKey != null and contactCustomerKey != ''">
+                #{contactCustomerKey},
+            </if>
+            <if test="contactSupplierKey != null and contactSupplierKey != ''">
+                #{contactSupplierKey},
+            </if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" keyProperty="contactName" useGeneratedKeys="true">
+        insert into contact(contact_name,contact_key, contact_tel, contact_Email, province, contact_customer_key,contact_supplier_key,city, district, detail, contact_code)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{contactName},#{contactKey}, #{contactTel}, #{contactEmail}, #{province}, #{contactCustomerKey}, #{contactSupplierKey},#{city}, #{district}, #{detail}, #{contactCode})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="contactName" useGeneratedKeys="true">
+        insert into contact(contact_name,contact_key, contact_tel, contact_Email, province, contact_customer_key,contact_supplier_key, city, district, detail, contact_code)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{contactName},#{contactKey}, #{contactTel}, #{contactEmail}, #{province}, #{contactCustomerKey}, #{contactSupplierKey},#{city}, #{district}, #{detail}, #{contactCode})
+        </foreach>
+        on duplicate key update
+        contact_key = values(contact_key),
+        contact_tel = values(contact_tel),
+        contact_Email = values(contact_Email),
+        province = values(province),
+        contact_customer_key = values(contact_customer_key),
+        contact_supplier_key = values(contact_supplier_key),
+        city = values(city),
+        district = values(district),
+        detail = values(detail),
+        contact_code = values(contact_code),
+        contact_name = values(contact_name)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update contact
+        <set>
+            <if test="contactTel != null and contactTel != ''">
+                contact_tel = #{contactTel},
+            </if>
+            <if test="contactEmail != null and contactEmail != ''">
+                contact_Email = #{contactEmail},
+            </if>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="contactCustomerKey != null and contactCustomerKey != ''">
+                contact_customer_key = #{contactCustomerKey},
+            </if>
+            <if test="contactSupplierKey != null and contactSupplierKey != ''">
+                contact_supplier_key = #{contactSupplierKey},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="district != null and district != ''">
+                district = #{district},
+            </if>
+                detail = #{detail},
+            <if test="contactCode != null and contactCode != ''">
+                contact_code = #{contactCode},
+            </if>
+            <if test="contactName != null and contactName != ''">
+                contact_name = #{contactName},
+            </if>
+        </set>
+        where contact_key = #{contactKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from contact where contact_key = #{contactKey}
+    </delete>
+
+    <!--通过contactCustomerKey查询-->
+    <select id="queryByCustomerKey" resultMap="ContactMap">
+        select
+            contact_name, contact_key, contact_tel, contact_Email, province, contact_customer_key, city, district, detail, contact_code
+        from contact
+        where contact_customer_key = #{contactCustomerKey}
+    </select>
+</mapper>
+

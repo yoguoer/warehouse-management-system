@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.GoodsMapper">
+    <resultMap type="com.example.api_project.pojo.Goods" id="GoodsMap">
+        <result property="goodsKey" column="goods_key" jdbcType="VARCHAR"/>
+        <result property="brandCode" column="brand_code" jdbcType="VARCHAR"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="modelCode" column="model_code" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="goodsUnit" column="goods_unit" jdbcType="VARCHAR"/>
+        <result property="priceLatestPurchase" column="price_latest_purchase" jdbcType="FLOAT"/>
+        <result property="goodsBarcode" column="goods_barcode" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="VARCHAR"/>
+        <result property="state" column="state" jdbcType="INTEGER"/>
+        <result property="categoryKey" column="category_key" jdbcType="VARCHAR"/>
+        <result property="unitDescription" column="unit_description" jdbcType="VARCHAR"/>
+        <result property="weight" column="weight" jdbcType="INTEGER"/>
+        <result property="volume" column="volume" jdbcType="INTEGER"/>
+        <result property="supplierKey" column="supplier_key" jdbcType="VARCHAR"/>
+        <result property="unitType" column="unit_type" jdbcType="VARCHAR"/>
+        <result property="priceRetail" column="price_retail" jdbcType="FLOAT"/>
+        <result property="priceWholesaler" column="price_wholesaler" jdbcType="FLOAT"/>
+
+        <association property="categoryName" javaType="String"
+                     column="{categoryKey=category_key}"
+                     select="com.example.api_project.mapper.CategoryMapper.queryNameById">
+        </association>
+        <association property="supplierName" javaType="String"
+                     column="{supplierKey=supplier_key}"
+                     select="com.example.api_project.mapper.SupplierMapper.queryNameById">
+        </association>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="getList" resultMap="GoodsMap">
+        select goods_key,
+               brand_code,
+               goods_name,
+               model_code,
+               goods_code,
+               goods_unit,
+               price_latest_purchase,
+               goods_barcode,
+               create_time,
+               state,
+               category_key,
+               unit_description,
+               weight,
+               volume,
+               supplier_key,
+               unit_type,
+               price_retail,
+               price_wholesaler
+        from goods
+        order by goods_name
+    </select>
+
+    <select id="getListCategory" resultMap="GoodsMap">
+        select goods_key,
+               brand_code,
+               goods_name,
+               model_code,
+               goods_code,
+               goods_unit,
+               price_latest_purchase,
+               goods_barcode,
+               create_time,
+               state,
+               category_key,
+               unit_description,
+               weight,
+               volume,
+               supplier_key,
+               unit_type,
+               price_retail,
+               price_wholesaler
+        from goods
+        where  category_key = #{categoryKey}
+        order by goods_name
+    </select>
+
+    <select id="getNamelyCode" resultType="String">
+        select goods_name
+        from goods
+        where goods_code = #{goodsCode}
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="GoodsMap">
+        select goods_key,
+               brand_code,
+               goods_name,
+               model_code,
+               goods_code,
+               goods_unit,
+               price_latest_purchase,
+               goods_barcode,
+               create_time,
+               state,
+               category_key,
+               unit_description,
+               weight,
+               volume,
+               supplier_key,
+               unit_type,
+               price_retail,
+               price_wholesaler
+        from goods
+        where goods_key = #{goodsKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="GoodsMap">
+        select goods.*, category.category_name, supplier.supplier_name
+        from goods join category on goods.category_key = category.category_key
+            join supplier on goods.supplier_key = supplier.supplier_key
+        <where>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code like concat('%', #{goodsCode}, '%')
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                and goods_name like concat('%', #{goodsName}, '%')
+            </if>
+            <if test="categoryKey != null and categoryKey != ''">
+                and goods.category_key = #{categoryKey}
+            </if>
+            <if test="supplierKey != null and supplierKey != ''">
+                and goods.supplier_key = #{supplierKey}
+            </if>
+            <if test="state != null">
+                and goods.state = #{state}
+            </if>
+            <if test="brandCode != null and brandCode != ''">
+                and brand_code like concat('%', #{brandCode}, '%')
+            </if>
+        </where>
+        order by goods_name
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from goods join category on goods.category_key = category.category_key
+        join supplier on goods.supplier_key = supplier.supplier_key
+        <where>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code like concat('%', #{goodsCode}, '%')
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                and goods_name like concat('%', #{goodsName}, '%')
+            </if>
+            <if test="categoryKey != null and categoryKey != ''">
+                and goods.category_key = #{categoryKey}
+            </if>
+            <if test="supplierKey != null and supplierKey != ''">
+                and goods.supplier_key = #{supplierKey}
+            </if>
+            <if test="state != null">
+                and goods.state = #{state}
+            </if>
+            <if test="brandCode != null and brandCode != ''">
+                and brand_code like concat('%', #{brandCode}, '%')
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="goodsKey" useGeneratedKeys="true">
+        insert into goods(goods_key,brand_code,goods_name, model_code, goods_code, goods_unit,
+                          price_latest_purchase, goods_barcode, create_time,
+                          state, category_key, unit_description, weight, volume, supplier_key, unit_type,
+                          price_retail, price_wholesaler)
+        values (#{goodsKey},#{brandCode},#{goodsName}, #{modelCode}, #{goodsCode}, #{goodsUnit},
+                #{priceLatestPurchase}, #{goodsBarcode}, #{createTime},
+                #{state}, #{categoryKey}, #{unitDescription}, #{weight}, #{volume}, #{supplierKey}, #{unitType},
+                 #{priceRetail}, #{priceWholesaler})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="goodsKey" useGeneratedKeys="true">
+        insert into goods(goods_name,brand_code, model_code, goods_code, goods_unit,
+        price_latest_purchase, goods_barcode, create_time, state, category_key,
+        unit_description, weight, volume, supplier_key, unit_type, price_retail, price_wholesaler)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.goodsName},#{entity.brandCode},  #{entity.modelCode}, #{entity.goodsCode}, #{entity.goodsUnit},
+            #{entity.priceLatestPurchase}, #{entity.goodsBarcode}, #{entity.createTime}, #{entity.state},
+            #{entity.categoryKey}, #{entity.unitDescription}, #{entity.weight}, #{entity.volume}, #{entity.supplierKey},
+            #{entity.unitType}, #{entity.priceRetail}, #{entity.priceWholesaler})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="goodsKey" useGeneratedKeys="true">
+        insert into goods(goods_name, brand_code,model_code, goods_code, goods_unit,
+        price_latest_purchase, goods_barcode, create_time, state, category_key,
+        unit_description, weight, volume, supplier_key, unit_type, price_retail, price_wholesaler)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.goodsName},#{entity.brandCode},  #{entity.modelCode}, #{entity.goodsCode}, #{entity.goodsUnit},
+            #{entity.priceLatestPurchase}, #{entity.goodsBarcode}, #{entity.createTime}, #{entity.state},
+            #{entity.categoryKey}, #{entity.unitDescription}, #{entity.weight}, #{vvolume}, #{entity.supplierKey},
+            #{vunitType}, #{entity.priceRetail}, #{entity.priceWholesaler})
+        </foreach>
+        on duplicate key update
+        brand_code = values(brand_code),
+        goods_name = values(goods_name),
+        model_code = values(model_code),
+        goods_code = values(goods_code),
+        goods_unit = values(goods_unit),
+        price_latest_purchase = values(price_latest_purchase),
+        goods_barcode = values(goods_barcode),
+        create_time = values(create_time),
+        state = values(state),
+        category_key = values(category_key),
+        unit_description = values(unit_description),
+        weight = values(weight),
+        volume = values(volume),
+        supplier_key = values(supplier_key),
+        unit_type = values(unit_type),
+        price_retail = values(price_retail),
+        price_wholesaler = values(price_wholesaler)
+    </insert>
+
+    <!--删除分类时，将该分类下的数据设置为暂未分类 -->
+    <update id="setNoCategory">
+        update goods
+        set category_key = #{categoryKey}
+        where goods_key = #{goodsKey}
+    </update>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update goods
+        <set>
+            <if test="brandCode != null and brandCode != ''">
+                brand_code = #{brandCode},
+            </if>
+            <if test="goodsName != null and goodsName != ''">
+                goods_name = #{goodsName},
+            </if>
+            <if test="modelCode != null and modelCode != ''">
+                model_code = #{modelCode},
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                goods_code = #{goodsCode},
+            </if>
+            <if test="goodsUnit != null and goodsUnit != ''">
+                goods_unit = #{goodsUnit},
+            </if>
+            <if test="priceLatestPurchase != null and priceLatestPurchase != ''">
+                price_latest_purchase = #{priceLatestPurchase},
+            </if>
+            <if test="goodsBarcode != null and goodsBarcode != ''">
+                goods_barcode = #{goodsBarcode},
+            </if>
+            <if test="createTime != null and createTime != ''">
+                create_time = #{createTime},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="categoryKey != null and categoryKey != ''">
+                category_key = #{categoryKey},
+            </if>
+            <if test="unitDescription != null and unitDescription != ''">
+                unit_description = #{unitDescription},
+            </if>
+            <if test="weight != null">
+                weight = #{weight},
+            </if>
+            <if test="volume != null">
+                volume = #{volume},
+            </if>
+            <if test="supplierKey != null and supplierKey != ''">
+                supplier_key = #{supplierKey},
+            </if>
+            <if test="unitType != null and unitType != ''">
+                unit_type = #{unitType},
+            </if>
+            <if test="priceRetail != null">
+                price_retail = #{priceRetail},
+            </if>
+            <if test="priceWholesaler != null">
+                price_wholesaler = #{priceWholesaler},
+            </if>
+        </set>
+        where goods_key = #{goodsKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from goods
+        where goods_key = #{goodsKey}
+    </delete>
+
+</mapper>
+

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.api_project.mapper.AlertInfoMapper">
+
+    <resultMap type="com.example.api_project.pojo.AlertInfo" id="AlertInfoMap">
+        <result property="alertInfoKey" column="alert_info_key" jdbcType="VARCHAR"/>
+        <result property="shopSupplierCode" column="shop_supplier_code" jdbcType="VARCHAR"/>
+        <result property="goodsCode" column="goods_code" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="alertTime" column="alert_time" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="goodsName" column="goods_name" jdbcType="VARCHAR"/>
+        <result property="shopName" column="shop_name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryByMany" resultMap="AlertInfoMap">
+        select
+            alert_info_key, shop_supplier_code, goods_code, status, alert_time, type
+        from alert_info
+        <where>
+            <if test="shopSupplierCode != null and shopSupplierCode != ''">
+                and shop_supplier_code = #{shopSupplierCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            and status = 0
+        </where>
+    </select>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AlertInfoMap">
+        select
+          alert_info_key, shop_supplier_code, goods_code, status, alert_time, type
+        from alert_info
+        where alert_info_key = #{alertInfoKey}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AlertInfoMap">
+        select
+          alert_info_key, shop_supplier_code, alert_info.goods_code, status, alert_time, type,shop_name,goods_name
+        from alert_info
+        join shop on shop.shop_code=alert_info.shop_supplier_code
+        join goods on goods.goods_code=alert_info.goods_code
+        <where>
+            <if test="shopSupplierCode != null and shopSupplierCode != ''">
+                and shop_supplier_code = #{shopSupplierCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and alert_info.goods_code = #{goodsCode}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+        order by status
+        limit #{startRows,jdbcType=INTEGER}, #{pageSize,jdbcType=INTEGER}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from alert_info
+        <where>
+            <if test="shopSupplierCode != null and shopSupplierCode != ''">
+                and shop_supplier_code = #{shopSupplierCode}
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                and goods_code = #{goodsCode}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="alertInfoKey" useGeneratedKeys="true">
+        insert into alert_info(alert_info_key,shop_supplier_code, goods_code, status, alert_time, type)
+        values (#{alertInfoKey},#{shopSupplierCode}, #{goodsCode}, #{status}, #{alertTime}, #{type})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="alertInfoKey" useGeneratedKeys="true">
+        insert into alert_info(shop_supplier_code, goods_code, status, alert_time, type)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+        (#{entity.shopSupplierCode}, #{entity.goodsCode}, #{entity.status}, #{entity.alertTime}, #{entity.type})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="alertInfoKey" useGeneratedKeys="true">
+        insert into alert_info(shop_supplier_code, goods_code, status, alert_time, type)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.shopSupplierCode}, #{entity.goodsCode}, #{entity.status}, #{entity.alertTime}, #{entity.type})
+        </foreach>
+        on duplicate key update
+        shop_supplier_code = values(shop_supplier_code),
+        goods_code = values(goods_code),
+        status = values(status),
+        alert_time = values(alert_time),
+        type = values(type)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update alert_info
+        <set>
+            <if test="shopSupplierCode != null and shopSupplierCode != ''">
+                shop_supplier_code = #{shopSupplierCode},
+            </if>
+            <if test="goodsCode != null and goodsCode != ''">
+                goods_code = #{goodsCode},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="alertTime != null and alertTime != ''">
+                alert_time = #{alertTime},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+        </set>
+        where alert_info_key = #{alertInfoKey}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from alert_info where alert_info_key = #{alertInfoKey}
+    </delete>
+
+</mapper>
+
