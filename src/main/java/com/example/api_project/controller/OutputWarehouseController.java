@@ -76,9 +76,9 @@ public class OutputWarehouseController {
         outputWarehouse.setOutputWarehouseKey(System.currentTimeMillis() + String.valueOf(number));
         Integer isDeleted=0;
         outputWarehouse.setIsDeleted(isDeleted);
+        //如果是零售单，则直接出库
         OutputWarehouse result=this.outputWarehouseService.insert(outputWarehouse);
-
-        //如果是新增客户订购单，需要更新一下占用数
+        //如果是新增客户订购单，则还需等待发货，需要更新一下商品库存的占用数和可用数
         Integer status=outputWarehouse.getStatus();
         if(null!=status&&status==4){
             String shopCode=outputWarehouse.getShopCode();

@@ -41,8 +41,7 @@ public class LoginController {
             User u = userService.findOneUser(temp);
             //给用户jwt加密生成token【//创建JWT令牌】
             String token = JWT.sign(u, 60L* 1000L* 600L);
-            //封装成对象返回给客户端
-            Result responseData = new Result<>();
+            Result responseData = new Result<>();//封装成对象返回给客户端
             responseData.putDataValue("userId", user.getUserId());
             responseData.putDataValue("token", token);
             responseData.putDataValue("user", u);

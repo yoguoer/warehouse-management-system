@@ -72,7 +72,6 @@ public class UserController {
     @ResponseBody
     public Result deleteUserByIdList(String userIdList) {
         String userIdListSub = userIdList.substring(0, userIdList.length() - 1);
-        //        String[] userIds = userIdList.split(",");
         List userIds = new ArrayList();
         for (String userIdStr : userIdListSub.split(",")) {
             userIds.add(userIdStr.trim());

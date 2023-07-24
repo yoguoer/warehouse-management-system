@@ -108,10 +108,10 @@ public class ReturnCheckServiceImpl implements ReturnCheckService {
     @Override
     public ReturnCheck update(ReturnCheck returnCheck) {
         Integer checkType=returnCheck.getCheckType();
-        if(checkType==0){
+        if(checkType==0){//采购退货单
             InputWarehouse inputWarehouse=returnCheck.getInputWarehouse();
             this.inputWarehouseMapper.update(inputWarehouse);
-        }else if(checkType==1){
+        }else if(checkType==1){//销售退货单
             OutputWarehouse outputWarehouse=returnCheck.getOutputWarehouse();
             this.outputWarehouseMapper.update(outputWarehouse);
         }

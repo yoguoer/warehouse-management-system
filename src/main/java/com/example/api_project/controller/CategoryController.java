@@ -50,7 +50,7 @@ public class CategoryController {
      */
     @GetMapping("/tree")
     public Result querylist(String categoryType) {
-        // 模拟测试数据（通常为数据库的查询结果）
+        // 根据类别（WAREHOUSE、SUPPLIER、SHOP、GOODS、CUSTOMER）查询相应的分类树
         List<TreeNode> treeNodeList = new ArrayList<TreeNode>();
         List<Category> categoryList = this.categoryService.querylist(categoryType);
         for (Category category : categoryList) {

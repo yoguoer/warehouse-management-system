@@ -73,10 +73,10 @@ public class SupplierInventoryImpl implements SupplierInventoryService {
      */
     @Override
     public boolean deleteById(SupplierInventory SupplierInventory) {
-        String inventoryKey=SupplierInventory.getInventoryKey();
+        String inventoryKey=SupplierInventory.getInventoryKey();//获取供应商仓库ID
         Inventory inventory=new Inventory();
         inventory.setInventoryKey(inventoryKey);
-        inventory.setBelongKey("");
-        return this.inventoryMapper.update(inventory) > 0;
+        inventory.setBelongKey("");//清空仓库的归属ID
+        return this.inventoryMapper.update(inventory) > 0;//更新仓库信息
     }
 }
