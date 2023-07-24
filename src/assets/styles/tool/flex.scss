@@ -1,0 +1,39 @@
+.flex {
+    display: flex;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.flex-ver {
+    flex-direction: column;
+}
+
+.flex-center {
+    align-items: center;
+}
+
+.full-h {
+    height: 100%;
+}
+
+.full-w {
+    width: 100%;
+}
+
+.overflow-a {
+    overflow: auto;
+}
+
+.overflow-h {
+    overflow: hidden
+}
+
+.position-r {
+    position: relative;
+}
+
+.position-b {
+    position: absolute;
+}

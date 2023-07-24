@@ -1,0 +1,46 @@
+.el-input {
+    .el-input__inner {
+        height: $inputHeight;
+        font-size: $inputfont;
+        line-height: $inputHeight;
+    }
+    .el-input__icon {
+        line-height: $inputHeight;
+    }
+}
+
+.el-checkbox__label,
+.el-input {
+    font-size: $inputfont;
+}
+.el-form-item__label {
+    font-size:  $inputfont;
+}
+
+.el-input__inner {
+    height: 32px;
+    line-height: 32px;
+}
+
+//在readonly的input换上disabled的样式
+.readonly-copy{
+    .el-input__inner[readonly]{
+        background-color: #F5F7FA;
+        border-color: #E4E7ED;
+        color: #C0C4CC;
+        cursor: not-allowed;
+        width: 350px;
+    }
+}
+
+//input在表单中的长度
+.form_text {
+    width: 350px;
+}
+
+//form表单中底部提交按钮
+.dialog_footer {
+    border-top: 1px solid #eeeeee!important;
+    padding-top: 10px!important;
+    text-align: right!important;
+}
